@@ -252,7 +252,6 @@ int main()
         glBindTexture(GL_TEXTURE_2D, textureId);
         glBindVertexArray(VAO);
 
-
         double e;
 
         while (!glfwWindowShouldClose(window))
