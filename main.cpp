@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include "shader_s.h"
 #include "filesystem.h"
+#include "vec2.h"
 #include <iostream>
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -20,6 +21,37 @@ typedef unsigned int uint32;
 
 struct Texture { uint16 width, height; float u1, v1, u2, v2; };
 struct Object { int16 x, y; Texture texture; };
+
+class SpriteTexture
+{
+  GLint textureId;
+public:
+  SpriteTexture() {
+
+  }
+};
+
+class Sprite
+{
+  uint16 witdh;
+  uint16 height;
+  float u1, v1, u2, v2;
+  SpriteTexture texture;
+public:
+  Sprite() {
+
+  }
+};
+
+class SceneObject
+{
+  vec2 position;
+  Sprite currentSprite;
+public:
+  SceneObject() {
+
+  }
+};
 
 Texture
         watermelon = { 64, 64, 0.0f,   0.0f,   0.5f,   0.5f   },
