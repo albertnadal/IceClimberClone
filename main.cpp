@@ -1,23 +1,21 @@
+#include <iostream>
+#include <vector>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "shader_s.h"
-#include "filesystem.h"
-#include "vec2.h"
-#include <iostream>
+#include <shader_s.h>
+#include <filesystem.h>
+#include <vec2.h>
+#include <types.h>
+#include <object_type_manager.h>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include <stb_image.h>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 
 const unsigned int SCR_WIDTH = 1280;
 const unsigned int SCR_HEIGHT = 720;
-
-typedef short int16;
-typedef int int32;
-typedef unsigned short uint16;
-typedef unsigned int uint32;
 
 struct Texture { uint16 width, height; float u1, v1, u2, v2; };
 struct Object { int16 x, y; Texture texture; };
@@ -33,24 +31,46 @@ public:
 
 class Sprite
 {
-  uint16 witdh;
-  uint16 height;
-  float u1, v1, u2, v2;
   SpriteTexture texture;
 public:
+  uint16 width;
+  uint16 height;
+  float u1, v1, u2, v2;
+
   Sprite() {
+    this->width = 64;
+    this->height = 64;
+    this->u1 = 0.0f;
+    this->v1 = 0.0f;
+    this->u2 = 0.5f;
+    this->v2 = 0.5f;
+    loadTexture();
+  }
+
+  void loadTexture() {
 
   }
 };
 
 class SceneObject
 {
-  vec2 position;
-  Sprite currentSprite;
 public:
-  SceneObject() {
+  Sprite currentSprite;
+  vec2 position;
 
+  SceneObject() {
+    this->position.x = 100.0;
+    this->position.y = 100.0;
   }
+
+  uint16 getWidth() {
+    return this->currentSprite.width;
+  }
+
+  uint16 getHeight() {
+    return this->currentSprite.height;
+  }
+
 };
 
 Texture
@@ -79,11 +99,13 @@ Texture textures[9] =
 
 const uint32 OBJECT_COUNT = 100;
 static Object objects[OBJECT_COUNT];
-static int16 vertices[OBJECT_COUNT * 12];
-static float uvs[OBJECT_COUNT * 12];
+static int16 vertices[1 * 12]; //[OBJECT_COUNT * 12];
+static float uvs[1 * 12];
 GLFWwindow* window;
 unsigned int VBO, VAO, UBO, textureId;
 Shader* ourShader;
+std::vector<SceneObject> sceneObjects;
+ObjectTypeManager objectTypeManager;
 
 void updateObject(int i)
 {
@@ -114,6 +136,32 @@ void updateObject(int i)
 
 void update()
 {
+  for(SceneObject sceneObject: sceneObjects) {
+    //sceneObject.update();
+    vertices[0 * 12] = sceneObject.position.x + sceneObject.getWidth();
+    vertices[0 * 12 + 1] = sceneObject.position.y;
+
+    // bottom right
+    vertices[0 * 12 + 2] = sceneObject.position.x + sceneObject.getWidth();
+    vertices[0 * 12 + 3] = sceneObject.position.y + sceneObject.getHeight();
+
+    // top left
+    vertices[0 * 12 + 4] = sceneObject.position.x;
+    vertices[0 * 12 + 5] = sceneObject.position.y;
+
+    // bottom right
+    vertices[0 * 12 + 6] = sceneObject.position.x + sceneObject.getWidth();
+    vertices[0 * 12 + 7] = sceneObject.position.y + sceneObject.getHeight();
+
+    // bottom left
+    vertices[0 * 12 + 8] = sceneObject.position.x;
+    vertices[0 * 12 + 9] = sceneObject.position.y + sceneObject.getHeight();
+
+    // top left
+    vertices[0 * 12 + 10] = sceneObject.position.x;
+    vertices[0 * 12 + 11] = sceneObject.position.y;
+  }
+/*
         for (uint32 i = 0; i < OBJECT_COUNT; i++)
         {
                 objects[i].x += rand() % 5 - 2;
@@ -121,7 +169,7 @@ void update()
 
                 updateObject(i);
         }
-
+*/
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 }
 
@@ -150,6 +198,8 @@ void render()
 
 int main()
 {
+        objectTypeManager.Load();
+
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -199,6 +249,61 @@ int main()
         stbi_image_free(data);
 
 
+        sceneObjects.push_back(SceneObject());
+
+        for(SceneObject sceneObject: sceneObjects) {
+          Sprite sprite = sceneObject.currentSprite;
+
+          vertices[0 * 12] = sceneObject.position.x + sceneObject.getWidth();
+          vertices[0 * 12 + 1] = sceneObject.position.y;
+
+          // bottom right
+          vertices[0 * 12 + 2] = sceneObject.position.x + sceneObject.getWidth();
+          vertices[0 * 12 + 3] = sceneObject.position.y + sceneObject.getHeight();
+
+          // top left
+          vertices[0 * 12 + 4] = sceneObject.position.x;
+          vertices[0 * 12 + 5] = sceneObject.position.y;
+
+          // bottom right
+          vertices[0 * 12 + 6] = sceneObject.position.x + sceneObject.getWidth();
+          vertices[0 * 12 + 7] = sceneObject.position.y + sceneObject.getHeight();
+
+          // bottom left
+          vertices[0 * 12 + 8] = sceneObject.position.x;
+          vertices[0 * 12 + 9] = sceneObject.position.y + sceneObject.getHeight();
+
+          // top left
+          vertices[0 * 12 + 10] = sceneObject.position.x;
+          vertices[0 * 12 + 11] = sceneObject.position.y;
+
+
+          // top right
+          uvs[0 * 12] = sprite.u2;
+          uvs[0 * 12 + 1] = sprite.v2;
+
+          // bottom right
+          uvs[0 * 12 + 2] = sprite.u2;
+          uvs[0 * 12 + 3] = sprite.v1;
+
+          // top left
+          uvs[0 * 12 + 4] = sprite.u1;
+          uvs[0 * 12 + 5] = sprite.v2;
+
+          // bottom right
+          uvs[0 * 12 + 6] = sprite.u2;
+          uvs[0 * 12 + 7] = sprite.v1;
+
+          // bottom left
+          uvs[0 * 12 + 8] = sprite.u1;
+          uvs[0 * 12 + 9] = sprite.v1;
+
+          // top left
+          uvs[0 * 12 + 10] = sprite.u1;
+          uvs[0 * 12 + 11] = sprite.v2;
+
+        }
+/*
         for (uint32 i = 0; i < OBJECT_COUNT; i++)
         {
                 Texture t = textures[rand() % 9];
@@ -259,7 +364,7 @@ int main()
                 uvs[i * 12 + 10] = objects[i].texture.u1;
                 uvs[i * 12 + 11] = objects[i].texture.v2;
         }
-
+*/
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
         glGenBuffers(1, &UBO);
