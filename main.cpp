@@ -105,7 +105,7 @@ GLFWwindow* window;
 unsigned int VBO, VAO, UBO, textureId;
 Shader* ourShader;
 std::vector<SceneObject> sceneObjects;
-ObjectTypeManager objectTypeManager;
+ObjectTypeManager *objectTypeManager;
 
 void updateObject(int i)
 {
@@ -198,7 +198,9 @@ void render()
 
 int main()
 {
-        objectTypeManager.Load();
+        objectTypeManager = new ObjectTypeManager();
+        objectTypeManager->Load();
+        objectTypeManager->Print();
 
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -303,68 +305,7 @@ int main()
           uvs[0 * 12 + 11] = sprite.v2;
 
         }
-/*
-        for (uint32 i = 0; i < OBJECT_COUNT; i++)
-        {
-                Texture t = textures[rand() % 9];
-                objects[i] =
-                {
-                        (int16)(rand() % (SCR_WIDTH - t.width)),
-                        (int16)(rand() % (SCR_HEIGHT - t.height)),
-                        t
-                };
 
-                // top right
-                vertices[i * 12] = objects[i].x + objects[i].texture.width;
-                vertices[i * 12 + 1] = objects[i].y;
-
-                // bottom right
-                vertices[i * 12 + 2] = objects[i].x + objects[i].texture.width;
-                vertices[i * 12 + 3] = objects[i].y + objects[i].texture.height;
-
-                // top left
-                vertices[i * 12 + 4] = objects[i].x;
-                vertices[i * 12 + 5] = objects[i].y;
-
-                // bottom right
-                vertices[i * 12 + 6] = objects[i].x + objects[i].texture.width;
-                vertices[i * 12 + 7] = objects[i].y + objects[i].texture.height;
-
-                // bottom left
-                vertices[i * 12 + 8] = objects[i].x;
-                vertices[i * 12 + 9] = objects[i].y + objects[i].texture.height;
-
-                // top left
-                vertices[i * 12 + 10] = objects[i].x;
-                vertices[i * 12 + 11] = objects[i].y;
-
-
-
-                // top right
-                uvs[i * 12] = objects[i].texture.u2;
-                uvs[i * 12 + 1] = objects[i].texture.v2;
-
-                // bottom right
-                uvs[i * 12 + 2] = objects[i].texture.u2;
-                uvs[i * 12 + 3] = objects[i].texture.v1;
-
-                // top left
-                uvs[i * 12 + 4] = objects[i].texture.u1;
-                uvs[i * 12 + 5] = objects[i].texture.v2;
-
-                // bottom right
-                uvs[i * 12 + 6] = objects[i].texture.u2;
-                uvs[i * 12 + 7] = objects[i].texture.v1;
-
-                // bottom left
-                uvs[i * 12 + 8] = objects[i].texture.u1;
-                uvs[i * 12 + 9] = objects[i].texture.v1;
-
-                // top left
-                uvs[i * 12 + 10] = objects[i].texture.u1;
-                uvs[i * 12 + 11] = objects[i].texture.v2;
-        }
-*/
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
         glGenBuffers(1, &UBO);
@@ -412,6 +353,8 @@ int main()
         glDeleteTextures(1, &textureId);
 
         glfwTerminate();
+        delete objectTypeManager;
+
         return 0;
 }
 

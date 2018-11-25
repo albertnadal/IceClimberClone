@@ -6,8 +6,10 @@
 class ObjectAction
 {
         int id;
-        std::vector<ObjectFrame> frames;
+        std::vector<ObjectFrame*> frames;
 public:
         ObjectAction(int id);
-        void AddFrame(ObjectFrame frame);
+        ~ObjectAction();
+        void AddFrame(ObjectFrame* frame);
+        void Print();
 };

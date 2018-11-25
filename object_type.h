@@ -5,7 +5,10 @@
 class ObjectType
 {
         int id;
-        std::vector<ObjectAction> actions;
+        std::vector<ObjectAction*> actions;
 public:
-        ObjectType(int id, std::vector<ObjectAction> actions);
+        ObjectType(int id);
+        ~ObjectType();
+        void AddAction(ObjectAction* action);
+        void Print();
 };
