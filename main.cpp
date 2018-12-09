@@ -7,7 +7,8 @@
 #include <vec2.h>
 #include <types.h>
 #include <scene_object_texture_manager.h>
-#include <scene_object.h>
+#include <scene_object_base.h>
+#include <main_character.h>
 
 /*
 #define STB_IMAGE_IMPLEMENTATION
@@ -109,7 +110,7 @@ static float uvs[1 * 12];
 GLFWwindow* window;
 unsigned int VBO, VAO, UBO, textureId;
 Shader* ourShader;
-std::vector<SceneObject> sceneObjects;
+std::vector<SceneObjectBase> sceneObjects;
 SceneObjectTextureManager *objectTextureManager;
 
 void updateObject(int i)
@@ -141,7 +142,7 @@ void updateObject(int i)
 
 void update()
 {
-  for(SceneObject sceneObject: sceneObjects) {
+  for(SceneObjectBase sceneObject: sceneObjects) {
     //sceneObject.update();
     vertices[0 * 12] = sceneObject.position.x + sceneObject.getWidth();
     vertices[0 * 12 + 1] = sceneObject.position.y;
@@ -258,9 +259,9 @@ int main()
         stbi_image_free(data);
 */
 
-        sceneObjects.push_back(SceneObject());
+        sceneObjects.push_back(MainCharacter());
 
-        for(SceneObject sceneObject: sceneObjects) {
+        for(SceneObjectBase sceneObject: sceneObjects) {
           Sprite sprite = sceneObject.currentSprite;
 
           vertices[0 * 12] = sceneObject.position.x + sceneObject.getWidth();
