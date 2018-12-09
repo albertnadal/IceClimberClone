@@ -26,11 +26,11 @@ void ObjectTypeManager::Print()
   }
 }
 
-void ObjectTypeManager::Load()
+void ObjectTypeManager::LoadFromFile(std::string filename)
 {
   enum LineType { OBJ_TYPE_DEF, OBJ_ACTION_DEF, OBJ_FRAME_DEF };
 
-  std::ifstream infile(OBJECT_TYPES_FILENAME);
+  std::ifstream infile(filename);
   std::string line;
   ObjectType *currentObjectType;
   ObjectAction *currentObjectTypeAction;

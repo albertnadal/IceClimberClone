@@ -11,6 +11,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+#define OBJECT_TYPES_FILENAME "objtypes.dat"
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 
@@ -199,7 +201,7 @@ void render()
 int main()
 {
         objectTypeManager = new ObjectTypeManager();
-        objectTypeManager->Load();
+        objectTypeManager->LoadFromFile(OBJECT_TYPES_FILENAME);
         objectTypeManager->Print();
 
         glfwInit();
