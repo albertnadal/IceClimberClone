@@ -1,4 +1,6 @@
-#pragma once
+#ifndef OBJECT_FRAME_H
+#define OBJECT_FRAME_H
+
 #include <vector>
 #include <types.h>
 
@@ -11,3 +13,4 @@ public:
         ~ObjectFrame();
         void Print();
 };
+#endif

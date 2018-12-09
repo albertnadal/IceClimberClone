@@ -8,9 +8,10 @@
 #include <types.h>
 #include <object_manager.h>
 
+/*
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
-
+*/
 #define OBJECT_TYPES_FILENAME "objtypes.dat"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -201,7 +202,7 @@ void render()
 int main()
 {
         objectManager = new ObjectManager();
-        objectManager->LoadObjectsFromFile(OBJECT_TYPES_FILENAME);
+        objectManager->LoadObjectsDataFromFile(OBJECT_TYPES_FILENAME);
         objectManager->Print();
 
         glfwInit();
@@ -232,6 +233,8 @@ int main()
 
         ourShader = new Shader("shader.vs", "shader.fs");
 
+        textureId = objectManager->LoadObjectsSpritesToGPU();
+/*
         glGenTextures(1, &textureId);
         glBindTexture(GL_TEXTURE_2D, textureId);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -251,7 +254,7 @@ int main()
                 std::cout << "Failed to load texture" << std::endl;
         }
         stbi_image_free(data);
-
+*/
 
         sceneObjects.push_back(SceneObject());
 

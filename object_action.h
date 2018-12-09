@@ -1,4 +1,6 @@
-#pragma once
+#ifndef OBJECT_ACTION_H
+#define OBJECT_ACTION_H
+
 #include <vector>
 #include <types.h>
 #include <object_frame.h>
@@ -13,3 +15,4 @@ public:
         void AddFrame(ObjectFrame* frame);
         void Print();
 };
+#endif

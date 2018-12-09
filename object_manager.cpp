@@ -2,6 +2,8 @@
 #include <fstream>
 #include <sstream>
 #include <utils.h>
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
 ObjectManager::ObjectManager()
 {
@@ -27,7 +29,7 @@ void ObjectManager::Print()
   }
 }
 
-void ObjectManager::LoadObjectsFromFile(std::string filename)
+void ObjectManager::LoadObjectsDataFromFile(std::string filename)
 {
   enum LineType { OBJ_TYPE_TEX_FILENAME, OBJ_TYPE_DEF, OBJ_ACTION_DEF, OBJ_FRAME_DEF };
 
@@ -80,4 +82,38 @@ void ObjectManager::LoadObjectsFromFile(std::string filename)
         }
       }
   }
+}
+
+unsigned int ObjectManager::LoadObjectsSpritesToGPU() {
+  glGenTextures(1, &textureId);
+  glBindTexture(GL_TEXTURE_2D, textureId);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+  int width, height, nrChannels;
+  unsigned char *data = stbi_load(FileSystem::getPath(textureFilename).c_str(), &width, &height, &nrChannels, 0);
+  if (data)
+  {
+          glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+          glGenerateMipmap(GL_TEXTURE_2D);
+  }
+  else
+  {
+          std::cout << "Failed to load texture" << std::endl;
+  }
+  stbi_image_free(data);
+  return textureId;
+}
+
+
+bool startsWith(std::string mainStr, std::string toMatch)
+{
+	// Convert mainStr to lower case
+	std::transform(mainStr.begin(), mainStr.end(), mainStr.begin(), ::tolower);
+	// Convert toMatch to lower case
+	std::transform(toMatch.begin(), toMatch.end(), toMatch.begin(), ::tolower);
+
+	return (mainStr.find(toMatch) == 0);
 }

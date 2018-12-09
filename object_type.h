@@ -1,4 +1,6 @@
-#pragma once
+#ifndef OBJECT_TYPE_H
+#define OBJECT_TYPE_H
+
 #include <vector>
 #include <object_action.h>
 
@@ -12,3 +14,4 @@ public:
         void AddAction(ObjectAction* action);
         void Print();
 };
+#endif
