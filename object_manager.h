@@ -5,12 +5,13 @@
 
 using namespace std;
 
-class ObjectTypeManager
+class ObjectManager
 {
   std::vector<ObjectType*> objectTypes;
+  std::string textureFilename;
 public:
-  ObjectTypeManager();
-  ~ObjectTypeManager();
-  void LoadFromFile(std::string filename);
+  ObjectManager();
+  ~ObjectManager();
+  void LoadObjectsFromFile(std::string filename);
   void Print();
 };

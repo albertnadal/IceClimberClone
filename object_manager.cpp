@@ -1,14 +1,14 @@
-#include "object_type_manager.h"
+#include "object_manager.h"
 #include <fstream>
 #include <sstream>
 #include <utils.h>
 
-ObjectTypeManager::ObjectTypeManager()
+ObjectManager::ObjectManager()
 {
 
 }
 
-ObjectTypeManager::~ObjectTypeManager() {
+ObjectManager::~ObjectManager() {
   for (auto *objectType : objectTypes)
   {
     delete objectType;
@@ -17,8 +17,9 @@ ObjectTypeManager::~ObjectTypeManager() {
   objectTypes.clear();
 }
 
-void ObjectTypeManager::Print()
+void ObjectManager::Print()
 {
+  printf("Texture filename: %s\n", textureFilename.c_str());
   printf("Total object types: %lu\n", objectTypes.size());
   for (auto *objectType : objectTypes)
   {
@@ -26,9 +27,9 @@ void ObjectTypeManager::Print()
   }
 }
 
-void ObjectTypeManager::LoadFromFile(std::string filename)
+void ObjectManager::LoadObjectsFromFile(std::string filename)
 {
-  enum LineType { OBJ_TYPE_DEF, OBJ_ACTION_DEF, OBJ_FRAME_DEF };
+  enum LineType { OBJ_TYPE_TEX_FILENAME, OBJ_TYPE_DEF, OBJ_ACTION_DEF, OBJ_FRAME_DEF };
 
   std::ifstream infile(filename);
   std::string line;
@@ -48,7 +49,10 @@ void ObjectTypeManager::LoadFromFile(std::string filename)
         if(startsWith(token, "//")) {
           commentFound = true;
         }
-        else if(startsWith(token, "##")) {
+        else if(startsWith(token, "###")) {
+          currentLineType = OBJ_TYPE_TEX_FILENAME;
+          textureFilename = token.substr(3);
+        } else if(startsWith(token, "##")) {
           currentLineType = OBJ_TYPE_DEF;
           int objectTypeId = std::stoi(token.substr(2));
           currentObjectType = new ObjectType(objectTypeId);

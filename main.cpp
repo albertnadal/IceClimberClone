@@ -6,7 +6,7 @@
 #include <filesystem.h>
 #include <vec2.h>
 #include <types.h>
-#include <object_type_manager.h>
+#include <object_manager.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
@@ -107,7 +107,7 @@ GLFWwindow* window;
 unsigned int VBO, VAO, UBO, textureId;
 Shader* ourShader;
 std::vector<SceneObject> sceneObjects;
-ObjectTypeManager *objectTypeManager;
+ObjectManager *objectManager;
 
 void updateObject(int i)
 {
@@ -200,9 +200,9 @@ void render()
 
 int main()
 {
-        objectTypeManager = new ObjectTypeManager();
-        objectTypeManager->LoadFromFile(OBJECT_TYPES_FILENAME);
-        objectTypeManager->Print();
+        objectManager = new ObjectManager();
+        objectManager->LoadObjectsFromFile(OBJECT_TYPES_FILENAME);
+        objectManager->Print();
 
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -355,7 +355,7 @@ int main()
         glDeleteTextures(1, &textureId);
 
         glfwTerminate();
-        delete objectTypeManager;
+        delete objectManager;
 
         return 0;
 }
