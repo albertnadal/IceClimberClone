@@ -1,16 +1,16 @@
-#include "object_manager.h"
+#include "scene_object_texture_manager.h"
 #include <fstream>
 #include <sstream>
 #include <utils.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-ObjectManager::ObjectManager()
+SceneObjectTextureManager::SceneObjectTextureManager()
 {
 
 }
 
-ObjectManager::~ObjectManager() {
+SceneObjectTextureManager::~SceneObjectTextureManager() {
   for (auto *objectType : objectTypes)
   {
     delete objectType;
@@ -19,7 +19,7 @@ ObjectManager::~ObjectManager() {
   objectTypes.clear();
 }
 
-void ObjectManager::Print()
+void SceneObjectTextureManager::Print()
 {
   printf("Texture filename: %s\n", textureFilename.c_str());
   printf("Total object types: %lu\n", objectTypes.size());
@@ -29,7 +29,7 @@ void ObjectManager::Print()
   }
 }
 
-void ObjectManager::LoadObjectsDataFromFile(std::string filename)
+void SceneObjectTextureManager::LoadObjectsDataFromFile(std::string filename)
 {
   enum LineType { OBJ_TYPE_TEX_FILENAME, OBJ_TYPE_DEF, OBJ_ACTION_DEF, OBJ_FRAME_DEF };
 
@@ -84,7 +84,7 @@ void ObjectManager::LoadObjectsDataFromFile(std::string filename)
   }
 }
 
-unsigned int ObjectManager::LoadObjectsSpritesToGPU() {
+unsigned int SceneObjectTextureManager::SaveObjectsTextureToGPU() {
   glGenTextures(1, &textureId);
   glBindTexture(GL_TEXTURE_2D, textureId);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);

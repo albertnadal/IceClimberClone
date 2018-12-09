@@ -1,5 +1,5 @@
-#ifndef OBJECT_MANAGER_H
-#define OBJECT_MANAGER_H
+#ifndef SCENE_OBJECT_TEXTURE_MANAGER_H
+#define SCENE_OBJECT_TEXTURE_MANAGER_H
 
 #include <iostream>
 #include <string>
@@ -10,16 +10,16 @@
 
 using namespace std;
 
-class ObjectManager
+class SceneObjectTextureManager
 {
   std::vector<ObjectType*> objectTypes;
   std::string textureFilename;
   unsigned int textureId;
 public:
-  ObjectManager();
-  ~ObjectManager();
+  SceneObjectTextureManager();
+  ~SceneObjectTextureManager();
   void LoadObjectsDataFromFile(std::string filename);
-  unsigned int LoadObjectsSpritesToGPU();
+  unsigned int SaveObjectsTextureToGPU();
   void Print();
 };
 

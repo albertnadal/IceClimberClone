@@ -6,7 +6,8 @@
 #include <filesystem.h>
 #include <vec2.h>
 #include <types.h>
-#include <object_manager.h>
+#include <scene_object_texture_manager.h>
+#include <scene_object.h>
 
 /*
 #define STB_IMAGE_IMPLEMENTATION
@@ -23,6 +24,7 @@ const unsigned int SCR_HEIGHT = 720;
 struct Texture { uint16 width, height; float u1, v1, u2, v2; };
 struct Object { int16 x, y; Texture texture; };
 
+/*
 class SpriteTexture
 {
   GLint textureId;
@@ -75,7 +77,7 @@ public:
   }
 
 };
-
+*/
 Texture
         watermelon = { 64, 64, 0.0f,   0.0f,   0.5f,   0.5f   },
         pineapple  = { 64, 64, 0.5f,   0.0f,   1.0f,   0.5f   },
@@ -108,7 +110,7 @@ GLFWwindow* window;
 unsigned int VBO, VAO, UBO, textureId;
 Shader* ourShader;
 std::vector<SceneObject> sceneObjects;
-ObjectManager *objectManager;
+SceneObjectTextureManager *objectTextureManager;
 
 void updateObject(int i)
 {
@@ -201,9 +203,9 @@ void render()
 
 int main()
 {
-        objectManager = new ObjectManager();
-        objectManager->LoadObjectsDataFromFile(OBJECT_TYPES_FILENAME);
-        objectManager->Print();
+        objectTextureManager = new SceneObjectTextureManager();
+        objectTextureManager->LoadObjectsDataFromFile(OBJECT_TYPES_FILENAME);
+        objectTextureManager->Print();
 
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -233,7 +235,7 @@ int main()
 
         ourShader = new Shader("shader.vs", "shader.fs");
 
-        textureId = objectManager->LoadObjectsSpritesToGPU();
+        textureId = objectTextureManager->SaveObjectsTextureToGPU();
 /*
         glGenTextures(1, &textureId);
         glBindTexture(GL_TEXTURE_2D, textureId);
@@ -358,7 +360,7 @@ int main()
         glDeleteTextures(1, &textureId);
 
         glfwTerminate();
-        delete objectManager;
+        delete objectTextureManager;
 
         return 0;
 }
