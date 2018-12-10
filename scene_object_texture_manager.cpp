@@ -15,20 +15,20 @@ SceneObjectTextureManager::SceneObjectTextureManager()
 }
 
 SceneObjectTextureManager::~SceneObjectTextureManager() {
-  for (auto *objectSpriteSheet : objectSpriteSheets)
-  {
+  for (auto& kv : objectSpriteSheetsMap) {
+    ObjectSpriteSheet* objectSpriteSheet = kv.second;
     delete objectSpriteSheet;
   }
 
-  objectSpriteSheets.clear();
+  objectSpriteSheetsMap.clear();
 }
 
 void SceneObjectTextureManager::Print()
 {
   printf("Texture filename: %s\n", textureFilename.c_str());
-  printf("Total object sprite sheets: %lu\n", objectSpriteSheets.size());
-  for (auto *objectSpriteSheet : objectSpriteSheets)
-  {
+  printf("Total object sprite sheets: %lu\n", objectSpriteSheetsMap.size());
+  for (auto& kv : objectSpriteSheetsMap) {
+    ObjectSpriteSheet* objectSpriteSheet = kv.second;
     objectSpriteSheet->Print();
   }
 }
@@ -62,7 +62,7 @@ void SceneObjectTextureManager::LoadObjectsDataFromFile(std::string filename)
           currentLineType = OBJ_ID;
           SceneObjectIdentificator objectId = (SceneObjectIdentificator)std::stoi(token.substr(2));
           currentObjectSpriteSheet = new ObjectSpriteSheet(objectId);
-          objectSpriteSheets.push_back(currentObjectSpriteSheet);
+          objectSpriteSheetsMap[objectId] = currentObjectSpriteSheet;
         } else if(startsWith(token, "#")) {
           currentLineType = OBJ_ANIMATION_ID;
           int objectSpriteSheetAnimationId = std::stoi(token.substr(1));

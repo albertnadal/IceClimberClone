@@ -24,6 +24,7 @@ void SceneObjectFactory::Register(const string &sceneObjectName, CreateSceneObje
 {
 	m_FactoryMap[sceneObjectName] = pfnCreate;
 }
+
 ISceneObject *SceneObjectFactory::CreateSceneObject(const string &sceneObjectName)
 {
 	FactoryMap::iterator it = m_FactoryMap.find(sceneObjectName);
