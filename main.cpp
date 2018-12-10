@@ -11,8 +11,6 @@
 #include <scene_object.h>
 #include <main_character.h>
 
-#define OBJECT_TYPES_FILENAME "objtypes.dat"
-
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 
@@ -202,11 +200,8 @@ void render()
 
 int main()
 {
-        sceneObjectManager = new SceneObjectManager();
-
         objectTextureManager = new SceneObjectTextureManager();
-        objectTextureManager->LoadObjectsDataFromFile(OBJECT_TYPES_FILENAME);
-        objectTextureManager->Print();
+        sceneObjectManager = new SceneObjectManager(objectTextureManager);
 
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

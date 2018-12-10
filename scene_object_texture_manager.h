@@ -15,12 +15,14 @@ class SceneObjectTextureManager
   std::vector<ObjectType*> objectTypes;
   std::string textureFilename;
   unsigned int textureId;
+
+  void LoadObjectsDataFromFile(std::string filename);
+  void Print();
 public:
   SceneObjectTextureManager();
   ~SceneObjectTextureManager();
-  void LoadObjectsDataFromFile(std::string filename);
   unsigned int SaveObjectsTextureToGPU();
-  void Print();
+
 };
 
 bool startsWith(std::string mainStr, std::string toMatch);

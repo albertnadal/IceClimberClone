@@ -3,8 +3,11 @@
 #include "scene_object.h"
 #include "main_character.h"
 
-SceneObjectManager::SceneObjectManager() {
-  ISceneObject *object = SceneObjectFactory::Get()->CreateSceneObject("MainCharacter");
+SceneObjectManager::SceneObjectManager(SceneObjectTextureManager* _textureManager) {
+
+  textureManager = _textureManager;
+
+  ISceneObject *object = SceneObjectFactory::Get(textureManager)->CreateSceneObject("MainCharacter");
   if(object) {
     object->PrintName();
   }

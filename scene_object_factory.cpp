@@ -2,13 +2,14 @@
 #include <map>
 #include <string>
 
-SceneObjectFactory::SceneObjectFactory() {
-	std::cout << "REGISTERING OBJECTS." << std::endl;
-	Register("MainCharacter", &MainCharacter::Create);
+SceneObjectFactory::SceneObjectFactory(SceneObjectTextureManager* _textureManager) {
+	textureManager = _textureManager;
+	RegisterSceneObjects();
 }
 
-SceneObjectFactory::SceneObjectFactory(const SceneObjectFactory &) {
-
+void SceneObjectFactory::RegisterSceneObjects() {
+	std::cout << "REGISTERING OBJECTS." << std::endl;
+	Register("MainCharacter", &MainCharacter::Create);
 }
 
 SceneObjectFactory &SceneObjectFactory::operator=(const SceneObjectFactory &) {
@@ -26,13 +27,15 @@ void SceneObjectFactory::Register(const string &sceneObjectName, CreateSceneObje
 ISceneObject *SceneObjectFactory::CreateSceneObject(const string &sceneObjectName)
 {
 	FactoryMap::iterator it = m_FactoryMap.find(sceneObjectName);
-	if( it != m_FactoryMap.end() )
-		return it->second();
+	if( it != m_FactoryMap.end() ) {
+		ISceneObject *sceneObject = it->second();
+		return sceneObject;
+	}
 	return NULL;
 }
 
-SceneObjectFactory *SceneObjectFactory::Get()
+SceneObjectFactory *SceneObjectFactory::Get(SceneObjectTextureManager* _textureManager)
 {
-	static SceneObjectFactory instance;
+	static SceneObjectFactory instance(_textureManager);
 	return &instance;
 }
