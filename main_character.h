@@ -11,6 +11,7 @@ using namespace std;
 class MainCharacter: public ISceneObject
 {
 public:
+  SceneObjectIdentificator Id = SceneObjectIdentificator::MAIN_CHARACTER;
   MainCharacter();
   ~MainCharacter();
   uint16 getWidth();

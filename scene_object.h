@@ -7,9 +7,12 @@
 
 using namespace std;
 
+enum SceneObjectIdentificator: uint16 { MAIN_CHARACTER = 1, ROCKET = 2 };
+
 class ISceneObject
 {
 public:
+  SceneObjectIdentificator Id;
   Sprite currentSprite;
   vec2 position;
   virtual uint16 getWidth();

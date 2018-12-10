@@ -15,33 +15,33 @@ SceneObjectTextureManager::SceneObjectTextureManager()
 }
 
 SceneObjectTextureManager::~SceneObjectTextureManager() {
-  for (auto *objectType : objectTypes)
+  for (auto *objectSpriteSheet : objectSpriteSheets)
   {
-    delete objectType;
+    delete objectSpriteSheet;
   }
 
-  objectTypes.clear();
+  objectSpriteSheets.clear();
 }
 
 void SceneObjectTextureManager::Print()
 {
   printf("Texture filename: %s\n", textureFilename.c_str());
-  printf("Total object types: %lu\n", objectTypes.size());
-  for (auto *objectType : objectTypes)
+  printf("Total object sprite sheets: %lu\n", objectSpriteSheets.size());
+  for (auto *objectSpriteSheet : objectSpriteSheets)
   {
-    objectType->Print();
+    objectSpriteSheet->Print();
   }
 }
 
 void SceneObjectTextureManager::LoadObjectsDataFromFile(std::string filename)
 {
-  enum LineType { OBJ_TYPE_TEX_FILENAME, OBJ_TYPE_DEF, OBJ_ACTION_DEF, OBJ_FRAME_DEF };
+  enum LineType { OBJ_TEX_FILENAME, OBJ_ID, OBJ_ANIMATION_ID, OBJ_SPRITE };
 
   std::ifstream infile(filename);
   std::string line;
-  ObjectType *currentObjectType;
-  ObjectAction *currentObjectTypeAction;
-  int currentObjectTypeId, currentObjectTypeActionId;
+  ObjectSpriteSheet *currentObjectSpriteSheet;
+  ObjectSpriteSheetAnimation *currentObjectSpriteSheetAnimation;
+  int currentObjectSpriteSheetAnimationId;
 
   while (std::getline(infile, line))
   {
@@ -56,25 +56,25 @@ void SceneObjectTextureManager::LoadObjectsDataFromFile(std::string filename)
           commentFound = true;
         }
         else if(startsWith(token, "###")) {
-          currentLineType = OBJ_TYPE_TEX_FILENAME;
+          currentLineType = OBJ_TEX_FILENAME;
           textureFilename = token.substr(3);
         } else if(startsWith(token, "##")) {
-          currentLineType = OBJ_TYPE_DEF;
-          int objectTypeId = std::stoi(token.substr(2));
-          currentObjectType = new ObjectType(objectTypeId);
-          objectTypes.push_back(currentObjectType);
+          currentLineType = OBJ_ID;
+          SceneObjectIdentificator objectId = (SceneObjectIdentificator)std::stoi(token.substr(2));
+          currentObjectSpriteSheet = new ObjectSpriteSheet(objectId);
+          objectSpriteSheets.push_back(currentObjectSpriteSheet);
         } else if(startsWith(token, "#")) {
-          currentLineType = OBJ_ACTION_DEF;
-          int objectTypeActionId = std::stoi(token.substr(1));
-          currentObjectTypeAction = new ObjectAction(objectTypeActionId);
-          currentObjectType->AddAction(currentObjectTypeAction);
+          currentLineType = OBJ_ANIMATION_ID;
+          int objectSpriteSheetAnimationId = std::stoi(token.substr(1));
+          currentObjectSpriteSheetAnimation = new ObjectSpriteSheetAnimation(objectSpriteSheetAnimationId);
+          currentObjectSpriteSheet->AddAnimation(currentObjectSpriteSheetAnimation);
         } else {
-          currentLineType = OBJ_FRAME_DEF;
+          currentLineType = OBJ_SPRITE;
           currentframeValues->push_back(token);
         }
       }
 
-      if(currentLineType == OBJ_FRAME_DEF) {
+      if(currentLineType == OBJ_SPRITE) {
         if(currentframeValues->size() == 6) {
           uint16 width = stoul(currentframeValues->at(0));
           uint16 height = stoul(currentframeValues->at(1));
@@ -82,7 +82,7 @@ void SceneObjectTextureManager::LoadObjectsDataFromFile(std::string filename)
           float v1 = stof(currentframeValues->at(3));
           float u2 = stof(currentframeValues->at(4));
           float v2 = stof(currentframeValues->at(5));
-          currentObjectTypeAction->AddFrame(new ObjectFrame(width, height, u1, v1, u2, v2));
+          currentObjectSpriteSheetAnimation->AddSprite({ width, height, u1, v1, u2, v2 });
         }
       }
   }

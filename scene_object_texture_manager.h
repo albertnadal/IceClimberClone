@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include <object_type.h>
+#include <object_sprite_sheet.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <filesystem.h>
@@ -12,7 +12,7 @@ using namespace std;
 
 class SceneObjectTextureManager
 {
-  std::vector<ObjectType*> objectTypes;
+  std::vector<ObjectSpriteSheet*> objectSpriteSheets;
   std::string textureFilename;
   unsigned int textureId;
 
