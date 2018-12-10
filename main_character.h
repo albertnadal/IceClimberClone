@@ -17,7 +17,7 @@ public:
   uint16 getWidth();
   uint16 getHeight();
   void PrintName();
-
+  void Update();
   static ISceneObject* Create();
 };
 

@@ -344,6 +344,7 @@ int main()
                 {
                         glfwPollEvents();
                         update();
+                        sceneObjectManager->Update();
                         e--;
                 }
 

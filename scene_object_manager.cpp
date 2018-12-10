@@ -10,10 +10,17 @@ SceneObjectManager::SceneObjectManager(SceneObjectTextureManager* _textureManage
   ISceneObject *object = SceneObjectFactory::Get(textureManager)->CreateSceneObject("MainCharacter");
   if(object) {
     object->PrintName();
+    objects.push_back(object);
   }
   else
   {
     cout << "That scene object doesn't exist!" << endl;
+  }
+}
+
+void SceneObjectManager::Update() {
+  for(int i=0; i<objects.size(); i++) {
+    objects[i]->Update();
   }
 }
 

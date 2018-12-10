@@ -17,6 +17,10 @@ void MainCharacter::PrintName(){
   std::cout << "Main character." << std::endl;
 }
 
+void MainCharacter::Update() {
+
+}
+
 ISceneObject* MainCharacter::Create() {
   return new MainCharacter();
 }

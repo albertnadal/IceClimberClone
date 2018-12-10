@@ -11,3 +11,6 @@ uint16 ISceneObject::getHeight() {
 void ISceneObject::PrintName(){
   std::cout << "PrintName not overloaded for object." << std::endl;
 }
+
+void ISceneObject::Update() {
+}
