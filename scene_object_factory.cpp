@@ -2,29 +2,37 @@
 #include <map>
 #include <string>
 
-template <class TB>
-SceneObjectFactory<TB>::SceneObjectFactory()
-{
-	getMap();
+SceneObjectFactory::SceneObjectFactory() {
+	std::cout << "REGISTERING OBJECTS." << std::endl;
+	Register("MainCharacter", &MainCharacter::Create);
 }
 
-template <class TB>
-TB* SceneObjectFactory<TB>::createInstance(std::string const& s)
-{
-	typename map_type::iterator it = getMap()->find(s);
-	if (it == getMap()->end())
-	{
-		return 0;
-	}
-	return it->second();
+SceneObjectFactory::SceneObjectFactory(const SceneObjectFactory &) {
+
 }
 
-template <class TB>
-typename SceneObjectFactory<TB>::map_type* SceneObjectFactory<TB>::getMap()  //intentionally never deleted
+SceneObjectFactory &SceneObjectFactory::operator=(const SceneObjectFactory &) {
+	return *this;
+}
+
+SceneObjectFactory::~SceneObjectFactory() {
+	m_FactoryMap.clear();
+}
+
+void SceneObjectFactory::Register(const string &sceneObjectName, CreateSceneObjectFn pfnCreate)
 {
-	if (!sceneObjectMap)
-	{
-		sceneObjectMap = new map_type;
-	}
-	return sceneObjectMap;
+	m_FactoryMap[sceneObjectName] = pfnCreate;
+}
+ISceneObject *SceneObjectFactory::CreateSceneObject(const string &sceneObjectName)
+{
+	FactoryMap::iterator it = m_FactoryMap.find(sceneObjectName);
+	if( it != m_FactoryMap.end() )
+		return it->second();
+	return NULL;
+}
+
+SceneObjectFactory *SceneObjectFactory::Get()
+{
+	static SceneObjectFactory instance;
+	return &instance;
 }

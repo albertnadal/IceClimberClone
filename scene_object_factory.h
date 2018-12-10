@@ -3,20 +3,23 @@
 
 #include <map>
 #include <string>
+#include "scene_object.h"
+#include "main_character.h"
 
-template <typename TB>
 class SceneObjectFactory
 {
+private:
+  SceneObjectFactory();
+  SceneObjectFactory(const SceneObjectFactory &);
+  SceneObjectFactory &operator=(const SceneObjectFactory &);
+  typedef map<string, CreateSceneObjectFn> FactoryMap;
+  FactoryMap m_FactoryMap;
+
 public:
-  typedef std::map<std::string, TB*(*)()> map_type;
-	static map_type* sceneObjectMap;
-
-	SceneObjectFactory();
-	static TB* createInstance(std::string const& s);
-protected:
-	static map_type* getMap();
+	~SceneObjectFactory();
+	static SceneObjectFactory *Get();
+	void Register(const string &sceneObjectName, CreateSceneObjectFn pfnCreate);
+	ISceneObject *CreateSceneObject(const string &sceneObjectName);
 };
-
-//SceneObjectFactory<TB>::map_type* sceneObjectMap;
 
 #endif

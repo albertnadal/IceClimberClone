@@ -7,13 +7,10 @@
 #include <vec2.h>
 #include <types.h>
 #include <scene_object_texture_manager.h>
-#include <scene_object_base.h>
+#include <scene_object_manager.h>
+#include <scene_object.h>
 #include <main_character.h>
 
-/*
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-*/
 #define OBJECT_TYPES_FILENAME "objtypes.dat"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -110,8 +107,9 @@ static float uvs[1 * 12];
 GLFWwindow* window;
 unsigned int VBO, VAO, UBO, textureId;
 Shader* ourShader;
-std::vector<SceneObjectBase> sceneObjects;
+std::vector<ISceneObject> sceneObjects;
 SceneObjectTextureManager *objectTextureManager;
+SceneObjectManager *sceneObjectManager;
 
 void updateObject(int i)
 {
@@ -142,7 +140,7 @@ void updateObject(int i)
 
 void update()
 {
-  for(SceneObjectBase sceneObject: sceneObjects) {
+  for(ISceneObject sceneObject: sceneObjects) {
     //sceneObject.update();
     vertices[0 * 12] = sceneObject.position.x + sceneObject.getWidth();
     vertices[0 * 12 + 1] = sceneObject.position.y;
@@ -204,6 +202,8 @@ void render()
 
 int main()
 {
+        sceneObjectManager = new SceneObjectManager();
+
         objectTextureManager = new SceneObjectTextureManager();
         objectTextureManager->LoadObjectsDataFromFile(OBJECT_TYPES_FILENAME);
         objectTextureManager->Print();
@@ -261,7 +261,7 @@ int main()
 
         sceneObjects.push_back(MainCharacter());
 
-        for(SceneObjectBase sceneObject: sceneObjects) {
+        for(ISceneObject sceneObject: sceneObjects) {
           Sprite sprite = sceneObject.currentSprite;
 
           vertices[0 * 12] = sceneObject.position.x + sceneObject.getWidth();

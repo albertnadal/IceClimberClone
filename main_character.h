@@ -2,13 +2,13 @@
 #define MAIN_CHARACTER_H
 
 #include <iostream>
-#include <scene_object_base.h>
+#include <scene_object.h>
 #include <vec2.h>
 #include <sprite.h>
 
 using namespace std;
 
-class MainCharacter: public SceneObjectBase
+class MainCharacter: public ISceneObject
 {
 public:
   MainCharacter();
@@ -16,6 +16,8 @@ public:
   uint16 getWidth();
   uint16 getHeight();
   void PrintName();
+
+  static ISceneObject* Create();
 };
 
 #endif
