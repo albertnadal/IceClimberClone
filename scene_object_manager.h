@@ -9,8 +9,10 @@ class SceneObjectManager
 {
   std::vector<ISceneObject*> objects;
   SceneObjectTextureManager *textureManager;
+  int16 *vertices;
+  float *uvs;
 public:
-  SceneObjectManager(SceneObjectTextureManager*);
+  SceneObjectManager(SceneObjectTextureManager*, int16*, float*);
   ~SceneObjectManager();
   void Update();
 };
