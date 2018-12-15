@@ -13,6 +13,7 @@
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void process_input(GLFWwindow *window);
+void update_fps(GLFWwindow* window);
 
 const unsigned int SCR_WIDTH = 1280;
 const unsigned int SCR_HEIGHT = 720;
@@ -20,6 +21,9 @@ const unsigned int SCR_HEIGHT = 720;
 const uint32 OBJECT_COUNT = 1;
 static int16 vertices[OBJECT_COUNT * 12];
 static float uvs[OBJECT_COUNT * 12];
+
+int nbFrames = 0;
+double lastTime = glfwGetTime();
 
 GLFWwindow* window;
 unsigned int VBO, VAO, UBO, textureId;
@@ -97,7 +101,7 @@ int main()
         glVertexAttribPointer(0, 2, GL_SHORT, GL_FALSE, 2 * sizeof(int16), 0);
 
         glBindBuffer(GL_ARRAY_BUFFER, UBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(uvs), uvs, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(uvs), uvs, GL_DYNAMIC_DRAW/*GL_STATIC_DRAW*/);
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, 2 * sizeof(GLfloat), 0);
 
         glEnableVertexAttribArray(0);
@@ -117,8 +121,9 @@ int main()
         {
                 process_input(window);
                 glfwPollEvents();
-                sceneObjectManager->Update();
+                //sceneObjectManager->Update();
                 render();
+                update_fps(window);
         }
 
         glDeleteVertexArrays(1, &VAO);
@@ -141,4 +146,21 @@ void process_input(GLFWwindow *window)
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
         glViewport(0, 0, width, height);
+}
+
+void update_fps(GLFWwindow* win)
+{
+  double currentTime = glfwGetTime();
+  nbFrames++;
+
+  if ( currentTime - lastTime >= 1.0 ) { // If last count was more than 1 sec ago
+    char title [256];
+    title[255] = '\0';
+
+    snprintf(title, 255, "%s - [FPS: %d]", "Rocket", nbFrames);
+    glfwSetWindowTitle(win, title);
+
+    nbFrames = 0;
+    lastTime = currentTime;
+  }
 }
