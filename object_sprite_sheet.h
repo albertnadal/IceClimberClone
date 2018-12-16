@@ -2,8 +2,10 @@
 #define OBJECT_SPRITE_SHEET_H
 
 #include <vector>
-#include <scene_object.h>
+#include <types.h>
 #include <object_sprite_sheet_animation.h>
+
+class SceneObject;
 
 class ObjectSpriteSheet
 {
@@ -15,4 +17,5 @@ public:
         void AddAnimation(ObjectSpriteSheetAnimation*);
         void Print();
 };
+
 #endif

@@ -14,6 +14,7 @@ public:
   SceneObjectIdentificator Id = SceneObjectIdentificator::MAIN_CHARACTER;
   MainCharacter();
   ~MainCharacter();
+  void InitWithTextureManager(SceneObjectTextureManager*);
   uint16 getWidth();
   uint16 getHeight();
   void PrintName();

@@ -71,6 +71,8 @@ void SceneObjectManager::Update() {
     // top left
     uvs[i * 12 + 10] = object->currentSprite.u1;
     uvs[i * 12 + 11] = object->currentSprite.v2;
+
+    cout << "u2:" << uvs[i * 12] << " v2:" << uvs[i * 12 + 1] << " u2:" << uvs[i * 12 + 2] << " v1:" << uvs[i * 12 + 3] << " u1:" << uvs[i * 12 + 4] << " v2:" << uvs[i * 12 + 5] << " u2:" << uvs[i * 12 + 6] << " v1:" << uvs[i * 12 + 7] << " u1:" << uvs[i * 12 + 8] << " v1:" << uvs[i * 12 + 9] << " u1:" << uvs[i * 12 + 10] << " v2:" << uvs[i * 12 + 11] << endl;
   }
   glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 }

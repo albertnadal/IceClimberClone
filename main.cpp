@@ -121,7 +121,7 @@ int main()
         {
                 process_input(window);
                 glfwPollEvents();
-                //sceneObjectManager->Update();
+                sceneObjectManager->Update();
                 render();
                 update_fps(window);
         }

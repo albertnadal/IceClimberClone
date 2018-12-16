@@ -21,6 +21,10 @@ void MainCharacter::Update() {
 
 }
 
+void MainCharacter::InitWithTextureManager(SceneObjectTextureManager *_textureManager) {
+  textureManager = _textureManager;
+}
+
 ISceneObject* MainCharacter::Create() {
   return new MainCharacter();
 }

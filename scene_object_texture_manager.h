@@ -5,10 +5,11 @@
 #include <string>
 #include <map>
 #include <object_sprite_sheet.h>
-#include <scene_object.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <filesystem.h>
+
+#define OBJECT_TYPES_FILENAME "objtypes.dat"
 
 using namespace std;
 

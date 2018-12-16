@@ -3,18 +3,20 @@
 
 #include <iostream>
 #include <vec2.h>
+#include <types.h>
+#include <scene_object_texture_manager.h>
 #include <sprite.h>
 
 using namespace std;
 
-enum SceneObjectIdentificator: uint16 { MAIN_CHARACTER = 1, ROCKET = 2 };
-
 class ISceneObject
 {
+  SceneObjectTextureManager *textureManager = nullptr;
 public:
   SceneObjectIdentificator Id;
   Sprite currentSprite;
   vec2 position;
+  virtual InitWithTextureManager(SceneObjectTextureManager*);
   virtual uint16 getWidth();
   virtual uint16 getHeight();
   virtual void PrintName();

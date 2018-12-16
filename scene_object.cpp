@@ -14,3 +14,7 @@ void ISceneObject::PrintName(){
 
 void ISceneObject::Update() {
 }
+
+void ISceneObject::InitWithTextureManager(SceneObjectTextureManager *_textureManager) {
+  textureManager = _textureManager;
+}
