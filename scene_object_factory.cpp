@@ -30,7 +30,7 @@ ISceneObject *SceneObjectFactory::CreateSceneObject(const string &sceneObjectNam
 	FactoryMap::iterator it = m_FactoryMap.find(sceneObjectName);
 	if( it != m_FactoryMap.end() ) {
 		ISceneObject *sceneObject = it->second();
-		sceneObject->setTextureManager(textureManager);
+		sceneObject->InitWithTextureManager(textureManager);
 		return sceneObject;
 	}
 	return NULL;

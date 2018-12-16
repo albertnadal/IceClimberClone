@@ -11,12 +11,13 @@ using namespace std;
 
 class ISceneObject
 {
+protected:
   SceneObjectTextureManager *textureManager = nullptr;
 public:
   SceneObjectIdentificator Id;
   Sprite currentSprite;
   vec2 position;
-  virtual InitWithTextureManager(SceneObjectTextureManager*);
+  virtual void InitWithTextureManager(SceneObjectTextureManager*);
   virtual uint16 getWidth();
   virtual uint16 getHeight();
   virtual void PrintName();
