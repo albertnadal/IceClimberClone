@@ -15,7 +15,7 @@ private:
   void RegisterSceneObjects();
   typedef map<string, CreateSceneObjectFn> FactoryMap;
   FactoryMap m_FactoryMap;
-  SceneObjectTextureManager *textureManager;
+  SceneObjectTextureManager *textureManager = nullptr;
 
 public:
 	~SceneObjectFactory();

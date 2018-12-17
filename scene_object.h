@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vec2.h>
 #include <types.h>
-#include <scene_object_texture_manager.h>
+#include <object_sprite_sheet.h>
 #include <sprite.h>
 
 using namespace std;
@@ -12,14 +12,15 @@ using namespace std;
 class ISceneObject
 {
 protected:
-  SceneObjectTextureManager *textureManager = nullptr;
+  ObjectSpriteSheet *spriteSheet = nullptr;
+  SceneObjectIdentificator id_ = SceneObjectIdentificator::NONE;
 public:
-  SceneObjectIdentificator Id;
   Sprite currentSprite;
   vec2 position;
-  virtual void InitWithTextureManager(SceneObjectTextureManager*);
-  virtual uint16 getWidth();
-  virtual uint16 getHeight();
+  virtual SceneObjectIdentificator Id();
+  virtual void InitWithSpriteSheet(ObjectSpriteSheet*);
+  virtual uint16 Width();
+  virtual uint16 Height();
   virtual void PrintName();
   virtual void Update();
 };

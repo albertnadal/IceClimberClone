@@ -4,7 +4,6 @@
 #include "main_character.h"
 
 SceneObjectManager::SceneObjectManager(SceneObjectTextureManager* _textureManager, int16 *_vertices, float* _uvs) {
-
   vertices = _vertices;
   uvs = _uvs;
   textureManager = _textureManager;
@@ -25,24 +24,24 @@ void SceneObjectManager::Update() {
     ISceneObject *object = objects[i];
     object->Update();
 
-    vertices[i * 12] = object->position.x + object->getWidth();
+    vertices[i * 12] = object->position.x + object->Width();
     vertices[i * 12 + 1] = object->position.y;
 
     // bottom right
-    vertices[i * 12 + 2] = object->position.x + object->getWidth();
-    vertices[i * 12 + 3] = object->position.y + object->getHeight();
+    vertices[i * 12 + 2] = object->position.x + object->Width();
+    vertices[i * 12 + 3] = object->position.y + object->Height();
 
     // top left
     vertices[i * 12 + 4] = object->position.x;
     vertices[i * 12 + 5] = object->position.y;
 
     // bottom right
-    vertices[i * 12 + 6] = object->position.x + object->getWidth();
-    vertices[i * 12 + 7] = object->position.y + object->getHeight();
+    vertices[i * 12 + 6] = object->position.x + object->Width();
+    vertices[i * 12 + 7] = object->position.y + object->Height();
 
     // bottom left
     vertices[i * 12 + 8] = object->position.x;
-    vertices[i * 12 + 9] = object->position.y + object->getHeight();
+    vertices[i * 12 + 9] = object->position.y + object->Height();
 
     // top left
     vertices[i * 12 + 10] = object->position.x;
@@ -72,7 +71,7 @@ void SceneObjectManager::Update() {
     uvs[i * 12 + 10] = object->currentSprite.u1;
     uvs[i * 12 + 11] = object->currentSprite.v2;
 
-    cout << "u2:" << uvs[i * 12] << " v2:" << uvs[i * 12 + 1] << " u2:" << uvs[i * 12 + 2] << " v1:" << uvs[i * 12 + 3] << " u1:" << uvs[i * 12 + 4] << " v2:" << uvs[i * 12 + 5] << " u2:" << uvs[i * 12 + 6] << " v1:" << uvs[i * 12 + 7] << " u1:" << uvs[i * 12 + 8] << " v1:" << uvs[i * 12 + 9] << " u1:" << uvs[i * 12 + 10] << " v2:" << uvs[i * 12 + 11] << endl;
+    //cout << "u2:" << uvs[i * 12] << " v2:" << uvs[i * 12 + 1] << " u2:" << uvs[i * 12 + 2] << " v1:" << uvs[i * 12 + 3] << " u1:" << uvs[i * 12 + 4] << " v2:" << uvs[i * 12 + 5] << " u2:" << uvs[i * 12 + 6] << " v1:" << uvs[i * 12 + 7] << " u1:" << uvs[i * 12 + 8] << " v1:" << uvs[i * 12 + 9] << " u1:" << uvs[i * 12 + 10] << " v2:" << uvs[i * 12 + 11] << endl;
   }
   glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 }

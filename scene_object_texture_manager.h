@@ -26,6 +26,7 @@ public:
   SceneObjectTextureManager();
   ~SceneObjectTextureManager();
   unsigned int SaveObjectsTextureToGPU();
+  ObjectSpriteSheet* GetSpriteSheetBySceneObjectIdentificator(SceneObjectIdentificator);
 };
 
 bool startsWith(std::string mainStr, std::string toMatch);

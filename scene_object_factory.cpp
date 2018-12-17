@@ -1,4 +1,5 @@
 #include "scene_object_factory.h"
+#include "object_sprite_sheet.h"
 #include <map>
 #include <string>
 
@@ -30,7 +31,8 @@ ISceneObject *SceneObjectFactory::CreateSceneObject(const string &sceneObjectNam
 	FactoryMap::iterator it = m_FactoryMap.find(sceneObjectName);
 	if( it != m_FactoryMap.end() ) {
 		ISceneObject *sceneObject = it->second();
-		sceneObject->InitWithTextureManager(textureManager);
+		ObjectSpriteSheet *objectSpriteSheet = textureManager->GetSpriteSheetBySceneObjectIdentificator(sceneObject->Id());
+		sceneObject->InitWithSpriteSheet(objectSpriteSheet);
 		return sceneObject;
 	}
 	return NULL;

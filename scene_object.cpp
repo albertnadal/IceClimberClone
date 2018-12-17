@@ -1,10 +1,14 @@
 #include "scene_object.h"
 
-uint16 ISceneObject::getWidth() {
+SceneObjectIdentificator ISceneObject::Id() {
+  return id_;
+}
+
+uint16 ISceneObject::Width() {
   return this->currentSprite.width;
 }
 
-uint16 ISceneObject::getHeight() {
+uint16 ISceneObject::Height() {
   return this->currentSprite.height;
 }
 
@@ -15,6 +19,6 @@ void ISceneObject::PrintName(){
 void ISceneObject::Update() {
 }
 
-void ISceneObject::InitWithTextureManager(SceneObjectTextureManager *_textureManager) {
-  textureManager = _textureManager;
+void ISceneObject::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+  spriteSheet = _spriteSheet;
 }

@@ -60,6 +60,7 @@ void SceneObjectTextureManager::LoadObjectsDataFromFile(std::string filename)
           currentLineType = OBJ_ID;
           SceneObjectIdentificator objectId = (SceneObjectIdentificator)std::stoi(token.substr(2));
           currentObjectSpriteSheet = new ObjectSpriteSheet(objectId);
+          cout << "ID: " << (int)objectId << "!!!"<< endl;
           objectSpriteSheetsMap[objectId] = currentObjectSpriteSheet;
         } else if(startsWith(token, "#")) {
           currentLineType = OBJ_ANIMATION_ID;
@@ -109,6 +110,14 @@ unsigned int SceneObjectTextureManager::SaveObjectsTextureToGPU() {
   return textureId;
 }
 
+ObjectSpriteSheet* SceneObjectTextureManager::GetSpriteSheetBySceneObjectIdentificator(SceneObjectIdentificator sceneObjectIdentificator) {
+  auto searchIterator = objectSpriteSheetsMap.find(sceneObjectIdentificator);
+  if (searchIterator != objectSpriteSheetsMap.end()) {
+      return searchIterator->second;
+  } else {
+      return nullptr;
+  }
+}
 
 bool startsWith(std::string mainStr, std::string toMatch)
 {

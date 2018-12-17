@@ -11,10 +11,9 @@ using namespace std;
 class MainCharacter: public ISceneObject
 {
 public:
-  SceneObjectIdentificator Id = SceneObjectIdentificator::MAIN_CHARACTER;
   MainCharacter();
   ~MainCharacter();
-  void InitWithTextureManager(SceneObjectTextureManager*);
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
   uint16 getWidth();
   uint16 getHeight();
   void PrintName();

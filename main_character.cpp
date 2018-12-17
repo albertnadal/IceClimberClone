@@ -1,6 +1,7 @@
 #include "main_character.h"
 
 MainCharacter::MainCharacter() {
+  id_ = SceneObjectIdentificator::MAIN_CHARACTER;
   this->position.x = 100.0;
   this->position.y = 100.0;
 }
@@ -21,8 +22,12 @@ void MainCharacter::Update() {
 
 }
 
-void MainCharacter::InitWithTextureManager(SceneObjectTextureManager *_textureManager) {
-  textureManager = _textureManager;
+void MainCharacter::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+  spriteSheet = _spriteSheet;
+  if(spriteSheet != nullptr) {
+    spriteSheet->Print();
+    //TODO: Update the currentSprite according to the current object status
+  }
 }
 
 ISceneObject* MainCharacter::Create() {
