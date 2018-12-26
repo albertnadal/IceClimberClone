@@ -10,6 +10,7 @@ using namespace std;
 
 class MainCharacter: public ISceneObject
 {
+  std::vector<SpriteData>::iterator spriteAnimationIterator;
 public:
   MainCharacter();
   ~MainCharacter();

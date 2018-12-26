@@ -1,6 +1,6 @@
 #include "object_sprite_sheet_animation.h"
 
-ObjectSpriteSheetAnimation::ObjectSpriteSheetAnimation(int _id)
+ObjectSpriteSheetAnimation::ObjectSpriteSheetAnimation(uint16 _id)
         : Id(_id)
 {
 }
@@ -22,4 +22,9 @@ void ObjectSpriteSheetAnimation::Print()
 void ObjectSpriteSheetAnimation::AddSprite(SpriteData sprite)
 {
   sprites.push_back(sprite);
+}
+
+std::vector<SpriteData>::iterator ObjectSpriteSheetAnimation::GetIterator()
+{
+  return std::begin(sprites);
 }

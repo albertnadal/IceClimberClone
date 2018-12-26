@@ -15,5 +15,6 @@ public:
   ~ObjectSpriteSheetAnimation();
   void AddSprite(SpriteData);
   void Print();
+  std::vector<SpriteData>::iterator GetIterator();
 };
 #endif

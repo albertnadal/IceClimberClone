@@ -4,6 +4,7 @@ MainCharacter::MainCharacter() {
   id_ = SceneObjectIdentificator::MAIN_CHARACTER;
   this->position.x = 100.0;
   this->position.y = 100.0;
+  this->currentAnimation = nullptr;
 }
 
 uint16 MainCharacter::GetWidth() {
@@ -19,7 +20,11 @@ void MainCharacter::PrintName(){
 }
 
 void MainCharacter::Update() {
-  this->currentAnimation = this->spriteSheet->GetAnimationWithId(1);
+  if(this->currentAnimation == nullptr) {
+    this->currentAnimation = this->spriteSheet->GetAnimationWithId(1);
+    this->spriteAnimationIterator = this->currentAnimation->GetIterator();
+  }
+
   SpriteData spriteData = this->currentAnimation->sprites.front();
   this->currentSprite.width = spriteData.width;
   this->currentSprite.height = spriteData.height;
