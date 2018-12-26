@@ -8,12 +8,12 @@ struct SpriteData { uint16 width, height; float u1, v1, u2, v2; };
 
 class ObjectSpriteSheetAnimation
 {
-        int Id;
-        std::vector<SpriteData> sprites;
 public:
-        ObjectSpriteSheetAnimation(int);
-        ~ObjectSpriteSheetAnimation();
-        void AddSprite(SpriteData);
-        void Print();
+  uint16 Id;
+  std::vector<SpriteData> sprites;
+  ObjectSpriteSheetAnimation(uint16);
+  ~ObjectSpriteSheetAnimation();
+  void AddSprite(SpriteData);
+  void Print();
 };
 #endif

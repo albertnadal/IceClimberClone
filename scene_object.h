@@ -16,11 +16,12 @@ protected:
   SceneObjectIdentificator id_ = SceneObjectIdentificator::NONE;
 public:
   Sprite currentSprite;
+  ObjectSpriteSheetAnimation *currentAnimation;
   vec2 position;
   virtual SceneObjectIdentificator Id();
   virtual void InitWithSpriteSheet(ObjectSpriteSheet*);
-  virtual uint16 Width();
-  virtual uint16 Height();
+  virtual uint16 GetWidth();
+  virtual uint16 GetHeight();
   virtual void PrintName();
   virtual void Update();
 };

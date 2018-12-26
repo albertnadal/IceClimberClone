@@ -14,8 +14,8 @@ public:
   MainCharacter();
   ~MainCharacter();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
-  uint16 getWidth();
-  uint16 getHeight();
+  uint16 GetWidth();
+  uint16 GetHeight();
   void PrintName();
   void Update();
   static ISceneObject* Create();

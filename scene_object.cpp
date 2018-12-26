@@ -4,11 +4,11 @@ SceneObjectIdentificator ISceneObject::Id() {
   return id_;
 }
 
-uint16 ISceneObject::Width() {
+uint16 ISceneObject::GetWidth() {
   return this->currentSprite.width;
 }
 
-uint16 ISceneObject::Height() {
+uint16 ISceneObject::GetHeight() {
   return this->currentSprite.height;
 }
 

@@ -24,24 +24,24 @@ void SceneObjectManager::Update() {
     ISceneObject *object = objects[i];
     object->Update();
 
-    vertices[i * 12] = object->position.x + object->Width();
+    vertices[i * 12] = object->position.x + object->GetWidth();
     vertices[i * 12 + 1] = object->position.y;
 
     // bottom right
-    vertices[i * 12 + 2] = object->position.x + object->Width();
-    vertices[i * 12 + 3] = object->position.y + object->Height();
+    vertices[i * 12 + 2] = object->position.x + object->GetWidth();
+    vertices[i * 12 + 3] = object->position.y + object->GetHeight();
 
     // top left
     vertices[i * 12 + 4] = object->position.x;
     vertices[i * 12 + 5] = object->position.y;
 
     // bottom right
-    vertices[i * 12 + 6] = object->position.x + object->Width();
-    vertices[i * 12 + 7] = object->position.y + object->Height();
+    vertices[i * 12 + 6] = object->position.x + object->GetWidth();
+    vertices[i * 12 + 7] = object->position.y + object->GetHeight();
 
     // bottom left
     vertices[i * 12 + 8] = object->position.x;
-    vertices[i * 12 + 9] = object->position.y + object->Height();
+    vertices[i * 12 + 9] = object->position.y + object->GetHeight();
 
     // top left
     vertices[i * 12 + 10] = object->position.x;
