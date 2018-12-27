@@ -18,8 +18,8 @@ void update_fps(GLFWwindow* window);
 const unsigned int SCR_WIDTH = 1280;
 const unsigned int SCR_HEIGHT = 720;
 
-const uint32 OBJECT_COUNT = 1;
-static int16 vertices[OBJECT_COUNT * 12];
+const uint32 OBJECT_COUNT = 3000;
+static uint16 vertices[OBJECT_COUNT * 12];
 static float uvs[OBJECT_COUNT * 12];
 
 int nbFrames = 0;
@@ -155,7 +155,7 @@ void update_fps(GLFWwindow* win)
     char title [256];
     title[255] = '\0';
 
-    snprintf(title, 255, "%s - [FPS: %d]", "Rocket", nbFrames);
+    snprintf(title, 255, "%s - [FPS: %d] [Frame time: %f]", "Rocket", nbFrames, 1000.0f/nbFrames);
     glfwSetWindowTitle(win, title);
 
     nbFrames = 0;

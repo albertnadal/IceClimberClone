@@ -2,8 +2,8 @@
 
 MainCharacter::MainCharacter() {
   id_ = SceneObjectIdentificator::MAIN_CHARACTER;
-  this->position.x = 100.0;
-  this->position.y = 100.0;
+  this->position.x = 100;
+  this->position.y = 100;
   this->currentAnimation = nullptr;
 }
 
@@ -20,8 +20,8 @@ void MainCharacter::PrintName(){
 }
 
 void MainCharacter::Update() {
-  //this->position.x = 100 + (rand() % 5 - 2);
-  //this->position.y = 100 + (rand() % 5 - 2);
+  this->position.x = (rand() % 1350);
+  this->position.y = (rand() % 700);
 
   if(this->currentAnimation == nullptr) {
     this->currentAnimation = this->spriteSheet->GetAnimationWithId(1);
