@@ -20,12 +20,16 @@ void MainCharacter::PrintName(){
 }
 
 void MainCharacter::Update() {
+  //this->position.x = 100 + (rand() % 5 - 2);
+  //this->position.y = 100 + (rand() % 5 - 2);
+
   if(this->currentAnimation == nullptr) {
     this->currentAnimation = this->spriteSheet->GetAnimationWithId(1);
-    this->spriteAnimationIterator = this->currentAnimation->GetIterator();
+    this->currentAnimation->MoveToFirstSprite();
   }
 
-  SpriteData spriteData = this->currentAnimation->sprites.front();
+  SpriteData spriteData = this->currentAnimation->GetNextSpriteData();
+  //std::cout << "u1: " << spriteData.u1 << " v1: " << spriteData.v1 << " u2: " << spriteData.u2 << " v2: " << spriteData.v2 << std::endl;
   this->currentSprite.width = spriteData.width;
   this->currentSprite.height = spriteData.height;
   this->currentSprite.u1 = spriteData.u1;
@@ -35,7 +39,6 @@ void MainCharacter::Update() {
 }
 
 void MainCharacter::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
-  cout << "InitWithSpriteSheet PRINT spriteSheet: " << endl;
   spriteSheet = _spriteSheet;
   if(spriteSheet != nullptr) {
     spriteSheet->Print();

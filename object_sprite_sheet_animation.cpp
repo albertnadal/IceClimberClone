@@ -1,8 +1,10 @@
+#include <iostream>
 #include "object_sprite_sheet_animation.h"
 
 ObjectSpriteSheetAnimation::ObjectSpriteSheetAnimation(uint16 _id)
         : Id(_id)
 {
+  spriteIterator = std::begin(sprites);
 }
 
 ObjectSpriteSheetAnimation::~ObjectSpriteSheetAnimation() {
@@ -21,10 +23,18 @@ void ObjectSpriteSheetAnimation::Print()
 
 void ObjectSpriteSheetAnimation::AddSprite(SpriteData sprite)
 {
-  sprites.push_back(sprite);
+  spriteIterator = sprites.insert(spriteIterator, sprite);
 }
 
-std::vector<SpriteData>::iterator ObjectSpriteSheetAnimation::GetIterator()
+void ObjectSpriteSheetAnimation::MoveToFirstSprite()
 {
-  return std::begin(sprites);
+  spriteIterator = std::begin(sprites);
+}
+
+SpriteData ObjectSpriteSheetAnimation::GetNextSpriteData()
+{
+  if(spriteIterator == std::end(sprites)) {
+    spriteIterator = std::begin(sprites);
+  }
+  return *spriteIterator++;
 }

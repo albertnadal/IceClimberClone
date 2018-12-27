@@ -3,9 +3,11 @@
 #include "scene_object.h"
 #include "main_character.h"
 
-SceneObjectManager::SceneObjectManager(SceneObjectTextureManager* _textureManager, int16 *_vertices, float* _uvs) {
+SceneObjectManager::SceneObjectManager(SceneObjectTextureManager* _textureManager, int16 *_vertices,  unsigned int *_vbo, float *_uvs, unsigned int *_ubo) {
   vertices = _vertices;
   uvs = _uvs;
+  vbo = _vbo;
+  ubo = _ubo;
   textureManager = _textureManager;
 
   ISceneObject *object = SceneObjectFactory::Get(textureManager)->CreateSceneObject("MainCharacter");
@@ -71,9 +73,14 @@ void SceneObjectManager::Update() {
     uvs[i * 12 + 10] = object->currentSprite.u1;
     uvs[i * 12 + 11] = object->currentSprite.v2;
 
-    //cout << "u2:" << uvs[i * 12] << " v2:" << uvs[i * 12 + 1] << " u2:" << uvs[i * 12 + 2] << " v1:" << uvs[i * 12 + 3] << " u1:" << uvs[i * 12 + 4] << " v2:" << uvs[i * 12 + 5] << " u2:" << uvs[i * 12 + 6] << " v1:" << uvs[i * 12 + 7] << " u1:" << uvs[i * 12 + 8] << " v1:" << uvs[i * 12 + 9] << " u1:" << uvs[i * 12 + 10] << " v2:" << uvs[i * 12 + 11] << endl;
+    //cout << "X: " << object->position.x << " Y: " << object->position.y << " | UVS u2:" << uvs[i * 12] << " v2:" << uvs[i * 12 + 1] << " u2:" << uvs[i * 12 + 2] << " v1:" << uvs[i * 12 + 3] << " u1:" << uvs[i * 12 + 4] << " v2:" << uvs[i * 12 + 5] << " u2:" << uvs[i * 12 + 6] << " v1:" << uvs[i * 12 + 7] << " u1:" << uvs[i * 12 + 8] << " v1:" << uvs[i * 12 + 9] << " u1:" << uvs[i * 12 + 10] << " v2:" << uvs[i * 12 + 11] << endl;
   }
-  glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+
+  glBindBuffer(GL_ARRAY_BUFFER, *vbo);
+  glBufferSubData(GL_ARRAY_BUFFER, 0, 12 * sizeof(int16), vertices);
+
+  glBindBuffer(GL_ARRAY_BUFFER, *ubo);
+  glBufferSubData(GL_ARRAY_BUFFER, 0, 12 * sizeof(float), uvs);
 }
 
 SceneObjectManager::~SceneObjectManager() {

@@ -42,11 +42,11 @@ void render()
         glEnable(GL_BLEND);
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_SCISSOR_TEST);
-
+/*
         ourShader->use();
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, textureId);
-
+*/
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, OBJECT_COUNT * 6);
 
@@ -57,7 +57,7 @@ void render()
 int main()
 {
         objectTextureManager = new SceneObjectTextureManager();
-        sceneObjectManager = new SceneObjectManager(objectTextureManager, vertices, uvs);
+        sceneObjectManager = new SceneObjectManager(objectTextureManager, vertices, &VBO, uvs, &UBO);
 
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -114,8 +114,6 @@ int main()
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, textureId);
         glBindVertexArray(VAO);
-
-        double e;
 
         while (!glfwWindowShouldClose(window))
         {
