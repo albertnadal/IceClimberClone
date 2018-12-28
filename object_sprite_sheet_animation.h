@@ -4,7 +4,7 @@
 #include <vector>
 #include <types.h>
 
-struct SpriteData { uint16 width, height; float u1, v1, u2, v2; };
+struct SpriteData { uint16 width, height; float u1, v1, u2, v2; uint16 duration; };
 
 class ObjectSpriteSheetAnimation
 {
@@ -15,7 +15,7 @@ public:
   ObjectSpriteSheetAnimation(uint16);
   ~ObjectSpriteSheetAnimation();
   void AddSprite(SpriteData);
-  SpriteData GetNextSpriteData();
+  SpriteData NextSpriteData();
   void MoveToFirstSprite();
   void Print();
 };

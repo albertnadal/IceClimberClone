@@ -31,7 +31,7 @@ void ObjectSpriteSheetAnimation::MoveToFirstSprite()
   spriteIterator = std::begin(sprites);
 }
 
-SpriteData ObjectSpriteSheetAnimation::GetNextSpriteData()
+SpriteData ObjectSpriteSheetAnimation::NextSpriteData()
 {
   if(spriteIterator == std::end(sprites)) {
     spriteIterator = std::begin(sprites);

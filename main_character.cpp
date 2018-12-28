@@ -28,7 +28,7 @@ bool MainCharacter::Update() {
     this->currentAnimation->MoveToFirstSprite();
   }
 
-  SpriteData spriteData = this->currentAnimation->GetNextSpriteData();
+  SpriteData spriteData = this->currentAnimation->NextSpriteData();
   //std::cout << "u1: " << spriteData.u1 << " v1: " << spriteData.v1 << " u2: " << spriteData.u2 << " v2: " << spriteData.v2 << std::endl;
   this->currentSprite.width = spriteData.width;
   this->currentSprite.height = spriteData.height;
