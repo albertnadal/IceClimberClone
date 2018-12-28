@@ -18,7 +18,7 @@ void update_fps(GLFWwindow* window);
 const uint32 SCR_WIDTH = 1280;
 const uint32 SCR_HEIGHT = 720;
 
-const uint32 OBJECT_COUNT = 1;
+const uint32 OBJECT_COUNT = 2;
 static uint16 vertices[OBJECT_COUNT * 12];
 static float uvs[OBJECT_COUNT * 12];
 

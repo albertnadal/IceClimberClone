@@ -100,7 +100,7 @@ uint32 SceneObjectTextureManager::LoadObjectsTextures() {
   if(data)
   {
     // Remove the chroma key color (##ff00ffff) of the texture atlas
-    for(int i=0; i < width * height * sizeof(GL_RGBA); i+=sizeof(GL_RGBA)) {
+    for(int i=0; i < width*height*sizeof(GL_RGBA); i+=sizeof(GL_RGBA)) {
       if((data[i] == 255) && (data[i+1] == 0) && (data[i+2] == 255) && (data[i+3] == 255)) {
         data[i] = data[i+1] = data[i+2] = data[i+3] = 0;
       }

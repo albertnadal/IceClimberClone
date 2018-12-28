@@ -2,6 +2,7 @@
 #define MAIN_CHARACTER_H
 
 #include <iostream>
+#include <vector>
 #include <scene_object.h>
 #include <vec2.h>
 #include <sprite.h>
@@ -10,7 +11,13 @@ using namespace std;
 
 class MainCharacter: public ISceneObject
 {
+  std::vector<SpriteData>::iterator currentAnimationSpriteIterator;
+  std::vector<SpriteData> currentAnimationSprites;
   bool firstSpriteOfCurrentAnimationIsLoaded = false;
+  bool animationHasOnlyOneSprite = false;
+  bool animationLoaded = false;
+  void MoveToFirstSprite();
+  SpriteData NextSpriteData();
 public:
   MainCharacter();
   ~MainCharacter();

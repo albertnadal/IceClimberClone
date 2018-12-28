@@ -18,7 +18,6 @@ protected:
   std::chrono::system_clock::time_point nextSpriteTime;
 public:
   Sprite currentSprite;
-  ObjectSpriteSheetAnimation *currentAnimation;
   vec2 position;
   virtual SceneObjectIdentificator Id();
   virtual void InitWithSpriteSheet(ObjectSpriteSheet*);
