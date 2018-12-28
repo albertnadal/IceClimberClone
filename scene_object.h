@@ -2,6 +2,7 @@
 #define SCENE_OBJECT_H
 
 #include <iostream>
+#include <chrono>
 #include <vec2.h>
 #include <types.h>
 #include <object_sprite_sheet.h>
@@ -14,6 +15,7 @@ class ISceneObject
 protected:
   ObjectSpriteSheet *spriteSheet = nullptr;
   SceneObjectIdentificator id_ = SceneObjectIdentificator::NONE;
+  std::chrono::system_clock::time_point nextSpriteTime;
 public:
   Sprite currentSprite;
   ObjectSpriteSheetAnimation *currentAnimation;

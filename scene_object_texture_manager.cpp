@@ -52,15 +52,13 @@ void SceneObjectTextureManager::LoadObjectsDataFromFile(std::string filename)
       while((iss >> token) && (!commentFound)) {
         if(startsWith(token, "//")) {
           commentFound = true;
-        }
-        else if(startsWith(token, "###")) {
+        } else if(startsWith(token, "###")) {
           currentLineType = OBJ_TEX_FILENAME;
           textureFilename = token.substr(3);
         } else if(startsWith(token, "##")) {
           currentLineType = OBJ_ID;
           SceneObjectIdentificator objectId = (SceneObjectIdentificator)std::stoi(token.substr(2));
           currentObjectSpriteSheet = new ObjectSpriteSheet(objectId);
-          cout << "ID: " << (int)objectId << "!!!"<< endl;
           objectSpriteSheetsMap[objectId] = currentObjectSpriteSheet;
         } else if(startsWith(token, "#")) {
           currentLineType = OBJ_ANIMATION_ID;
@@ -74,14 +72,15 @@ void SceneObjectTextureManager::LoadObjectsDataFromFile(std::string filename)
       }
 
       if(currentLineType == OBJ_SPRITE) {
-        if(currentframeValues->size() == 6) {
-          uint16 width = stoul(currentframeValues->at(0));
-          uint16 height = stoul(currentframeValues->at(1));
+        if(currentframeValues->size() == 7) {
+          uint16 width = stoi(currentframeValues->at(0));
+          uint16 height = stoi(currentframeValues->at(1));
           float u1 = stof(currentframeValues->at(2));
           float v1 = stof(currentframeValues->at(3));
           float u2 = stof(currentframeValues->at(4));
           float v2 = stof(currentframeValues->at(5));
-          currentObjectSpriteSheetAnimation->AddSprite({ width, height, u1, v1, u2, v2 });
+          uint16 duration = stoi(currentframeValues->at(6));
+          currentObjectSpriteSheetAnimation->AddSprite({ width, height, u1, v1, u2, v2, duration });
         }
       }
   }

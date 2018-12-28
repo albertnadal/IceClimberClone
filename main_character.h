@@ -10,6 +10,7 @@ using namespace std;
 
 class MainCharacter: public ISceneObject
 {
+  bool firstSpriteOfCurrentAnimationIsLoaded = false;
 public:
   MainCharacter();
   ~MainCharacter();

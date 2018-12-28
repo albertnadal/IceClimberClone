@@ -23,7 +23,8 @@ void ObjectSpriteSheetAnimation::Print()
 
 void ObjectSpriteSheetAnimation::AddSprite(SpriteData sprite)
 {
-  spriteIterator = sprites.insert(spriteIterator, sprite);
+  sprites.push_back(sprite);
+  hasOnlyOneSprite = (sprites.size() <= 1);
 }
 
 void ObjectSpriteSheetAnimation::MoveToFirstSprite()
