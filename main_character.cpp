@@ -20,8 +20,8 @@ void MainCharacter::PrintName(){
 }
 
 bool MainCharacter::Update() {
-  this->position.x = (rand() % 1350);
-  this->position.y = (rand() % 700);
+  this->position.x = 100; //(rand() % 1350);
+  this->position.y = 100; //(rand() % 700);
 
   if(this->currentAnimation == nullptr) {
     this->currentAnimation = this->spriteSheet->GetAnimationWithId(1);

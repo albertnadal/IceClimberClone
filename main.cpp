@@ -15,10 +15,10 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void process_input(GLFWwindow *window);
 void update_fps(GLFWwindow* window);
 
-const unsigned int SCR_WIDTH = 1280;
-const unsigned int SCR_HEIGHT = 720;
+const uint32 SCR_WIDTH = 1280;
+const uint32 SCR_HEIGHT = 720;
 
-const uint32 OBJECT_COUNT = 3000;
+const uint32 OBJECT_COUNT = 1;
 static uint16 vertices[OBJECT_COUNT * 12];
 static float uvs[OBJECT_COUNT * 12];
 
@@ -26,7 +26,7 @@ int nbFrames = 0;
 double lastTime = glfwGetTime();
 
 GLFWwindow* window;
-unsigned int VBO, VAO, UBO, textureId;
+uint32 VBO, VAO, UBO, textureId;
 Shader* ourShader;
 SceneObjectTextureManager *objectTextureManager;
 SceneObjectManager *sceneObjectManager;
@@ -101,11 +101,11 @@ int main()
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
-        glVertexAttribPointer(0, 2, GL_SHORT, GL_FALSE, 2 * sizeof(uint16), 0);
+        glVertexAttribPointer(0, 2, GL_UNSIGNED_SHORT, GL_FALSE, 2 * sizeof(uint16), 0);
 
         glBindBuffer(GL_ARRAY_BUFFER, UBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(uvs), uvs, GL_DYNAMIC_DRAW/*GL_STATIC_DRAW*/);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, 2 * sizeof(GLfloat), 0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, 2 * sizeof(float), 0);
 
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);

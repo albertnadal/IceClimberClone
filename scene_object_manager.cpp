@@ -3,9 +3,9 @@
 #include "scene_object.h"
 #include "main_character.h"
 
-const uint32 OBJECT_COUNT = 3000;
+const uint32 OBJECT_COUNT = 1;
 
-SceneObjectManager::SceneObjectManager(SceneObjectTextureManager* _textureManager, uint16 *_vertices,  unsigned int *_vbo, float *_uvs, unsigned int *_ubo) {
+SceneObjectManager::SceneObjectManager(SceneObjectTextureManager* _textureManager, uint16 *_vertices,  uint32 *_vbo, float *_uvs, uint32 *_ubo) {
   vertices = _vertices;
   uvs = _uvs;
   vbo = _vbo;

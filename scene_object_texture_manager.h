@@ -18,14 +18,14 @@ class SceneObjectTextureManager
   typedef map<SceneObjectIdentificator, ObjectSpriteSheet*> SpriteSheetsMap;
   SpriteSheetsMap objectSpriteSheetsMap;
   std::string textureFilename;
-  unsigned int textureId;
+  uint32 textureId;
 
   void LoadObjectsDataFromFile(std::string filename);
   void Print();
 public:
   SceneObjectTextureManager();
   ~SceneObjectTextureManager();
-  unsigned int LoadObjectsTextures();
+  uint32 LoadObjectsTextures();
   ObjectSpriteSheet* GetSpriteSheetBySceneObjectIdentificator(SceneObjectIdentificator);
 };
 

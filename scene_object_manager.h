@@ -11,10 +11,10 @@ class SceneObjectManager
   SceneObjectTextureManager *textureManager;
   uint16 *vertices;
   float *uvs;
-  unsigned int *vbo;
-  unsigned int *ubo;
+  uint32 *vbo;
+  uint32 *ubo;
 public:
-  SceneObjectManager(SceneObjectTextureManager*, uint16*, unsigned int*, float*, unsigned int*);
+  SceneObjectManager(SceneObjectTextureManager*, uint16*, uint32*, float*, uint32*);
   ~SceneObjectManager();
   void Update();
 };
