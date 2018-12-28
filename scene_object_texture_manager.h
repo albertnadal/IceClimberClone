@@ -25,7 +25,7 @@ class SceneObjectTextureManager
 public:
   SceneObjectTextureManager();
   ~SceneObjectTextureManager();
-  unsigned int SaveObjectsTextureToGPU();
+  unsigned int LoadObjectsTextures();
   ObjectSpriteSheet* GetSpriteSheetBySceneObjectIdentificator(SceneObjectIdentificator);
 };
 

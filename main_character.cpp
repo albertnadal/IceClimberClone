@@ -19,7 +19,7 @@ void MainCharacter::PrintName(){
   std::cout << "Main character." << std::endl;
 }
 
-void MainCharacter::Update() {
+bool MainCharacter::Update() {
   this->position.x = (rand() % 1350);
   this->position.y = (rand() % 700);
 
@@ -36,6 +36,8 @@ void MainCharacter::Update() {
   this->currentSprite.v1 = spriteData.v1;
   this->currentSprite.u2 = spriteData.u2;
   this->currentSprite.v2 = spriteData.v2;
+
+  return ((rand() % 1) == 0);
 }
 
 void MainCharacter::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {

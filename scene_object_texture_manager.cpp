@@ -87,7 +87,7 @@ void SceneObjectTextureManager::LoadObjectsDataFromFile(std::string filename)
   }
 }
 
-unsigned int SceneObjectTextureManager::SaveObjectsTextureToGPU() {
+unsigned int SceneObjectTextureManager::LoadObjectsTextures() {
   glGenTextures(1, &textureId);
   glBindTexture(GL_TEXTURE_2D, textureId);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);

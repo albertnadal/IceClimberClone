@@ -89,7 +89,7 @@ int main()
         ourShader = new Shader("shader.vs", "shader.fs");
 
         // Load texture atlas into GPU memory
-        textureId = objectTextureManager->SaveObjectsTextureToGPU();
+        textureId = objectTextureManager->LoadObjectsTextures();
 
         // Initial scene update
         sceneObjectManager->Update();
@@ -101,7 +101,7 @@ int main()
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
-        glVertexAttribPointer(0, 2, GL_SHORT, GL_FALSE, 2 * sizeof(int16), 0);
+        glVertexAttribPointer(0, 2, GL_SHORT, GL_FALSE, 2 * sizeof(uint16), 0);
 
         glBindBuffer(GL_ARRAY_BUFFER, UBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(uvs), uvs, GL_DYNAMIC_DRAW/*GL_STATIC_DRAW*/);

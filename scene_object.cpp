@@ -16,7 +16,8 @@ void ISceneObject::PrintName(){
   std::cout << "PrintName not overloaded for object." << std::endl;
 }
 
-void ISceneObject::Update() {
+bool ISceneObject::Update() {
+  return false;
 }
 
 void ISceneObject::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
