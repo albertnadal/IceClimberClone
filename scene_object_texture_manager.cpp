@@ -99,13 +99,22 @@ uint32 SceneObjectTextureManager::LoadObjectsTextures() {
 
   if(data)
   {
-          glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-          glGenerateMipmap(GL_TEXTURE_2D);
+    // Remove the chroma key color (##ff00ffff) of the texture atlas
+    for(int i=0; i < width * height * sizeof(GL_RGBA); i+=sizeof(GL_RGBA)) {
+      if((data[i] == 255) && (data[i+1] == 0) && (data[i+2] == 255) && (data[i+3] == 255)) {
+        data[i] = data[i+1] = data[i+2] = data[i+3] = 0;
+      }
+    }
+
+    // Save the texture atlas in the vram
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+    glGenerateMipmap(GL_TEXTURE_2D);
   }
   else
   {
-          std::cout << "Failed to load texture" << std::endl;
+    std::cout << "Failed to load texture" << std::endl;
   }
+
   stbi_image_free(data);
   return textureId;
 }
