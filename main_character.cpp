@@ -94,6 +94,7 @@ void MainCharacter::LoadAnimationWithId(uint16 animationId) {
         this->MoveToFirstSprite();
         animationLoaded = true;
         firstSpriteOfCurrentAnimationIsLoaded = false;
+        nextSpriteTime = std::chrono::system_clock::now();
 }
 
 void MainCharacter::MoveToFirstSprite()
