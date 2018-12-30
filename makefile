@@ -1,6 +1,6 @@
 CXX=g++
 SDKROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk
-CFLAGS=-std=c++11 -stdlib=libc++ -Ofast -Wno-deprecated -I/usr/local/Cellar/glfw/3.2.1/include/ -I. -isysroot $(SDKROOT)
+CFLAGS=-std=c++11 -stdlib=libc++ -Ofast -Wno-deprecated -I/usr/local/Cellar/glfw/3.2.1/include/ -I. -Ithird_parties -isysroot $(SDKROOT)
 LDFLAGS=-Wl,-search_paths_first -Wl,-headerpad_max_install_names -framework OpenGL -framework Cocoa -lGLFW -L/usr/local/Cellar/glfw/3.2.1/lib/
 EXEC=main
 
@@ -37,8 +37,8 @@ sprite.o: sprite.cpp
 vec2.o: vec2.cpp
 	$(CXX) -c $(CFLAGS) vec2.cpp
 
-glad.o: glad/glad.c
-	$(CXX) -c $(CFLAGS) glad/glad.c
+glad.o: third_parties/glad/glad.c
+	$(CXX) -c $(CFLAGS) third_parties/glad/glad.c
 
 clean:
 	rm $(EXEC) *.o *.gch

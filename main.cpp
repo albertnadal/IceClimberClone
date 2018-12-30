@@ -18,7 +18,7 @@ void process_input(GLFWwindow *window);
 void update_fps(GLFWwindow* window);
 
 const uint32 SCR_WIDTH = 1280;
-const uint32 SCR_HEIGHT = 720;
+const uint32 SCR_HEIGHT = 750;
 
 const uint32 OBJECT_COUNT = 1;
 static uint16 vertices[OBJECT_COUNT * 12];
@@ -159,15 +159,15 @@ void keyboard_callback(GLFWwindow* window, int key, int32 scancode, int32 action
 {
         KeyboardKeyCode keyCode = KEY_NONE;
         switch(key) {
-        case GLFW_KEY_LEFT:   keyCode = KEY_LEFT; break;
-        case GLFW_KEY_RIGHT:  keyCode = KEY_RIGHT; break;
-        case GLFW_KEY_UP:     keyCode = KEY_UP; break;
-        case GLFW_KEY_DOWN:   keyCode = KEY_DOWN; break;
-        case GLFW_KEY_Q:      keyCode = KEY_Q; break;
-        case GLFW_KEY_W:      keyCode = KEY_W; break;
-        case GLFW_KEY_A:      keyCode = KEY_A; break;
-        case GLFW_KEY_S:      keyCode = KEY_S; break;
-        case GLFW_KEY_ESCAPE: if(action == GLFW_PRESS) { glfwSetWindowShouldClose(window, GL_TRUE); } keyCode = KEY_NONE; break;
+          case GLFW_KEY_LEFT:   keyCode = KEY_LEFT; break;
+          case GLFW_KEY_RIGHT:  keyCode = KEY_RIGHT; break;
+          case GLFW_KEY_UP:     keyCode = KEY_UP; break;
+          case GLFW_KEY_DOWN:   keyCode = KEY_DOWN; break;
+          case GLFW_KEY_Q:      keyCode = KEY_Q; break;
+          case GLFW_KEY_W:      keyCode = KEY_W; break;
+          case GLFW_KEY_A:      keyCode = KEY_A; break;
+          case GLFW_KEY_S:      keyCode = KEY_S; break;
+          case GLFW_KEY_ESCAPE: if(action == GLFW_PRESS) { glfwSetWindowShouldClose(window, GL_TRUE); } keyCode = KEY_NONE; break;
         }
 
         if(keyCode != KEY_NONE) {
