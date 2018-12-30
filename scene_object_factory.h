@@ -16,7 +16,6 @@ private:
   typedef map<string, CreateSceneObjectFn> FactoryMap;
   FactoryMap m_FactoryMap;
   SceneObjectTextureManager *textureManager = nullptr;
-
 public:
 	~SceneObjectFactory();
 	static SceneObjectFactory *Get(SceneObjectTextureManager*);

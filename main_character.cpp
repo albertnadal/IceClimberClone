@@ -3,17 +3,16 @@
 
 MainCharacter::MainCharacter() {
         id_ = SceneObjectIdentificator::MAIN_CHARACTER;
-        this->position.x = 100;
-        this->position.y = 100;
-        prevPressedKeys = KEY_NONE;
+        position.x = 100;
+        position.y = 100;
 }
 
-uint16 MainCharacter::GetWidth() {
-        return this->currentSprite.width;
+uint16 MainCharacter::Width() {
+        return currentSprite.width;
 }
 
-uint16 MainCharacter::GetHeight() {
-        return this->currentSprite.height;
+uint16 MainCharacter::Height() {
+        return currentSprite.height;
 }
 
 void MainCharacter::PrintName(){
@@ -39,18 +38,17 @@ bool MainCharacter::Update(uchar pressedKeys) {
                 return false;
         }
 
-        if(std::chrono::system_clock::now() >= this->nextSpriteTime) {
+        if(std::chrono::system_clock::now() >= nextSpriteTime) {
                 // Load next sprite of the current animation
                 SpriteData spriteData = NextSpriteData();
-                this->nextSpriteTime = (std::chrono::system_clock::now() + std::chrono::milliseconds(spriteData.duration));
+                nextSpriteTime = (std::chrono::system_clock::now() + std::chrono::milliseconds(spriteData.duration));
 
-                //std::cout << "u1: " << spriteData.u1 << " v1: " << spriteData.v1 << " u2: " << spriteData.u2 << " v2: " << spriteData.v2 << std::endl;
-                this->currentSprite.width = spriteData.width;
-                this->currentSprite.height = spriteData.height;
-                this->currentSprite.u1 = spriteData.u1;
-                this->currentSprite.v1 = spriteData.v1;
-                this->currentSprite.u2 = spriteData.u2;
-                this->currentSprite.v2 = spriteData.v2;
+                currentSprite.width = spriteData.width;
+                currentSprite.height = spriteData.height;
+                currentSprite.u1 = spriteData.u1;
+                currentSprite.v1 = spriteData.v1;
+                currentSprite.u2 = spriteData.u2;
+                currentSprite.v2 = spriteData.v2;
 
                 firstSpriteOfCurrentAnimationIsLoaded = true;
                 return true;
@@ -67,7 +65,7 @@ void MainCharacter::ProcessPressedKeys(uchar pressedKeys)
                         LoadAnimationWithId(2);
                         headedToRight = true;
                 }
-                this->position.x+=3;
+                position.x+=3;
         }
 
         if((pressedKeys & KEY_LEFT) == KEY_LEFT) {
@@ -76,7 +74,7 @@ void MainCharacter::ProcessPressedKeys(uchar pressedKeys)
                         LoadAnimationWithId(3);
                         headedToRight = false;
                 }
-                this->position.x-=3;
+                position.x-=3;
         }
 
         prevPressedKeys = pressedKeys;
@@ -88,18 +86,13 @@ void MainCharacter::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
 }
 
 void MainCharacter::LoadAnimationWithId(uint16 animationId) {
-        ObjectSpriteSheetAnimation *currentAnimation = this->spriteSheet->GetAnimationWithId(animationId);
+        ObjectSpriteSheetAnimation *currentAnimation = spriteSheet->GetAnimationWithId(animationId);
         currentAnimationSprites = currentAnimation->GetSprites();
         animationHasOnlyOneSprite = (currentAnimationSprites.size() <= 1);
-        this->MoveToFirstSprite();
+        currentAnimationSpriteIterator = std::begin(currentAnimationSprites);
         animationLoaded = true;
         firstSpriteOfCurrentAnimationIsLoaded = false;
         nextSpriteTime = std::chrono::system_clock::now();
-}
-
-void MainCharacter::MoveToFirstSprite()
-{
-        currentAnimationSpriteIterator = std::begin(currentAnimationSprites);
 }
 
 SpriteData MainCharacter::NextSpriteData()

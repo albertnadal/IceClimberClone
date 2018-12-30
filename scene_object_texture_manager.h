@@ -19,7 +19,6 @@ class SceneObjectTextureManager
   SpriteSheetsMap objectSpriteSheetsMap;
   std::string textureFilename;
   uint32 textureId;
-
   void LoadObjectsDataFromFile(std::string filename);
   void Print();
 public:

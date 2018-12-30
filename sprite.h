@@ -13,7 +13,6 @@ public:
   uint16 width;
   uint16 height;
   float u1, v1, u2, v2;
-
   Sprite();
   ~Sprite();
   void loadTexture();
