@@ -24,7 +24,7 @@ public:
   virtual uint16 Width();
   virtual uint16 Height();
   virtual void PrintName();
-  virtual bool Update();
+  virtual bool Update(uchar);
 };
 
 typedef ISceneObject* (*CreateSceneObjectFn)(void);

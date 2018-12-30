@@ -16,7 +16,7 @@ void ISceneObject::PrintName(){
   std::cout << "PrintName not overloaded for object." << std::endl;
 }
 
-bool ISceneObject::Update() {
+bool ISceneObject::Update(uchar pressedKeys) {
   return false;
 }
 

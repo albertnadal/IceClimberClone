@@ -16,6 +16,10 @@ class MainCharacter: public ISceneObject
   bool firstSpriteOfCurrentAnimationIsLoaded = false;
   bool animationHasOnlyOneSprite = false;
   bool animationLoaded = false;
+  bool headedToRight = true;
+  uchar prevPressedKeys;
+  void ProcessPressedKeys(uchar);
+  void LoadAnimationWithId(uint16);
   void MoveToFirstSprite();
   SpriteData NextSpriteData();
 public:
@@ -25,7 +29,7 @@ public:
   uint16 GetWidth();
   uint16 GetHeight();
   void PrintName();
-  bool Update();
+  bool Update(uchar);
   static ISceneObject* Create();
 };
 

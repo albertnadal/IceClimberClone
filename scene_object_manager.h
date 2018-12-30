@@ -16,7 +16,7 @@ class SceneObjectManager
 public:
   SceneObjectManager(SceneObjectTextureManager*, uint16*, uint32*, float*, uint32*);
   ~SceneObjectManager();
-  void Update();
+  void Update(uchar);
 };
 
 #endif

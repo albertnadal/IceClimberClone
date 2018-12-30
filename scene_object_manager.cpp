@@ -25,10 +25,10 @@ SceneObjectManager::SceneObjectManager(SceneObjectTextureManager* _textureManage
   }
 }
 
-void SceneObjectManager::Update() {
+void SceneObjectManager::Update(uchar pressedKeys) {
   for(int i=0; i<objects.size(); i++) {
     ISceneObject *object = objects[i];
-    bool needRedraw = object->Update();
+    bool needRedraw = object->Update(pressedKeys);
 
     if(needRedraw) {
       vertices[i * 12] = object->position.x + object->Width();

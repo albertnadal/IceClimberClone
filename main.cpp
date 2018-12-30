@@ -96,7 +96,7 @@ int main()
         textureId = objectTextureManager->LoadObjectsTextures();
 
         // Initial scene update
-        sceneObjectManager->Update();
+        sceneObjectManager->Update(pressedKeys);
 
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
@@ -128,7 +128,7 @@ int main()
         {
                 process_input(window);
                 glfwPollEvents();
-                sceneObjectManager->Update();
+                sceneObjectManager->Update(pressedKeys);
                 render();
                 update_fps(window);
         }
