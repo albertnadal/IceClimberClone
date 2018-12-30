@@ -1,6 +1,8 @@
 #include "main_character.h"
 #include <chrono>
 
+enum MainCharacterAnimation: uint16 { STAND_BY_RIGHT = 0, STAND_BY_LEFT = 1, WALK_TO_RIGHT = 2, WALK_TO_LEFT = 3 };
+
 MainCharacter::MainCharacter() {
         id_ = SceneObjectIdentificator::MAIN_CHARACTER;
         position.x = 100;
@@ -21,13 +23,13 @@ void MainCharacter::PrintName(){
 
 bool MainCharacter::Update(uchar pressedKeys) {
 
-        if(pressedKeys != KEY_NONE) {
+        if(pressedKeys != KeyboardKeyCode::KEY_NONE) {
                 // character in action
                 ProcessPressedKeys(pressedKeys);
         } else if(pressedKeys != prevPressedKeys) {
                 // character goes quiet headed in the proper direction
-                LoadAnimationWithId(headedToRight ? 0 : 1);
-                prevPressedKeys = KEY_NONE;
+                LoadAnimationWithId(headedToRight ? MainCharacterAnimation::STAND_BY_RIGHT : MainCharacterAnimation::STAND_BY_LEFT);
+                prevPressedKeys = KeyboardKeyCode::KEY_NONE;
         }
 
         if(!animationLoaded) {
@@ -59,19 +61,19 @@ bool MainCharacter::Update(uchar pressedKeys) {
 
 void MainCharacter::ProcessPressedKeys(uchar pressedKeys)
 {
-        if((pressedKeys & KEY_RIGHT) == KEY_RIGHT) {
+        if((pressedKeys & KeyboardKeyCode::KEY_RIGHT) == KeyboardKeyCode::KEY_RIGHT) {
                 // If is not KEY_RIGHT repeated press then change character state
-                if((prevPressedKeys & KEY_RIGHT) != KEY_RIGHT) {
-                        LoadAnimationWithId(2);
+                if((prevPressedKeys & KeyboardKeyCode::KEY_RIGHT) != KeyboardKeyCode::KEY_RIGHT) {
+                        LoadAnimationWithId(MainCharacterAnimation::WALK_TO_RIGHT);
                         headedToRight = true;
                 }
                 position.x+=3;
         }
 
-        if((pressedKeys & KEY_LEFT) == KEY_LEFT) {
+        if((pressedKeys & KeyboardKeyCode::KEY_LEFT) == KeyboardKeyCode::KEY_LEFT) {
                 // If is not KEY_LEFT repeated press then change character state
-                if((prevPressedKeys & KEY_LEFT) != KEY_LEFT) {
-                        LoadAnimationWithId(3);
+                if((prevPressedKeys & KeyboardKeyCode::KEY_LEFT) != KeyboardKeyCode::KEY_LEFT) {
+                        LoadAnimationWithId(MainCharacterAnimation::WALK_TO_LEFT);
                         headedToRight = false;
                 }
                 position.x-=3;
@@ -82,7 +84,7 @@ void MainCharacter::ProcessPressedKeys(uchar pressedKeys)
 
 void MainCharacter::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
-        LoadAnimationWithId(0); // stand-by headed-to-right
+        LoadAnimationWithId(MainCharacterAnimation::STAND_BY_RIGHT);
 }
 
 void MainCharacter::LoadAnimationWithId(uint16 animationId) {
