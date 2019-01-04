@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <pthread.h>
+#include <thread>
 #include <bitset>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -24,12 +25,13 @@ const uint32 SCR_HEIGHT = 750;
 pthread_t gameLogicMainThreadId;
 
 const uint32 OBJECT_COUNT = 1;
-static uint16 vertices[OBJECT_COUNT * 12];
-static float uvs[OBJECT_COUNT * 12];
+//static uint16 vertices[OBJECT_COUNT * 12];
+//static float uvs[OBJECT_COUNT * 12];
 
 int nbFrames = 0;
 double lastTime = glfwGetTime();
 uchar pressedKeys = KEY_NONE;
+bool running = true;
 
 GLFWwindow* window;
 uint32 VBO, VAO, UBO, textureId;
@@ -63,8 +65,9 @@ void render()
 
 static void* gameLogicMainThreadFunc(void* v)
 {
-  while(1) {
+  while(running) {
     sceneObjectManager->Update(pressedKeys);
+    std::this_thread::sleep_for(std::chrono::milliseconds(16));
   }
   return 0;
 }
@@ -72,7 +75,9 @@ static void* gameLogicMainThreadFunc(void* v)
 int main()
 {
         objectTextureManager = new SceneObjectTextureManager();
-        sceneObjectManager = new SceneObjectManager(objectTextureManager, OBJECT_COUNT, vertices, &VBO, uvs, &UBO);
+        UInt16DoubleBuffer *verticesDoubleBuffer = new UInt16DoubleBuffer(OBJECT_COUNT * 12);
+        FloatDoubleBuffer *uvsDoubleBuffer = new FloatDoubleBuffer(OBJECT_COUNT * 12);
+        sceneObjectManager = new SceneObjectManager(objectTextureManager, verticesDoubleBuffer, uvsDoubleBuffer, OBJECT_COUNT);
 
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -115,11 +120,11 @@ int main()
         glBindVertexArray(VAO);
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, verticesDoubleBuffer->size(), verticesDoubleBuffer->consumer_buffer, GL_DYNAMIC_DRAW);
         glVertexAttribPointer(0, 2, GL_UNSIGNED_SHORT, GL_FALSE, 2 * sizeof(uint16), 0);
 
         glBindBuffer(GL_ARRAY_BUFFER, UBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(uvs), uvs, GL_DYNAMIC_DRAW /*GL_STATIC_DRAW*/);
+        glBufferData(GL_ARRAY_BUFFER, uvsDoubleBuffer->size(), uvsDoubleBuffer->consumer_buffer, GL_DYNAMIC_DRAW /*GL_STATIC_DRAW*/);
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, 2 * sizeof(float), 0);
 
         glEnableVertexAttribArray(0);
@@ -141,7 +146,17 @@ int main()
         {
                 process_input(window);
                 glfwPollEvents();
-                //sceneObjectManager->Update(pressedKeys);
+
+                glBindBuffer(GL_ARRAY_BUFFER, VBO);
+                verticesDoubleBuffer->lock();
+                glBufferSubData(GL_ARRAY_BUFFER, 0, verticesDoubleBuffer->size(), verticesDoubleBuffer->consumer_buffer);
+                verticesDoubleBuffer->unlock();
+
+                glBindBuffer(GL_ARRAY_BUFFER, UBO);
+                uvsDoubleBuffer->lock();
+                glBufferSubData(GL_ARRAY_BUFFER, 0, uvsDoubleBuffer->size(), uvsDoubleBuffer->consumer_buffer);
+                uvsDoubleBuffer->unlock();
+
                 render();
                 update_fps(window);
         }
@@ -152,7 +167,12 @@ int main()
         glDeleteTextures(1, &textureId);
 
         glfwTerminate();
+
+        running = false;
         delete objectTextureManager;
+        delete sceneObjectManager;
+        delete verticesDoubleBuffer;
+        delete uvsDoubleBuffer;
 
         return 0;
 }
