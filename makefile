@@ -1,44 +1,44 @@
 CXX=g++
 SDKROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk
-CFLAGS=-std=c++11 -stdlib=libc++ -Ofast -Wno-deprecated -I/usr/local/Cellar/glfw/3.2.1/include/ -I. -Ithird_party -isysroot $(SDKROOT)
+CFLAGS=-std=c++11 -stdlib=libc++ -Ofast -Wno-deprecated -I/usr/local/Cellar/glfw/3.2.1/include/ -I. -Isrc/ -Ithird_party -isysroot $(SDKROOT)
 LDFLAGS=-Wl,-search_paths_first -Wl,-headerpad_max_install_names -framework OpenGL -framework Cocoa -lGLFW -L/usr/local/Cellar/glfw/3.2.1/lib/
 EXEC=main
 
 all: glad.o vec2.o scene_object.o scene_object_factory.o main_character.o scene_object_manager.o sprite.o sprite_texture.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_texture_manager.o
 	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o main_character.o scene_object_manager.o sprite.o sprite_texture.o scene_object_texture_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o vec2.o glad.o -o $(EXEC)
 
-main_character.o: main_character.cpp
-	$(CXX) -c $(CFLAGS) main_character.cpp
+main_character.o: src/main_character.cpp
+	$(CXX) -c $(CFLAGS) src/main_character.cpp
 
-scene_object_factory.o: scene_object_factory.cpp
-	$(CXX) -c $(CFLAGS) scene_object_factory.cpp
+scene_object_factory.o: src/scene_object_factory.cpp
+	$(CXX) -c $(CFLAGS) src/scene_object_factory.cpp
 
-scene_object_texture_manager.o: scene_object_texture_manager.cpp
-	$(CXX) -c $(CFLAGS) scene_object_texture_manager.cpp
+scene_object_texture_manager.o: src/scene_object_texture_manager.cpp
+	$(CXX) -c $(CFLAGS) src/scene_object_texture_manager.cpp
 
-scene_object_manager.o: scene_object_manager.cpp
-	$(CXX) -c $(CFLAGS) scene_object_manager.cpp
+scene_object_manager.o: src/scene_object_manager.cpp
+	$(CXX) -c $(CFLAGS) src/scene_object_manager.cpp
 
-scene_object.o: scene_object.cpp
-	$(CXX) -c $(CFLAGS) scene_object.cpp
+scene_object.o: src/scene_object.cpp
+	$(CXX) -c $(CFLAGS) src/scene_object.cpp
 
-object_sprite_sheet.o: object_sprite_sheet.cpp
-	$(CXX) -c $(CFLAGS) object_sprite_sheet.cpp
+object_sprite_sheet.o: src/object_sprite_sheet.cpp
+	$(CXX) -c $(CFLAGS) src/object_sprite_sheet.cpp
 
-object_sprite_sheet_animation.o: object_sprite_sheet_animation.cpp
-	$(CXX) -c $(CFLAGS) object_sprite_sheet_animation.cpp
+object_sprite_sheet_animation.o: src/object_sprite_sheet_animation.cpp
+	$(CXX) -c $(CFLAGS) src/object_sprite_sheet_animation.cpp
 
-sprite_texture.o: sprite_texture.cpp
-	$(CXX) -c $(CFLAGS) sprite_texture.cpp
+sprite_texture.o: src/sprite_texture.cpp
+	$(CXX) -c $(CFLAGS) src/sprite_texture.cpp
 
-sprite.o: sprite.cpp
-	$(CXX) -c $(CFLAGS) sprite.cpp
+sprite.o: src/sprite.cpp
+	$(CXX) -c $(CFLAGS) src/sprite.cpp
 
-vec2.o: vec2.cpp
-	$(CXX) -c $(CFLAGS) vec2.cpp
+vec2.o: src/vec2.cpp
+	$(CXX) -c $(CFLAGS) src/vec2.cpp
 
 glad.o: third_party/glad/glad.c
 	$(CXX) -c $(CFLAGS) third_party/glad/glad.c
 
 clean:
-	rm $(EXEC) *.o *.gch
+	rm $(EXEC) *.o *.gch src/*.o src/*.gch
