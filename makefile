@@ -4,7 +4,7 @@ CFLAGS=-std=c++11 -stdlib=libc++ -Ofast -Wno-deprecated -I/usr/local/Cellar/glfw
 LDFLAGS=-Wl,-search_paths_first -Wl,-headerpad_max_install_names -framework OpenGL -framework Cocoa -lGLFW -L/usr/local/Cellar/glfw/3.2.1/lib/
 EXEC=main
 
-all: glad.o vec2.o scene_object.o scene_object_factory.o main_character.o scene_object_manager.o sprite.o sprite_texture.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_texture_manager.o
+all: glad.o uint32_double_buffer.o vec2.o scene_object.o scene_object_factory.o main_character.o scene_object_manager.o sprite.o sprite_texture.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_texture_manager.o
 	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o main_character.o scene_object_manager.o sprite.o sprite_texture.o scene_object_texture_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o vec2.o glad.o -o $(EXEC)
 
 main_character.o: src/main_character.cpp
@@ -36,6 +36,9 @@ sprite.o: src/sprite.cpp
 
 vec2.o: src/vec2.cpp
 	$(CXX) -c $(CFLAGS) src/vec2.cpp
+
+uint32_double_buffer.o: src/uint32_double_buffer.cpp
+	$(CXX) -c $(CFLAGS) src/uint32_double_buffer.cpp
 
 glad.o: third_party/glad/glad.c
 	$(CXX) -c $(CFLAGS) third_party/glad/glad.c

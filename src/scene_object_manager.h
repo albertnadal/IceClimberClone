@@ -13,8 +13,9 @@ class SceneObjectManager
   float *uvs;
   uint32 *vbo;
   uint32 *ubo;
+  uint32 maxObjects;
 public:
-  SceneObjectManager(SceneObjectTextureManager*, uint16*, uint32*, float*, uint32*);
+  SceneObjectManager(SceneObjectTextureManager*, uint32, uint16*, uint32*, float*, uint32*);
   ~SceneObjectManager();
   void Update(uchar);
 };

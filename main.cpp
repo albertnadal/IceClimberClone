@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <pthread.h>
 #include <bitset>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -19,6 +20,8 @@ void update_fps(GLFWwindow* window);
 
 const uint32 SCR_WIDTH = 1280;
 const uint32 SCR_HEIGHT = 750;
+
+pthread_t gameLogicMainThreadId;
 
 const uint32 OBJECT_COUNT = 1;
 static uint16 vertices[OBJECT_COUNT * 12];
@@ -58,10 +61,18 @@ void render()
         //glfwPollEvents();
 }
 
+static void* gameLogicMainThreadFunc(void* v)
+{
+  while(1) {
+    sceneObjectManager->Update(pressedKeys);
+  }
+  return 0;
+}
+
 int main()
 {
         objectTextureManager = new SceneObjectTextureManager();
-        sceneObjectManager = new SceneObjectManager(objectTextureManager, vertices, &VBO, uvs, &UBO);
+        sceneObjectManager = new SceneObjectManager(objectTextureManager, OBJECT_COUNT, vertices, &VBO, uvs, &UBO);
 
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -124,11 +135,13 @@ int main()
 
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+        pthread_create(&gameLogicMainThreadId, NULL, gameLogicMainThreadFunc, 0);
+
         while (!glfwWindowShouldClose(window))
         {
                 process_input(window);
                 glfwPollEvents();
-                sceneObjectManager->Update(pressedKeys);
+                //sceneObjectManager->Update(pressedKeys);
                 render();
                 update_fps(window);
         }

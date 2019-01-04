@@ -3,16 +3,15 @@
 #include "scene_object.h"
 #include "main_character.h"
 
-const uint32 OBJECT_COUNT = 1;
-
-SceneObjectManager::SceneObjectManager(SceneObjectTextureManager* _textureManager, uint16 *_vertices,  uint32 *_vbo, float *_uvs, uint32 *_ubo) {
+SceneObjectManager::SceneObjectManager(SceneObjectTextureManager* _textureManager, uint32 _maxObjects, uint16 *_vertices,  uint32 *_vbo, float *_uvs, uint32 *_ubo) {
         vertices = _vertices;
         uvs = _uvs;
         vbo = _vbo;
         ubo = _ubo;
         textureManager = _textureManager;
+        maxObjects = _maxObjects;
 
-        for(int i=0; i<OBJECT_COUNT; i++) {
+        for(int i=0; i<maxObjects; i++) {
                 ISceneObject *object = SceneObjectFactory::Get(textureManager)->CreateSceneObject("MainCharacter");
                 if(object) {
                         object->PrintName();
@@ -82,11 +81,13 @@ void SceneObjectManager::Update(uchar pressedKeys) {
                 //cout << "X: " << object->position.x << " Y: " << object->position.y << " | UVS u2:" << uvs[i * 12] << " v2:" << uvs[i * 12 + 1] << " u2:" << uvs[i * 12 + 2] << " v1:" << uvs[i * 12 + 3] << " u1:" << uvs[i * 12 + 4] << " v2:" << uvs[i * 12 + 5] << " u2:" << uvs[i * 12 + 6] << " v1:" << uvs[i * 12 + 7] << " u1:" << uvs[i * 12 + 8] << " v1:" << uvs[i * 12 + 9] << " u1:" << uvs[i * 12 + 10] << " v2:" << uvs[i * 12 + 11] << endl;
         }
 
-        glBindBuffer(GL_ARRAY_BUFFER, *vbo);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, OBJECT_COUNT * (12 * sizeof(uint16)), vertices);
-
-        glBindBuffer(GL_ARRAY_BUFFER, *ubo);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, OBJECT_COUNT * (12 * sizeof(float)), uvs);
+cout << "OK0 ";
+//        glBindBuffer(GL_ARRAY_BUFFER, *vbo);
+//        glBufferSubData(GL_ARRAY_BUFFER, 0, OBJECT_COUNT * (12 * sizeof(uint16)), vertices);
+//cout << "OK1 " << endl;
+//        glBindBuffer(GL_ARRAY_BUFFER, *ubo);
+//        glBufferSubData(GL_ARRAY_BUFFER, 0, OBJECT_COUNT * (12 * sizeof(float)), uvs);
+//cout << "OK2 " << endl;
 }
 
 SceneObjectManager::~SceneObjectManager() {
