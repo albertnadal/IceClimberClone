@@ -45,8 +45,8 @@ uint16_double_buffer.o: src/uint16_double_buffer.cpp
 float_double_buffer.o: src/float_double_buffer.cpp
 	$(CXX) -c $(CFLAGS) src/float_double_buffer.cpp
 
-glad.o: third_party/glad/glad.c
-	$(CXX) -c $(CFLAGS) third_party/glad/glad.c
+glad.o: third_party/glad/glad.cpp
+	$(CXX) -c $(CFLAGS) third_party/glad/glad.cpp
 
 tinyfsm.o: third_party/tinyfsm/tinyfsm.hpp
 	$(CXX) -c -x c++ $(CFLAGS) third_party/tinyfsm/tinyfsm.hpp
