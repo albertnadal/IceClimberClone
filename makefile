@@ -3,9 +3,11 @@ SDKROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Dev
 CFLAGS=-std=c++11 -stdlib=libc++ -Ofast -Wno-deprecated -I/usr/local/Cellar/glfw/3.2.1/include/ -I. -Isrc/ -Ithird_party -isysroot $(SDKROOT)
 LDFLAGS=-Wl,-search_paths_first -Wl,-headerpad_max_install_names -framework OpenGL -framework Cocoa -lGLFW -L/usr/local/Cellar/glfw/3.2.1/lib/
 EXEC=main
+SIZE=size -B -d
 
-all: glad.o float_double_buffer.o uint16_double_buffer.o vec2.o scene_object.o scene_object_factory.o main_character.o scene_object_manager.o sprite.o sprite_texture.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_texture_manager.o
-	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o main_character.o scene_object_manager.o sprite.o sprite_texture.o scene_object_texture_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o vec2.o float_double_buffer.o uint16_double_buffer.o glad.o -o $(EXEC)
+all: tinyfsm.o glad.o float_double_buffer.o uint16_double_buffer.o vec2.o scene_object.o scene_object_factory.o main_character.o scene_object_manager.o sprite.o sprite_texture.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_texture_manager.o
+	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o main_character.o scene_object_manager.o sprite.o sprite_texture.o scene_object_texture_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o vec2.o float_double_buffer.o uint16_double_buffer.o glad.o tinyfsm.o -o $(EXEC)
+	$(SIZE) $(EXEC)
 
 main_character.o: src/main_character.cpp
 	$(CXX) -c $(CFLAGS) src/main_character.cpp
@@ -46,5 +48,8 @@ float_double_buffer.o: src/float_double_buffer.cpp
 glad.o: third_party/glad/glad.c
 	$(CXX) -c $(CFLAGS) third_party/glad/glad.c
 
+tinyfsm.o: third_party/tinyfsm/tinyfsm.hpp
+	$(CXX) -c -x c++ $(CFLAGS) third_party/tinyfsm/tinyfsm.hpp
+
 clean:
-	rm $(EXEC) *.o *.gch src/*.o src/*.gch
+	rm -f $(EXEC) *.o *.gch src/*.o src/*.gch
