@@ -3,16 +3,20 @@
 
 #include <iostream>
 #include <vector>
-#include <tinyfsm/tinyfsm.hpp>
 #include <scene_object.h>
-#include <main_character_state_machine.h>
+#include <state_machine.h>
 #include <vec2.h>
 #include <sprite.h>
 
 using namespace std;
 
+// structure to hold event data passed into state machine
+struct MotorData : public EventData
+{
+    int speed;
+};
 
-class MainCharacter: public ISceneObject
+class MainCharacter: public ISceneObject, StateMachine
 {
   std::vector<SpriteData>::iterator currentAnimationSpriteIterator;
   std::vector<SpriteData> currentAnimationSprites;
@@ -24,7 +28,6 @@ class MainCharacter: public ISceneObject
   void ProcessPressedKeys(uchar);
   void LoadAnimationWithId(uint16);
   SpriteData NextSpriteData();
-  MainCharacterStateMachine stateMachine;
 public:
   MainCharacter();
   ~MainCharacter();
@@ -34,6 +37,34 @@ public:
   void PrintName();
   bool Update(uchar);
   static ISceneObject* Create();
+
+  void Halt();
+  void SetSpeed(MotorData*);
+
+private:
+  // state machine state functions
+  void ST_Idle(EventData*);
+  void ST_Stop(EventData*);
+  void ST_Start(MotorData*);
+  void ST_ChangeSpeed(MotorData*);
+
+  // state map to define state function order
+  BEGIN_STATE_MAP
+      STATE_MAP_ENTRY(&MainCharacter::ST_Idle)
+      STATE_MAP_ENTRY(&MainCharacter::ST_Stop)
+      STATE_MAP_ENTRY(&MainCharacter::ST_Start)
+      STATE_MAP_ENTRY(&MainCharacter::ST_ChangeSpeed)
+  END_STATE_MAP
+
+  // state enumeration order must match the order of state
+  // method entries in the state map
+  enum E_States {
+      ST_IDLE = 0,
+      ST_STOP,
+      ST_START,
+      ST_CHANGE_SPEED,
+      ST_MAX_STATES
+  };
 };
 
 #endif

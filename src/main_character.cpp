@@ -6,8 +6,9 @@ enum MainCharacterAnimation: uint16 { STAND_BY_RIGHT = 0, STAND_BY_LEFT = 1, WAL
 class MainCharacterIdleState;
 class MainCharacterRunToRightState;
 
-MainCharacter::MainCharacter() {
-  cout << " INSTANCIA NOVA DE MainCharacter CREADA" << endl;
+MainCharacter::MainCharacter():
+      StateMachine(E_States::ST_MAX_STATES) {
+        cout << " INSTANCIA NOVA DE MainCharacter CREADA" << endl;
         id_ = SceneObjectIdentificator::MAIN_CHARACTER;
         //stateMachine.transit<MainCharacterIdleState>();
         position.x = 100;
@@ -118,4 +119,58 @@ ISceneObject* MainCharacter::Create() {
 
 MainCharacter::~MainCharacter() {
 
+}
+
+// halt motor external event
+void MainCharacter::Halt(void)
+{
+    // given the Halt event, transition to a new state based upon
+    // the current state of the state machine
+    BEGIN_TRANSITION_MAP                      // - Current State -
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)  // ST_Idle
+        TRANSITION_MAP_ENTRY (CANNOT_HAPPEN)  // ST_Stop
+        TRANSITION_MAP_ENTRY (ST_STOP)        // ST_Start
+        TRANSITION_MAP_ENTRY (ST_STOP)        // ST_ChangeSpeed
+    END_TRANSITION_MAP(NULL)
+}
+
+// set motor speed external event
+void MainCharacter::SetSpeed(MotorData* pData)
+{
+    BEGIN_TRANSITION_MAP                      // - Current State -
+        TRANSITION_MAP_ENTRY (ST_START)       // ST_Idle
+        TRANSITION_MAP_ENTRY (CANNOT_HAPPEN)  // ST_Stop
+        TRANSITION_MAP_ENTRY (ST_CHANGE_SPEED)// ST_Start
+        TRANSITION_MAP_ENTRY (ST_CHANGE_SPEED)// ST_ChangeSpeed
+    END_TRANSITION_MAP(pData)
+}
+
+// state machine sits here when motor is not running
+void MainCharacter::ST_Idle(EventData* pData)
+{
+	cout << "Motor::ST_Idle" << endl;
+}
+
+// stop the motor
+void MainCharacter::ST_Stop(EventData* pData)
+{
+	cout << "Motor::ST_Stop" << endl;
+
+    // perform the stop motor processing here
+    // transition to ST_Idle via an internal event
+    InternalEvent(ST_IDLE);
+}
+
+// start the motor going
+void MainCharacter::ST_Start(MotorData* pData)
+{
+	cout << "Motor::ST_Start" << endl;
+    // set initial motor speed processing here
+}
+
+// changes the motor speed once the motor is moving
+void MainCharacter::ST_ChangeSpeed(MotorData* pData)
+{
+	cout << "Motor::ST_ChangeSpeed" << endl;
+    // perform the change motor speed to pData->speed here
 }
