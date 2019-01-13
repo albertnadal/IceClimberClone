@@ -1,7 +1,14 @@
 #include "scene_object.h"
 
+ISceneObject::ISceneObject() {
+  id = SceneObjectIdentificator::NONE;
+}
+
+ISceneObject::ISceneObject(SceneObjectIdentificator _id): id(_id) {
+}
+
 SceneObjectIdentificator ISceneObject::Id() {
-  return id_;
+  return id;
 }
 
 uint16 ISceneObject::Width() {

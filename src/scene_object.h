@@ -14,9 +14,11 @@ class ISceneObject
 {
 protected:
   ObjectSpriteSheet *spriteSheet = nullptr;
-  SceneObjectIdentificator id_ = SceneObjectIdentificator::NONE;
+  SceneObjectIdentificator id;
   std::chrono::system_clock::time_point nextSpriteTime;
 public:
+  ISceneObject();
+  ISceneObject(SceneObjectIdentificator);
   Sprite currentSprite;
   vec2 position;
   virtual SceneObjectIdentificator Id();

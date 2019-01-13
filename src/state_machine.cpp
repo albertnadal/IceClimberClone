@@ -10,7 +10,6 @@ StateMachine::StateMachine() :
     _eventGenerated(false),
     _pEventData(NULL)
 {
-  cout << "StateMachine() constructor" << endl;
 }
 
 StateMachine::StateMachine(unsigned char _maxStates) :

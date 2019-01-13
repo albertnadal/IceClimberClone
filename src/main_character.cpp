@@ -7,9 +7,9 @@ class MainCharacterIdleState;
 class MainCharacterRunToRightState;
 
 MainCharacter::MainCharacter():
-      StateMachine(E_States::ST_MAX_STATES) {
+  StateMachine(E_States::ST_MAX_STATES),
+  ISceneObject(SceneObjectIdentificator::MAIN_CHARACTER) {
         cout << " INSTANCIA NOVA DE MainCharacter CREADA" << endl;
-        id_ = SceneObjectIdentificator::MAIN_CHARACTER;
         //stateMachine.transit<MainCharacterIdleState>();
         position.x = 100;
         position.y = 100;
