@@ -3,11 +3,14 @@
 
 #include <iostream>
 #include <vector>
+#include <tinyfsm/tinyfsm.hpp>
 #include <scene_object.h>
+#include <main_character_state_machine.h>
 #include <vec2.h>
 #include <sprite.h>
 
 using namespace std;
+
 
 class MainCharacter: public ISceneObject
 {
@@ -21,6 +24,7 @@ class MainCharacter: public ISceneObject
   void ProcessPressedKeys(uchar);
   void LoadAnimationWithId(uint16);
   SpriteData NextSpriteData();
+  MainCharacterStateMachine stateMachine;
 public:
   MainCharacter();
   ~MainCharacter();

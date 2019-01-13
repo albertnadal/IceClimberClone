@@ -3,8 +3,13 @@
 
 enum MainCharacterAnimation: uint16 { STAND_BY_RIGHT = 0, STAND_BY_LEFT = 1, WALK_TO_RIGHT = 2, WALK_TO_LEFT = 3 };
 
+class MainCharacterIdleState;
+class MainCharacterRunToRightState;
+
 MainCharacter::MainCharacter() {
+  cout << " INSTANCIA NOVA DE MainCharacter CREADA" << endl;
         id_ = SceneObjectIdentificator::MAIN_CHARACTER;
+        //stateMachine.transit<MainCharacterIdleState>();
         position.x = 100;
         position.y = 100;
 }
@@ -64,6 +69,8 @@ void MainCharacter::ProcessPressedKeys(uchar pressedKeys)
         if((pressedKeys & KeyboardKeyCode::KEY_RIGHT) == KeyboardKeyCode::KEY_RIGHT) {
                 // If is not KEY_RIGHT repeated press then change character state
                 if((prevPressedKeys & KeyboardKeyCode::KEY_RIGHT) != KeyboardKeyCode::KEY_RIGHT) {
+                        //transit<MainCharacterRunToRightState>();
+                        //stateMachine.dispatch(KeyRightPressedEvent());
                         LoadAnimationWithId(MainCharacterAnimation::WALK_TO_RIGHT);
                         headedToRight = true;
                 }
