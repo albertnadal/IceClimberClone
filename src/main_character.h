@@ -43,26 +43,32 @@ public:
 
 private:
   // state machine state functions
-  void STATE_Idle(EventData*);
-  void STATE_Stop(EventData*);
-  void STATE_Start(MotorData*);
-  void STATE_ChangeSpeed(MotorData*);
+  void STATE_Idle_Right(EventData*);
+  void STATE_Idle_Left(EventData*);
+  void STATE_Run_Right(MotorData*);
+  void STATE_Run_Left(MotorData*);
+  void STATE_Fast_Run_Right(MotorData*);
+  void STATE_Fast_Run_Left(MotorData*);
 
   // state map to define state function order
   BEGIN_STATE_MAP
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Idle)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Stop)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Start)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_ChangeSpeed)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Idle_Right)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Idle_Left)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Run_Right)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Run_Left)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Fast_Run_Right)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Fast_Run_Left)
   END_STATE_MAP
 
   // state enumeration order must match the order of state
   // method entries in the state map
   enum MainCharacterStateIdentificator {
-      STATE_IDLE = 0, // Initial state
-      STATE_STOP,
-      STATE_START,
-      STATE_CHANGE_SPEED,
+      STATE_IDLE_RIGHT = 0, // Initial state
+      STATE_IDLE_LEFT,
+      STATE_RUN_RIGHT,
+      STATE_RUN_LEFT,
+      STATE_FAST_RUN_RIGHT,
+      STATE_FAST_RUN_LEFT,
       MAIN_CHARACTER_MAX_STATES
   };
 };

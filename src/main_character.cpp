@@ -124,6 +124,7 @@ MainCharacter::~MainCharacter() {
 // halt motor external event
 void MainCharacter::Halt(void)
 {
+/*
     // given the Halt event, transition to a new state based upon
     // the current state of the state machine
     BEGIN_TRANSITION_MAP                      // - Current State -
@@ -132,45 +133,63 @@ void MainCharacter::Halt(void)
         TRANSITION_MAP_ENTRY (STATE_STOP)     // ST_Start
         TRANSITION_MAP_ENTRY (STATE_STOP)     // ST_ChangeSpeed
     END_TRANSITION_MAP(NULL)
+*/
 }
 
 // set motor speed external event
 void MainCharacter::SetSpeed(MotorData* pData)
 {
+/*
     BEGIN_TRANSITION_MAP                          // - Current State -
         TRANSITION_MAP_ENTRY (STATE_START)        // ST_Idle
         TRANSITION_MAP_ENTRY (CANNOT_HAPPEN)      // ST_Stop
         TRANSITION_MAP_ENTRY (STATE_CHANGE_SPEED) // ST_Start
         TRANSITION_MAP_ENTRY (STATE_CHANGE_SPEED) // ST_ChangeSpeed
     END_TRANSITION_MAP(pData)
+*/
 }
 
 // state machine sits here when motor is not running
-void MainCharacter::STATE_Idle(EventData* pData)
+void MainCharacter::STATE_Idle_Right(EventData* pData)
 {
-	cout << "Motor::STATE_Idle" << endl;
+	cout << "Motor::STATE_Idle_Right" << endl;
 }
 
 // stop the motor
-void MainCharacter::STATE_Stop(EventData* pData)
+void MainCharacter::STATE_Idle_Left(EventData* pData)
 {
-	cout << "Motor::STATE_Stop" << endl;
-
+	cout << "Motor::STATE_Idle_Left" << endl;
+/*
     // perform the stop motor processing here
     // transition to ST_Idle via an internal event
     InternalEvent(STATE_IDLE);
+*/
 }
 
 // start the motor going
-void MainCharacter::STATE_Start(MotorData* pData)
+void MainCharacter::STATE_Run_Right(MotorData* pData)
 {
-	cout << "Motor::STATE_Start" << endl;
+	cout << "Motor::STATE_Run_Right" << endl;
     // set initial motor speed processing here
 }
 
 // changes the motor speed once the motor is moving
-void MainCharacter::STATE_ChangeSpeed(MotorData* pData)
+void MainCharacter::STATE_Run_Left(MotorData* pData)
 {
-	cout << "Motor::STATE_ChangeSpeed" << endl;
+	cout << "Motor::STATE_Run_Left" << endl;
+    // perform the change motor speed to pData->speed here
+}
+
+// start the motor going
+void MainCharacter::STATE_Fast_Run_Right(MotorData* pData)
+{
+	cout << "Motor::STATE_Fast_Run_Right" << endl;
+    // set initial motor speed processing here
+}
+
+// changes the motor speed once the motor is moving
+void MainCharacter::STATE_Fast_Run_Left(MotorData* pData)
+{
+	cout << "Motor::STATE_Fast_Run_Left" << endl;
     // perform the change motor speed to pData->speed here
 }
