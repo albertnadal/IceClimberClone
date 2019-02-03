@@ -38,17 +38,19 @@ public:
   bool Update(uchar);
   static ISceneObject* Create();
 
-  void Halt();
-  void SetSpeed(MotorData*);
+  void RightKeyPressed();
+  void LeftKeyPressed();
 
 private:
   // state machine state functions
   void STATE_Idle_Right(EventData*);
-  void STATE_Idle_Left(EventData*);
-  void STATE_Run_Right(MotorData*);
-  void STATE_Run_Left(MotorData*);
-  void STATE_Fast_Run_Right(MotorData*);
-  void STATE_Fast_Run_Left(MotorData*);
+  void STATE_Idle_Left();
+  void STATE_Run_Right(EventData*);
+  void STATE_Run_Left();
+  void STATE_Fast_Run_Right();
+  void STATE_Fast_Run_Left();
+  void STATE_Short_Break_Right();
+  void STATE_Short_Break_Left();
 
   // state map to define state function order
   BEGIN_STATE_MAP
@@ -58,6 +60,8 @@ private:
       STATE_MAP_ENTRY(&MainCharacter::STATE_Run_Left)
       STATE_MAP_ENTRY(&MainCharacter::STATE_Fast_Run_Right)
       STATE_MAP_ENTRY(&MainCharacter::STATE_Fast_Run_Left)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Short_Break_Right)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Short_Break_Left)
   END_STATE_MAP
 
   // state enumeration order must match the order of state
@@ -69,6 +73,8 @@ private:
       STATE_RUN_LEFT,
       STATE_FAST_RUN_RIGHT,
       STATE_FAST_RUN_LEFT,
+      STATE_SHORT_BREAK_RIGHT,
+      STATE_SHORT_BREAK_LEFT,
       MAIN_CHARACTER_MAX_STATES
   };
 };

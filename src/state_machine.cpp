@@ -68,8 +68,6 @@ void StateMachine::StateEngine(void)
 
         assert(currentState < maxStates);
 
-		// get state map
-/*
         const StateStruct* pStateMap = GetStateMap();
 
         // execute the state passing in event data, if any
@@ -80,6 +78,5 @@ void StateMachine::StateEngine(void)
             delete pDataTemp;
             pDataTemp = NULL;
         }
-*/
     }
 }

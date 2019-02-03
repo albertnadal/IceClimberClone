@@ -10,7 +10,6 @@ MainCharacter::MainCharacter():
   StateMachine(MainCharacterStateIdentificator::MAIN_CHARACTER_MAX_STATES),
   ISceneObject(SceneObjectIdentificator::MAIN_CHARACTER) {
         cout << " INSTANCIA NOVA DE MainCharacter CREADA" << endl;
-        //stateMachine.transit<MainCharacterIdleState>();
         position.x = 100;
         position.y = 100;
 }
@@ -23,7 +22,7 @@ uint16 MainCharacter::Height() {
         return currentSprite.height;
 }
 
-void MainCharacter::PrintName(){
+void MainCharacter::PrintName() {
         std::cout << "Main character." << std::endl;
 }
 
@@ -74,6 +73,7 @@ void MainCharacter::ProcessPressedKeys(uchar pressedKeys)
                         //stateMachine.dispatch(KeyRightPressedEvent());
                         LoadAnimationWithId(MainCharacterAnimation::WALK_TO_RIGHT);
                         headedToRight = true;
+                        RightKeyPressed();
                 }
                 position.x+=3;
         }
@@ -83,6 +83,7 @@ void MainCharacter::ProcessPressedKeys(uchar pressedKeys)
                 if((prevPressedKeys & KeyboardKeyCode::KEY_LEFT) != KeyboardKeyCode::KEY_LEFT) {
                         LoadAnimationWithId(MainCharacterAnimation::WALK_TO_LEFT);
                         headedToRight = false;
+                        LeftKeyPressed();
                 }
                 position.x-=3;
         }
@@ -121,75 +122,72 @@ MainCharacter::~MainCharacter() {
 
 }
 
-// halt motor external event
-void MainCharacter::Halt(void)
+void MainCharacter::RightKeyPressed()
 {
-/*
-    // given the Halt event, transition to a new state based upon
-    // the current state of the state machine
-    BEGIN_TRANSITION_MAP                      // - Current State -
-        TRANSITION_MAP_ENTRY (EVENT_IGNORED)  // ST_Idle
-        TRANSITION_MAP_ENTRY (CANNOT_HAPPEN)  // ST_Stop
-        TRANSITION_MAP_ENTRY (STATE_STOP)     // ST_Start
-        TRANSITION_MAP_ENTRY (STATE_STOP)     // ST_ChangeSpeed
-    END_TRANSITION_MAP(NULL)
-*/
+  cout << "MainCharacter::RightKeyPressed()" << endl;
+  BEGIN_TRANSITION_MAP                          // - Current State -
+      TRANSITION_MAP_ENTRY (STATE_RUN_RIGHT)    // STATE_Idle_Right
+      TRANSITION_MAP_ENTRY (STATE_RUN_RIGHT)    // STATE_Idle_Left
+      TRANSITION_MAP_ENTRY (EVENT_IGNORED)      // STATE_Run_Right
+      TRANSITION_MAP_ENTRY (EVENT_IGNORED)      // STATE_Run_Left
+      TRANSITION_MAP_ENTRY (EVENT_IGNORED)      // STATE_Fast_Run_Right
+      TRANSITION_MAP_ENTRY (EVENT_IGNORED)      // STATE_Fast_Run_Left
+      TRANSITION_MAP_ENTRY (EVENT_IGNORED)      // STATE_Short_Break_Right
+      TRANSITION_MAP_ENTRY (EVENT_IGNORED)      // STATE_Short_Break_Left
+  END_TRANSITION_MAP(NULL)
 }
 
-// set motor speed external event
-void MainCharacter::SetSpeed(MotorData* pData)
+void MainCharacter::LeftKeyPressed()
 {
-/*
-    BEGIN_TRANSITION_MAP                          // - Current State -
-        TRANSITION_MAP_ENTRY (STATE_START)        // ST_Idle
-        TRANSITION_MAP_ENTRY (CANNOT_HAPPEN)      // ST_Stop
-        TRANSITION_MAP_ENTRY (STATE_CHANGE_SPEED) // ST_Start
-        TRANSITION_MAP_ENTRY (STATE_CHANGE_SPEED) // ST_ChangeSpeed
-    END_TRANSITION_MAP(pData)
-*/
+  cout << "MainCharacter::LeftKeyPressed()" << endl;
+  BEGIN_TRANSITION_MAP                          // - Current State -
+      TRANSITION_MAP_ENTRY (STATE_RUN_LEFT)     // STATE_Idle_Right
+      TRANSITION_MAP_ENTRY (STATE_RUN_LEFT)     // STATE_Idle_Left
+      TRANSITION_MAP_ENTRY (EVENT_IGNORED)      // STATE_Run_Right
+      TRANSITION_MAP_ENTRY (EVENT_IGNORED)      // STATE_Run_Left
+      TRANSITION_MAP_ENTRY (EVENT_IGNORED)      // STATE_Fast_Run_Right
+      TRANSITION_MAP_ENTRY (EVENT_IGNORED)      // STATE_Fast_Run_Left
+      TRANSITION_MAP_ENTRY (EVENT_IGNORED)      // STATE_Short_Break_Right
+      TRANSITION_MAP_ENTRY (EVENT_IGNORED)      // STATE_Short_Break_Left
+  END_TRANSITION_MAP(NULL)
 }
 
-// state machine sits here when motor is not running
 void MainCharacter::STATE_Idle_Right(EventData* pData)
 {
-	cout << "Motor::STATE_Idle_Right" << endl;
+	cout << "MainCharacter::STATE_Idle_Right" << endl;
 }
 
-// stop the motor
-void MainCharacter::STATE_Idle_Left(EventData* pData)
+void MainCharacter::STATE_Idle_Left()
 {
-	cout << "Motor::STATE_Idle_Left" << endl;
-/*
-    // perform the stop motor processing here
-    // transition to ST_Idle via an internal event
-    InternalEvent(STATE_IDLE);
-*/
+	cout << "MainCharacter::STATE_Idle_Left" << endl;
 }
 
-// start the motor going
-void MainCharacter::STATE_Run_Right(MotorData* pData)
+void MainCharacter::STATE_Run_Right(EventData* pData)
 {
-	cout << "Motor::STATE_Run_Right" << endl;
-    // set initial motor speed processing here
+	cout << "MainCharacter::STATE_Run_Right" << endl;
 }
 
-// changes the motor speed once the motor is moving
-void MainCharacter::STATE_Run_Left(MotorData* pData)
+void MainCharacter::STATE_Run_Left()
 {
-	cout << "Motor::STATE_Run_Left" << endl;
-    // perform the change motor speed to pData->speed here
+	cout << "MainCharacter::STATE_Run_Left" << endl;
 }
 
-// start the motor going
-void MainCharacter::STATE_Fast_Run_Right(MotorData* pData)
+void MainCharacter::STATE_Fast_Run_Right()
 {
-	cout << "Motor::STATE_Fast_Run_Right" << endl;
-    // set initial motor speed processing here
+	cout << "MainCharacter::STATE_Fast_Run_Right" << endl;
 }
 
-// changes the motor speed once the motor is moving
-void MainCharacter::STATE_Fast_Run_Left(MotorData* pData)
+void MainCharacter::STATE_Fast_Run_Left()
 {
-	cout << "Motor::STATE_Fast_Run_Left" << endl;
-    // perform the change motor speed to pData->speed here
+	cout << "MainCharacter::STATE_Fast_Run_Left" << endl;
+}
+
+void MainCharacter::STATE_Short_Break_Right()
+{
+	cout << "MainCharacter::STATE_Short_Break_Right" << endl;
+}
+
+void MainCharacter::STATE_Short_Break_Left()
+{
+	cout << "MainCharacter::STATE_Short_Break_Left" << endl;
 }
