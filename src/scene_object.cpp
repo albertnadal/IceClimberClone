@@ -4,7 +4,10 @@ ISceneObject::ISceneObject() {
   id = SceneObjectIdentificator::NONE;
 }
 
-ISceneObject::ISceneObject(SceneObjectIdentificator _id): id(_id) {
+ISceneObject::ISceneObject(SceneObjectIdentificator _id, unsigned char _maxStates) :
+  StateMachine(_maxStates),
+  id(_id) {
+
 }
 
 SceneObjectIdentificator ISceneObject::Id() {

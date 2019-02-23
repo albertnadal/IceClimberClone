@@ -7,6 +7,7 @@
 #include <state_machine.h>
 #include <vec2.h>
 #include <sprite.h>
+#include <position.h>
 
 using namespace std;
 
@@ -16,7 +17,7 @@ struct MotorData : public EventData
     int speed;
 };
 
-class MainCharacter: public ISceneObject, StateMachine
+class MainCharacter: public ISceneObject
 {
   std::vector<SpriteData>::iterator currentAnimationSpriteIterator;
   std::vector<SpriteData> currentAnimationSprites;
@@ -30,6 +31,7 @@ class MainCharacter: public ISceneObject, StateMachine
   void LoadAnimationWithId(uint16);
   SpriteData NextSpriteData();
 public:
+    Position *test;
   MainCharacter();
   ~MainCharacter();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
@@ -46,16 +48,16 @@ public:
 
 private:
   // state machine state functions
-  void STATE_Idle_Right(EventData*);
-  void STATE_Idle_Left(EventData*);
-  void STATE_Run_Right(EventData*);
-  void STATE_Run_Left(EventData*);
+  void STATE_Idle_Right();
+  void STATE_Idle_Left();
+  void STATE_Run_Right();
+  void STATE_Run_Left();
   void STATE_Fast_Run_Right();
   void STATE_Fast_Run_Left();
   void STATE_Short_Break_Right();
   void STATE_Short_Break_Left();
-  void STATE_Change_Direction_Right(EventData*);
-  void STATE_Change_Direction_Left(EventData*);
+  void STATE_Change_Direction_Right();
+  void STATE_Change_Direction_Left();
 
   // state map to define state function order
   BEGIN_STATE_MAP

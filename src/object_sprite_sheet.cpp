@@ -37,5 +37,6 @@ void ObjectSpriteSheet::AddAnimation(ObjectSpriteSheetAnimation *animation) {
 }
 
 ObjectSpriteSheetAnimation* ObjectSpriteSheet::GetAnimationWithId(uint16 AnimationId) {
-  return animations.find(AnimationId)->second;
+  ObjectSpriteSheetAnimation* a = animations.find(AnimationId)->second;
+  return a;
 }

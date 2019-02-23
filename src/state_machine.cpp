@@ -28,12 +28,12 @@ void StateMachine::ExternalEvent(unsigned char newState,
     // if we are supposed to ignore this event
     if (newState == EVENT_IGNORED) {
         // just delete the event data, if any
-        if (pData)
+        if (pData) {
             delete pData;
+        }
     }
     else {
 		// TODO - capture software lock here for thread-safety if necessary
-
         // generate the event and execute the state engine
         InternalEvent(newState, pData);
         StateEngine();

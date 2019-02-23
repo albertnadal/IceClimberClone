@@ -7,10 +7,11 @@
 #include <types.h>
 #include <object_sprite_sheet.h>
 #include <sprite.h>
+#include <state_machine.h>
 
 using namespace std;
 
-class ISceneObject
+class ISceneObject : public StateMachine
 {
 protected:
   ObjectSpriteSheet *spriteSheet = nullptr;
@@ -18,7 +19,7 @@ protected:
   std::chrono::system_clock::time_point nextSpriteTime;
 public:
   ISceneObject();
-  ISceneObject(SceneObjectIdentificator);
+  ISceneObject(SceneObjectIdentificator, unsigned char);
   Sprite currentSprite;
   Position position;
   virtual SceneObjectIdentificator Id();

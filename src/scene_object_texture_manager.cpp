@@ -80,7 +80,7 @@ void SceneObjectTextureManager::LoadObjectsDataFromFile(std::string filename)
                                 float u2 = stof(currentframeValues->at(4));
                                 float v2 = stof(currentframeValues->at(5));
                                 uint16 duration = stoi(currentframeValues->at(6));
-                                currentObjectSpriteSheetAnimation->AddSprite({ width, height, u1, v1, u2, v2, duration });
+                                currentObjectSpriteSheetAnimation->AddSprite({ width, height, u1, v1, u2, v2, duration, false });
                         }
                 }
         }
