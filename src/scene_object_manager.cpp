@@ -27,28 +27,28 @@ void SceneObjectManager::Update(uchar pressedKeys) {
                 ISceneObject *object = objects[i];
                 bool needRedraw = object->Update(pressedKeys);
 
-                verticesDoubleBuffer->producer_buffer[i * 12] = object->position.x + object->Width();
-                verticesDoubleBuffer->producer_buffer[i * 12 + 1] = object->position.y;
+                verticesDoubleBuffer->producer_buffer[i * 12] = object->position.int_x + object->Width();
+                verticesDoubleBuffer->producer_buffer[i * 12 + 1] = object->position.int_y;
 
                 // bottom right
-                verticesDoubleBuffer->producer_buffer[i * 12 + 2] = object->position.x + object->Width();
-                verticesDoubleBuffer->producer_buffer[i * 12 + 3] = object->position.y + object->Height();
+                verticesDoubleBuffer->producer_buffer[i * 12 + 2] = object->position.int_x + object->Width();
+                verticesDoubleBuffer->producer_buffer[i * 12 + 3] = object->position.int_y + object->Height();
 
                 // top left
-                verticesDoubleBuffer->producer_buffer[i * 12 + 4] = object->position.x;
-                verticesDoubleBuffer->producer_buffer[i * 12 + 5] = object->position.y;
+                verticesDoubleBuffer->producer_buffer[i * 12 + 4] = object->position.int_x;
+                verticesDoubleBuffer->producer_buffer[i * 12 + 5] = object->position.int_y;
 
                 // bottom right
-                verticesDoubleBuffer->producer_buffer[i * 12 + 6] = object->position.x + object->Width();
-                verticesDoubleBuffer->producer_buffer[i * 12 + 7] = object->position.y + object->Height();
+                verticesDoubleBuffer->producer_buffer[i * 12 + 6] = object->position.int_x + object->Width();
+                verticesDoubleBuffer->producer_buffer[i * 12 + 7] = object->position.int_y + object->Height();
 
                 // bottom left
-                verticesDoubleBuffer->producer_buffer[i * 12 + 8] = object->position.x;
-                verticesDoubleBuffer->producer_buffer[i * 12 + 9] = object->position.y + object->Height();
+                verticesDoubleBuffer->producer_buffer[i * 12 + 8] = object->position.int_x;
+                verticesDoubleBuffer->producer_buffer[i * 12 + 9] = object->position.int_y + object->Height();
 
                 // top left
-                verticesDoubleBuffer->producer_buffer[i * 12 + 10] = object->position.x;
-                verticesDoubleBuffer->producer_buffer[i * 12 + 11] = object->position.y;
+                verticesDoubleBuffer->producer_buffer[i * 12 + 10] = object->position.int_x;
+                verticesDoubleBuffer->producer_buffer[i * 12 + 11] = object->position.int_y;
 
                 // top right
                 uvsDoubleBuffer->producer_buffer[i * 12] = object->currentSprite.u2;

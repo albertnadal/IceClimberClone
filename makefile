@@ -5,8 +5,8 @@ LDFLAGS=-Wl,-search_paths_first -Wl,-headerpad_max_install_names -framework Open
 EXEC=main
 SIZE=size -B -d
 
-all: glad.o float_double_buffer.o uint16_double_buffer.o vec2.o scene_object.o scene_object_factory.o main_character.o state_machine.o scene_object_manager.o sprite.o sprite_texture.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_texture_manager.o
-	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o main_character.o state_machine.o scene_object_manager.o sprite.o sprite_texture.o scene_object_texture_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o vec2.o float_double_buffer.o uint16_double_buffer.o glad.o -o $(EXEC)
+all: glad.o float_double_buffer.o uint16_double_buffer.o position.o vec2.o scene_object.o scene_object_factory.o main_character.o state_machine.o scene_object_manager.o sprite.o sprite_texture.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_texture_manager.o
+	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o main_character.o state_machine.o scene_object_manager.o sprite.o sprite_texture.o scene_object_texture_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o position.o vec2.o float_double_buffer.o uint16_double_buffer.o glad.o -o $(EXEC)
 	$(SIZE) $(EXEC)
 
 main_character.o: src/main_character.cpp
@@ -41,6 +41,9 @@ sprite.o: src/sprite.cpp
 
 vec2.o: src/vec2.cpp
 	$(CXX) -c $(CFLAGS) src/vec2.cpp
+
+position.o: src/position.cpp
+	$(CXX) -c $(CFLAGS) src/position.cpp
 
 uint16_double_buffer.o: src/uint16_double_buffer.cpp
 	$(CXX) -c $(CFLAGS) src/uint16_double_buffer.cpp

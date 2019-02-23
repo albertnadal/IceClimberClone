@@ -39,6 +39,7 @@ public:
   static ISceneObject* Create();
 
   void RightKeyPressed();
+  void RightKeyReleased();
   void LeftKeyPressed();
 
 private:
@@ -51,6 +52,8 @@ private:
   void STATE_Fast_Run_Left();
   void STATE_Short_Break_Right();
   void STATE_Short_Break_Left();
+  void STATE_Change_Direction_Right();
+  void STATE_Change_Direction_Left();
 
   // state map to define state function order
   BEGIN_STATE_MAP
@@ -62,6 +65,8 @@ private:
       STATE_MAP_ENTRY(&MainCharacter::STATE_Fast_Run_Left)
       STATE_MAP_ENTRY(&MainCharacter::STATE_Short_Break_Right)
       STATE_MAP_ENTRY(&MainCharacter::STATE_Short_Break_Left)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Change_Direction_Right)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Change_Direction_Left)
   END_STATE_MAP
 
   // state enumeration order must match the order of state
@@ -75,6 +80,8 @@ private:
       STATE_FAST_RUN_LEFT,
       STATE_SHORT_BREAK_RIGHT,
       STATE_SHORT_BREAK_LEFT,
+      STATE_CHANGE_DIRECTION_RIGHT,
+      STATE_CHANGE_DIRECTION_LEFT,
       MAIN_CHARACTER_MAX_STATES
   };
 };

@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <chrono>
-#include <vec2.h>
+#include <position.h>
 #include <types.h>
 #include <object_sprite_sheet.h>
 #include <sprite.h>
@@ -20,7 +20,7 @@ public:
   ISceneObject();
   ISceneObject(SceneObjectIdentificator);
   Sprite currentSprite;
-  vec2 position;
+  Position position;
   virtual SceneObjectIdentificator Id();
   virtual void InitWithSpriteSheet(ObjectSpriteSheet*);
   virtual uint16 Width();
