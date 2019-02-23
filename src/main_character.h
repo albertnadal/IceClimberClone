@@ -26,6 +26,7 @@ class MainCharacter: public ISceneObject, StateMachine
   bool headedToRight = true;
   uchar prevPressedKeys = KeyboardKeyCode::KEY_NONE;
   void ProcessPressedKeys(uchar);
+  void ProcessReleasedKeys();
   void LoadAnimationWithId(uint16);
   SpriteData NextSpriteData();
 public:
@@ -46,15 +47,15 @@ public:
 private:
   // state machine state functions
   void STATE_Idle_Right(EventData*);
-  void STATE_Idle_Left();
+  void STATE_Idle_Left(EventData*);
   void STATE_Run_Right(EventData*);
-  void STATE_Run_Left();
+  void STATE_Run_Left(EventData*);
   void STATE_Fast_Run_Right();
   void STATE_Fast_Run_Left();
   void STATE_Short_Break_Right();
   void STATE_Short_Break_Left();
-  void STATE_Change_Direction_Right();
-  void STATE_Change_Direction_Left();
+  void STATE_Change_Direction_Right(EventData*);
+  void STATE_Change_Direction_Left(EventData*);
 
   // state map to define state function order
   BEGIN_STATE_MAP
