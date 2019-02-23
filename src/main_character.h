@@ -41,6 +41,7 @@ public:
   void RightKeyPressed();
   void RightKeyReleased();
   void LeftKeyPressed();
+  void LeftKeyReleased();
 
 private:
   // state machine state functions
