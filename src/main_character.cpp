@@ -25,10 +25,12 @@ void MainCharacter::PrintName() {
         std::cout << "Main character." << std::endl;
 }
 
-bool MainCharacter::Update(uchar pressedKeys) {
+bool MainCharacter::Update(uchar pressedKeys_) {
+
+        pressedKeys = pressedKeys_;
 
         if(pressedKeys != KeyboardKeyCode::KEY_NONE) {
-                ProcessPressedKeys(pressedKeys);
+                ProcessPressedKeys();
         } else if(pressedKeys != prevPressedKeys) {
                 ProcessReleasedKeys();
         }
@@ -50,12 +52,12 @@ bool MainCharacter::Update(uchar pressedKeys) {
         return false;
 }
 
-void MainCharacter::ProcessPressedKeys(uchar pressedKeys)
+void MainCharacter::ProcessPressedKeys(bool checkPreviousPressedKeys)
 {
         // User pressed KEY_RIGHT
         if((pressedKeys & KeyboardKeyCode::KEY_RIGHT) == KeyboardKeyCode::KEY_RIGHT) {
                 // If is not KEY_RIGHT repeated press then change character state
-                if((prevPressedKeys & KeyboardKeyCode::KEY_RIGHT) != KeyboardKeyCode::KEY_RIGHT) {
+                if((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::KEY_RIGHT) != KeyboardKeyCode::KEY_RIGHT))) {
                         //transit<MainCharacterRunToRightState>();
                         //stateMachine.dispatch(KeyRightPressedEvent());
 //                        LoadAnimationWithId(MainCharacterAnimation::WALK_TO_RIGHT);
@@ -74,7 +76,7 @@ void MainCharacter::ProcessPressedKeys(uchar pressedKeys)
 
         if((pressedKeys & KeyboardKeyCode::KEY_LEFT) == KeyboardKeyCode::KEY_LEFT) {
                 // If is not KEY_LEFT repeated press then change character state
-                if((prevPressedKeys & KeyboardKeyCode::KEY_LEFT) != KeyboardKeyCode::KEY_LEFT) {
+                if((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::KEY_LEFT) != KeyboardKeyCode::KEY_LEFT))) {
                         cout << "KEY LEFT PRESSED" << endl;
 //                        LoadAnimationWithId(MainCharacterAnimation::WALK_TO_LEFT);
                         headedToRight = false;
@@ -251,54 +253,65 @@ void MainCharacter::STATE_Idle_Right()
 {
         cout << "MainCharacter::STATE_Idle_Right" << endl;
         LoadAnimationWithId(MainCharacterAnimation::STAND_BY_RIGHT);
+        ProcessPressedKeys(false);
 }
 
 void MainCharacter::STATE_Idle_Left()
 {
         cout << "MainCharacter::STATE_Idle_Left" << endl;
         LoadAnimationWithId(MainCharacterAnimation::STAND_BY_LEFT);
+        cout << "ProcessPressedKeys(false)" << endl;
+        ProcessPressedKeys(false);
 }
 
 void MainCharacter::STATE_Run_Right()
 {
         cout << "MainCharacter::STATE_Run_Right" << endl;
         LoadAnimationWithId(MainCharacterAnimation::WALK_TO_RIGHT);
+        ProcessPressedKeys(false);
 }
 
 void MainCharacter::STATE_Run_Left()
 {
         cout << "MainCharacter::STATE_Run_Left" << endl;
         LoadAnimationWithId(MainCharacterAnimation::WALK_TO_LEFT);
+        ProcessPressedKeys(false);
 }
 
 void MainCharacter::STATE_Fast_Run_Right()
 {
         cout << "MainCharacter::STATE_Fast_Run_Right" << endl;
+        ProcessPressedKeys(false);
 }
 
 void MainCharacter::STATE_Fast_Run_Left()
 {
         cout << "MainCharacter::STATE_Fast_Run_Left" << endl;
+        ProcessPressedKeys(false);
 }
 
 void MainCharacter::STATE_Short_Break_Right()
 {
         cout << "MainCharacter::STATE_Short_Break_Right" << endl;
+        ProcessPressedKeys(false);
 }
 
 void MainCharacter::STATE_Short_Break_Left()
 {
         cout << "MainCharacter::STATE_Short_Break_Left" << endl;
+        ProcessPressedKeys(false);
 }
 
 void MainCharacter::STATE_Change_Direction_Left()
 {
         cout << "MainCharacter::STATE_Change_Direction_Left" << endl;
         LoadAnimationWithId(MainCharacterAnimation::DIRECTION_TO_LEFT);
+        ProcessPressedKeys(false);
 }
 
 void MainCharacter::STATE_Change_Direction_Right()
 {
         cout << "MainCharacter::STATE_Change_Direction_Right" << endl;
         LoadAnimationWithId(MainCharacterAnimation::DIRECTION_TO_RIGHT);
+        ProcessPressedKeys(false);
 }
