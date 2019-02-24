@@ -1,7 +1,7 @@
 #include "main_character.h"
 #include <chrono>
 
-enum MainCharacterAnimation: uint16 { STAND_BY_RIGHT = 0, STAND_BY_LEFT = 1, WALK_TO_RIGHT = 2, WALK_TO_LEFT = 3, DIRECTION_TO_RIGHT = 4, DIRECTION_TO_LEFT = 5 };
+enum MainCharacterAnimation: uint16 { STAND_BY_RIGHT = 0, STAND_BY_LEFT = 1, WALK_TO_RIGHT = 2, WALK_TO_LEFT = 3, DIRECTION_TO_RIGHT = 4, DIRECTION_TO_LEFT = 5, RUN_TO_RIGHT = 6, RUN_TO_LEFT = 7 };
 
 class MainCharacterIdleState;
 class MainCharacterRunToRightState;
@@ -11,6 +11,7 @@ MainCharacter::MainCharacter() :
         cout << " INSTANCIA NOVA DE MainCharacter CREADA" << endl;
         position.x = 100;
         position.y = 100;
+        speed = 0.0f;
 }
 
 uint16 MainCharacter::Width() {
@@ -65,9 +66,16 @@ void MainCharacter::ProcessPressedKeys(bool checkPreviousPressedKeys)
                         RightKeyPressed();
                 }
                 position.addX(1.3f);
+                speed+=0.2f;
+                cout << "SPEED: " << speed << endl;
+                if((int)speed == 24 ) {
+                  cout << "ReachedSpeedForRunning()" << endl;
+                  ReachedSpeedForRunning();
+                }
 
         } else if((prevPressedKeys & KeyboardKeyCode::KEY_RIGHT) == KeyboardKeyCode::KEY_RIGHT) {
                 RightKeyReleased();
+                speed = 0.0f;
         }
 
         if((pressedKeys & KeyboardKeyCode::KEY_LEFT) == KeyboardKeyCode::KEY_LEFT) {
@@ -79,10 +87,17 @@ void MainCharacter::ProcessPressedKeys(bool checkPreviousPressedKeys)
                         LeftKeyPressed();
                 }
                 position.addX(-1.3f);
+                speed+=0.2f;
+                cout << "SPEED: " << speed << endl;
+                if((int)speed == 24 ) {
+                  cout << "ReachedSpeedForRunning()" << endl;
+                  ReachedSpeedForRunning();
+                }
 
         } else if((prevPressedKeys & KeyboardKeyCode::KEY_LEFT) == KeyboardKeyCode::KEY_LEFT) {
                 cout << "KEY LEFT RELEASED" << endl;
                 LeftKeyReleased();
+                speed = 0.0f;
         }
 
         prevPressedKeys = pressedKeys;
@@ -105,7 +120,6 @@ void MainCharacter::ProcessReleasedKeys() {
 
 void MainCharacter::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
-        test = new Position();
         LoadAnimationWithId(MainCharacterAnimation::STAND_BY_RIGHT);
 }
 
@@ -174,6 +188,23 @@ bool MainCharacter::BeginAnimationLoopAgain()
         }
 }
 
+void MainCharacter::ReachedSpeedForRunning()
+{
+  cout << "MainCharacter::ReachedSpeedForRunning()" << endl;
+  BEGIN_TRANSITION_MAP                    // - Current State -
+  TRANSITION_MAP_ENTRY (EVENT_IGNORED) // STATE_Idle_Right
+  TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Idle_Left
+  TRANSITION_MAP_ENTRY (STATE_FAST_RUN_RIGHT)    // STATE_Run_Right
+  TRANSITION_MAP_ENTRY (STATE_FAST_RUN_LEFT)    // STATE_Run_Left
+  TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fast_Run_Right
+  TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fast_Run_Left
+  TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Short_Break_Right
+  TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Short_Break_Left
+  TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Change_Direction_Right
+  TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Change_Direction_Left
+  END_TRANSITION_MAP(NULL)
+}
+
 void MainCharacter::RightKeyPressed()
 {
         cout << "MainCharacter::RightKeyPressed()" << endl;
@@ -199,7 +230,7 @@ void MainCharacter::RightKeyReleased()
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Idle_Left
         TRANSITION_MAP_ENTRY (STATE_IDLE_RIGHT)    // STATE_Run_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Run_Left
-        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fast_Run_Right
+        TRANSITION_MAP_ENTRY (STATE_IDLE_RIGHT)    // STATE_Fast_Run_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fast_Run_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Short_Break_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Short_Break_Left
@@ -234,7 +265,7 @@ void MainCharacter::LeftKeyReleased()
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Run_Right
         TRANSITION_MAP_ENTRY (STATE_IDLE_LEFT)    // STATE_Run_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fast_Run_Right
-        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fast_Run_Left
+        TRANSITION_MAP_ENTRY (STATE_IDLE_LEFT)    // STATE_Fast_Run_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Short_Break_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Short_Break_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Change_Direction_Right
@@ -274,12 +305,14 @@ void MainCharacter::STATE_Run_Left()
 void MainCharacter::STATE_Fast_Run_Right()
 {
         cout << "MainCharacter::STATE_Fast_Run_Right" << endl;
+        LoadAnimationWithId(MainCharacterAnimation::RUN_TO_RIGHT);
         ProcessPressedKeys(false);
 }
 
 void MainCharacter::STATE_Fast_Run_Left()
 {
         cout << "MainCharacter::STATE_Fast_Run_Left" << endl;
+        LoadAnimationWithId(MainCharacterAnimation::RUN_TO_LEFT);
         ProcessPressedKeys(false);
 }
 

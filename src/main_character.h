@@ -32,8 +32,8 @@ class MainCharacter: public ISceneObject
   void LoadAnimationWithId(uint16);
   SpriteData NextSpriteData();
   void LoadNextSprite();
+  float speed;
 public:
-    Position *test;
   MainCharacter();
   ~MainCharacter();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
@@ -48,6 +48,7 @@ public:
   void LeftKeyPressed();
   void LeftKeyReleased();
   bool BeginAnimationLoopAgain();
+  void ReachedSpeedForRunning();
 
 private:
   // state machine state functions
