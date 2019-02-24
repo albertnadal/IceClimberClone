@@ -63,15 +63,11 @@ void MainCharacter::ProcessPressedKeys(bool checkPreviousPressedKeys)
 //                        LoadAnimationWithId(MainCharacterAnimation::WALK_TO_RIGHT);
                         headedToRight = true;
                         RightKeyPressed();
-
-                        prevPressedKeys = pressedKeys;
                 }
-//                position.addX(1.3f);
+                position.addX(1.3f);
 
         } else if((prevPressedKeys & KeyboardKeyCode::KEY_RIGHT) == KeyboardKeyCode::KEY_RIGHT) {
                 RightKeyReleased();
-
-                prevPressedKeys = pressedKeys;
         }
 
         if((pressedKeys & KeyboardKeyCode::KEY_LEFT) == KeyboardKeyCode::KEY_LEFT) {
@@ -81,18 +77,15 @@ void MainCharacter::ProcessPressedKeys(bool checkPreviousPressedKeys)
 //                        LoadAnimationWithId(MainCharacterAnimation::WALK_TO_LEFT);
                         headedToRight = false;
                         LeftKeyPressed();
-
-                        prevPressedKeys = pressedKeys;
                 }
-//                position.addX(-1.3f);
+                position.addX(-1.3f);
 
         } else if((prevPressedKeys & KeyboardKeyCode::KEY_LEFT) == KeyboardKeyCode::KEY_LEFT) {
                 cout << "KEY LEFT RELEASED" << endl;
                 LeftKeyReleased();
-
-                prevPressedKeys = pressedKeys;
         }
 
+        prevPressedKeys = pressedKeys;
 }
 
 void MainCharacter::ProcessReleasedKeys() {
