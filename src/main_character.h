@@ -30,6 +30,7 @@ class MainCharacter: public ISceneObject
   void ProcessReleasedKeys();
   void LoadAnimationWithId(uint16);
   SpriteData NextSpriteData();
+  void LoadNextSprite();
 public:
     Position *test;
   MainCharacter();
@@ -45,6 +46,7 @@ public:
   void RightKeyReleased();
   void LeftKeyPressed();
   void LeftKeyReleased();
+  bool BeginAnimationLoopAgain();
 
 private:
   // state machine state functions
