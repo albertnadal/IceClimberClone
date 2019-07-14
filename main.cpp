@@ -201,7 +201,7 @@ void keyboard_callback(GLFWwindow* window, int key, int32 scancode, int32 action
           case GLFW_KEY_Q:      keyCode = KEY_Q; break;
           case GLFW_KEY_W:      keyCode = KEY_W; break;
           case GLFW_KEY_A:      keyCode = KEY_A; break;
-          case GLFW_KEY_S:      keyCode = KEY_S; break;
+          case GLFW_KEY_SPACE:  keyCode = KEY_SPACE; break;
           case GLFW_KEY_ESCAPE: if(action == GLFW_PRESS) { glfwSetWindowShouldClose(window, GL_TRUE); } keyCode = KEY_NONE; break;
         }
 

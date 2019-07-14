@@ -11,6 +11,9 @@
 
 using namespace std;
 
+enum MainCharacterAnimation: uint16 { STAND_BY_RIGHT = 0, STAND_BY_LEFT = 1, RUN_TO_RIGHT = 2, RUN_TO_LEFT = 3, JUMP_RIGHT = 4, JUMP_LEFT = 5, HIT_RIGHT = 6, HIT_LEFT = 7 };
+enum MainCharacterDirection: uint16 { RIGHT = 0, LEFT = 1 };
+
 // structure to hold event data passed into state machine
 struct MotorData : public EventData
 {
@@ -32,7 +35,19 @@ class MainCharacter: public ISceneObject
   void LoadAnimationWithId(uint16);
   SpriteData NextSpriteData();
   void LoadNextSprite();
-  //float speed;
+  float hInitialJumpSpeed = 0.0f;
+  float vInitialJumpSpeed = 0.0f;
+  float tJump = 0.0f;
+  float hInitialJumpPosition = 0.0f;
+  float vInitialJumpPosition = 0.0f;
+  const float gravity = 9.81f;
+  uint16 hMomentum = 0;
+  const uint16 maxMomentum = 15;
+  float isJumping = false;
+  float isHitting = false;
+  void MoveTo(MainCharacterDirection);
+  void UpdateJump();
+  void Jump(float, float);
 public:
   MainCharacter();
   ~MainCharacter();
@@ -48,6 +63,8 @@ public:
   void LeftKeyPressed();
   void LeftKeyReleased();
   void UpKeyPressed();
+  void SpaceKeyPressed();
+  void JumpLanding();
   bool BeginAnimationLoopAgain();
   //void ReachedSpeedForRunning();
 
@@ -61,6 +78,8 @@ private:
   void STATE_Jump_Idle_Left();
   void STATE_Jump_Run_Right();
   void STATE_Jump_Run_Left();
+  void STATE_Hit_Right();
+  void STATE_Hit_Left();
 
   // state map to define state function order
   BEGIN_STATE_MAP
@@ -72,6 +91,8 @@ private:
       STATE_MAP_ENTRY(&MainCharacter::STATE_Jump_Idle_Left)
       STATE_MAP_ENTRY(&MainCharacter::STATE_Jump_Run_Right)
       STATE_MAP_ENTRY(&MainCharacter::STATE_Jump_Run_Left)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Hit_Right)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Hit_Left)
   END_STATE_MAP
 
   // state enumeration order must match the order of state
@@ -85,6 +106,8 @@ private:
       STATE_JUMP_IDLE_LEFT,
       STATE_JUMP_RUN_RIGHT,
       STATE_JUMP_RUN_LEFT,
+      STATE_HIT_RIGHT,
+      STATE_HIT_LEFT,
       MAIN_CHARACTER_MAX_STATES
   };
 };

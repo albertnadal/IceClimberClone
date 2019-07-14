@@ -1,17 +1,11 @@
 #include "main_character.h"
 #include <chrono>
 
-enum MainCharacterAnimation: uint16 { STAND_BY_RIGHT = 0, STAND_BY_LEFT = 1, RUN_TO_RIGHT = 2, RUN_TO_LEFT = 3, JUMP_IDLE_RIGHT = 4, JUMP_IDLE_LEFT = 5, JUMP_RUN_RIGHT = 6, JUMP_RUN_LEFT = 7 };
-
-class MainCharacterIdleState;
-class MainCharacterRunToRightState;
-
 MainCharacter::MainCharacter() :
         ISceneObject(SceneObjectIdentificator::MAIN_CHARACTER, MainCharacterStateIdentificator::MAIN_CHARACTER_MAX_STATES) {
         cout << " INSTANCIA NOVA DE MainCharacter CREADA" << endl;
-        position.x = 100;
-        position.y = 100;
-        //speed = 0.0f;
+        position.setX(100.0f);
+        position.setY(100.0f);
 }
 
 uint16 MainCharacter::Width() {
@@ -27,6 +21,13 @@ void MainCharacter::PrintName() {
 }
 
 bool MainCharacter::Update(uchar pressedKeys_) {
+
+        bool needRedraw = false;
+
+        if(isJumping) {
+          UpdateJump();
+          needRedraw = true;
+        }
 
         pressedKeys = pressedKeys_;
 
@@ -50,7 +51,7 @@ bool MainCharacter::Update(uchar pressedKeys_) {
                 return true;
         }
 
-        return false;
+        return needRedraw;
 }
 
 void MainCharacter::ProcessPressedKeys(bool checkPreviousPressedKeys)
@@ -65,19 +66,9 @@ void MainCharacter::ProcessPressedKeys(bool checkPreviousPressedKeys)
                         headedToRight = true;
                         RightKeyPressed();
                 }
-                position.addX(2.5f);
-/*
-                speed+=0.2f;
-                cout << "SPEED: " << speed << endl;
-                if((int)speed == 24 ) {
-                  cout << "ReachedSpeedForRunning()" << endl;
-                  ReachedSpeedForRunning();
-                }
-*/
-
+                MoveTo(MainCharacterDirection::RIGHT);
         } else if((prevPressedKeys & KeyboardKeyCode::KEY_RIGHT) == KeyboardKeyCode::KEY_RIGHT) {
                 RightKeyReleased();
-                //speed = 0.0f;
         }
 
         if((pressedKeys & KeyboardKeyCode::KEY_LEFT) == KeyboardKeyCode::KEY_LEFT) {
@@ -88,26 +79,26 @@ void MainCharacter::ProcessPressedKeys(bool checkPreviousPressedKeys)
                         headedToRight = false;
                         LeftKeyPressed();
                 }
-                position.addX(-2.5f);
-/*
-                speed+=0.2f;
-                cout << "SPEED: " << speed << endl;
-                if((int)speed == 24 ) {
-                  cout << "ReachedSpeedForRunning()" << endl;
-                  ReachedSpeedForRunning();
-                }
-*/
+                MoveTo(MainCharacterDirection::LEFT);
         } else if((prevPressedKeys & KeyboardKeyCode::KEY_LEFT) == KeyboardKeyCode::KEY_LEFT) {
                 cout << "KEY LEFT RELEASED" << endl;
                 LeftKeyReleased();
-                //speed = 0.0f;
         }
 
-        if((pressedKeys & KeyboardKeyCode::KEY_UP) == KeyboardKeyCode::KEY_UP) {
+        if(!isJumping && ((pressedKeys & KeyboardKeyCode::KEY_UP) == KeyboardKeyCode::KEY_UP)) {
                 // If is not KEY_LEFT repeated press then change character state
                 if((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::KEY_UP) != KeyboardKeyCode::KEY_UP))) {
-                        cout << "KEY YP PRESSED" << endl;
+                        cout << "KEY UP PRESSED" << endl;
                         UpKeyPressed();
+                }
+        }
+
+        if(!isJumping && !isHitting && ((pressedKeys & KeyboardKeyCode::KEY_SPACE) == KeyboardKeyCode::KEY_SPACE)) {
+                // If is not KEY_LEFT repeated press then change character state
+                if((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::KEY_SPACE) != KeyboardKeyCode::KEY_SPACE))) {
+                        cout << "KEY SPACE PRESSED" << endl;
+                        isHitting = true;
+                        SpaceKeyPressed();
                 }
         }
 
@@ -186,37 +177,58 @@ MainCharacter::~MainCharacter() {
 
 bool MainCharacter::BeginAnimationLoopAgain()
 {
-/*
-        if(currentState == MainCharacterStateIdentificator::STATE_CHANGE_DIRECTION_RIGHT) {
-          cout << "CANVIANT A IDLE RIGHT" << endl;
+        if(currentState == MainCharacterStateIdentificator::STATE_HIT_RIGHT) {
+          isHitting = false;
           ExternalEvent(MainCharacterStateIdentificator::STATE_IDLE_RIGHT, NULL);
           return true;
-        } else if(currentState == MainCharacterStateIdentificator::STATE_CHANGE_DIRECTION_LEFT) {
-          cout << "CANVIANT A IDLE LEFT" << endl;
+        } else if(currentState == MainCharacterStateIdentificator::STATE_HIT_LEFT) {
+          isHitting = false;
           ExternalEvent(MainCharacterStateIdentificator::STATE_IDLE_LEFT, NULL);
           return true;
         } else {
           return false;
         }
-*/
+
   return false;
 }
-/*
-void MainCharacter::ReachedSpeedForRunning()
-{
-  cout << "MainCharacter::ReachedSpeedForRunning()" << endl;
-  BEGIN_TRANSITION_MAP                    // - Current State -
-  TRANSITION_MAP_ENTRY (EVENT_IGNORED) // STATE_Idle_Right
-  TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Idle_Left
-  TRANSITION_MAP_ENTRY (STATE_FAST_RUN_RIGHT)    // STATE_Run_Right
-  TRANSITION_MAP_ENTRY (STATE_FAST_RUN_LEFT)    // STATE_Run_Left
-  TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Right
-  TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Left
-  TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
-  TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Left
-  END_TRANSITION_MAP(NULL)
+
+void MainCharacter::UpdateJump() {
+  tJump+=0.2f;
+  position.setX(hInitialJumpPosition + (hInitialJumpSpeed * tJump));
+  float vOffset = (vInitialJumpSpeed * tJump - (0.5f)*gravity*tJump*tJump);
+  if(vOffset <= 0.0f) {
+    // Jump landing
+    position.setY(vInitialJumpPosition);
+    isJumping = false;
+    hMomentum = 0;
+    JumpLanding();
+  } else {
+    position.setY(vInitialJumpPosition + vOffset);
+  }
 }
-*/
+
+void MainCharacter::MoveTo(MainCharacterDirection direction)
+{
+  if(!isJumping && !isHitting) {
+    position.addX(direction == MainCharacterDirection::RIGHT ? 4.0f : -4.0f);
+    if(hMomentum < maxMomentum) {
+      hMomentum++;
+    }
+  }
+}
+
+void MainCharacter::Jump(float vSpeed, float hSpeed)
+{
+  cout << "MainCharacter::Jump" << endl;
+  vInitialJumpSpeed = vSpeed;
+  hInitialJumpSpeed = hSpeed;
+  vInitialJumpPosition = position.y;
+  hInitialJumpPosition = position.x;
+  cout << "Initial JUMP X: " << hInitialJumpPosition << " Initial JUMP Y: " << vInitialJumpPosition << endl;
+  tJump = 0.0f;
+  isJumping = true;
+}
+
 void MainCharacter::RightKeyPressed()
 {
         cout << "MainCharacter::RightKeyPressed()" << endl;
@@ -229,6 +241,8 @@ void MainCharacter::RightKeyPressed()
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
         END_TRANSITION_MAP(NULL)
 }
 
@@ -244,6 +258,8 @@ void MainCharacter::RightKeyReleased()
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
         END_TRANSITION_MAP(NULL)
 }
 
@@ -259,6 +275,8 @@ void MainCharacter::LeftKeyPressed()
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
         END_TRANSITION_MAP(NULL)
 }
 
@@ -274,6 +292,8 @@ void MainCharacter::LeftKeyReleased()
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
         END_TRANSITION_MAP(NULL)
 }
 
@@ -289,12 +309,49 @@ void MainCharacter::UpKeyPressed()
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+        END_TRANSITION_MAP(NULL)
+}
+
+void MainCharacter::SpaceKeyPressed()
+{
+        cout << "MainCharacter::UpKeyPressed()" << endl;
+        BEGIN_TRANSITION_MAP                                  // - Current State -
+        TRANSITION_MAP_ENTRY (STATE_HIT_RIGHT)          // STATE_Idle_Right
+        TRANSITION_MAP_ENTRY (STATE_HIT_LEFT)                 // STATE_Idle_Left
+        TRANSITION_MAP_ENTRY (STATE_HIT_RIGHT)                  // STATE_Run_Right
+        TRANSITION_MAP_ENTRY (STATE_HIT_LEFT)                  // STATE_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+        END_TRANSITION_MAP(NULL)
+}
+
+void MainCharacter::JumpLanding()
+{
+        cout << "MainCharacter::JumpLanding()" << endl;
+        BEGIN_TRANSITION_MAP                                  // - Current State -
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Idle_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Idle_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)                  // STATE_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)                  // STATE_Run_Left
+        TRANSITION_MAP_ENTRY (STATE_IDLE_RIGHT)    // STATE_Jump_Idle_Right
+        TRANSITION_MAP_ENTRY (STATE_IDLE_LEFT)    // STATE_Jump_Idle_Left
+        TRANSITION_MAP_ENTRY (STATE_IDLE_RIGHT)    // STATE_Jump_Run_Right
+        TRANSITION_MAP_ENTRY (STATE_IDLE_LEFT)    // STATE_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
         END_TRANSITION_MAP(NULL)
 }
 
 void MainCharacter::STATE_Idle_Right()
 {
         cout << "MainCharacter::STATE_Idle_Right" << endl;
+        hMomentum = 0;
         LoadAnimationWithId(MainCharacterAnimation::STAND_BY_RIGHT);
         ProcessPressedKeys(false);
 }
@@ -302,6 +359,7 @@ void MainCharacter::STATE_Idle_Right()
 void MainCharacter::STATE_Idle_Left()
 {
         cout << "MainCharacter::STATE_Idle_Left" << endl;
+        hMomentum = 0;
         LoadAnimationWithId(MainCharacterAnimation::STAND_BY_LEFT);
         cout << "ProcessPressedKeys(false)" << endl;
         ProcessPressedKeys(false);
@@ -323,40 +381,44 @@ void MainCharacter::STATE_Run_Left()
 
 void MainCharacter::STATE_Jump_Idle_Right()
 {
-        cout << "MainCharacter::STATE_Jump_Idle_Right" << endl;
-        LoadAnimationWithId(MainCharacterAnimation::JUMP_IDLE_RIGHT);
-        ProcessPressedKeys(false);
+    Jump(45.0f, 0.0f);
+    LoadAnimationWithId(MainCharacterAnimation::JUMP_RIGHT);
+    ProcessPressedKeys(false);
 }
 
 void MainCharacter::STATE_Jump_Idle_Left()
 {
-        cout << "MainCharacter::STATE_Jump_Idle_Left" << endl;
-        LoadAnimationWithId(MainCharacterAnimation::JUMP_IDLE_LEFT);
-        ProcessPressedKeys(false);
+    Jump(45.0f, 0.0f);
+    LoadAnimationWithId(MainCharacterAnimation::JUMP_LEFT);
+    ProcessPressedKeys(false);
 }
 
 void MainCharacter::STATE_Jump_Run_Right()
 {
-        cout << "MainCharacter::STATE_Jump_Run_Right" << endl;
-        ProcessPressedKeys(false);
+    // More momentum produces a longer jump
+    Jump(45.0f, hMomentum == maxMomentum ? 10.0f : 4.0f);
+    LoadAnimationWithId(MainCharacterAnimation::JUMP_RIGHT);
+    ProcessPressedKeys(false);
 }
 
 void MainCharacter::STATE_Jump_Run_Left()
 {
-        cout << "MainCharacter::STATE_Jump_Run_Left" << endl;
-        ProcessPressedKeys(false);
+  // More momentum produces a longer jump
+  Jump(45.0f, hMomentum == maxMomentum ? -10.0f : -4.0f);
+  LoadAnimationWithId(MainCharacterAnimation::JUMP_LEFT);
+  ProcessPressedKeys(false);
 }
-/*
-void MainCharacter::STATE_Change_Direction_Left()
+
+void MainCharacter::STATE_Hit_Right()
 {
-        cout << "MainCharacter::STATE_Change_Direction_Left" << endl;
-        LoadAnimationWithId(MainCharacterAnimation::DIRECTION_TO_LEFT);
+        cout << "MainCharacter::STATE_Hit_Right" << endl;
+        LoadAnimationWithId(MainCharacterAnimation::HIT_RIGHT);
         ProcessPressedKeys(false);
 }
 
-void MainCharacter::STATE_Change_Direction_Right()
+void MainCharacter::STATE_Hit_Left()
 {
-        cout << "MainCharacter::STATE_Change_Direction_Right" << endl;
-        LoadAnimationWithId(MainCharacterAnimation::DIRECTION_TO_RIGHT);
+        cout << "MainCharacter::STATE_Hit_Left" << endl;
+        LoadAnimationWithId(MainCharacterAnimation::HIT_LEFT);
         ProcessPressedKeys(false);
-}*/
+}
