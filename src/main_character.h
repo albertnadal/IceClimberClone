@@ -32,7 +32,7 @@ class MainCharacter: public ISceneObject
   void LoadAnimationWithId(uint16);
   SpriteData NextSpriteData();
   void LoadNextSprite();
-  float speed;
+  //float speed;
 public:
   MainCharacter();
   ~MainCharacter();
@@ -47,8 +47,9 @@ public:
   void RightKeyReleased();
   void LeftKeyPressed();
   void LeftKeyReleased();
+  void UpKeyPressed();
   bool BeginAnimationLoopAgain();
-  void ReachedSpeedForRunning();
+  //void ReachedSpeedForRunning();
 
 private:
   // state machine state functions
@@ -56,12 +57,10 @@ private:
   void STATE_Idle_Left();
   void STATE_Run_Right();
   void STATE_Run_Left();
-  void STATE_Fast_Run_Right();
-  void STATE_Fast_Run_Left();
-  void STATE_Short_Break_Right();
-  void STATE_Short_Break_Left();
-  void STATE_Change_Direction_Right();
-  void STATE_Change_Direction_Left();
+  void STATE_Jump_Idle_Right();
+  void STATE_Jump_Idle_Left();
+  void STATE_Jump_Run_Right();
+  void STATE_Jump_Run_Left();
 
   // state map to define state function order
   BEGIN_STATE_MAP
@@ -69,12 +68,10 @@ private:
       STATE_MAP_ENTRY(&MainCharacter::STATE_Idle_Left)
       STATE_MAP_ENTRY(&MainCharacter::STATE_Run_Right)
       STATE_MAP_ENTRY(&MainCharacter::STATE_Run_Left)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Fast_Run_Right)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Fast_Run_Left)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Short_Break_Right)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Short_Break_Left)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Change_Direction_Right)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Change_Direction_Left)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Jump_Idle_Right)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Jump_Idle_Left)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Jump_Run_Right)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Jump_Run_Left)
   END_STATE_MAP
 
   // state enumeration order must match the order of state
@@ -84,12 +81,10 @@ private:
       STATE_IDLE_LEFT,
       STATE_RUN_RIGHT,
       STATE_RUN_LEFT,
-      STATE_FAST_RUN_RIGHT,
-      STATE_FAST_RUN_LEFT,
-      STATE_SHORT_BREAK_RIGHT,
-      STATE_SHORT_BREAK_LEFT,
-      STATE_CHANGE_DIRECTION_RIGHT,
-      STATE_CHANGE_DIRECTION_LEFT,
+      STATE_JUMP_IDLE_RIGHT,
+      STATE_JUMP_IDLE_LEFT,
+      STATE_JUMP_RUN_RIGHT,
+      STATE_JUMP_RUN_LEFT,
       MAIN_CHARACTER_MAX_STATES
   };
 };
