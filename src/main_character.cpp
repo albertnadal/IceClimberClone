@@ -188,8 +188,6 @@ bool MainCharacter::BeginAnimationLoopAgain()
         } else {
           return false;
         }
-
-  return false;
 }
 
 void MainCharacter::UpdateJump() {

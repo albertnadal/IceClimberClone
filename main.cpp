@@ -25,7 +25,7 @@ const uint32 SCR_HEIGHT = 750;
 
 pthread_t gameLogicMainThreadId;
 
-const uint32 OBJECT_COUNT = 1;
+const uint32 OBJECT_COUNT = 2;
 //static uint16 vertices[OBJECT_COUNT * 12];
 //static float uvs[OBJECT_COUNT * 12];
 

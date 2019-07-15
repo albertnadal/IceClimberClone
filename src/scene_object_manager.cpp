@@ -9,6 +9,20 @@ SceneObjectManager::SceneObjectManager(SceneObjectTextureManager* _textureManage
         uvsDoubleBuffer = _uvsDoubleBuffer;
         maxObjects = _maxObjects;
 
+        ISceneObject *object = SceneObjectFactory::Get(textureManager)->CreateSceneObject("MainCharacter");
+        if(object) {
+                object->PrintName();
+                objects.push_back(object);
+        }
+
+        object = SceneObjectFactory::Get(textureManager)->CreateSceneObject("Brick");
+        cout << "OK1\n";
+        if(object) {
+                cout << "OK2\n";
+                object->PrintName();
+                objects.push_back(object);
+        }
+/*
         for(int i=0; i<maxObjects; i++) {
                 ISceneObject *object = SceneObjectFactory::Get(textureManager)->CreateSceneObject("MainCharacter");
                 if(object) {
@@ -19,7 +33,7 @@ SceneObjectManager::SceneObjectManager(SceneObjectTextureManager* _textureManage
                 {
                         cout << "That scene object doesn't exist!" << endl;
                 }
-        }
+        }*/
 }
 
 void SceneObjectManager::Update(uchar pressedKeys) {

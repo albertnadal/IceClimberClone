@@ -11,7 +11,6 @@
 
 using namespace std;
 
-enum MainCharacterAnimation: uint16 { STAND_BY_RIGHT = 0, STAND_BY_LEFT = 1, RUN_TO_RIGHT = 2, RUN_TO_LEFT = 3, JUMP_RIGHT = 4, JUMP_LEFT = 5, HIT_RIGHT = 6, HIT_LEFT = 7 };
 enum MainCharacterDirection: uint16 { RIGHT = 0, LEFT = 1 };
 
 // structure to hold event data passed into state machine

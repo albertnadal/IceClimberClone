@@ -5,6 +5,7 @@
 #include <string>
 #include "scene_object.h"
 #include "main_character.h"
+#include "brick.h"
 #include "scene_object_texture_manager.h"
 
 class SceneObjectFactory

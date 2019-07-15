@@ -11,6 +11,7 @@ SceneObjectFactory::SceneObjectFactory(SceneObjectTextureManager* _textureManage
 void SceneObjectFactory::RegisterSceneObjects() {
 	std::cout << "REGISTERING OBJECTS." << std::endl;
 	Register("MainCharacter", &MainCharacter::Create);
+	Register("Brick", &Brick::Create);
 }
 
 SceneObjectFactory &SceneObjectFactory::operator=(const SceneObjectFactory &) {
