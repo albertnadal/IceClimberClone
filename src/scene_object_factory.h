@@ -14,14 +14,14 @@ private:
   SceneObjectFactory(SceneObjectTextureManager*);
   SceneObjectFactory &operator=(const SceneObjectFactory &);
   void RegisterSceneObjects();
-  typedef map<string, CreateSceneObjectFn> FactoryMap;
+  typedef map<SceneObjectIdentificator, CreateSceneObjectFn> FactoryMap;
   FactoryMap m_FactoryMap;
   SceneObjectTextureManager *textureManager = nullptr;
 public:
 	~SceneObjectFactory();
 	static SceneObjectFactory *Get(SceneObjectTextureManager*);
-	void Register(const string &sceneObjectName, CreateSceneObjectFn pfnCreate);
-	ISceneObject *CreateSceneObject(const string &sceneObjectName);
+	void Register(const SceneObjectIdentificator, CreateSceneObjectFn);
+	ISceneObject *CreateSceneObject(const SceneObjectIdentificator);
 };
 
 #endif

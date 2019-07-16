@@ -1,7 +1,6 @@
 #include "scene_object_factory.h"
 #include "object_sprite_sheet.h"
 #include <map>
-#include <string>
 
 SceneObjectFactory::SceneObjectFactory(SceneObjectTextureManager* _textureManager) {
 	textureManager = _textureManager;
@@ -10,8 +9,8 @@ SceneObjectFactory::SceneObjectFactory(SceneObjectTextureManager* _textureManage
 
 void SceneObjectFactory::RegisterSceneObjects() {
 	std::cout << "REGISTERING OBJECTS." << std::endl;
-	Register("MainCharacter", &MainCharacter::Create);
-	Register("Brick", &Brick::Create);
+	Register(SceneObjectIdentificator::MAIN_CHARACTER, &MainCharacter::Create);
+	Register(SceneObjectIdentificator::BRICK, &Brick::Create);
 }
 
 SceneObjectFactory &SceneObjectFactory::operator=(const SceneObjectFactory &) {
@@ -22,14 +21,14 @@ SceneObjectFactory::~SceneObjectFactory() {
 	m_FactoryMap.clear();
 }
 
-void SceneObjectFactory::Register(const string &sceneObjectName, CreateSceneObjectFn pfnCreate)
+void SceneObjectFactory::Register(const SceneObjectIdentificator sceneObjectId, CreateSceneObjectFn pfnCreate)
 {
-	m_FactoryMap[sceneObjectName] = pfnCreate;
+	m_FactoryMap[sceneObjectId] = pfnCreate;
 }
 
-ISceneObject *SceneObjectFactory::CreateSceneObject(const string &sceneObjectName)
+ISceneObject *SceneObjectFactory::CreateSceneObject(const SceneObjectIdentificator sceneObjectId)
 {
-	FactoryMap::iterator it = m_FactoryMap.find(sceneObjectName);
+	FactoryMap::iterator it = m_FactoryMap.find(sceneObjectId);
 	if( it != m_FactoryMap.end() ) {
 		ISceneObject *sceneObject = it->second();
 		ObjectSpriteSheet *objectSpriteSheet = textureManager->GetSpriteSheetBySceneObjectIdentificator(sceneObject->Id());
