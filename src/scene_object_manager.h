@@ -14,6 +14,8 @@ class SceneObjectManager
   UInt16DoubleBuffer *verticesDoubleBuffer;
   FloatDoubleBuffer *uvsDoubleBuffer;
   uint32 maxObjects;
+  uint32 currentEscalatedHeight;
+  void BuildWorld();
 public:
   SceneObjectManager(SceneObjectTextureManager*, UInt16DoubleBuffer*, FloatDoubleBuffer*, uint32);
   ~SceneObjectManager();

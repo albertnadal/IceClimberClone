@@ -8,6 +8,9 @@ SceneObjectManager::SceneObjectManager(SceneObjectTextureManager* _textureManage
         verticesDoubleBuffer = _verticesDoubleBuffer;
         uvsDoubleBuffer = _uvsDoubleBuffer;
         maxObjects = _maxObjects;
+        currentEscalatedHeight = 0; // height climbed
+
+        BuildWorld();
 
         ISceneObject *object = SceneObjectFactory::Get(textureManager)->CreateSceneObject("MainCharacter");
         if(object) {
@@ -15,13 +18,7 @@ SceneObjectManager::SceneObjectManager(SceneObjectTextureManager* _textureManage
                 objects.push_back(object);
         }
 
-        object = SceneObjectFactory::Get(textureManager)->CreateSceneObject("Brick");
-        cout << "OK1\n";
-        if(object) {
-                cout << "OK2\n";
-                object->PrintName();
-                objects.push_back(object);
-        }
+
 /*
         for(int i=0; i<maxObjects; i++) {
                 ISceneObject *object = SceneObjectFactory::Get(textureManager)->CreateSceneObject("MainCharacter");
@@ -34,6 +31,22 @@ SceneObjectManager::SceneObjectManager(SceneObjectTextureManager* _textureManage
                         cout << "That scene object doesn't exist!" << endl;
                 }
         }*/
+}
+
+void SceneObjectManager::BuildWorld() {
+  //ISceneObject *object;
+  uint16 cell_w = 16, cell_h = 16; // pixels
+  uint16 map_viewport_width = 32; // cells
+  uint16 map_viewport_height = 28; // cells
+  for(uint16 y=0;y<map_viewport_height;y++) {
+    for(uint16 x=0;x<map_viewport_width;x++) {
+      if(ISceneObject *object = SceneObjectFactory::Get(textureManager)->CreateSceneObject("Brick")) {
+        object->position.setX(uint16(x*cell_w));
+        object->position.setY(uint16(y*cell_h));
+        objects.push_back(object);
+      }
+    }
+  }
 }
 
 void SceneObjectManager::Update(uchar pressedKeys) {
