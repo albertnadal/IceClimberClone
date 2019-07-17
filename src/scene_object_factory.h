@@ -2,11 +2,12 @@
 #define SCENE_OBJECT_FACTORY_H
 
 #include <map>
-#include <string>
 #include "scene_object.h"
-#include "main_character.h"
-#include "brick.h"
 #include "scene_object_texture_manager.h"
+#include "items/main_character.h"
+#include "items/brick.h"
+#include "items/brick_brown.h"
+#include "items/brick_blue.h"
 
 class SceneObjectFactory
 {

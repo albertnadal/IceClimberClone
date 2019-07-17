@@ -4,7 +4,7 @@
 #include <iostream>
 #include <chrono>
 #include <position.h>
-#include <types.h>
+#include <defines.h>
 #include <object_sprite_sheet.h>
 #include <sprite.h>
 #include <state_machine.h>
@@ -16,7 +16,7 @@ class ISceneObject : public StateMachine
 protected:
   ObjectSpriteSheet *spriteSheet = nullptr;
   SceneObjectIdentificator id;
-  std::chrono::system_clock::time_point nextSpriteTime;
+  chrono::system_clock::time_point nextSpriteTime;
 public:
   ISceneObject();
   ISceneObject(SceneObjectIdentificator, unsigned char);

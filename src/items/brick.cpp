@@ -3,10 +3,12 @@
 
 Brick::Brick() :
         ISceneObject(SceneObjectIdentificator::BRICK, BrickStateIdentificator::BRICK_MAX_STATES) {
-        cout << " INSTANCIA NOVA DE Brick CREADA" << endl;
-        position.setX(300.0f);
-        position.setY(100.0f);
 }
+
+Brick::Brick(SceneObjectIdentificator scene_id, unsigned char max_states) :
+        ISceneObject(scene_id, max_states) {
+}
+
 
 uint16 Brick::Width() {
         return currentSprite.width;
@@ -21,7 +23,6 @@ void Brick::PrintName() {
 }
 
 bool Brick::Update(uchar pressedKeys_) {
-
         bool needRedraw = false;
 
         if(!animationLoaded) {
@@ -32,7 +33,7 @@ bool Brick::Update(uchar pressedKeys_) {
                 return false;
         }
 
-        if(std::chrono::system_clock::now() >= nextSpriteTime) {
+        if(chrono::system_clock::now() >= nextSpriteTime) {
                 // Load next sprite of the current animation
                 LoadNextSprite();
                 return true;
@@ -43,7 +44,7 @@ bool Brick::Update(uchar pressedKeys_) {
 
 void Brick::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
-        LoadAnimationWithId(BrickAnimation::STICKY);
+        LoadAnimationWithId(BrickAnimation::BRICK_GREEN_STICKY);
 }
 
 void Brick::LoadAnimationWithId(uint16 animationId) {
@@ -66,7 +67,7 @@ void Brick::LoadNextSprite()
           }
   }
 
-  nextSpriteTime = (std::chrono::system_clock::now() + std::chrono::milliseconds(spriteData.duration));
+  nextSpriteTime = (chrono::system_clock::now() + std::chrono::milliseconds(spriteData.duration));
 
   currentSprite.width = spriteData.width;
   currentSprite.height = spriteData.height;
@@ -121,11 +122,11 @@ void Brick::ReceiveHammerImpact()
 void Brick::STATE_Sticky()
 {
         cout << "Brick::STATE_Sticky" << endl;
-        LoadAnimationWithId(BrickAnimation::STICKY);
+        LoadAnimationWithId(BrickAnimation::BRICK_GREEN_STICKY);
 }
 
 void Brick::STATE_Falling()
 {
         cout << "Brick::STATE_Falling" << endl;
-        LoadAnimationWithId(BrickAnimation::FALLING);
+        LoadAnimationWithId(BrickAnimation::BRICK_GREEN_FALLING);
 }

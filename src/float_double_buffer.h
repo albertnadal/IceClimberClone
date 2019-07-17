@@ -2,7 +2,7 @@
 #define _FLOAT_DOUBLE_BUFFER_H
 
 #include <mutex>
-#include <types.h>
+#include <defines.h>
 
 class FloatDoubleBuffer {
 

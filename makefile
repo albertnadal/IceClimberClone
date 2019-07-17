@@ -5,15 +5,21 @@ LDFLAGS=-Wl,-search_paths_first -Wl,-headerpad_max_install_names -framework Open
 EXEC=main
 SIZE=size -B -d
 
-all: glad.o float_double_buffer.o uint16_double_buffer.o position.o vec2.o scene_object.o scene_object_factory.o main_character.o brick.o state_machine.o scene_object_manager.o sprite.o sprite_texture.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_texture_manager.o
-	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o main_character.o brick.o state_machine.o scene_object_manager.o sprite.o sprite_texture.o scene_object_texture_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o position.o vec2.o float_double_buffer.o uint16_double_buffer.o glad.o -o $(EXEC)
+all: glad.o float_double_buffer.o uint16_double_buffer.o position.o vec2.o scene_object.o scene_object_factory.o main_character.o brick.o brick_brown.o brick_blue.o state_machine.o scene_object_manager.o sprite.o sprite_texture.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_texture_manager.o
+	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o main_character.o brick.o brick_brown.o brick_blue.o state_machine.o scene_object_manager.o sprite.o sprite_texture.o scene_object_texture_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o position.o vec2.o float_double_buffer.o uint16_double_buffer.o glad.o -o $(EXEC)
 	$(SIZE) $(EXEC)
 
-main_character.o: src/main_character.cpp
-	$(CXX) -c $(CFLAGS) src/main_character.cpp
+main_character.o: src/items/main_character.cpp
+	$(CXX) -c $(CFLAGS) src/items/main_character.cpp
 
-brick.o: src/brick.cpp
-	$(CXX) -c $(CFLAGS) src/brick.cpp
+brick.o: src/items/brick.cpp
+	$(CXX) -c $(CFLAGS) src/items/brick.cpp
+
+brick_brown.o: src/items/brick_brown.cpp
+	$(CXX) -c $(CFLAGS) src/items/brick_brown.cpp
+
+brick_blue.o: src/items/brick_blue.cpp
+	$(CXX) -c $(CFLAGS) src/items/brick_blue.cpp
 
 state_machine.o: src/state_machine.cpp
 	$(CXX) -c $(CFLAGS) src/state_machine.cpp

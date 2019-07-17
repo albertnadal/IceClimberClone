@@ -2,7 +2,7 @@
 #define _UINT16_DOUBLE_BUFFER_H
 
 #include <mutex>
-#include <types.h>
+#include <defines.h>
 
 class UInt16DoubleBuffer {
 

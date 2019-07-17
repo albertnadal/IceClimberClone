@@ -1,11 +1,8 @@
-#include "main_character.h"
+#include "items/main_character.h"
 #include <chrono>
 
 MainCharacter::MainCharacter() :
         ISceneObject(SceneObjectIdentificator::MAIN_CHARACTER, MainCharacterStateIdentificator::MAIN_CHARACTER_MAX_STATES) {
-        cout << " INSTANCIA NOVA DE MainCharacter CREADA" << endl;
-        position.setX(100.0f);
-        position.setY(100.0f);
 }
 
 uint16 MainCharacter::Width() {
@@ -45,7 +42,7 @@ bool MainCharacter::Update(uchar pressedKeys_) {
                 return false;
         }
 
-        if(std::chrono::system_clock::now() >= nextSpriteTime) {
+        if(chrono::system_clock::now() >= nextSpriteTime) {
                 // Load next sprite of the current animation
                 LoadNextSprite();
                 return true;
@@ -145,7 +142,7 @@ void MainCharacter::LoadNextSprite()
           }
   }
 
-  nextSpriteTime = (std::chrono::system_clock::now() + std::chrono::milliseconds(spriteData.duration));
+  nextSpriteTime = (chrono::system_clock::now() + chrono::milliseconds(spriteData.duration));
 
   currentSprite.width = spriteData.width;
   currentSprite.height = spriteData.height;

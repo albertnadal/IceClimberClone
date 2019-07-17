@@ -2,7 +2,7 @@
 #define OBJECT_SPRITE_SHEET_ANIMATION_H
 
 #include <vector>
-#include <types.h>
+#include <defines.h>
 
 struct SpriteData { uint16 width, height; float u1, v1, u2, v2; uint16 duration; bool beginNewLoop; };
 

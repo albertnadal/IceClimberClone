@@ -9,11 +9,11 @@
 #include <shader_s.h>
 #include <filesystem.h>
 #include <vec2.h>
-#include <types.h>
+#include <defines.h>
 #include <scene_object_texture_manager.h>
 #include <scene_object_manager.h>
 #include <scene_object.h>
-#include <main_character.h>
+#include <items/main_character.h>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, int mode);

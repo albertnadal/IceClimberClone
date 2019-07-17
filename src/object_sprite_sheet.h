@@ -2,7 +2,7 @@
 #define OBJECT_SPRITE_SHEET_H
 
 #include <map>
-#include <types.h>
+#include <defines.h>
 #include <object_sprite_sheet_animation.h>
 
 class SceneObject;

@@ -20,16 +20,18 @@ class Brick: public ISceneObject
   bool animationLoaded = false;
   void ProcessPressedKeys(bool = true);
   void ProcessReleasedKeys();
-  void LoadAnimationWithId(uint16);
   SpriteData NextSpriteData();
   void LoadNextSprite();
+protected:
+  void LoadAnimationWithId(uint16);
 public:
+  Brick(SceneObjectIdentificator, unsigned char);
   Brick();
   ~Brick();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  virtual void InitWithSpriteSheet(ObjectSpriteSheet*);
   uint16 Width();
   uint16 Height();
-  void PrintName();
+  virtual void PrintName();
   bool Update(uchar);
   static ISceneObject* Create();
 

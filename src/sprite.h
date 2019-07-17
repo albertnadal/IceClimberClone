@@ -1,7 +1,7 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
-#include <types.h>
+#include <defines.h>
 #include <sprite_texture.h>
 
 using namespace std;
