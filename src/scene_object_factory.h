@@ -8,6 +8,9 @@
 #include "items/brick.h"
 #include "items/brick_brown.h"
 #include "items/brick_blue.h"
+#include "items/brick_green_half.h"
+#include "items/brick_brown_half.h"
+#include "items/brick_blue_half.h"
 
 class SceneObjectFactory
 {

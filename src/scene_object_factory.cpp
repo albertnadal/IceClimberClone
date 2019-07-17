@@ -13,6 +13,9 @@ void SceneObjectFactory::RegisterSceneObjects() {
 	Register(SceneObjectIdentificator::BRICK, &Brick::Create);
 	Register(SceneObjectIdentificator::BRICK_BROWN, &BrickBrown::Create);
 	Register(SceneObjectIdentificator::BRICK_BLUE, &BrickBlue::Create);
+	Register(SceneObjectIdentificator::BRICK_GREEN_HALF, &BrickGreenHalf::Create);
+	Register(SceneObjectIdentificator::BRICK_BROWN_HALF, &BrickBrownHalf::Create);
+	Register(SceneObjectIdentificator::BRICK_BLUE_HALF, &BrickBlueHalf::Create);
 }
 
 SceneObjectFactory &SceneObjectFactory::operator=(const SceneObjectFactory &) {
