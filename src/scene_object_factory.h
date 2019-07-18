@@ -11,6 +11,8 @@
 #include "items/brick_green_half.h"
 #include "items/brick_brown_half.h"
 #include "items/brick_blue_half.h"
+#include "items/side_wall_green_left.h"
+#include "items/side_wall_green_right.h"
 
 class SceneObjectFactory
 {

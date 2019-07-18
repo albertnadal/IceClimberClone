@@ -1,27 +1,27 @@
-#include "brick.h"
+#include "side_wall.h"
 #include <chrono>
 
-Brick::Brick() :
-        ISceneObject(SceneObjectIdentificator::BRICK, BrickStateIdentificator::BRICK_MAX_STATES) {
+SideWall::SideWall() :
+        ISceneObject(SceneObjectIdentificator::SIDE_WALL, SideWallStateIdentificator::SIDE_WALL_MAX_STATES) {
 }
 
-Brick::Brick(SceneObjectIdentificator scene_id, unsigned char max_states) :
+SideWall::SideWall(SceneObjectIdentificator scene_id, unsigned char max_states) :
         ISceneObject(scene_id, max_states) {
 }
 
-uint16 Brick::Width() {
+uint16 SideWall::Width() {
         return currentSprite.width;
 }
 
-uint16 Brick::Height() {
+uint16 SideWall::Height() {
         return currentSprite.height;
 }
 
-void Brick::PrintName() {
-        std::cout << "Brick." << std::endl;
+void SideWall::PrintName() {
+        std::cout << "SideWall." << std::endl;
 }
 
-bool Brick::Update(uchar pressedKeys_) {
+bool SideWall::Update(uchar pressedKeys_) {
         bool needRedraw = false;
 
         if(!animationLoaded) {
@@ -41,12 +41,11 @@ bool Brick::Update(uchar pressedKeys_) {
         return needRedraw;
 }
 
-void Brick::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void SideWall::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
-        LoadAnimationWithId(BrickAnimation::BRICK_GREEN_STICKY);
 }
 
-void Brick::LoadAnimationWithId(uint16 animationId) {
+void SideWall::LoadAnimationWithId(uint16 animationId) {
         ObjectSpriteSheetAnimation *currentAnimation = spriteSheet->GetAnimationWithId(animationId);
         currentAnimationSprites = currentAnimation->GetSprites();
         animationHasOnlyOneSprite = (currentAnimationSprites.size() <= 1);
@@ -56,7 +55,7 @@ void Brick::LoadAnimationWithId(uint16 animationId) {
         nextSpriteTime = std::chrono::system_clock::now();
 }
 
-void Brick::LoadNextSprite()
+void SideWall::LoadNextSprite()
 {
   SpriteData spriteData = NextSpriteData();
   if(spriteData.beginNewLoop) {
@@ -78,7 +77,7 @@ void Brick::LoadNextSprite()
   firstSpriteOfCurrentAnimationIsLoaded = true;
 }
 
-SpriteData Brick::NextSpriteData()
+SpriteData SideWall::NextSpriteData()
 {
         if(currentAnimationSpriteIterator == std::end(currentAnimationSprites)) {
                 currentAnimationSpriteIterator = std::begin(currentAnimationSprites);
@@ -88,44 +87,15 @@ SpriteData Brick::NextSpriteData()
         return *currentAnimationSpriteIterator++;
 }
 
-ISceneObject* Brick::Create() {
-        return new Brick();
+ISceneObject* SideWall::Create() {
+          return new SideWall();
 }
 
-Brick::~Brick() {
+SideWall::~SideWall() {
 
 }
 
-bool Brick::BeginAnimationLoopAgain()
+bool SideWall::BeginAnimationLoopAgain()
 {
-/*
-        if(currentState == BrickStateIdentificator::STATE_STICKY) {
-          ExternalEvent(BrickStateIdentificator::STATE_FALLING, NULL);
-          return true;
-        } else {
-          return false;
-        }
-*/
         return false;
-}
-
-void Brick::ReceiveHammerImpact()
-{
-        cout << "Brick::ReceiveHammerImpact()" << endl;
-        BEGIN_TRANSITION_MAP                    // - Current State -
-        TRANSITION_MAP_ENTRY (STATE_FALLING) // STATE_Sticky
-        TRANSITION_MAP_ENTRY (EVENT_IGNORED)  // STATE_Falling
-        END_TRANSITION_MAP(NULL)
-}
-
-void Brick::STATE_Sticky()
-{
-        cout << "Brick::STATE_Sticky" << endl;
-        LoadAnimationWithId(BrickAnimation::BRICK_GREEN_STICKY);
-}
-
-void Brick::STATE_Falling()
-{
-        cout << "Brick::STATE_Falling" << endl;
-        LoadAnimationWithId(BrickAnimation::BRICK_GREEN_FALLING);
 }
