@@ -29,6 +29,8 @@ const uint32 OBJECT_COUNT = 1000;
 //static uint16 vertices[OBJECT_COUNT * 12];
 //static float uvs[OBJECT_COUNT * 12];
 
+std::chrono::duration<float> cpuTimePerUpdate;
+
 int nbFrames = 0;
 int previousFPS = 0;
 double lastTime = glfwGetTime();
@@ -68,8 +70,11 @@ void render()
 static void* gameLogicMainThreadFunc(void* v)
 {
   while(running) {
+    auto t0 = std::chrono::high_resolution_clock::now();
     sceneObjectManager->Update(pressedKeys);
-    std::this_thread::sleep_for(std::chrono::milliseconds(16));
+    auto t1 = std::chrono::high_resolution_clock::now();
+    cpuTimePerUpdate = t1 - t0;
+    std::this_thread::sleep_for(std::chrono::milliseconds(16) - cpuTimePerUpdate);
   }
   return 0;
 }
@@ -228,7 +233,11 @@ void update_fps(GLFWwindow* win)
                 char title [256];
                 title[255] = '\0';
 
-                snprintf(title, 255, "%s - [FPS: %d] [Frame time: %f]", "Rocket", nbFrames, 1000.0f/nbFrames);
+                std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(cpuTimePerUpdate);
+                std::chrono::microseconds micro = std::chrono::duration_cast<std::chrono::microseconds>(cpuTimePerUpdate);
+                std::cout << ms.count() << "ms | " << micro.count() << "micro\n";
+
+                snprintf(title, 255, "%s - [FPS: %d] [GPU frame time: %f ms] [CPU update time: %lld ms | %lld micro]", "Rocket", nbFrames, 1000.0f/nbFrames, ms.count(), micro.count());
                 glfwSetWindowTitle(win, title);
 
                 previousFPS = nbFrames;
