@@ -69,14 +69,14 @@ void render()
 
 static void* gameLogicMainThreadFunc(void* v)
 {
-  while(running) {
-    auto t0 = std::chrono::high_resolution_clock::now();
-    sceneObjectManager->Update(pressedKeys);
-    auto t1 = std::chrono::high_resolution_clock::now();
-    cpuTimePerUpdate = t1 - t0;
-    std::this_thread::sleep_for(std::chrono::milliseconds(16) - cpuTimePerUpdate);
-  }
-  return 0;
+        while(running) {
+                auto t0 = std::chrono::high_resolution_clock::now();
+                sceneObjectManager->Update(pressedKeys);
+                auto t1 = std::chrono::high_resolution_clock::now();
+                cpuTimePerUpdate = t1 - t0;
+                std::this_thread::sleep_for(std::chrono::milliseconds(16) - cpuTimePerUpdate);
+        }
+        return 0;
 }
 
 int main()
@@ -199,15 +199,15 @@ void keyboard_callback(GLFWwindow* window, int key, int32 scancode, int32 action
 {
         KeyboardKeyCode keyCode = KEY_NONE;
         switch(key) {
-          case GLFW_KEY_LEFT:   keyCode = KEY_LEFT; break;
-          case GLFW_KEY_RIGHT:  keyCode = KEY_RIGHT; break;
-          case GLFW_KEY_UP:     keyCode = KEY_UP; break;
-          case GLFW_KEY_DOWN:   keyCode = KEY_DOWN; break;
-          case GLFW_KEY_Q:      keyCode = KEY_Q; break;
-          case GLFW_KEY_W:      keyCode = KEY_W; break;
-          case GLFW_KEY_A:      keyCode = KEY_A; break;
-          case GLFW_KEY_SPACE:  keyCode = KEY_SPACE; break;
-          case GLFW_KEY_ESCAPE: if(action == GLFW_PRESS) { glfwSetWindowShouldClose(window, GL_TRUE); } keyCode = KEY_NONE; break;
+        case GLFW_KEY_LEFT:   keyCode = KEY_LEFT; break;
+        case GLFW_KEY_RIGHT:  keyCode = KEY_RIGHT; break;
+        case GLFW_KEY_UP:     keyCode = KEY_UP; break;
+        case GLFW_KEY_DOWN:   keyCode = KEY_DOWN; break;
+        case GLFW_KEY_Q:      keyCode = KEY_Q; break;
+        case GLFW_KEY_W:      keyCode = KEY_W; break;
+        case GLFW_KEY_A:      keyCode = KEY_A; break;
+        case GLFW_KEY_SPACE:  keyCode = KEY_SPACE; break;
+        case GLFW_KEY_ESCAPE: if(action == GLFW_PRESS) { glfwSetWindowShouldClose(window, GL_TRUE); } keyCode = KEY_NONE; break;
         }
 
         if(keyCode != KEY_NONE) {
@@ -226,7 +226,7 @@ void update_fps(GLFWwindow* win)
         nbFrames++;
 
         if(previousFPS >= 60) {
-          std::this_thread::sleep_for(std::chrono::milliseconds((int)(10)));
+                std::this_thread::sleep_for(std::chrono::milliseconds((int)(10)));
         }
 
         if ( currentTime - lastTime >= 1.0 ) { // If last count was more than 1 sec ago
