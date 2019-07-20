@@ -18,6 +18,16 @@ void SceneObjectFactory::RegisterSceneObjects() {
 	Register(SceneObjectIdentificator::BRICK_BLUE_HALF, &BrickBlueHalf::Create);
 	Register(SceneObjectIdentificator::SIDE_WALL_GREEN_LEFT, &SideWallGreenLeft::Create);
 	Register(SceneObjectIdentificator::SIDE_WALL_GREEN_RIGHT, &SideWallGreenRight::Create);
+	Register(SceneObjectIdentificator::SIDE_WALL_GREEN_COLUMNS_LEFT, &SideWallGreenColumnsLeft::Create);
+	Register(SceneObjectIdentificator::SIDE_WALL_GREEN_COLUMNS_RIGHT, &SideWallGreenColumnsRight::Create);
+	Register(SceneObjectIdentificator::SIDE_WALL_BROWN_COLUMNS_LEFT, &SideWallBrownColumnsLeft::Create);
+	Register(SceneObjectIdentificator::SIDE_WALL_BROWN_COLUMNS_RIGHT, &SideWallBrownColumnsRight::Create);
+	Register(SceneObjectIdentificator::SIDE_WALL_BROWN_LEFT, &SideWallBrownLeft::Create);
+	Register(SceneObjectIdentificator::SIDE_WALL_BROWN_RIGHT, &SideWallBrownRight::Create);
+	Register(SceneObjectIdentificator::SIDE_WALL_BLUE_LEFT, &SideWallBlueLeft::Create);
+	Register(SceneObjectIdentificator::SIDE_WALL_BLUE_RIGHT, &SideWallBlueRight::Create);
+	Register(SceneObjectIdentificator::SIDE_WALL_BLUE_COLUMNS_LEFT, &SideWallBlueColumnsLeft::Create);
+	Register(SceneObjectIdentificator::SIDE_WALL_BLUE_COLUMNS_RIGHT, &SideWallBlueColumnsRight::Create);
 }
 
 SceneObjectFactory &SceneObjectFactory::operator=(const SceneObjectFactory &) {

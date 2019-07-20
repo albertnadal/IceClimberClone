@@ -13,6 +13,16 @@
 #include "items/brick_blue_half.h"
 #include "items/side_wall_green_left.h"
 #include "items/side_wall_green_right.h"
+#include "items/side_wall_green_columns_left.h"
+#include "items/side_wall_green_columns_right.h"
+#include "items/side_wall_brown_columns_left.h"
+#include "items/side_wall_brown_columns_right.h"
+#include "items/side_wall_brown_left.h"
+#include "items/side_wall_brown_right.h"
+#include "items/side_wall_blue_left.h"
+#include "items/side_wall_blue_right.h"
+#include "items/side_wall_blue_columns_left.h"
+#include "items/side_wall_blue_columns_right.h"
 
 class SceneObjectFactory
 {
