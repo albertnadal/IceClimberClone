@@ -15,6 +15,7 @@ public:
 
   FloatDoubleBuffer(uint32);
   uint32 size();
+  void cleanDataFromPosition(uint32);
   void lock();
   void unlock();
   void swapBuffers();

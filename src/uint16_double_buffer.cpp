@@ -11,6 +11,11 @@ uint32 UInt16DoubleBuffer::size()
         return (length * sizeof(uint16));
 }
 
+void UInt16DoubleBuffer::cleanDataFromPosition(uint32 position)
+{
+  std::memset(producer_buffer+position, 0, length-position);
+}
+
 void UInt16DoubleBuffer::lock()
 {
         consumer_mutex.lock();

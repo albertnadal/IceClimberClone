@@ -11,6 +11,11 @@ uint32 FloatDoubleBuffer::size()
         return (length * sizeof(float));
 }
 
+void FloatDoubleBuffer::cleanDataFromPosition(uint32 position)
+{
+  std::memset(producer_buffer+position, 0, length-position);
+}
+
 void FloatDoubleBuffer::lock()
 {
         consumer_mutex.lock();

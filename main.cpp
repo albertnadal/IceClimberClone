@@ -26,8 +26,6 @@ const uint32 SCR_HEIGHT = 750;
 pthread_t gameLogicMainThreadId;
 
 const uint32 OBJECT_COUNT = 1000;
-//static uint16 vertices[OBJECT_COUNT * 12];
-//static float uvs[OBJECT_COUNT * 12];
 
 std::chrono::duration<float> cpuTimePerUpdate;
 
@@ -96,7 +94,7 @@ int main()
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // uncomment this statement to fix compilation on OS X
 #endif
 
-        window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Rocket", NULL, NULL);
+        window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Ice Climber", NULL, NULL);
         if (window == NULL)
         {
                 std::cout << "Failed to create GLFW window" << std::endl;
@@ -151,9 +149,10 @@ int main()
 
         while (!glfwWindowShouldClose(window))
         {
+                glViewport(0, -215, 16*100*2, 9*100*2);
+
                 process_input(window);
                 glfwPollEvents();
-
                 glBindBuffer(GL_ARRAY_BUFFER, VBO);
                 verticesDoubleBuffer->lock();
                 glBufferSubData(GL_ARRAY_BUFFER, 0, verticesDoubleBuffer->size(), verticesDoubleBuffer->consumer_buffer);
@@ -192,7 +191,7 @@ void process_input(GLFWwindow *window)
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-        glViewport(0, 0, width, height);
+        //glViewport(0, 0, width, height);
 }
 
 void keyboard_callback(GLFWwindow* window, int key, int32 scancode, int32 action, int32 mode)
@@ -235,11 +234,8 @@ void update_fps(GLFWwindow* win)
 
                 std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(cpuTimePerUpdate);
                 std::chrono::microseconds micro = std::chrono::duration_cast<std::chrono::microseconds>(cpuTimePerUpdate);
-                std::cout << ms.count() << "ms | " << micro.count() << "micro\n";
-
                 snprintf(title, 255, "%s - [FPS: %d] [GPU frame time: %f ms] [CPU update time: %lld ms | %lld micro]", "Rocket", nbFrames, 1000.0f/nbFrames, ms.count(), micro.count());
                 glfwSetWindowTitle(win, title);
-
                 previousFPS = nbFrames;
                 nbFrames = 0;
                 lastTime = currentTime;

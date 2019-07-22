@@ -15,6 +15,7 @@ public:
 
   UInt16DoubleBuffer(uint32);
   uint32 size();
+  void cleanDataFromPosition(uint32);
   void swapBuffers();
   void lock();
   void unlock();
