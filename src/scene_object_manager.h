@@ -7,9 +7,12 @@
 #include "scene_object_texture_manager.h"
 #include "uint16_double_buffer.h"
 #include "float_double_buffer.h"
+#include <AABB/AABB.h>
 
 class SceneObjectManager
 {
+  aabb::Tree<ISceneObject*> spacePartitionTree; // Used in the broad phase of object collision detection
+
   std::deque<std::vector<ISceneObject*>> rowsBuffer;
   uint32 currentRow;
   uint32 visibleRows;

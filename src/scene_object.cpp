@@ -1,13 +1,17 @@
 #include "scene_object.h"
+#include <MersenneTwister/MersenneTwister.h>
 
 ISceneObject::ISceneObject() {
   id = SceneObjectIdentificator::NONE;
+  MersenneTwister rng;
+  uniqueId = rng.integer(0, UINT_MAX);
 }
 
 ISceneObject::ISceneObject(SceneObjectIdentificator _id, unsigned char _maxStates) :
   StateMachine(_maxStates),
   id(_id) {
-
+  MersenneTwister rng;
+  uniqueId = rng.integer(0, UINT_MAX);
 }
 
 SceneObjectIdentificator ISceneObject::Id() {

@@ -17,6 +17,7 @@ protected:
   ObjectSpriteSheet *spriteSheet = nullptr;
   SceneObjectIdentificator id;
   chrono::system_clock::time_point nextSpriteTime;
+  uint32 uniqueId;
 public:
   ISceneObject();
   ISceneObject(SceneObjectIdentificator, unsigned char);
