@@ -11,6 +11,8 @@
 
 using namespace std;
 
+struct Boundaries { uint16 lowerBoundX, lowerBoundY, upperBoundX, upperBoundY; };
+
 class ISceneObject : public StateMachine
 {
 protected:
@@ -23,6 +25,7 @@ public:
   ISceneObject(SceneObjectIdentificator, unsigned char);
   Sprite currentSprite;
   Position position;
+  Boundaries boundingBox;
   virtual SceneObjectIdentificator Id();
   virtual void InitWithSpriteSheet(ObjectSpriteSheet*);
   virtual uint16 Width();

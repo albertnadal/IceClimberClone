@@ -5,6 +5,7 @@ ISceneObject::ISceneObject() {
   id = SceneObjectIdentificator::NONE;
   MersenneTwister rng;
   uniqueId = rng.integer(0, UINT_MAX);
+  boundingBox = {0, 0, 0, 0};
 }
 
 ISceneObject::ISceneObject(SceneObjectIdentificator _id, unsigned char _maxStates) :
@@ -12,6 +13,7 @@ ISceneObject::ISceneObject(SceneObjectIdentificator _id, unsigned char _maxState
   id(_id) {
   MersenneTwister rng;
   uniqueId = rng.integer(0, UINT_MAX);
+  boundingBox = {0, 0, 0, 0};
 }
 
 SceneObjectIdentificator ISceneObject::Id() {

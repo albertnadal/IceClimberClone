@@ -73,7 +73,7 @@ void SideWall::LoadNextSprite()
   currentSprite.v1 = spriteData.v1;
   currentSprite.u2 = spriteData.u2;
   currentSprite.v2 = spriteData.v2;
-
+  boundingBox = { spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY };
   firstSpriteOfCurrentAnimationIsLoaded = true;
 }
 

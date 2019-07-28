@@ -48,6 +48,8 @@ bool MainCharacter::Update(uchar pressedKeys_) {
                 return true;
         }
 
+        cout << "X: " << position.int_x << " Y: " << position.int_y << " lowerBoundX: " << boundingBox.lowerBoundX << " lowerBoundY: " << boundingBox.lowerBoundY << " upperBoundX: " << boundingBox.upperBoundX << " upperBoundY: " << boundingBox.upperBoundY << endl;
+
         return needRedraw;
 }
 
@@ -136,8 +138,7 @@ void MainCharacter::LoadNextSprite()
 {
   SpriteData spriteData = NextSpriteData();
   if(spriteData.beginNewLoop) {
-          cout << "*** BEGIN NEW LOOP ***" << endl;
-          if(BeginAnimationLoopAgain()) {
+          if(ShouldBeginAnimationLoopAgain()) {
             spriteData = NextSpriteData();
           }
   }
@@ -150,7 +151,7 @@ void MainCharacter::LoadNextSprite()
   currentSprite.v1 = spriteData.v1;
   currentSprite.u2 = spriteData.u2;
   currentSprite.v2 = spriteData.v2;
-
+  boundingBox = { spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY };
   firstSpriteOfCurrentAnimationIsLoaded = true;
 }
 
@@ -172,7 +173,7 @@ MainCharacter::~MainCharacter() {
 
 }
 
-bool MainCharacter::BeginAnimationLoopAgain()
+bool MainCharacter::ShouldBeginAnimationLoopAgain()
 {
         if(currentState == MainCharacterStateIdentificator::STATE_HIT_RIGHT) {
           isHitting = false;

@@ -64,7 +64,7 @@ public:
   void UpKeyPressed();
   void SpaceKeyPressed();
   void JumpLanding();
-  bool BeginAnimationLoopAgain();
+  bool ShouldBeginAnimationLoopAgain();
   //void ReachedSpeedForRunning();
 
 private:

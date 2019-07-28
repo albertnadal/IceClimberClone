@@ -72,7 +72,7 @@ void SceneObjectTextureManager::LoadObjectsDataFromFile(std::string filename)
                 }
 
                 if(currentLineType == OBJ_SPRITE) {
-                        if(currentframeValues->size() == 7) {
+                        if(currentframeValues->size() == 11) {
                                 uint16 width = stoi(currentframeValues->at(0));
                                 uint16 height = stoi(currentframeValues->at(1));
                                 float u1 = stof(currentframeValues->at(2));
@@ -80,7 +80,11 @@ void SceneObjectTextureManager::LoadObjectsDataFromFile(std::string filename)
                                 float u2 = stof(currentframeValues->at(4));
                                 float v2 = stof(currentframeValues->at(5));
                                 uint16 duration = stoi(currentframeValues->at(6));
-                                currentObjectSpriteSheetAnimation->AddSprite({ width, height, u1, v1, u2, v2, duration, false });
+                                uint16 lowerBoundX = stoi(currentframeValues->at(7));
+                                uint16 lowerBoundY = stoi(currentframeValues->at(8));
+                                uint16 upperBoundX = stoi(currentframeValues->at(9));
+                                uint16 upperBoundY = stoi(currentframeValues->at(10));
+                                currentObjectSpriteSheetAnimation->AddSprite({ width, height, u1, v1, u2, v2, duration, false, lowerBoundX, lowerBoundY, upperBoundX, upperBoundY });
                         }
                 }
         }
