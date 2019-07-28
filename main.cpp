@@ -43,26 +43,15 @@ SceneObjectManager *sceneObjectManager;
 
 void render()
 {
-        //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        //glFrontFace(GL_CCW);
         glEnable(GL_BLEND);
         glEnable(GL_CULL_FACE);
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_SCISSOR_TEST);
-
-/*
-        ourShader->use();
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, textureId);
- */
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, OBJECT_COUNT * 6);
-
         glfwSwapBuffers(window);
-        //glfwPollEvents();
 }
 
 static void* gameLogicMainThreadFunc(void* v)
