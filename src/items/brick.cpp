@@ -2,11 +2,11 @@
 #include <chrono>
 
 Brick::Brick() :
-        ISceneObject(SceneObjectIdentificator::BRICK, BrickStateIdentificator::BRICK_MAX_STATES) {
+        ISceneObject(SceneObjectIdentificator::BRICK, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES) {
 }
 
-Brick::Brick(SceneObjectIdentificator scene_id, unsigned char max_states) :
-        ISceneObject(scene_id, max_states) {
+Brick::Brick(SceneObjectIdentificator scene_id, SceneObjectType scene_type, unsigned char max_states) :
+        ISceneObject(scene_id, scene_type, max_states) {
 }
 
 uint16 Brick::Width() {

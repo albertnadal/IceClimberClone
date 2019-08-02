@@ -2,7 +2,7 @@
 #include <chrono>
 
 BrickGreenHalf::BrickGreenHalf() :
-        Brick(SceneObjectIdentificator::BRICK_GREEN_HALF, BrickStateIdentificator::BRICK_MAX_STATES) {
+        Brick(SceneObjectIdentificator::BRICK_GREEN_HALF, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES) {
 }
 
 void BrickGreenHalf::PrintName() {

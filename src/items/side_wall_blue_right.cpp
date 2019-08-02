@@ -2,7 +2,7 @@
 #include <chrono>
 
 SideWallBlueRight::SideWallBlueRight() :
-        SideWall(SceneObjectIdentificator::SIDE_WALL_BLUE_RIGHT, SideWallStateIdentificator::SIDE_WALL_MAX_STATES) {
+        SideWall(SceneObjectIdentificator::SIDE_WALL_BLUE_RIGHT, SceneObjectType::TERRAIN, SideWallStateIdentificator::SIDE_WALL_MAX_STATES) {
 }
 
 void SideWallBlueRight::PrintName() {

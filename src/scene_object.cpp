@@ -8,9 +8,10 @@ ISceneObject::ISceneObject() {
   boundingBox = {0, 0, 0, 0};
 }
 
-ISceneObject::ISceneObject(SceneObjectIdentificator _id, unsigned char _maxStates) :
+ISceneObject::ISceneObject(SceneObjectIdentificator _id, SceneObjectType _type, unsigned char _maxStates) :
   StateMachine(_maxStates),
-  id(_id) {
+  id(_id),
+  type(_type) {
   MersenneTwister rng;
   uniqueId = rng.integer(0, UINT_MAX);
   boundingBox = {0, 0, 0, 0};
@@ -18,6 +19,10 @@ ISceneObject::ISceneObject(SceneObjectIdentificator _id, unsigned char _maxState
 
 SceneObjectIdentificator ISceneObject::Id() {
   return id;
+}
+
+SceneObjectType ISceneObject::Type() {
+  return type;
 }
 
 uint16 ISceneObject::Width() {

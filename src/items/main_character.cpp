@@ -2,7 +2,7 @@
 #include <chrono>
 
 MainCharacter::MainCharacter() :
-        ISceneObject(SceneObjectIdentificator::MAIN_CHARACTER, MainCharacterStateIdentificator::MAIN_CHARACTER_MAX_STATES) {
+        ISceneObject(SceneObjectIdentificator::MAIN_CHARACTER, SceneObjectType::PLAYER, MainCharacterStateIdentificator::MAIN_CHARACTER_MAX_STATES) {
 }
 
 uint16 MainCharacter::Width() {

@@ -13,6 +13,8 @@ class SceneObjectManager
 {
   aabb::Tree<ISceneObject*> spacePartitionTree; // Used in the broad phase of object collision detection
 
+  std::vector<ISceneObject*> mobileObjects;
+  std::vector<ISceneObject*> terrainObjects;
   std::deque<std::vector<ISceneObject*>> rowsBuffer;
   uint32 currentRow;
   uint32 visibleRows;

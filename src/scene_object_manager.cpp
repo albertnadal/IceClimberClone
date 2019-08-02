@@ -27,6 +27,8 @@ void SceneObjectManager::BuildWorld() {
           object->position.setX(uint16(x*cell_w));
           object->position.setY(uint16(row*cell_h));
           rowObjects.push_back(object);
+
+
         }
       }
     }

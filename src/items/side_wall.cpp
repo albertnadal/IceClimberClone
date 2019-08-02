@@ -2,11 +2,11 @@
 #include <chrono>
 
 SideWall::SideWall() :
-        ISceneObject(SceneObjectIdentificator::SIDE_WALL, SideWallStateIdentificator::SIDE_WALL_MAX_STATES) {
+        ISceneObject(SceneObjectIdentificator::SIDE_WALL, SceneObjectType::TERRAIN, SideWallStateIdentificator::SIDE_WALL_MAX_STATES) {
 }
 
-SideWall::SideWall(SceneObjectIdentificator scene_id, unsigned char max_states) :
-        ISceneObject(scene_id, max_states) {
+SideWall::SideWall(SceneObjectIdentificator scene_id, SceneObjectType scene_type, unsigned char max_states) :
+        ISceneObject(scene_id, scene_type, max_states) {
 }
 
 uint16 SideWall::Width() {
