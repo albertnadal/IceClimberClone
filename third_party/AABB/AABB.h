@@ -84,6 +84,7 @@ namespace aabb
             // Validate the dimensionality of the bounds vectors.
             if (lowerBound.size() != upperBound.size())
             {
+              std::cout << "OK3!";
                 throw std::invalid_argument("[ERROR]: Dimensionality mismatch!");
             }
 
@@ -323,6 +324,8 @@ namespace aabb
         Tree(unsigned int, double, const std::vector<bool>&, const std::vector<double>&,
             unsigned int nParticles = 16, bool touchIsOverlap=true);
 
+        void setDimension(const int dimension);
+
         //! Set the periodicity of the simulation box.
         /*! \param periodicity_
                 Whether the system is periodic in each dimension.
@@ -347,6 +350,17 @@ namespace aabb
          */
         void insertParticle(T, std::vector<double>&, double);
 
+        //! Insert a particle into the tree (arbitrary shape with bounding box).
+        /*! \param index
+                The index of the particle.
+
+            \param lowerBound
+                The lower bound in each dimension.
+
+            \param upperBound
+                The upper bound in each dimension.
+         */
+        void insertParticle(T, std::vector<unsigned short>, std::vector<unsigned short>);
         //! Insert a particle into the tree (arbitrary shape with bounding box).
         /*! \param index
                 The index of the particle.
@@ -424,6 +438,18 @@ namespace aabb
                 A vector of particle indices.
          */
         std::vector<T> query(T, const AABB&);
+
+        //! Query the tree to find candidate interactions for an AABB.
+        /*! \param lowerbound
+                The lowerbound coordinate.
+
+            \param upperbound
+                The upperbound coordinate.
+
+            \return particles
+                A vector of particle indices.
+         */
+        std::vector<T> query(const std::vector<unsigned short>, const std::vector<unsigned short>);
 
         //! Query the tree to find candidate interactions for an AABB.
         /*! \param aabb
@@ -665,6 +691,7 @@ namespace aabb
         // Validate the dimensionality of the vectors.
         if ((periodicity.size() != dimension) || (boxSize.size() != dimension))
         {
+          std::cout << "OK4!";
             throw std::invalid_argument("[ERROR]: Dimensionality mismatch!");
         }
 
@@ -702,6 +729,12 @@ namespace aabb
     }
 
 /*****************************************************************************/
+
+    template <class T>
+    void Tree<T>::setDimension(const int dimension_)
+    {
+        dimension = dimension_;
+    }
 
     template <class T>
     void Tree<T>::setPeriodicity(const std::vector<bool>& periodicity_)
@@ -781,6 +814,7 @@ namespace aabb
         // Validate the dimensionality of the position vector.
         if (position.size() != dimension)
         {
+          std::cout << "OK5!";
             throw std::invalid_argument("[ERROR]: Dimensionality mismatch!");
         }
 
@@ -821,6 +855,23 @@ namespace aabb
     }
 
     template <class T>
+    void Tree<T>::insertParticle(T particle, std::vector<unsigned short> lowerBound_, std::vector<unsigned short> upperBound_)
+    {
+        std::vector<double> lowerBound;
+        std::vector<double> upperBound;
+
+        for(int i=0; i<lowerBound_.size(); i++) {
+          lowerBound.push_back((double)lowerBound_.at(i));
+        }
+
+        for(int i=0; i<upperBound_.size(); i++) {
+          upperBound.push_back((double)upperBound_.at(i));
+        }
+
+        insertParticle(particle, lowerBound, upperBound);
+    }
+
+    template <class T>
     void Tree<T>::insertParticle(T particle, std::vector<double>& lowerBound, std::vector<double>& upperBound)
     {
         // Make sure the particle doesn't already exist.
@@ -832,6 +883,7 @@ namespace aabb
         // Validate the dimensionality of the bounds vectors.
         if ((lowerBound.size() != dimension) || (upperBound.size() != dimension))
         {
+            std::cout << "DIMNESION: " << dimension << " OK0!";
             throw std::invalid_argument("[ERROR]: Dimensionality mismatch!");
         }
 
@@ -943,6 +995,7 @@ namespace aabb
         // Validate the dimensionality of the position vector.
         if (position.size() != dimension)
         {
+          std::cout << "OK1!";
             throw std::invalid_argument("[ERROR]: Dimensionality mismatch!");
         }
 
@@ -968,6 +1021,7 @@ namespace aabb
         // Validate the dimensionality of the bounds vectors.
         if ((lowerBound.size() != dimension) && (upperBound.size() != dimension))
         {
+          std::cout << "OK2!";
             throw std::invalid_argument("[ERROR]: Dimensionality mismatch!");
         }
 
@@ -1107,6 +1161,24 @@ namespace aabb
         }
 
         return particles;
+    }
+
+    template <class T>
+    std::vector<T> Tree<T>::query(const std::vector<unsigned short> lowerBound_, const std::vector<unsigned short> upperBound_)
+    {
+        std::vector<double> lowerBound;
+        std::vector<double> upperBound;
+
+        for(int i=0; i<lowerBound_.size(); i++) {
+          lowerBound.push_back((double)lowerBound_.at(i));
+        }
+
+        for(int i=0; i<upperBound_.size(); i++) {
+          upperBound.push_back((double)upperBound_.at(i));
+        }
+
+        AABB aabb(lowerBound, upperBound);
+        return query(aabb);
     }
 
     template <class T>

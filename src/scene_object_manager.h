@@ -11,10 +11,9 @@
 
 class SceneObjectManager
 {
-  aabb::Tree<ISceneObject*> spacePartitionTree; // Used in the broad phase of object collision detection
-
-  std::vector<ISceneObject*> mobileObjects;
-  std::vector<ISceneObject*> terrainObjects;
+  aabb::Tree<ISceneObject*> spacePartitionObjectsTree; // Used in the broad phase of object collision detection
+  std::map<uint32, ISceneObject*> mobileObjects;
+  std::map<uint32, ISceneObject*> staticObjects;
   std::deque<std::vector<ISceneObject*>> rowsBuffer;
   uint32 currentRow;
   uint32 visibleRows;
@@ -221,6 +220,12 @@ class SceneObjectManager
     { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 }
   };
 
+  void updateVerticalScroll(uchar);
+  void updateMobileObjects(uchar);
+  void updateStaticObjects();
+  void updateVerticesAndUVSBuffers();
+  void updateVerticesBufferAtIndex(uint16, ISceneObject*);
+  void updateUVSBufferAtIndex(uint16, ISceneObject*);
 public:
   SceneObjectManager(SceneObjectTextureManager*, UInt16DoubleBuffer*, FloatDoubleBuffer*, uint32);
   ~SceneObjectManager();

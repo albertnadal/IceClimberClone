@@ -17,7 +17,7 @@ void MainCharacter::PrintName() {
         std::cout << "Main character." << std::endl;
 }
 
-bool MainCharacter::Update(uchar pressedKeys_) {
+bool MainCharacter::Update(const uchar pressedKeys_, aabb::Tree<ISceneObject*>& spacePartitionObjectsTree_) {
 
         bool needRedraw = false;
 
@@ -34,6 +34,18 @@ bool MainCharacter::Update(uchar pressedKeys_) {
                 ProcessReleasedKeys();
         }
 
+        // Check for collision with other objects
+        std::vector<ISceneObject*> collisionCandidatesObjects = spacePartitionObjectsTree_.query(GetLowerBound(), GetUpperBound());
+        for(uint16 i=0; i<collisionCandidatesObjects.size(); i++) {
+          if(collisionCandidatesObjects[i] != this) {
+            cout << "COLLISION WITH OBJECT DETECTED:" << endl;
+            collisionCandidatesObjects[i]->PrintName();
+            collisionCandidatesObjects[i]->PrintBoundaries();
+            PrintName();
+            PrintBoundaries();
+          }
+        }
+
         if(!animationLoaded) {
                 return false;
         }
@@ -47,8 +59,6 @@ bool MainCharacter::Update(uchar pressedKeys_) {
                 LoadNextSprite();
                 return true;
         }
-
-        cout << "X: " << position.int_x << " Y: " << position.int_y << " lowerBoundX: " << boundingBox.lowerBoundX << " lowerBoundY: " << boundingBox.lowerBoundY << " upperBoundX: " << boundingBox.upperBoundX << " upperBoundY: " << boundingBox.upperBoundY << endl;
 
         return needRedraw;
 }
@@ -73,21 +83,21 @@ void MainCharacter::ProcessPressedKeys(bool checkPreviousPressedKeys)
         if((pressedKeys & KeyboardKeyCode::KEY_LEFT) == KeyboardKeyCode::KEY_LEFT) {
                 // If is not KEY_LEFT repeated press then change character state
                 if((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::KEY_LEFT) != KeyboardKeyCode::KEY_LEFT))) {
-                        cout << "KEY LEFT PRESSED" << endl;
+                        //cout << "KEY LEFT PRESSED" << endl;
 //                        LoadAnimationWithId(MainCharacterAnimation::RUN_TO_LEFT);
                         headedToRight = false;
                         LeftKeyPressed();
                 }
                 MoveTo(MainCharacterDirection::LEFT);
         } else if((prevPressedKeys & KeyboardKeyCode::KEY_LEFT) == KeyboardKeyCode::KEY_LEFT) {
-                cout << "KEY LEFT RELEASED" << endl;
+                //cout << "KEY LEFT RELEASED" << endl;
                 LeftKeyReleased();
         }
 
         if(!isJumping && ((pressedKeys & KeyboardKeyCode::KEY_UP) == KeyboardKeyCode::KEY_UP)) {
                 // If is not KEY_LEFT repeated press then change character state
                 if((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::KEY_UP) != KeyboardKeyCode::KEY_UP))) {
-                        cout << "KEY UP PRESSED" << endl;
+                        //cout << "KEY UP PRESSED" << endl;
                         UpKeyPressed();
                 }
         }
@@ -95,7 +105,7 @@ void MainCharacter::ProcessPressedKeys(bool checkPreviousPressedKeys)
         if(!isJumping && !isHitting && ((pressedKeys & KeyboardKeyCode::KEY_SPACE) == KeyboardKeyCode::KEY_SPACE)) {
                 // If is not KEY_LEFT repeated press then change character state
                 if((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::KEY_SPACE) != KeyboardKeyCode::KEY_SPACE))) {
-                        cout << "KEY SPACE PRESSED" << endl;
+                        //cout << "KEY SPACE PRESSED" << endl;
                         isHitting = true;
                         SpaceKeyPressed();
                 }

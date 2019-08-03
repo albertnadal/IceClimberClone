@@ -204,7 +204,7 @@ void keyboard_callback(GLFWwindow* window, int key, int32 scancode, int32 action
                 }
 
                 std::bitset<8> x(pressedKeys);
-                std::cout << "KEYS: " << x << endl;
+                //std::cout << "KEYS: " << x << endl;
         }
 }
 

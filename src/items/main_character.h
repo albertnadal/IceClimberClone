@@ -8,6 +8,7 @@
 #include <vec2.h>
 #include <sprite.h>
 #include <position.h>
+#include <AABB/AABB.h>
 
 using namespace std;
 
@@ -54,7 +55,7 @@ public:
   uint16 Width();
   uint16 Height();
   void PrintName();
-  bool Update(uchar);
+  bool Update(const uchar, aabb::Tree<ISceneObject*>&);
   static ISceneObject* Create();
 
   void RightKeyPressed();
