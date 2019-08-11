@@ -28,6 +28,7 @@ pthread_t gameLogicMainThreadId;
 const uint32 OBJECT_COUNT = 1000;
 
 std::chrono::duration<float> cpuTimePerUpdate;
+std::chrono::duration<float> gpuTimePerUpdate;
 
 int nbFrames = 0;
 int previousFPS = 0;
@@ -138,6 +139,7 @@ int main()
 
         while (!glfwWindowShouldClose(window))
         {
+                auto t0 = std::chrono::high_resolution_clock::now();
                 glViewport(0, -215, 16*100*2, 9*100*2);
 
                 process_input(window);
@@ -154,6 +156,12 @@ int main()
 
                 render();
                 update_fps(window);
+
+                auto t1 = std::chrono::high_resolution_clock::now();
+                gpuTimePerUpdate = t1 - t0;
+
+                // Force 60fps (16ms per frame)
+                std::this_thread::sleep_for(std::chrono::milliseconds(16) - gpuTimePerUpdate);
         }
 
         glDeleteVertexArrays(1, &VAO);
