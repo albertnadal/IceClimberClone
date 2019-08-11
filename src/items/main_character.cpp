@@ -35,12 +35,12 @@ bool MainCharacter::Update(const uchar pressedKeys_, aabb::Tree<ISceneObject*>& 
         }
 
         // Check for collision with other objects
-        std::vector<ISceneObject*> collisionCandidatesObjects = spacePartitionObjectsTree_.query(GetLowerBound(), GetUpperBound());
-        for(uint16 i=0; i<collisionCandidatesObjects.size(); i++) {
-          if(collisionCandidatesObjects[i] != this) {
-            cout << "COLLISION WITH OBJECT DETECTED:" << endl;
-            collisionCandidatesObjects[i]->PrintName();
-            collisionCandidatesObjects[i]->PrintBoundaries();
+        std::vector<ISceneObject*> potentialCollisionCandidatesObjects = spacePartitionObjectsTree_.query(GetLowerBound(), GetUpperBound());
+        for(uint16 i=0; i<potentialCollisionCandidatesObjects.size(); i++) {
+          if(potentialCollisionCandidatesObjects[i] != this) {
+            cout << "POTENTIAL COLLISION WITH OBJECT:" << endl;
+            potentialCollisionCandidatesObjects[i]->PrintName();
+            potentialCollisionCandidatesObjects[i]->PrintBoundaries();
             PrintName();
             PrintBoundaries();
           }
