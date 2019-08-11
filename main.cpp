@@ -10,7 +10,7 @@
 #include <filesystem.h>
 #include <vec2.h>
 #include <defines.h>
-#include <scene_object_texture_manager.h>
+#include <scene_object_data_manager.h>
 #include <scene_object_manager.h>
 #include <scene_object.h>
 #include <items/main_character.h>
@@ -38,7 +38,7 @@ bool running = true;
 GLFWwindow* window;
 uint32 VBO, VAO, UBO, textureId;
 Shader* ourShader;
-SceneObjectTextureManager *objectTextureManager;
+SceneObjectDataManager *objectTextureManager;
 SceneObjectManager *sceneObjectManager;
 
 void render()
@@ -68,7 +68,7 @@ static void* gameLogicMainThreadFunc(void* v)
 
 int main()
 {
-        objectTextureManager = new SceneObjectTextureManager();
+        objectTextureManager = new SceneObjectDataManager();
         UInt16DoubleBuffer *verticesDoubleBuffer = new UInt16DoubleBuffer(OBJECT_COUNT * 12);
         FloatDoubleBuffer *uvsDoubleBuffer = new FloatDoubleBuffer(OBJECT_COUNT * 12);
         sceneObjectManager = new SceneObjectManager(objectTextureManager, verticesDoubleBuffer, uvsDoubleBuffer, OBJECT_COUNT);

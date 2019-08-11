@@ -3,7 +3,7 @@
 
 #include <map>
 #include "scene_object.h"
-#include "scene_object_texture_manager.h"
+#include "scene_object_data_manager.h"
 #include "items/main_character.h"
 #include "items/brick.h"
 #include "items/brick_brown.h"
@@ -27,15 +27,15 @@
 class SceneObjectFactory
 {
 private:
-  SceneObjectFactory(SceneObjectTextureManager*);
+  SceneObjectFactory(SceneObjectDataManager*);
   SceneObjectFactory &operator=(const SceneObjectFactory &);
   void RegisterSceneObjects();
   typedef map<SceneObjectIdentificator, CreateSceneObjectFn> FactoryMap;
   FactoryMap m_FactoryMap;
-  SceneObjectTextureManager *textureManager = nullptr;
+  SceneObjectDataManager *textureManager = nullptr;
 public:
 	~SceneObjectFactory();
-	static SceneObjectFactory *Get(SceneObjectTextureManager*);
+	static SceneObjectFactory *Get(SceneObjectDataManager*);
 	void Register(const SceneObjectIdentificator, CreateSceneObjectFn);
 	ISceneObject *CreateSceneObject(const SceneObjectIdentificator);
 };

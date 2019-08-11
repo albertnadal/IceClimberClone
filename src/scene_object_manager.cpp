@@ -2,7 +2,7 @@
 #include "scene_object_factory.h"
 #include "scene_object.h"
 
-SceneObjectManager::SceneObjectManager(SceneObjectTextureManager* _textureManager, UInt16DoubleBuffer* _verticesDoubleBuffer, FloatDoubleBuffer* _uvsDoubleBuffer, uint32 _maxObjects) {
+SceneObjectManager::SceneObjectManager(SceneObjectDataManager* _textureManager, UInt16DoubleBuffer* _verticesDoubleBuffer, FloatDoubleBuffer* _uvsDoubleBuffer, uint32 _maxObjects) {
         textureManager = _textureManager;
         verticesDoubleBuffer = _verticesDoubleBuffer;
         uvsDoubleBuffer = _uvsDoubleBuffer;

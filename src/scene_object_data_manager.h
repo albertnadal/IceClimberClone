@@ -1,5 +1,5 @@
-#ifndef SCENE_OBJECT_TEXTURE_MANAGER_H
-#define SCENE_OBJECT_TEXTURE_MANAGER_H
+#ifndef SCENE_OBJECT_DATA_MANAGER_H
+#define SCENE_OBJECT_DATA_MANAGER_H
 
 #include <iostream>
 #include <string>
@@ -13,7 +13,7 @@
 
 using namespace std;
 
-class SceneObjectTextureManager
+class SceneObjectDataManager
 {
   typedef map<SceneObjectIdentificator, ObjectSpriteSheet*> SpriteSheetsMap;
   SpriteSheetsMap objectSpriteSheetsMap;
@@ -22,8 +22,8 @@ class SceneObjectTextureManager
   void LoadObjectsDataFromFile(std::string filename);
   void Print();
 public:
-  SceneObjectTextureManager();
-  ~SceneObjectTextureManager();
+  SceneObjectDataManager();
+  ~SceneObjectDataManager();
   uint32 LoadObjectsTextures();
   ObjectSpriteSheet* GetSpriteSheetBySceneObjectIdentificator(SceneObjectIdentificator);
 };

@@ -1,18 +1,18 @@
-#include "scene_object_texture_manager.h"
+#include "scene_object_data_manager.h"
 #include <fstream>
 #include <sstream>
 #include <utils.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-SceneObjectTextureManager::SceneObjectTextureManager()
+SceneObjectDataManager::SceneObjectDataManager()
 {
-        cout << "SceneObjectTextureManager created!" << endl;
+        cout << "SceneObjectDataManager created!" << endl;
         LoadObjectsDataFromFile(OBJECT_TYPES_FILENAME);
         Print();
 }
 
-SceneObjectTextureManager::~SceneObjectTextureManager() {
+SceneObjectDataManager::~SceneObjectDataManager() {
         for (auto& kv : objectSpriteSheetsMap) {
                 ObjectSpriteSheet* objectSpriteSheet = kv.second;
                 delete objectSpriteSheet;
@@ -21,7 +21,7 @@ SceneObjectTextureManager::~SceneObjectTextureManager() {
         objectSpriteSheetsMap.clear();
 }
 
-void SceneObjectTextureManager::Print()
+void SceneObjectDataManager::Print()
 {
         printf("Texture filename: %s\n", textureFilename.c_str());
         printf("Total object sprite sheets: %lu\n", objectSpriteSheetsMap.size());
@@ -31,9 +31,9 @@ void SceneObjectTextureManager::Print()
         }
 }
 
-void SceneObjectTextureManager::LoadObjectsDataFromFile(std::string filename)
+void SceneObjectDataManager::LoadObjectsDataFromFile(std::string filename)
 {
-        enum LineType { OBJ_TEX_FILENAME, OBJ_ID, OBJ_ANIMATION_ID, OBJ_SPRITE };
+        enum LineType { OBJ_TEX_FILENAME, OBJ_ID, OBJ_ANIMATION_ID, OBJ_SPRITE, OBJ_SPRITE_COLLISION_AREA };
 
         std::ifstream infile(filename);
         std::string line;
@@ -65,6 +65,12 @@ void SceneObjectTextureManager::LoadObjectsDataFromFile(std::string filename)
                                 int objectSpriteSheetAnimationId = std::stoi(token.substr(1));
                                 currentObjectSpriteSheetAnimation = new ObjectSpriteSheetAnimation(objectSpriteSheetAnimationId);
                                 currentObjectSpriteSheet->AddAnimation(currentObjectSpriteSheetAnimation);
+                        } else if(startsWith(token, "_")) {
+                                currentLineType = OBJ_SPRITE_COLLISION_AREA;
+                                int objectSpriteSheetCollisionAreaId = std::stoi(token.substr(1));
+                                std::cout << "COLLISION AREA ID: " << objectSpriteSheetCollisionAreaId << std::endl;
+                                //currentObjectSpriteSheetAnimation = new ObjectSpriteSheetAnimation(objectSpriteSheetAnimationId);
+                                //currentObjectSpriteSheet->AddAnimation(currentObjectSpriteSheetAnimation);
                         } else {
                                 currentLineType = OBJ_SPRITE;
                                 currentframeValues->push_back(token);
@@ -90,7 +96,7 @@ void SceneObjectTextureManager::LoadObjectsDataFromFile(std::string filename)
         }
 }
 
-uint32 SceneObjectTextureManager::LoadObjectsTextures() {
+uint32 SceneObjectDataManager::LoadObjectsTextures() {
         glGenTextures(1, &textureId);
         glBindTexture(GL_TEXTURE_2D, textureId);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -123,7 +129,7 @@ uint32 SceneObjectTextureManager::LoadObjectsTextures() {
         return textureId;
 }
 
-ObjectSpriteSheet* SceneObjectTextureManager::GetSpriteSheetBySceneObjectIdentificator(SceneObjectIdentificator sceneObjectIdentificator) {
+ObjectSpriteSheet* SceneObjectDataManager::GetSpriteSheetBySceneObjectIdentificator(SceneObjectIdentificator sceneObjectIdentificator) {
         auto searchIterator = objectSpriteSheetsMap.find(sceneObjectIdentificator);
         if (searchIterator != objectSpriteSheetsMap.end()) {
                 return searchIterator->second;

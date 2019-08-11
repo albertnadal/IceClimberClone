@@ -2,7 +2,7 @@
 #include "object_sprite_sheet.h"
 #include <map>
 
-SceneObjectFactory::SceneObjectFactory(SceneObjectTextureManager* _textureManager) {
+SceneObjectFactory::SceneObjectFactory(SceneObjectDataManager* _textureManager) {
 	textureManager = _textureManager;
 	RegisterSceneObjects();
 }
@@ -55,7 +55,7 @@ ISceneObject *SceneObjectFactory::CreateSceneObject(const SceneObjectIdentificat
 	return NULL;
 }
 
-SceneObjectFactory *SceneObjectFactory::Get(SceneObjectTextureManager* _textureManager)
+SceneObjectFactory *SceneObjectFactory::Get(SceneObjectDataManager* _textureManager)
 {
 	static SceneObjectFactory instance(_textureManager);
 	return &instance;

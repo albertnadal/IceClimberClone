@@ -5,8 +5,8 @@ LDFLAGS=-Wl,-search_paths_first -Wl,-headerpad_max_install_names -framework Open
 EXEC=main
 SIZE=size -B -d
 
-all: glad.o float_double_buffer.o uint16_double_buffer.o position.o vec2.o scene_object.o scene_object_factory.o main_character.o brick.o brick_brown.o brick_blue.o brick_green_half.o brick_brown_half.o brick_blue_half.o side_wall.o side_wall_green_left.o side_wall_green_right.o side_wall_green_columns_left.o side_wall_green_columns_right.o side_wall_brown_columns_left.o side_wall_brown_columns_right.o side_wall_brown_left.o side_wall_brown_right.o side_wall_blue_left.o side_wall_blue_right.o side_wall_blue_columns_left.o side_wall_blue_columns_right.o state_machine.o scene_object_manager.o sprite.o sprite_texture.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_texture_manager.o
-	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o main_character.o brick.o brick_brown.o brick_blue.o brick_green_half.o brick_brown_half.o brick_blue_half.o side_wall.o side_wall_green_left.o side_wall_green_right.o side_wall_green_columns_left.o side_wall_green_columns_right.o side_wall_brown_columns_left.o side_wall_brown_columns_right.o side_wall_brown_left.o side_wall_brown_right.o side_wall_blue_left.o side_wall_blue_right.o side_wall_blue_columns_left.o side_wall_blue_columns_right.o state_machine.o scene_object_manager.o sprite.o sprite_texture.o scene_object_texture_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o position.o vec2.o float_double_buffer.o uint16_double_buffer.o glad.o -o $(EXEC)
+all: glad.o float_double_buffer.o uint16_double_buffer.o position.o vec2.o scene_object.o scene_object_factory.o main_character.o brick.o brick_brown.o brick_blue.o brick_green_half.o brick_brown_half.o brick_blue_half.o side_wall.o side_wall_green_left.o side_wall_green_right.o side_wall_green_columns_left.o side_wall_green_columns_right.o side_wall_brown_columns_left.o side_wall_brown_columns_right.o side_wall_brown_left.o side_wall_brown_right.o side_wall_blue_left.o side_wall_blue_right.o side_wall_blue_columns_left.o side_wall_blue_columns_right.o state_machine.o scene_object_manager.o sprite.o sprite_texture.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_data_manager.o
+	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o main_character.o brick.o brick_brown.o brick_blue.o brick_green_half.o brick_brown_half.o brick_blue_half.o side_wall.o side_wall_green_left.o side_wall_green_right.o side_wall_green_columns_left.o side_wall_green_columns_right.o side_wall_brown_columns_left.o side_wall_brown_columns_right.o side_wall_brown_left.o side_wall_brown_right.o side_wall_blue_left.o side_wall_blue_right.o side_wall_blue_columns_left.o side_wall_blue_columns_right.o state_machine.o scene_object_manager.o sprite.o sprite_texture.o scene_object_data_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o position.o vec2.o float_double_buffer.o uint16_double_buffer.o glad.o -o $(EXEC)
 	$(SIZE) $(EXEC)
 
 main_character.o: src/items/main_character.cpp
@@ -75,8 +75,8 @@ state_machine.o: src/state_machine.cpp
 scene_object_factory.o: src/scene_object_factory.cpp
 	$(CXX) -c $(CFLAGS) src/scene_object_factory.cpp
 
-scene_object_texture_manager.o: src/scene_object_texture_manager.cpp
-	$(CXX) -c $(CFLAGS) src/scene_object_texture_manager.cpp
+scene_object_data_manager.o: src/scene_object_data_manager.cpp
+	$(CXX) -c $(CFLAGS) src/scene_object_data_manager.cpp
 
 scene_object_manager.o: src/scene_object_manager.cpp
 	$(CXX) -c $(CFLAGS) src/scene_object_manager.cpp

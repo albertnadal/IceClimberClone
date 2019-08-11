@@ -4,7 +4,7 @@
 #include <vector>
 #include <queue>
 #include "scene_object_factory.h"
-#include "scene_object_texture_manager.h"
+#include "scene_object_data_manager.h"
 #include "uint16_double_buffer.h"
 #include "float_double_buffer.h"
 #include <AABB/AABB.h>
@@ -19,7 +19,7 @@ class SceneObjectManager
   uint32 visibleRows;
 
   //std::vector<ISceneObject*> objects;
-  SceneObjectTextureManager *textureManager;
+  SceneObjectDataManager *textureManager;
   UInt16DoubleBuffer *verticesDoubleBuffer;
   FloatDoubleBuffer *uvsDoubleBuffer;
   uint32 maxObjects;
@@ -227,7 +227,7 @@ class SceneObjectManager
   void updateVerticesBufferAtIndex(uint16, ISceneObject*);
   void updateUVSBufferAtIndex(uint16, ISceneObject*);
 public:
-  SceneObjectManager(SceneObjectTextureManager*, UInt16DoubleBuffer*, FloatDoubleBuffer*, uint32);
+  SceneObjectManager(SceneObjectDataManager*, UInt16DoubleBuffer*, FloatDoubleBuffer*, uint32);
   ~SceneObjectManager();
   void Update(uchar);
 };
