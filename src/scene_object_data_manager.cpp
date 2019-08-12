@@ -4,6 +4,9 @@
 #include <utils.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+#include <collision/collision.h>
+
+using namespace collision;
 
 SceneObjectDataManager::SceneObjectDataManager()
 {
@@ -39,14 +42,15 @@ void SceneObjectDataManager::LoadObjectsDataFromFile(std::string filename)
         std::string line;
         ObjectSpriteSheet *currentObjectSpriteSheet;
         ObjectSpriteSheetAnimation *currentObjectSpriteSheetAnimation;
-        int currentObjectSpriteSheetAnimationId;
+        uint16 currentObjectSpriteSheetAnimationId;
+        SpriteCollisionAreas *currentCollisionAreas;
 
         while (std::getline(infile, line))
         {
                 std::istringstream iss(line);
                 string token;
                 bool commentFound = false;
-                std::vector<string> *currentframeValues = new std::vector<string>;
+                std::vector<string> *currentFrameValues = new std::vector<string>;
                 LineType currentLineType;
 
                 while((iss >> token) && (!commentFound)) {
@@ -62,37 +66,67 @@ void SceneObjectDataManager::LoadObjectsDataFromFile(std::string filename)
                                 objectSpriteSheetsMap[objectId] = currentObjectSpriteSheet;
                         } else if(startsWith(token, "#")) {
                                 currentLineType = OBJ_ANIMATION_ID;
-                                int objectSpriteSheetAnimationId = std::stoi(token.substr(1));
+                                uint16 objectSpriteSheetAnimationId = std::stoi(token.substr(1));
                                 currentObjectSpriteSheetAnimation = new ObjectSpriteSheetAnimation(objectSpriteSheetAnimationId);
                                 currentObjectSpriteSheet->AddAnimation(currentObjectSpriteSheetAnimation);
                         } else if(startsWith(token, "_")) {
                                 currentLineType = OBJ_SPRITE_COLLISION_AREA;
-                                int objectSpriteSheetCollisionAreaId = std::stoi(token.substr(1));
-                                std::cout << "COLLISION AREA ID: " << objectSpriteSheetCollisionAreaId << std::endl;
-                                //currentObjectSpriteSheetAnimation = new ObjectSpriteSheetAnimation(objectSpriteSheetAnimationId);
-                                //currentObjectSpriteSheet->AddAnimation(currentObjectSpriteSheetAnimation);
+                                uint16 collisionAreaId = std::stoi(token.substr(1));
+                                iss >> token;
+                                string collisionAreaType = token; // Type is a string value
+
+                                // Creates a temporal vector of tokens of the current line being processed
+                                std::vector<float> *currentCollisionAreaValues = new std::vector<float>;
+
+                                while(iss >> token) {
+                                  currentCollisionAreaValues->push_back(stof(token));
+                                }
+
+                                // Load polygon points to a vector of points
+                                std::vector<vec2<float>> points;
+                                for(uint16 i=0; i<currentCollisionAreaValues->size(); i+=2) {
+                                  points.push_back(vec2<float>(currentCollisionAreaValues->at(i), currentCollisionAreaValues->at(i+1)));
+                                }
+
+                                delete currentCollisionAreaValues;
+                                // Initializes a polygon from the array of points
+                                Polygon polygon(points);
+
+                                // If the polygon corresponds to a solid area then add the polygon to the solidArea vector, otherwise add the polygon to simpleAreas
+                                if(collisionAreaType=="solid") {
+                                  currentCollisionAreas->solidAreas.push_back({ collisionAreaId, polygon });
+                                } else if(collisionAreaType=="simple") {
+                                  currentCollisionAreas->simpleAreas.push_back({ collisionAreaId, polygon });
+                                }
+
                         } else {
                                 currentLineType = OBJ_SPRITE;
-                                currentframeValues->push_back(token);
+                                currentFrameValues->push_back(token);
                         }
                 }
 
                 if(currentLineType == OBJ_SPRITE) {
-                        if(currentframeValues->size() == 11) {
-                                uint16 width = stoi(currentframeValues->at(0));
-                                uint16 height = stoi(currentframeValues->at(1));
-                                float u1 = stof(currentframeValues->at(2));
-                                float v1 = stof(currentframeValues->at(3));
-                                float u2 = stof(currentframeValues->at(4));
-                                float v2 = stof(currentframeValues->at(5));
-                                uint16 duration = stoi(currentframeValues->at(6));
-                                uint16 lowerBoundX = stoi(currentframeValues->at(7));
-                                uint16 lowerBoundY = stoi(currentframeValues->at(8));
-                                uint16 upperBoundX = stoi(currentframeValues->at(9));
-                                uint16 upperBoundY = stoi(currentframeValues->at(10));
-                                currentObjectSpriteSheetAnimation->AddSprite({ width, height, u1, v1, u2, v2, duration, false, lowerBoundX, lowerBoundY, upperBoundX, upperBoundY });
+                        if(currentFrameValues->size() == 11) {
+                                uint16 width = stoi(currentFrameValues->at(0));
+                                uint16 height = stoi(currentFrameValues->at(1));
+                                float u1 = stof(currentFrameValues->at(2));
+                                float v1 = stof(currentFrameValues->at(3));
+                                float u2 = stof(currentFrameValues->at(4));
+                                float v2 = stof(currentFrameValues->at(5));
+                                uint16 duration = stoi(currentFrameValues->at(6));
+                                uint16 lowerBoundX = stoi(currentFrameValues->at(7));
+                                uint16 lowerBoundY = stoi(currentFrameValues->at(8));
+                                uint16 upperBoundX = stoi(currentFrameValues->at(9));
+                                uint16 upperBoundY = stoi(currentFrameValues->at(10));
+
+                                // An sprite may contain some areas defined by polygons in order to check possible collisions with other objects during the gameplay
+                                currentCollisionAreas = new SpriteCollisionAreas();
+                                currentObjectSpriteSheetAnimation->AddSprite({ width, height, u1, v1, u2, v2, duration, false, lowerBoundX, lowerBoundY, upperBoundX, upperBoundY, currentCollisionAreas });
                         }
+
                 }
+
+                delete currentFrameValues;
         }
 }
 

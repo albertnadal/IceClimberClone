@@ -147,6 +147,18 @@ void MainCharacter::LoadAnimationWithId(uint16 animationId) {
 void MainCharacter::LoadNextSprite()
 {
   SpriteData spriteData = NextSpriteData();
+/*
+  std::cout << "TOTAL SOLID AREAS OF CURRENT SPRITE: " << spriteData.collisionAreas->solidAreas.size() << std::endl;
+  if(spriteData.collisionAreas->solidAreas.size() > 0) {
+    std::cout << "ID SOLID AREA: " << spriteData.collisionAreas->solidAreas.at(0).id << std::endl;
+  }
+
+  std::cout << "TOTAL SIMPLE AREAS OF CURRENT SPRITE: " << spriteData.collisionAreas->simpleAreas.size() << std::endl;
+  if(spriteData.collisionAreas->simpleAreas.size() > 0) {
+    std::cout << "ID SIMPLE AREA: " << spriteData.collisionAreas->simpleAreas.at(0).id << std::endl;
+  }
+*/
+
   if(spriteData.beginNewLoop) {
           if(ShouldBeginAnimationLoopAgain()) {
             spriteData = NextSpriteData();

@@ -9,6 +9,12 @@ const float INV_3 = 1.0 / 3.0;
 namespace collision
 {
 
+Polygon::Polygon(vector<collision::vec2<float>> points)
+{
+    vertices.insert(vertices.end(), points.begin(), points.end());
+    center = calcAreaWeightedCenter(vertices);
+}
+
 Polygon::Polygon(initializer_list<collision::vec2<float>> points)
 {
     vertices.insert(vertices.end(), points.begin(), points.end());

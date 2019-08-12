@@ -14,6 +14,7 @@ namespace collision
 class Polygon
 {
   public:
+    Polygon(vector<collision::vec2<float>> points);
     Polygon(initializer_list<collision::vec2<float>> points);
     Polygon(collision::vec2<float> center, initializer_list<collision::vec2<float>> points);
     const collision::vec2<float> &getCenter() const;

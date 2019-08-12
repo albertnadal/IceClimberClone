@@ -3,9 +3,11 @@
 
 #include <vector>
 #include <defines.h>
+#include <collision/collision.h>
 
-//struct SpriteCollisionAreas { std::vector<collision::Polygon> solidAreas; std::vector<collision::Polygon> normalAreas; }
-struct SpriteData { uint16 width, height; float u1, v1, u2, v2; uint16 duration; bool beginNewLoop; uint16 lowerBoundX, lowerBoundY, upperBoundX, upperBoundY; /*SpriteCollisionAreas collisionAreas;*/ };
+struct CollisionArea { uint16 id; collision::Polygon polygon; };
+struct SpriteCollisionAreas { std::vector<CollisionArea> solidAreas; std::vector<CollisionArea> simpleAreas; };
+struct SpriteData { uint16 width, height; float u1, v1, u2, v2; uint16 duration; bool beginNewLoop; uint16 lowerBoundX, lowerBoundY, upperBoundX, upperBoundY; SpriteCollisionAreas *collisionAreas; };
 
 class ObjectSpriteSheetAnimation
 {
