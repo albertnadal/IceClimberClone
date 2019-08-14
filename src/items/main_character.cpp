@@ -218,6 +218,7 @@ void MainCharacter::UpdateJump() {
     // Jump landing
     position.setY(vInitialJumpPosition);
     isJumping = false;
+    isLeaningOnTheGround = true;
     hMomentum = 0;
     JumpLanding();
   } else {
@@ -245,6 +246,7 @@ void MainCharacter::Jump(float vSpeed, float hSpeed)
   cout << "Initial JUMP X: " << hInitialJumpPosition << " Initial JUMP Y: " << vInitialJumpPosition << endl;
   tJump = 0.0f;
   isJumping = true;
+  isLeaningOnTheGround = false;
 }
 
 void MainCharacter::RightKeyPressed()
@@ -259,6 +261,12 @@ void MainCharacter::RightKeyPressed()
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
         END_TRANSITION_MAP(NULL)
@@ -276,6 +284,12 @@ void MainCharacter::RightKeyReleased()
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
         END_TRANSITION_MAP(NULL)
@@ -293,6 +307,12 @@ void MainCharacter::LeftKeyPressed()
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
         END_TRANSITION_MAP(NULL)
@@ -310,6 +330,12 @@ void MainCharacter::LeftKeyReleased()
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
         END_TRANSITION_MAP(NULL)
@@ -327,6 +353,12 @@ void MainCharacter::UpKeyPressed()
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
         END_TRANSITION_MAP(NULL)
@@ -344,6 +376,12 @@ void MainCharacter::SpaceKeyPressed()
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
         END_TRANSITION_MAP(NULL)
@@ -361,6 +399,12 @@ void MainCharacter::JumpLanding()
         TRANSITION_MAP_ENTRY (STATE_IDLE_LEFT)    // STATE_Jump_Idle_Left
         TRANSITION_MAP_ENTRY (STATE_IDLE_RIGHT)    // STATE_Jump_Run_Right
         TRANSITION_MAP_ENTRY (STATE_IDLE_LEFT)    // STATE_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
         END_TRANSITION_MAP(NULL)
@@ -424,6 +468,48 @@ void MainCharacter::STATE_Jump_Run_Left()
   // More momentum produces a longer jump
   Jump(45.0f, hMomentum == maxMomentum ? -10.0f : -4.0f);
   LoadAnimationWithId(MainCharacterAnimation::JUMP_LEFT);
+  ProcessPressedKeys(false);
+}
+
+void MainCharacter::STATE_Fall_Idle_Right()
+{
+  cout << "MainCharacter::STATE_Fall_Idle_Right" << endl;
+  LoadAnimationWithId(MainCharacterAnimation::FALL_RIGHT);
+  ProcessPressedKeys(false);
+}
+
+void MainCharacter::STATE_Fall_Idle_Left()
+{
+  cout << "MainCharacter::STATE_Fall_Idle_Left" << endl;
+  LoadAnimationWithId(MainCharacterAnimation::FALL_LEFT);
+  ProcessPressedKeys(false);
+}
+
+void MainCharacter::STATE_Fall_Run_Right()
+{
+  cout << "MainCharacter::STATE_Fall_Run_Right" << endl;
+  LoadAnimationWithId(MainCharacterAnimation::FALL_RIGHT);
+  ProcessPressedKeys(false);
+}
+
+void MainCharacter::STATE_Fall_Run_Left()
+{
+  cout << "MainCharacter::STATE_Fall_Run_Left" << endl;
+  LoadAnimationWithId(MainCharacterAnimation::FALL_LEFT);
+  ProcessPressedKeys(false);
+}
+
+void MainCharacter::STATE_Fall_Jump_Run_Right()
+{
+  cout << "MainCharacter::STATE_Fall_Jump_Run_Right" << endl;
+  LoadAnimationWithId(MainCharacterAnimation::FALL_RIGHT);
+  ProcessPressedKeys(false);
+}
+
+void MainCharacter::STATE_Fall_Jump_Run_Left()
+{
+  cout << "MainCharacter::STATE_Fall_Jump_Run_Left" << endl;
+  LoadAnimationWithId(MainCharacterAnimation::FALL_LEFT);
   ProcessPressedKeys(false);
 }
 

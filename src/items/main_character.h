@@ -43,8 +43,10 @@ class MainCharacter: public ISceneObject
   const float gravity = 9.81f;
   uint16 hMomentum = 0;
   const uint16 maxMomentum = 15;
-  float isJumping = false;
-  float isHitting = false;
+  bool isJumping = false;
+  bool isHitting = false;
+  bool isLeaningOnTheGround = false;
+  bool isFalling = false;
   void MoveTo(MainCharacterDirection);
   void UpdateJump();
   void Jump(float, float);
@@ -78,6 +80,12 @@ private:
   void STATE_Jump_Idle_Left();
   void STATE_Jump_Run_Right();
   void STATE_Jump_Run_Left();
+  void STATE_Fall_Idle_Right();
+  void STATE_Fall_Idle_Left();
+  void STATE_Fall_Run_Right();
+  void STATE_Fall_Run_Left();
+  void STATE_Fall_Jump_Run_Right();
+  void STATE_Fall_Jump_Run_Left();
   void STATE_Hit_Right();
   void STATE_Hit_Left();
 
@@ -91,6 +99,12 @@ private:
       STATE_MAP_ENTRY(&MainCharacter::STATE_Jump_Idle_Left)
       STATE_MAP_ENTRY(&MainCharacter::STATE_Jump_Run_Right)
       STATE_MAP_ENTRY(&MainCharacter::STATE_Jump_Run_Left)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Fall_Idle_Right)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Fall_Idle_Left)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Fall_Run_Right)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Fall_Run_Left)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Fall_Jump_Run_Right)
+      STATE_MAP_ENTRY(&MainCharacter::STATE_Fall_Jump_Run_Left)
       STATE_MAP_ENTRY(&MainCharacter::STATE_Hit_Right)
       STATE_MAP_ENTRY(&MainCharacter::STATE_Hit_Left)
   END_STATE_MAP
@@ -106,6 +120,12 @@ private:
       STATE_JUMP_IDLE_LEFT,
       STATE_JUMP_RUN_RIGHT,
       STATE_JUMP_RUN_LEFT,
+      STATE_FALL_IDLE_RIGHT,
+      STATE_FALL_IDLE_LEFT,
+      STATE_FALL_RUN_RIGHT,
+      STATE_FALL_RUN_LEFT,
+      STATE_FALL_JUMP_RUN_RIGHT,
+      STATE_FALL_JUMP_RUN_LEFT,
       STATE_HIT_RIGHT,
       STATE_HIT_LEFT,
       MAIN_CHARACTER_MAX_STATES
