@@ -35,21 +35,38 @@ class MainCharacter: public ISceneObject
   void LoadAnimationWithId(uint16);
   SpriteData NextSpriteData();
   void LoadNextSprite();
+
+  // Jump trajectory data
   float hInitialJumpSpeed = 0.0f;
   float vInitialJumpSpeed = 0.0f;
   float tJump = 0.0f;
   float hInitialJumpPosition = 0.0f;
   float vInitialJumpPosition = 0.0f;
+
+  // Fall trajectory data
+  float hInitialFallSpeed = 0.0f;
+  float vInitialFallSpeed = 0.0f;
+  float tFall = 0.0f;
+  float hInitialFallPosition = 0.0f;
+  float vInitialFallPosition = 0.0f;
+
+  // Player global physics values
   const float gravity = 9.81f;
   uint16 hMomentum = 0;
   const uint16 maxMomentum = 15;
+
+  // Player action states
   bool isJumping = false;
   bool isHitting = false;
   bool isLeaningOnTheGround = false;
   bool isFalling = false;
+
+  // Player action update functions
   void MoveTo(MainCharacterDirection);
+  void Jump(float vSpeed, float hSpeed);
   void UpdateJump();
-  void Jump(float, float);
+  void Fall(float hSpeed);
+  void UpdateFall();
 public:
   MainCharacter();
   ~MainCharacter();
@@ -66,6 +83,7 @@ public:
   void LeftKeyReleased();
   void UpKeyPressed();
   void SpaceKeyPressed();
+  void DownKeyPressed();
   void JumpLanding();
   bool ShouldBeginAnimationLoopAgain();
   //void ReachedSpeedForRunning();

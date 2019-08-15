@@ -24,6 +24,9 @@ bool MainCharacter::Update(const uchar pressedKeys_, aabb::Tree<ISceneObject*>& 
         if(isJumping) {
           UpdateJump();
           needRedraw = true;
+        } else if(isFalling) {
+          UpdateFall();
+          needRedraw = true;
         }
 
         pressedKeys = pressedKeys_;
@@ -108,6 +111,14 @@ void MainCharacter::ProcessPressedKeys(bool checkPreviousPressedKeys)
                         //cout << "KEY SPACE PRESSED" << endl;
                         isHitting = true;
                         SpaceKeyPressed();
+                }
+        }
+
+        if(!isJumping && ((pressedKeys & KeyboardKeyCode::KEY_DOWN) == KeyboardKeyCode::KEY_DOWN)) {
+                // If is not KEY_LEFT repeated press then change character state
+                if((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::KEY_DOWN) != KeyboardKeyCode::KEY_DOWN))) {
+                        //cout << "KEY UP PRESSED" << endl;
+                        DownKeyPressed();
                 }
         }
 
@@ -226,6 +237,22 @@ void MainCharacter::UpdateJump() {
   }
 }
 
+void MainCharacter::UpdateFall() {
+  tFall+=0.2f;
+  position.setX(hInitialFallPosition + (hInitialFallSpeed * tFall));
+  float vOffset = -(0.5f)*gravity*tFall*tFall;
+  /*if(vOffset <= 0.0f) {
+    // Jump landing
+    position.setY(vInitialJumpPosition);
+    isJumping = false;
+    isLeaningOnTheGround = true;
+    hMomentum = 0;
+    JumpLanding();
+  } else {*/
+    position.setY(vInitialFallPosition + vOffset);
+  /*}*/
+}
+
 void MainCharacter::MoveTo(MainCharacterDirection direction)
 {
   if(!isJumping && !isHitting) {
@@ -246,6 +273,21 @@ void MainCharacter::Jump(float vSpeed, float hSpeed)
   cout << "Initial JUMP X: " << hInitialJumpPosition << " Initial JUMP Y: " << vInitialJumpPosition << endl;
   tJump = 0.0f;
   isJumping = true;
+  isFalling = false;
+  isLeaningOnTheGround = false;
+}
+
+void MainCharacter::Fall(float hSpeed)
+{
+  cout << " >>>>>>>>>>>>>>>>>>>>>> MainCharacter::Fall" << endl;
+  vInitialFallSpeed = 0.0f;
+  hInitialFallSpeed = hSpeed;
+  vInitialFallPosition = position.y;
+  hInitialFallPosition = position.x;
+  cout << "Initial FALL X: " << hInitialFallPosition << " Initial FALL Y: " << vInitialFallPosition << endl;
+  tFall = 0.0f;
+  isJumping = false;
+  isFalling = true;
   isLeaningOnTheGround = false;
 }
 
@@ -349,6 +391,29 @@ void MainCharacter::UpKeyPressed()
         TRANSITION_MAP_ENTRY (STATE_JUMP_IDLE_LEFT)                 // STATE_Idle_Left
         TRANSITION_MAP_ENTRY (STATE_JUMP_RUN_RIGHT)                  // STATE_Run_Right
         TRANSITION_MAP_ENTRY (STATE_JUMP_RUN_LEFT)                  // STATE_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+        END_TRANSITION_MAP(NULL)
+}
+
+void MainCharacter::DownKeyPressed()
+{
+        cout << "MainCharacter::DownKeyPressed()" << endl;
+        BEGIN_TRANSITION_MAP                                  // - Current State -
+        TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_RIGHT)          // STATE_Idle_Right
+        TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_LEFT)                 // STATE_Idle_Left
+        TRANSITION_MAP_ENTRY (STATE_FALL_RUN_RIGHT)                  // STATE_Run_Right
+        TRANSITION_MAP_ENTRY (STATE_FALL_RUN_LEFT)                  // STATE_Run_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
@@ -474,6 +539,7 @@ void MainCharacter::STATE_Jump_Run_Left()
 void MainCharacter::STATE_Fall_Idle_Right()
 {
   cout << "MainCharacter::STATE_Fall_Idle_Right" << endl;
+  Fall(0.0f);
   LoadAnimationWithId(MainCharacterAnimation::FALL_RIGHT);
   ProcessPressedKeys(false);
 }
@@ -481,6 +547,7 @@ void MainCharacter::STATE_Fall_Idle_Right()
 void MainCharacter::STATE_Fall_Idle_Left()
 {
   cout << "MainCharacter::STATE_Fall_Idle_Left" << endl;
+  Fall(0.0f);
   LoadAnimationWithId(MainCharacterAnimation::FALL_LEFT);
   ProcessPressedKeys(false);
 }
@@ -488,6 +555,7 @@ void MainCharacter::STATE_Fall_Idle_Left()
 void MainCharacter::STATE_Fall_Run_Right()
 {
   cout << "MainCharacter::STATE_Fall_Run_Right" << endl;
+  Fall(hMomentum == maxMomentum ? 10.0f : 4.0f);
   LoadAnimationWithId(MainCharacterAnimation::FALL_RIGHT);
   ProcessPressedKeys(false);
 }
@@ -495,6 +563,7 @@ void MainCharacter::STATE_Fall_Run_Right()
 void MainCharacter::STATE_Fall_Run_Left()
 {
   cout << "MainCharacter::STATE_Fall_Run_Left" << endl;
+  Fall(hMomentum == maxMomentum ? -10.0f : -4.0f);
   LoadAnimationWithId(MainCharacterAnimation::FALL_LEFT);
   ProcessPressedKeys(false);
 }
