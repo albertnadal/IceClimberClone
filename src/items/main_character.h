@@ -5,10 +5,10 @@
 #include <vector>
 #include <scene_object.h>
 #include <state_machine.h>
-#include <vec2.h>
 #include <sprite.h>
 #include <position.h>
 #include <AABB/AABB.h>
+#include "collision/collision.h"
 
 using namespace std;
 
@@ -54,6 +54,7 @@ class MainCharacter: public ISceneObject
   const float gravity = 9.81f;
   uint16 hMomentum = 0;
   const uint16 maxMomentum = 15;
+  collision::vec2<float> vectorDirection;
 
   // Player action states
   bool isJumping = false;

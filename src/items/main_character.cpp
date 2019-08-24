@@ -1,9 +1,11 @@
 #include "items/main_character.h"
-#include "collision/collision.h"
 #include <chrono>
 
 MainCharacter::MainCharacter() :
         ISceneObject(SceneObjectIdentificator::MAIN_CHARACTER, SceneObjectType::PLAYER, MainCharacterStateIdentificator::MAIN_CHARACTER_MAX_STATES) {
+          //Initially the object is quiet
+          vectorDirection.x = 0.0f;
+          vectorDirection.y = 0.0f;
 }
 
 uint16 MainCharacter::Width() {
@@ -45,25 +47,30 @@ bool MainCharacter::Update(const uchar pressedKeys_, aabb::Tree<ISceneObject*>& 
         }
 */
 
-        // Check for collision candidates objects
+        std::cout << "vectorDirection (" << vectorDirection.x << "," << vectorDirection.y << ")" << std::endl;
+
+        // CHECK FOR COLLISIONS
         if(currentSprite.areas != nullptr) {
-          collision::GJKCollisionDetector collisionDetector;
+          // Search for collisions with solid objects
+          std::vector<ISceneObject*> collidingSolidObjects;
 
+          // First check for possible potential collision candidates objects
           std::vector<ISceneObject*> potentialCollisionCandidatesObjects = spacePartitionObjectsTree_.query(GetLowerBound(), GetUpperBound());
-          if(potentialCollisionCandidatesObjects.size() == 0) {
-            cout << " >> NO POTENTIAL COLLISION WITH ANY OBJECT" << endl;
-          }
 
-          for(uint16 i=0; i<potentialCollisionCandidatesObjects.size(); i++) {
-            ISceneObject* collisionCandidateObject = potentialCollisionCandidatesObjects[i];
-            if(collisionCandidateObject != this) {
-              cout << "#" << i+1 << "/" << potentialCollisionCandidatesObjects.size() << "POTENTIAL COLLISION WITH OBJECT:" << endl;
-              collisionCandidateObject->PrintName();
-              collisionCandidateObject->PrintBoundaries();
-              cout << " --- " << endl;
-              PrintName();
-              PrintBoundaries();
-              cout << " --- " << endl;
+          uint16 potentialCollisionObjectsCount = potentialCollisionCandidatesObjects.size();
+          if(potentialCollisionObjectsCount) {
+            // Iterate all potential collision candidates and check for real collisions
+            collision::GJKCollisionDetector collisionDetector;
+            for(uint16 i=0; i<potentialCollisionObjectsCount; i++) {
+              ISceneObject* collisionCandidateObject = potentialCollisionCandidatesObjects[i];
+              if(collisionCandidateObject != this) {
+                cout << "#" << i+1 << "/" << potentialCollisionObjectsCount << "POTENTIAL COLLISION WITH OBJECT:" << endl;
+                collisionCandidateObject->PrintName();
+                collisionCandidateObject->PrintBoundaries();
+                cout << " --- " << endl;
+                PrintName();
+                PrintBoundaries();
+                cout << " --- " << endl;
 
                 // Check precise collision of every solid area of the collision candidate object with every solid area of the main character
                 std::vector<Area>& collisionCandidateObjectSolidAreas = collisionCandidateObject->GetSolidAreas();
@@ -82,14 +89,26 @@ bool MainCharacter::Update(const uchar pressedKeys_, aabb::Tree<ISceneObject*>& 
 
                     bool collision = collisionDetector.detect(mainCharacterSolidAreaPolygon, candidateSolidAreaPolygon);
                     cout << "Do we have a collision between main character and candidate collision object: " << collision << endl;
+                    if(collision) {
+                      collidingSolidObjects.push_back(collisionCandidateObject);
+                    }
                   }
                 }
 
-              //PrintName();
-              //PrintBoundaries();
+              }
             }
+
+          } else {
+            cout << " >> NO POTENTIAL COLLISION WITH ANY OBJECT" << endl;
           }
-        }
+
+          // Process colliding objects
+          if(collidingSolidObjects.size()) {
+            std::cout << " >> COLLIDING WITH " << collidingSolidObjects.size() << " OBJECTS " << endl;
+          }
+
+        } // end check for collision
+
 
         if(!animationLoaded) {
                 return false;
@@ -512,6 +531,8 @@ void MainCharacter::STATE_Idle_Right()
 {
         cout << "MainCharacter::STATE_Idle_Right" << endl;
         hMomentum = 0;
+        vectorDirection.x = 0.0f;
+        vectorDirection.y = 0.0f;
         LoadAnimationWithId(MainCharacterAnimation::STAND_BY_RIGHT);
         ProcessPressedKeys(false);
 }
@@ -520,6 +541,8 @@ void MainCharacter::STATE_Idle_Left()
 {
         cout << "MainCharacter::STATE_Idle_Left" << endl;
         hMomentum = 0;
+        vectorDirection.x = 0.0f;
+        vectorDirection.y = 0.0f;
         LoadAnimationWithId(MainCharacterAnimation::STAND_BY_LEFT);
         cout << "ProcessPressedKeys(false)" << endl;
         ProcessPressedKeys(false);
@@ -528,6 +551,8 @@ void MainCharacter::STATE_Idle_Left()
 void MainCharacter::STATE_Run_Right()
 {
         cout << "MainCharacter::STATE_Run_Right" << endl;
+        vectorDirection.x = 1.0f;
+        vectorDirection.y = 0.0f;
         LoadAnimationWithId(MainCharacterAnimation::RUN_TO_RIGHT);
         ProcessPressedKeys(false);
 }
@@ -535,6 +560,8 @@ void MainCharacter::STATE_Run_Right()
 void MainCharacter::STATE_Run_Left()
 {
         cout << "MainCharacter::STATE_Run_Left" << endl;
+        vectorDirection.x = -1.0f;
+        vectorDirection.y = 0.0f;
         LoadAnimationWithId(MainCharacterAnimation::RUN_TO_LEFT);
         ProcessPressedKeys(false);
 }
