@@ -1,4 +1,5 @@
 #include "items/main_character.h"
+#include "collision/collision.h"
 #include <chrono>
 
 MainCharacter::MainCharacter() :
@@ -36,16 +37,57 @@ bool MainCharacter::Update(const uchar pressedKeys_, aabb::Tree<ISceneObject*>& 
         } else if(pressedKeys != prevPressedKeys) {
                 ProcessReleasedKeys();
         }
+/*
+        std::vector<Area> _solidAreas = GetSolidAreas();
+        for(uint16 s=0; s<_solidAreas.size(); s++) {
+          collision::Polygon mainCharacterSolidAreaPolygon = _solidAreas.at(s).polygon;
+          mainCharacterSolidAreaPolygon.Print();
+        }
+*/
 
-        // Check for collision with other objects
-        std::vector<ISceneObject*> potentialCollisionCandidatesObjects = spacePartitionObjectsTree_.query(GetLowerBound(), GetUpperBound());
-        for(uint16 i=0; i<potentialCollisionCandidatesObjects.size(); i++) {
-          if(potentialCollisionCandidatesObjects[i] != this) {
-            cout << "POTENTIAL COLLISION WITH OBJECT:" << endl;
-            potentialCollisionCandidatesObjects[i]->PrintName();
-            potentialCollisionCandidatesObjects[i]->PrintBoundaries();
-            PrintName();
-            PrintBoundaries();
+        // Check for collision candidates objects
+        if(currentSprite.areas != nullptr) {
+          collision::GJKCollisionDetector collisionDetector;
+
+          std::vector<ISceneObject*> potentialCollisionCandidatesObjects = spacePartitionObjectsTree_.query(GetLowerBound(), GetUpperBound());
+          if(potentialCollisionCandidatesObjects.size() == 0) {
+            cout << " >> NO POTENTIAL COLLISION WITH ANY OBJECT" << endl;
+          }
+
+          for(uint16 i=0; i<potentialCollisionCandidatesObjects.size(); i++) {
+            ISceneObject* collisionCandidateObject = potentialCollisionCandidatesObjects[i];
+            if(collisionCandidateObject != this) {
+              cout << "#" << i+1 << "/" << potentialCollisionCandidatesObjects.size() << "POTENTIAL COLLISION WITH OBJECT:" << endl;
+              collisionCandidateObject->PrintName();
+              collisionCandidateObject->PrintBoundaries();
+              cout << " --- " << endl;
+              PrintName();
+              PrintBoundaries();
+              cout << " --- " << endl;
+
+                // Check precise collision of every solid area of the collision candidate object with every solid area of the main character
+                std::vector<Area>& collisionCandidateObjectSolidAreas = collisionCandidateObject->GetSolidAreas();
+                cout << "COLLISION OBJECT CANDIDATE HAVE " << collisionCandidateObjectSolidAreas.size() << " SOLID AREAS" << endl;
+                for(uint16 c=0; c<collisionCandidateObjectSolidAreas.size(); c++) {
+                  collision::Polygon candidateSolidAreaPolygon = collisionCandidateObjectSolidAreas.at(c).polygon;
+                  candidateSolidAreaPolygon.Print();
+
+                  // Check collision with all main character solid areas
+                  std::vector<Area>& mainCharacterSolidAreas = GetSolidAreas();
+                  cout << "MAIN CHARACTER OBJECT HAVE " << mainCharacterSolidAreas.size() << " SOLID AREAS" << endl;
+                  for(uint16 s=0; s<mainCharacterSolidAreas.size(); s++) {
+                    uint16 areaId = mainCharacterSolidAreas.at(s).id;
+                    collision::Polygon mainCharacterSolidAreaPolygon = mainCharacterSolidAreas.at(s).polygon;
+                    mainCharacterSolidAreaPolygon.Print();
+
+                    bool collision = collisionDetector.detect(mainCharacterSolidAreaPolygon, candidateSolidAreaPolygon);
+                    cout << "Do we have a collision between main character and candidate collision object: " << collision << endl;
+                  }
+                }
+
+              //PrintName();
+              //PrintBoundaries();
+            }
           }
         }
 
@@ -158,17 +200,6 @@ void MainCharacter::LoadAnimationWithId(uint16 animationId) {
 void MainCharacter::LoadNextSprite()
 {
   SpriteData spriteData = NextSpriteData();
-/*
-  std::cout << "TOTAL SOLID AREAS OF CURRENT SPRITE: " << spriteData.collisionAreas->solidAreas.size() << std::endl;
-  if(spriteData.collisionAreas->solidAreas.size() > 0) {
-    std::cout << "ID SOLID AREA: " << spriteData.collisionAreas->solidAreas.at(0).id << std::endl;
-  }
-
-  std::cout << "TOTAL SIMPLE AREAS OF CURRENT SPRITE: " << spriteData.collisionAreas->simpleAreas.size() << std::endl;
-  if(spriteData.collisionAreas->simpleAreas.size() > 0) {
-    std::cout << "ID SIMPLE AREA: " << spriteData.collisionAreas->simpleAreas.at(0).id << std::endl;
-  }
-*/
 
   if(spriteData.beginNewLoop) {
           if(ShouldBeginAnimationLoopAgain()) {
@@ -184,6 +215,8 @@ void MainCharacter::LoadNextSprite()
   currentSprite.v1 = spriteData.v1;
   currentSprite.u2 = spriteData.u2;
   currentSprite.v2 = spriteData.v2;
+  currentSprite.areas = spriteData.areas;
+  recalculateAreasDataIsNeeded = true; // Is necessary because the current sprite may have different areas
   boundingBox = { spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY };
   firstSpriteOfCurrentAnimationIsLoaded = true;
 }
@@ -223,23 +256,23 @@ bool MainCharacter::ShouldBeginAnimationLoopAgain()
 
 void MainCharacter::UpdateJump() {
   tJump+=0.2f;
-  position.setX(hInitialJumpPosition + (hInitialJumpSpeed * tJump));
+  PositionSetX(hInitialJumpPosition + (hInitialJumpSpeed * tJump));
   float vOffset = (vInitialJumpSpeed * tJump - (0.5f)*gravity*tJump*tJump);
   if(vOffset <= 0.0f) {
     // Jump landing
-    position.setY(vInitialJumpPosition);
+    PositionSetY(vInitialJumpPosition);
     isJumping = false;
     isLeaningOnTheGround = true;
     hMomentum = 0;
     JumpLanding();
   } else {
-    position.setY(vInitialJumpPosition + vOffset);
+    PositionSetY(vInitialJumpPosition + vOffset);
   }
 }
 
 void MainCharacter::UpdateFall() {
   tFall+=0.2f;
-  position.setX(hInitialFallPosition + (hInitialFallSpeed * tFall));
+  PositionSetX(hInitialFallPosition + (hInitialFallSpeed * tFall));
   float vOffset = -(0.5f)*gravity*tFall*tFall;
   /*if(vOffset <= 0.0f) {
     // Jump landing
@@ -249,14 +282,14 @@ void MainCharacter::UpdateFall() {
     hMomentum = 0;
     JumpLanding();
   } else {*/
-    position.setY(vInitialFallPosition + vOffset);
+    PositionSetY(vInitialFallPosition + vOffset);
   /*}*/
 }
 
 void MainCharacter::MoveTo(MainCharacterDirection direction)
 {
   if(!isJumping && !isHitting) {
-    position.addX(direction == MainCharacterDirection::RIGHT ? 4.0f : -4.0f);
+    PositionAddX(direction == MainCharacterDirection::RIGHT ? 4.0f : -4.0f);
     if(hMomentum < maxMomentum) {
       hMomentum++;
     }

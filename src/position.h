@@ -14,8 +14,8 @@ public:
   void setY(uint16);
   void setX(float);
   void setY(float);
-  void addX(int16);
-  void addY(int16);
+  void addX(uint16);
+  void addY(uint16);
   void addX(float);
   void addY(float);
 };

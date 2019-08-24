@@ -43,7 +43,7 @@ void SceneObjectDataManager::LoadObjectsDataFromFile(std::string filename)
         ObjectSpriteSheet *currentObjectSpriteSheet;
         ObjectSpriteSheetAnimation *currentObjectSpriteSheetAnimation;
         uint16 currentObjectSpriteSheetAnimationId;
-        SpriteCollisionAreas *currentCollisionAreas;
+        SpriteAreas *currentAreas;
 
         while (std::getline(infile, line))
         {
@@ -94,9 +94,9 @@ void SceneObjectDataManager::LoadObjectsDataFromFile(std::string filename)
 
                                 // If the polygon corresponds to a solid area then add the polygon to the solidArea vector, otherwise add the polygon to simpleAreas
                                 if(collisionAreaType=="solid") {
-                                  currentCollisionAreas->solidAreas.push_back({ collisionAreaId, polygon });
+                                  currentAreas->solidAreas.push_back({ collisionAreaId, polygon });
                                 } else if(collisionAreaType=="simple") {
-                                  currentCollisionAreas->simpleAreas.push_back({ collisionAreaId, polygon });
+                                  currentAreas->simpleAreas.push_back({ collisionAreaId, polygon });
                                 }
 
                         } else {
@@ -120,8 +120,8 @@ void SceneObjectDataManager::LoadObjectsDataFromFile(std::string filename)
                                 uint16 upperBoundY = stoi(currentFrameValues->at(10));
 
                                 // An sprite may contain some areas defined by polygons in order to check possible collisions with other objects during the gameplay
-                                currentCollisionAreas = new SpriteCollisionAreas();
-                                currentObjectSpriteSheetAnimation->AddSprite({ width, height, u1, v1, u2, v2, duration, false, lowerBoundX, lowerBoundY, upperBoundX, upperBoundY, currentCollisionAreas });
+                                currentAreas = new SpriteAreas();
+                                currentObjectSpriteSheetAnimation->AddSprite({ width, height, u1, v1, u2, v2, duration, false, lowerBoundX, lowerBoundY, upperBoundX, upperBoundY, currentAreas });
                         }
 
                 }

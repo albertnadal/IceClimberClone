@@ -18,6 +18,7 @@ class GJKCollisionDetector
   public:
     GJKCollisionDetector();
     bool detect(const Polygon &convex1, const Polygon &convex2);
+    bool translationAndDetect(const Polygon &convex1, const Polygon &convex2);
 
   private:
     collision::vec2<float> calcInitialDirection(const Polygon &convex1, const Transform2 &transform1, const Polygon &convex2, const Transform2 &transform2);

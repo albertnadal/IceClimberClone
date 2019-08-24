@@ -74,6 +74,8 @@ void Brick::LoadNextSprite()
   currentSprite.v1 = spriteData.v1;
   currentSprite.u2 = spriteData.u2;
   currentSprite.v2 = spriteData.v2;
+  currentSprite.areas = spriteData.areas;
+  recalculateAreasDataIsNeeded = true; // Is necessary because the current sprite may have different areas
   boundingBox = { spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY };
   firstSpriteOfCurrentAnimationIsLoaded = true;
 }

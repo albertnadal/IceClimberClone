@@ -25,12 +25,12 @@ void Position::setY(float _y) {
   y = _y;
 }
 
-void Position::addX(int16 _x) {
+void Position::addX(uint16 _x) {
   int_x += _x;
   x += static_cast<float>(int_x);
 }
 
-void Position::addY(int16 _y) {
+void Position::addY(uint16 _y) {
   int_y += _y;
   y += static_cast<float>(int_y);
 }

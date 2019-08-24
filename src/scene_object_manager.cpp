@@ -176,7 +176,7 @@ void SceneObjectManager::updateVerticalScroll(uchar pressedKeys) {
     for(int r=0; r<rowsBuffer.size(); r++) {
       auto objects = rowsBuffer[r];
       for(int o=0; o<objects.size(); o++) {
-        objects[o]->position.addY(-pixelDisplacement);
+        objects[o]->PositionAddY(-pixelDisplacement);
       }
     }
     totalPixelDisplacement+=pixelDisplacement;
