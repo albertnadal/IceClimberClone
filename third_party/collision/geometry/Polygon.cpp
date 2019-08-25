@@ -16,21 +16,21 @@ Polygon::Polygon(vector<collision::vec2<float>> points)
 {
     vertices.insert(vertices.end(), points.begin(), points.end());
     center = calcAreaWeightedCenter(vertices);
-    applyPadding(0.5f);
+    //applyPadding(0.5f);
 }
 
 Polygon::Polygon(initializer_list<collision::vec2<float>> points)
 {
     vertices.insert(vertices.end(), points.begin(), points.end());
     center = calcAreaWeightedCenter(vertices);
-    applyPadding(0.5f);
+    //applyPadding(0.5f);
 }
 
 Polygon::Polygon(collision::vec2<float> center, initializer_list<collision::vec2<float>> points)
 {
     vertices.insert(vertices.end(), points.begin(), points.end());
     this->center = center;
-    applyPadding(0.5f);
+    //applyPadding(0.5f);
 }
 
 const void Polygon::Print()

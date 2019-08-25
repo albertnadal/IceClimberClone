@@ -1,6 +1,8 @@
 #include "items/main_character.h"
 #include <chrono>
 
+struct ObjectCollisionData { ISceneObject* object; float penetrationDepth; collision::vec2<float> penetrationNormal; };
+
 MainCharacter::MainCharacter() :
         ISceneObject(SceneObjectIdentificator::MAIN_CHARACTER, SceneObjectType::PLAYER, MainCharacterStateIdentificator::MAIN_CHARACTER_MAX_STATES) {
           //Initially the object is quiet
@@ -39,20 +41,11 @@ bool MainCharacter::Update(const uchar pressedKeys_, aabb::Tree<ISceneObject*>& 
         } else if(pressedKeys != prevPressedKeys) {
                 ProcessReleasedKeys();
         }
-/*
-        std::vector<Area> _solidAreas = GetSolidAreas();
-        for(uint16 s=0; s<_solidAreas.size(); s++) {
-          collision::Polygon mainCharacterSolidAreaPolygon = _solidAreas.at(s).polygon;
-          mainCharacterSolidAreaPolygon.Print();
-        }
-*/
-
-        std::cout << "vectorDirection (" << vectorDirection.x << "," << vectorDirection.y << ")" << std::endl;
 
         // CHECK FOR COLLISIONS
         if(currentSprite.areas != nullptr) {
           // Search for collisions with solid objects
-          std::vector<ISceneObject*> collidingSolidObjects;
+          std::vector<ObjectCollisionData> collidingSolidObjects;
 
           // First check for possible potential collision candidates objects
           std::vector<ISceneObject*> potentialCollisionCandidatesObjects = spacePartitionObjectsTree_.query(GetLowerBound(), GetUpperBound());
@@ -64,51 +57,73 @@ bool MainCharacter::Update(const uchar pressedKeys_, aabb::Tree<ISceneObject*>& 
             for(uint16 i=0; i<potentialCollisionObjectsCount; i++) {
               ISceneObject* collisionCandidateObject = potentialCollisionCandidatesObjects[i];
               if(collisionCandidateObject != this) {
-                cout << "#" << i+1 << "/" << potentialCollisionObjectsCount << "POTENTIAL COLLISION WITH OBJECT:" << endl;
-                collisionCandidateObject->PrintName();
-                collisionCandidateObject->PrintBoundaries();
-                cout << " --- " << endl;
-                PrintName();
-                PrintBoundaries();
-                cout << " --- " << endl;
+//                cout << "#" << i+1 << "/" << potentialCollisionObjectsCount << "POTENTIAL COLLISION WITH OBJECT:" << endl;
+//                collisionCandidateObject->PrintName();
+//                collisionCandidateObject->PrintBoundaries();
 
                 // Check precise collision of every solid area of the collision candidate object with every solid area of the main character
                 std::vector<Area>& collisionCandidateObjectSolidAreas = collisionCandidateObject->GetSolidAreas();
-                cout << "COLLISION OBJECT CANDIDATE HAVE " << collisionCandidateObjectSolidAreas.size() << " SOLID AREAS" << endl;
+//                cout << "COLLISION OBJECT CANDIDATE HAVE " << collisionCandidateObjectSolidAreas.size() << " SOLID AREAS" << endl;
                 for(uint16 c=0; c<collisionCandidateObjectSolidAreas.size(); c++) {
                   collision::Polygon candidateSolidAreaPolygon = collisionCandidateObjectSolidAreas.at(c).polygon;
-                  candidateSolidAreaPolygon.Print();
+//                  candidateSolidAreaPolygon.Print();
 
                   // Check collision with all main character solid areas
                   std::vector<Area>& mainCharacterSolidAreas = GetSolidAreas();
-                  cout << "MAIN CHARACTER OBJECT HAVE " << mainCharacterSolidAreas.size() << " SOLID AREAS" << endl;
+//                  cout << "MAIN CHARACTER OBJECT HAVE " << mainCharacterSolidAreas.size() << " SOLID AREAS" << endl;
                   for(uint16 s=0; s<mainCharacterSolidAreas.size(); s++) {
                     uint16 areaId = mainCharacterSolidAreas.at(s).id;
                     collision::Polygon mainCharacterSolidAreaPolygon = mainCharacterSolidAreas.at(s).polygon;
-                    mainCharacterSolidAreaPolygon.Print();
+//                    mainCharacterSolidAreaPolygon.Print();
 
-                    bool collision = collisionDetector.detect(mainCharacterSolidAreaPolygon, candidateSolidAreaPolygon);
-                    cout << "Do we have a collision between main character and candidate collision object: " << collision << endl;
+                    collision::Penetration penetration;
+                    bool collision = collisionDetector.detect(mainCharacterSolidAreaPolygon, candidateSolidAreaPolygon, penetration);
+//                    cout << "Do we have a collision between main character and candidate collision object: " << collision << endl;
                     if(collision) {
-                      collidingSolidObjects.push_back(collisionCandidateObject);
+                      collidingSolidObjects.push_back({collisionCandidateObject, penetration.depth, penetration.normal});
                     }
                   }
                 }
-
               }
             }
 
           } else {
-            cout << " >> NO POTENTIAL COLLISION WITH ANY OBJECT" << endl;
+            //cout << " >> NO POTENTIAL COLLISION WITH ANY OBJECT" << endl;
           }
 
           // Process colliding objects
-          if(collidingSolidObjects.size()) {
-            std::cout << " >> COLLIDING WITH " << collidingSolidObjects.size() << " OBJECTS " << endl;
+          uint16 collidingSolidObjectsCount = collidingSolidObjects.size();
+          if(collidingSolidObjectsCount) {
+            float maxHorizontalPenetrationDepth = 0.0f;
+            float maxVerticalPenetrationDepth = 0.0f;
+            std::cout << " > > > > > > > > >" << std::endl;
+            for(uint16 i=0; i<collidingSolidObjectsCount; i++) {
+              ObjectCollisionData objectCollisionData = collidingSolidObjects.at(i);
+              std::cout << " - - - - - - -" << std::endl;
+              std::cout << " ----- penetration depth: " << objectCollisionData.penetrationDepth << std::endl;
+              std::cout << " ----- penetration normal: (" << objectCollisionData.penetrationNormal.x << "," << objectCollisionData.penetrationNormal.y << ")" << std::endl;
+
+              if(objectCollisionData.penetrationNormal.y ) {
+                float verticalPenetrationDepth = objectCollisionData.penetrationNormal.y * objectCollisionData.penetrationDepth;
+                if(std::abs(verticalPenetrationDepth) > std::abs(maxVerticalPenetrationDepth)) {
+                  maxVerticalPenetrationDepth = verticalPenetrationDepth;
+                }
+              } else if(objectCollisionData.penetrationNormal.x ) {
+                float horizontalPenetrationDepth = objectCollisionData.penetrationNormal.x * objectCollisionData.penetrationDepth;
+                if(std::abs(horizontalPenetrationDepth) > std::abs(maxHorizontalPenetrationDepth)) {
+                  maxHorizontalPenetrationDepth = horizontalPenetrationDepth;
+                }
+              }
+            }
+            std::cout << " HORIZONTAL OFFSET: " << maxHorizontalPenetrationDepth << std::endl;
+            // Apply horizontal possition corrective
+            PositionAddX(-maxHorizontalPenetrationDepth);
+            std::cout << " VERTICAL OFFSET: " << maxVerticalPenetrationDepth << std::endl;
+            // Apply vertical possition corrective
+            PositionAddY(-maxVerticalPenetrationDepth);
           }
 
-        } // end check for collision
-
+        } // end check and process collisions
 
         if(!animationLoaded) {
                 return false;

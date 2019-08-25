@@ -10,11 +10,10 @@ namespace collision
 
 GJKCollisionDetector::GJKCollisionDetector()
 {
+  penetrationSolver = unique_ptr<EPAMinkowskiPenetrationSolver>(new EPAMinkowskiPenetrationSolver);
 }
 
-bool GJKCollisionDetector::detect(
-    const Polygon &convex1,
-    const Polygon &convex2)
+bool GJKCollisionDetector::detect(const Polygon &convex1, const Polygon &convex2, Penetration& penetration)
 {
     Transform2 transform1;
     Transform2 transform2;
@@ -22,7 +21,11 @@ bool GJKCollisionDetector::detect(
     MinkowskiSum minkowskiSum(convex1, transform1, convex2, transform2);
     collision::vec2<float> direction = calcInitialDirection(convex1, transform1, convex2, transform2);
 
-    return detect(minkowskiSum, simplex, direction);
+    if(detect(minkowskiSum, simplex, direction)) {
+      penetrationSolver->findPenetration(simplex, minkowskiSum, penetration);
+      return true;
+    }
+    return false;
 }
 
 collision::vec2<float> GJKCollisionDetector::calcInitialDirection(
