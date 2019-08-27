@@ -115,12 +115,34 @@ bool MainCharacter::Update(const uint8_t pressedKeys_, aabb::Tree<ISceneObject*>
                 }
               }
             }
-            std::cout << " HORIZONTAL OFFSET: " << maxHorizontalPenetrationDepth << std::endl;
+            std::cout << " COLLISION >>>>>>>>>>>>>>>>>>>> HORIZONTAL OFFSET: " << maxHorizontalPenetrationDepth << std::endl;
             // Apply horizontal possition corrective
             PositionAddX(-maxHorizontalPenetrationDepth);
-            std::cout << " VERTICAL OFFSET: " << maxVerticalPenetrationDepth << std::endl;
+            std::cout << " COLLISION >>>>>>>>>>>>>>>>>>>> VERTICAL OFFSET: " << maxVerticalPenetrationDepth << std::endl;
             // Apply vertical possition corrective
             PositionAddY(-maxVerticalPenetrationDepth);
+
+            // Colliding during jump causes finish jump and fall
+            if(isJumping) {
+              //FinishJump();
+              std::cout << " -------------- COLLISION DURING JUMPING VERTICAL PENETRATION: " << maxVerticalPenetrationDepth << std::endl;
+              std::cout << " -------------- COLLISION DURING JUMPING HORIZONTAL PENETRATION: " << maxHorizontalPenetrationDepth << std::endl;
+
+              // Check if collision has been detected on top of the main character during jumping
+              if(maxVerticalPenetrationDepth>0.0f) {
+                // Causes main character fall
+                TopCollisionDuringJump();
+              } else {
+                // Causes maion character lay on the ground
+                FinishJump();
+              }
+            } else if(isFalling) {
+              std::cout << " -------------- COLLISION DURING FALL VERTICAL PENETRATION: " << maxVerticalPenetrationDepth << std::endl;
+              std::cout << " -------------- COLLISION DURING FALL HORIZONTAL PENETRATION: " << maxHorizontalPenetrationDepth << std::endl;
+              std::cout << " ============= FINISH FALL ========" << std::endl;
+              //BottomCollisionDuringFall();
+              FinishFall();
+            }
           }
 
         } // end check and process collisions
@@ -292,16 +314,22 @@ void MainCharacter::UpdateJump() {
   tJump+=0.2f;
   PositionSetX(hInitialJumpPosition + (hInitialJumpSpeed * tJump));
   float vOffset = (vInitialJumpSpeed * tJump - (0.5f)*gravity*tJump*tJump);
-  if(vOffset <= 0.0f) {
-    // Jump landing
+  /*if(vOffset <= 0.0f) {
+    // Last position of trajectory
     PositionSetY(vInitialJumpPosition);
-    isJumping = false;
-    isLeaningOnTheGround = true;
-    hMomentum = 0;
-    JumpLanding();
-  } else {
+    // Finish jump
+    FinishJump();
+  } else*/ {
+    // Update vertical jumpt position
     PositionSetY(vInitialJumpPosition + vOffset);
   }
+}
+
+void MainCharacter::FinishJump() {
+  isJumping = false;
+  isLeaningOnTheGround = true;
+  hMomentum = 0;
+  JumpLanding();
 }
 
 void MainCharacter::UpdateFall() {
@@ -318,6 +346,12 @@ void MainCharacter::UpdateFall() {
   } else {*/
     PositionSetY(vInitialFallPosition + vOffset);
   /*}*/
+}
+
+void MainCharacter::FinishFall() {
+  isFalling = false;
+  isLeaningOnTheGround = true;
+  FallLanding();
 }
 
 void MainCharacter::MoveTo(MainCharacterDirection direction)
@@ -496,6 +530,29 @@ void MainCharacter::DownKeyPressed()
         END_TRANSITION_MAP(NULL)
 }
 
+void MainCharacter::TopCollisionDuringJump()
+{
+        cout << "MainCharacter::TopCollisionDuringJump()" << endl;
+        BEGIN_TRANSITION_MAP                                  // - Current State -
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Idle_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Idle_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)                  // STATE_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)                  // STATE_Run_Left
+        TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_RIGHT)    // STATE_Jump_Idle_Right
+        TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_LEFT)    // STATE_Jump_Idle_Left
+        TRANSITION_MAP_ENTRY (STATE_FALL_RUN_RIGHT)    // STATE_Jump_Run_Right
+        TRANSITION_MAP_ENTRY (STATE_FALL_RUN_LEFT)    // STATE_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+        END_TRANSITION_MAP(NULL)
+}
+
 void MainCharacter::SpaceKeyPressed()
 {
         cout << "MainCharacter::UpKeyPressed()" << endl;
@@ -535,6 +592,29 @@ void MainCharacter::JumpLanding()
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+        END_TRANSITION_MAP(NULL)
+}
+
+void MainCharacter::FallLanding()
+{
+        cout << "MainCharacter::FallLanding()" << endl;
+        BEGIN_TRANSITION_MAP                                  // - Current State -
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Idle_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Idle_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)                  // STATE_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)                  // STATE_Run_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Idle_Left
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
+        TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Left
+        TRANSITION_MAP_ENTRY (STATE_IDLE_RIGHT)    // STATE_Fall_Idle_Right
+        TRANSITION_MAP_ENTRY (STATE_IDLE_LEFT)    // STATE_Fall_Idle_Left
+        TRANSITION_MAP_ENTRY (STATE_IDLE_RIGHT)    // STATE_Fall_Run_Right
+        TRANSITION_MAP_ENTRY (STATE_IDLE_LEFT)    // STATE_Fall_Run_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
         TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right

@@ -60,8 +60,10 @@ class MainCharacter: public ISceneObject
   void MoveTo(MainCharacterDirection);
   void Jump(float vSpeed, float hSpeed);
   void UpdateJump();
+  void FinishJump();
   void Fall(float hSpeed);
   void UpdateFall();
+  void FinishFall();
 public:
   MainCharacter();
   ~MainCharacter();
@@ -80,6 +82,8 @@ public:
   void SpaceKeyPressed();
   void DownKeyPressed();
   void JumpLanding();
+  void FallLanding();
+  void TopCollisionDuringJump();
   bool ShouldBeginAnimationLoopAgain();
   //void ReachedSpeedForRunning();
 
