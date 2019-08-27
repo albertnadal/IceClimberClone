@@ -21,7 +21,7 @@ void SideWall::PrintName() {
         std::cout << "SideWall." << std::endl;
 }
 
-bool SideWall::Update(uchar pressedKeys_) {
+bool SideWall::Update(uint8_t pressedKeys_) {
         bool needRedraw = false;
 
         if(!animationLoaded) {

@@ -220,8 +220,8 @@ class SceneObjectManager
     { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 }
   };
 
-  void updateVerticalScroll(uchar);
-  void updateMobileObjects(uchar);
+  void updateVerticalScroll(uint8_t);
+  void updateMobileObjects(uint8_t);
   void updateStaticObjects();
   void updateVerticesAndUVSBuffers();
   void updateVerticesBufferAtIndex(uint16_t, ISceneObject*);
@@ -229,7 +229,7 @@ class SceneObjectManager
 public:
   SceneObjectManager(SceneObjectDataManager*, UInt16DoubleBuffer*, FloatDoubleBuffer*, uint32_t);
   ~SceneObjectManager();
-  void Update(uchar);
+  void Update(uint8_t);
 };
 
 #endif

@@ -47,7 +47,7 @@ void SceneObjectManager::BuildWorld() {
 
 }
 
-void SceneObjectManager::Update(uchar pressedKeys) {
+void SceneObjectManager::Update(uint8_t pressedKeys) {
   updateMobileObjects(pressedKeys);
   updateStaticObjects();
   updateVerticalScroll(pressedKeys);
@@ -129,7 +129,7 @@ void SceneObjectManager::updateVerticesAndUVSBuffers() {
   uvsDoubleBuffer->swapBuffers();
 }
 
-void SceneObjectManager::updateMobileObjects(uchar pressedKeys) {
+void SceneObjectManager::updateMobileObjects(uint8_t pressedKeys) {
   for (auto const& x : mobileObjects) {
     ISceneObject* objectPtr = x.second;
     objectPtr->Update(pressedKeys, spacePartitionObjectsTree);
@@ -143,7 +143,7 @@ void SceneObjectManager::updateStaticObjects() {
   }
 }
 
-void SceneObjectManager::updateVerticalScroll(uchar pressedKeys) {
+void SceneObjectManager::updateVerticalScroll(uint8_t pressedKeys) {
 
   if(cameraIsMoving) {
     float pixelDisplacement = 2.5f;

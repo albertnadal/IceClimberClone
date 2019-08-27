@@ -127,11 +127,11 @@ bool ISceneObject::Update() {
   return Update(KeyboardKeyCode::KEY_NONE);
 }
 
-bool ISceneObject::Update(const uchar pressedKeys) {
+bool ISceneObject::Update(const uint8_t pressedKeys) {
   return false;
 }
 
-bool ISceneObject::Update(const uchar pressedKeys, aabb::Tree<ISceneObject*>& spacePartitionObjectsTree) {
+bool ISceneObject::Update(const uint8_t pressedKeys, aabb::Tree<ISceneObject*>& spacePartitionObjectsTree) {
   return false;
 }
 

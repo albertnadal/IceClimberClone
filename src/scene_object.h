@@ -52,8 +52,8 @@ public:
   virtual void PrintName();
   virtual void PrintBoundaries();
   virtual bool Update();
-  virtual bool Update(const uchar);
-  virtual bool Update(const uchar, aabb::Tree<ISceneObject*>&);
+  virtual bool Update(const uint8_t);
+  virtual bool Update(const uint8_t, aabb::Tree<ISceneObject*>&);
 };
 
 typedef ISceneObject* (*CreateSceneObjectFn)(void);

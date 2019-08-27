@@ -22,7 +22,7 @@ void MainCharacter::PrintName() {
         std::cout << "Main character." << std::endl;
 }
 
-bool MainCharacter::Update(const uchar pressedKeys_, aabb::Tree<ISceneObject*>& spacePartitionObjectsTree_) {
+bool MainCharacter::Update(const uint8_t pressedKeys_, aabb::Tree<ISceneObject*>& spacePartitionObjectsTree_) {
 
         bool needRedraw = false;
 

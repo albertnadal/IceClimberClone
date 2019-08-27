@@ -33,7 +33,7 @@ std::chrono::duration<float> gpuTimePerUpdate;
 int nbFrames = 0;
 int previousFPS = 0;
 double lastTime = glfwGetTime();
-uchar pressedKeys = KEY_NONE;
+uint8_t pressedKeys = KEY_NONE;
 bool running = true;
 
 GLFWwindow* window;
@@ -191,7 +191,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
         //glViewport(0, 0, width, height);
 }
 
-void keyboard_callback(GLFWwindow* window, int key, int32 scancode, int32 action, int32 mode)
+void keyboard_callback(GLFWwindow* window, int key, int32_t scancode, int32_t action, int32_t mode)
 {
         KeyboardKeyCode keyCode = KEY_NONE;
         switch(key) {

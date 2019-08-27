@@ -22,8 +22,8 @@ class MainCharacter: public ISceneObject
   bool animationHasOnlyOneSprite = false;
   bool animationLoaded = false;
   bool headedToRight = true;
-  uchar prevPressedKeys = KeyboardKeyCode::KEY_NONE;
-  uchar pressedKeys = KeyboardKeyCode::KEY_NONE;
+  uint8_t prevPressedKeys = KeyboardKeyCode::KEY_NONE;
+  uint8_t pressedKeys = KeyboardKeyCode::KEY_NONE;
   void ProcessPressedKeys(bool = true);
   void ProcessReleasedKeys();
   void LoadAnimationWithId(uint16_t);
@@ -69,7 +69,7 @@ public:
   uint16_t Width();
   uint16_t Height();
   void PrintName();
-  bool Update(const uchar, aabb::Tree<ISceneObject*>&);
+  bool Update(const uint8_t, aabb::Tree<ISceneObject*>&);
   static ISceneObject* Create();
 
   void RightKeyPressed();

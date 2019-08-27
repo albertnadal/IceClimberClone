@@ -32,7 +32,7 @@ public:
   uint16_t Width();
   uint16_t Height();
   virtual void PrintName();
-  bool Update(uchar);
+  bool Update(uint8_t);
   static ISceneObject* Create();
 
   void ReceiveHammerImpact();

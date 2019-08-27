@@ -21,7 +21,7 @@ void Brick::PrintName() {
         std::cout << "Brick." << std::endl;
 }
 
-bool Brick::Update(uchar pressedKeys_) {
+bool Brick::Update(uint8_t pressedKeys_) {
         bool needRedraw = false;
 
         if(!animationLoaded) {
