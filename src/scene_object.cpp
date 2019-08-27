@@ -27,10 +27,10 @@ std::vector<Area>& ISceneObject::GetSolidAreas() {
     solidAreas.clear();
     if(currentSprite.areas!=nullptr) {
       std::cout << "CURRENT SPRITE CONTAINS " << currentSprite.areas->solidAreas.size() << " SOLID AREAS" << endl;
-      for(uint16 i=0; i<currentSprite.areas->solidAreas.size(); i++) {
+      for(uint16_t i=0; i<currentSprite.areas->solidAreas.size(); i++) {
         std::vector<collision::vec2<float>> updatedPoints;
         std::vector<collision::vec2<float>> &currentPoints = currentSprite.areas->solidAreas.at(i).polygon.vertices;
-        for(uint16 j=0; j<currentPoints.size(); j++) {
+        for(uint16_t j=0; j<currentPoints.size(); j++) {
           // Apply the current position to the current area point
           updatedPoints.push_back(collision::vec2<float>(currentPoints.at(j).x + position.x, currentPoints.at(j).y + position.y));
         }
@@ -52,7 +52,7 @@ void ISceneObject::PositionSetX(float x) {
   recalculateAreasDataIsNeeded = true;
 }
 
-void ISceneObject::PositionSetX(uint16 x) {
+void ISceneObject::PositionSetX(uint16_t x) {
   position.setX(x);
   recalculateAreasDataIsNeeded = true;
 }
@@ -62,7 +62,7 @@ void ISceneObject::PositionSetY(float y) {
   recalculateAreasDataIsNeeded = true;
 }
 
-void ISceneObject::PositionSetY(uint16 y) {
+void ISceneObject::PositionSetY(uint16_t y) {
   position.setY(y);
   recalculateAreasDataIsNeeded = true;
 }
@@ -72,7 +72,7 @@ void ISceneObject::PositionAddX(float x) {
   recalculateAreasDataIsNeeded = true;
 }
 
-void ISceneObject::PositionAddX(uint16 x) {
+void ISceneObject::PositionAddX(uint16_t x) {
   position.addX(x);
   recalculateAreasDataIsNeeded = true;
 }
@@ -82,18 +82,18 @@ void ISceneObject::PositionAddY(float y) {
   recalculateAreasDataIsNeeded = true;
 }
 
-void ISceneObject::PositionAddY(uint16 y) {
+void ISceneObject::PositionAddY(uint16_t y) {
   position.addY(y);
   recalculateAreasDataIsNeeded = true;
 }
 
-std::vector<uint16> ISceneObject::GetLowerBound() {
-  std::vector<uint16> lowerBound{static_cast<uint16>(position.int_x + boundingBox.lowerBoundX), static_cast<uint16>(position.int_y + boundingBox.lowerBoundY)};
+std::vector<uint16_t> ISceneObject::GetLowerBound() {
+  std::vector<uint16_t> lowerBound{static_cast<uint16_t>(position.int_x + boundingBox.lowerBoundX), static_cast<uint16_t>(position.int_y + boundingBox.lowerBoundY)};
   return lowerBound;
 }
 
-std::vector<uint16> ISceneObject::GetUpperBound() {
-  std::vector<uint16> upperBound{static_cast<uint16>(position.int_x + boundingBox.upperBoundX), static_cast<uint16>(position.int_y + boundingBox.upperBoundY)};
+std::vector<uint16_t> ISceneObject::GetUpperBound() {
+  std::vector<uint16_t> upperBound{static_cast<uint16_t>(position.int_x + boundingBox.upperBoundX), static_cast<uint16_t>(position.int_y + boundingBox.upperBoundY)};
   return upperBound;
 }
 
@@ -105,11 +105,11 @@ SceneObjectType ISceneObject::Type() {
   return type;
 }
 
-uint16 ISceneObject::Width() {
+uint16_t ISceneObject::Width() {
   return currentSprite.width;
 }
 
-uint16 ISceneObject::Height() {
+uint16_t ISceneObject::Height() {
   return currentSprite.height;
 }
 
@@ -118,8 +118,8 @@ void ISceneObject::PrintName() {
 }
 
 void ISceneObject::PrintBoundaries() {
-  std::vector<uint16> lowerBound = GetLowerBound();
-  std::vector<uint16> upperBound = GetUpperBound();
+  std::vector<uint16_t> lowerBound = GetLowerBound();
+  std::vector<uint16_t> upperBound = GetUpperBound();
   std:cout << "Lowerbound X: " << lowerBound[0] << " Y: " << lowerBound[1] << " | Upperbound X: " << upperBound[0] << " Y: " << upperBound[1] << endl;
 }
 

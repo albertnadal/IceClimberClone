@@ -7,15 +7,15 @@
 class UInt16DoubleBuffer {
 
 public:
-  uint32 length;
-  uint16 *producer_buffer = nullptr;
-  uint16 *consumer_buffer = nullptr;
+  uint32_t length;
+  uint16_t *producer_buffer = nullptr;
+  uint16_t *consumer_buffer = nullptr;
   std::mutex consumer_mutex;
   bool is_consuming_buffer = false;
 
-  UInt16DoubleBuffer(uint32);
-  uint32 size();
-  void cleanDataFromPosition(uint32);
+  UInt16DoubleBuffer(uint32_t);
+  uint32_t size();
+  void cleanDataFromPosition(uint32_t);
   void swapBuffers();
   void lock();
   void unlock();

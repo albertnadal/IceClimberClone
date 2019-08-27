@@ -20,12 +20,12 @@ void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, in
 void process_input(GLFWwindow *window);
 void update_fps(GLFWwindow* window);
 
-const uint32 SCR_WIDTH = 1280;
-const uint32 SCR_HEIGHT = 750;
+const uint32_t SCR_WIDTH = 1280;
+const uint32_t SCR_HEIGHT = 750;
 
 pthread_t gameLogicMainThreadId;
 
-const uint32 OBJECT_COUNT = 1000;
+const uint32_t OBJECT_COUNT = 1000;
 
 std::chrono::duration<float> cpuTimePerUpdate;
 std::chrono::duration<float> gpuTimePerUpdate;
@@ -37,7 +37,7 @@ uchar pressedKeys = KEY_NONE;
 bool running = true;
 
 GLFWwindow* window;
-uint32 VBO, VAO, UBO, textureId;
+uint32_t VBO, VAO, UBO, textureId;
 Shader* ourShader;
 SceneObjectDataManager *objectTextureManager;
 SceneObjectManager *sceneObjectManager;
@@ -116,7 +116,7 @@ int main()
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER, verticesDoubleBuffer->size(), verticesDoubleBuffer->consumer_buffer, GL_DYNAMIC_DRAW);
-        glVertexAttribPointer(0, 2, GL_UNSIGNED_SHORT, GL_FALSE, 2 * sizeof(uint16), 0);
+        glVertexAttribPointer(0, 2, GL_UNSIGNED_SHORT, GL_FALSE, 2 * sizeof(uint16_t), 0);
 
         glBindBuffer(GL_ARRAY_BUFFER, UBO);
         glBufferData(GL_ARRAY_BUFFER, uvsDoubleBuffer->size(), uvsDoubleBuffer->consumer_buffer, GL_DYNAMIC_DRAW /*GL_STATIC_DRAW*/);

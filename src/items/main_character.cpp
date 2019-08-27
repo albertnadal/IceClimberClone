@@ -10,11 +10,11 @@ MainCharacter::MainCharacter() :
           vectorDirection.y = 0.0f;
 }
 
-uint16 MainCharacter::Width() {
+uint16_t MainCharacter::Width() {
         return currentSprite.width;
 }
 
-uint16 MainCharacter::Height() {
+uint16_t MainCharacter::Height() {
         return currentSprite.height;
 }
 
@@ -50,11 +50,11 @@ bool MainCharacter::Update(const uchar pressedKeys_, aabb::Tree<ISceneObject*>& 
           // First check for possible potential collision candidates objects
           std::vector<ISceneObject*> potentialCollisionCandidatesObjects = spacePartitionObjectsTree_.query(GetLowerBound(), GetUpperBound());
 
-          uint16 potentialCollisionObjectsCount = potentialCollisionCandidatesObjects.size();
+          uint16_t potentialCollisionObjectsCount = potentialCollisionCandidatesObjects.size();
           if(potentialCollisionObjectsCount) {
             // Iterate all potential collision candidates and check for real collisions
             collision::GJKCollisionDetector collisionDetector;
-            for(uint16 i=0; i<potentialCollisionObjectsCount; i++) {
+            for(uint16_t i=0; i<potentialCollisionObjectsCount; i++) {
               ISceneObject* collisionCandidateObject = potentialCollisionCandidatesObjects[i];
               if(collisionCandidateObject != this) {
 //                cout << "#" << i+1 << "/" << potentialCollisionObjectsCount << "POTENTIAL COLLISION WITH OBJECT:" << endl;
@@ -64,15 +64,15 @@ bool MainCharacter::Update(const uchar pressedKeys_, aabb::Tree<ISceneObject*>& 
                 // Check precise collision of every solid area of the collision candidate object with every solid area of the main character
                 std::vector<Area>& collisionCandidateObjectSolidAreas = collisionCandidateObject->GetSolidAreas();
 //                cout << "COLLISION OBJECT CANDIDATE HAVE " << collisionCandidateObjectSolidAreas.size() << " SOLID AREAS" << endl;
-                for(uint16 c=0; c<collisionCandidateObjectSolidAreas.size(); c++) {
+                for(uint16_t c=0; c<collisionCandidateObjectSolidAreas.size(); c++) {
                   collision::Polygon candidateSolidAreaPolygon = collisionCandidateObjectSolidAreas.at(c).polygon;
 //                  candidateSolidAreaPolygon.Print();
 
                   // Check collision with all main character solid areas
                   std::vector<Area>& mainCharacterSolidAreas = GetSolidAreas();
 //                  cout << "MAIN CHARACTER OBJECT HAVE " << mainCharacterSolidAreas.size() << " SOLID AREAS" << endl;
-                  for(uint16 s=0; s<mainCharacterSolidAreas.size(); s++) {
-                    uint16 areaId = mainCharacterSolidAreas.at(s).id;
+                  for(uint16_t s=0; s<mainCharacterSolidAreas.size(); s++) {
+                    uint16_t areaId = mainCharacterSolidAreas.at(s).id;
                     collision::Polygon mainCharacterSolidAreaPolygon = mainCharacterSolidAreas.at(s).polygon;
 //                    mainCharacterSolidAreaPolygon.Print();
 
@@ -92,12 +92,12 @@ bool MainCharacter::Update(const uchar pressedKeys_, aabb::Tree<ISceneObject*>& 
           }
 
           // Process colliding objects
-          uint16 collidingSolidObjectsCount = collidingSolidObjects.size();
+          uint16_t collidingSolidObjectsCount = collidingSolidObjects.size();
           if(collidingSolidObjectsCount) {
             float maxHorizontalPenetrationDepth = 0.0f;
             float maxVerticalPenetrationDepth = 0.0f;
             std::cout << " > > > > > > > > >" << std::endl;
-            for(uint16 i=0; i<collidingSolidObjectsCount; i++) {
+            for(uint16_t i=0; i<collidingSolidObjectsCount; i++) {
               ObjectCollisionData objectCollisionData = collidingSolidObjects.at(i);
               std::cout << " - - - - - - -" << std::endl;
               std::cout << " ----- penetration depth: " << objectCollisionData.penetrationDepth << std::endl;
@@ -221,7 +221,7 @@ void MainCharacter::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
         LoadAnimationWithId(MainCharacterAnimation::STAND_BY_RIGHT);
 }
 
-void MainCharacter::LoadAnimationWithId(uint16 animationId) {
+void MainCharacter::LoadAnimationWithId(uint16_t animationId) {
         ObjectSpriteSheetAnimation *currentAnimation = spriteSheet->GetAnimationWithId(animationId);
         currentAnimationSprites = currentAnimation->GetSprites();
         animationHasOnlyOneSprite = (currentAnimationSprites.size() <= 1);

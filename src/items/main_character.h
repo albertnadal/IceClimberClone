@@ -12,13 +12,7 @@
 
 using namespace std;
 
-enum MainCharacterDirection: uint16 { RIGHT = 0, LEFT = 1 };
-
-// structure to hold event data passed into state machine
-struct MotorData : public EventData
-{
-    int speed;
-};
+enum MainCharacterDirection: uint8_t { RIGHT = 0, LEFT = 1 };
 
 class MainCharacter: public ISceneObject
 {
@@ -32,7 +26,7 @@ class MainCharacter: public ISceneObject
   uchar pressedKeys = KeyboardKeyCode::KEY_NONE;
   void ProcessPressedKeys(bool = true);
   void ProcessReleasedKeys();
-  void LoadAnimationWithId(uint16);
+  void LoadAnimationWithId(uint16_t);
   SpriteData NextSpriteData();
   void LoadNextSprite();
 
@@ -52,8 +46,8 @@ class MainCharacter: public ISceneObject
 
   // Player global physics values
   const float gravity = 9.81f;
-  uint16 hMomentum = 0;
-  const uint16 maxMomentum = 15;
+  uint16_t hMomentum = 0;
+  const uint16_t maxMomentum = 15;
   collision::vec2<float> vectorDirection;
 
   // Player action states
@@ -72,8 +66,8 @@ public:
   MainCharacter();
   ~MainCharacter();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
-  uint16 Width();
-  uint16 Height();
+  uint16_t Width();
+  uint16_t Height();
   void PrintName();
   bool Update(const uchar, aabb::Tree<ISceneObject*>&);
   static ISceneObject* Create();

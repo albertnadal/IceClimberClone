@@ -9,11 +9,11 @@ SideWall::SideWall(SceneObjectIdentificator scene_id, SceneObjectType scene_type
         ISceneObject(scene_id, scene_type, max_states) {
 }
 
-uint16 SideWall::Width() {
+uint16_t SideWall::Width() {
         return currentSprite.width;
 }
 
-uint16 SideWall::Height() {
+uint16_t SideWall::Height() {
         return currentSprite.height;
 }
 
@@ -45,7 +45,7 @@ void SideWall::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
 }
 
-void SideWall::LoadAnimationWithId(uint16 animationId) {
+void SideWall::LoadAnimationWithId(uint16_t animationId) {
         ObjectSpriteSheetAnimation *currentAnimation = spriteSheet->GetAnimationWithId(animationId);
         currentAnimationSprites = currentAnimation->GetSprites();
         animationHasOnlyOneSprite = (currentAnimationSprites.size() <= 1);

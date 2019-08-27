@@ -1,17 +1,17 @@
 #include "uint16_double_buffer.h"
 
-UInt16DoubleBuffer::UInt16DoubleBuffer(uint32 _length) {
+UInt16DoubleBuffer::UInt16DoubleBuffer(uint32_t _length) {
         length = _length;
-        producer_buffer = (uint16 *)calloc(_length, sizeof(uint16));
-        consumer_buffer = (uint16 *)calloc(_length, sizeof(uint16));
+        producer_buffer = (uint16_t *)calloc(_length, sizeof(uint16_t));
+        consumer_buffer = (uint16_t *)calloc(_length, sizeof(uint16_t));
 }
 
-uint32 UInt16DoubleBuffer::size()
+uint32_t UInt16DoubleBuffer::size()
 {
-        return (length * sizeof(uint16));
+        return (length * sizeof(uint16_t));
 }
 
-void UInt16DoubleBuffer::cleanDataFromPosition(uint32 position)
+void UInt16DoubleBuffer::cleanDataFromPosition(uint32_t position)
 {
   std::memset(producer_buffer+position, 0, length-position);
 }
@@ -32,7 +32,7 @@ void UInt16DoubleBuffer::swapBuffers()
 {
         if(!is_consuming_buffer) {
                 consumer_mutex.lock();
-                uint16 *tmp = producer_buffer;
+                uint16_t *tmp = producer_buffer;
                 producer_buffer = consumer_buffer;
                 consumer_buffer = tmp;
                 consumer_mutex.unlock();

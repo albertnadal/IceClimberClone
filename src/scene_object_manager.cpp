@@ -2,7 +2,7 @@
 #include "scene_object_factory.h"
 #include "scene_object.h"
 
-SceneObjectManager::SceneObjectManager(SceneObjectDataManager* _textureManager, UInt16DoubleBuffer* _verticesDoubleBuffer, FloatDoubleBuffer* _uvsDoubleBuffer, uint32 _maxObjects) {
+SceneObjectManager::SceneObjectManager(SceneObjectDataManager* _textureManager, UInt16DoubleBuffer* _verticesDoubleBuffer, FloatDoubleBuffer* _uvsDoubleBuffer, uint32_t _maxObjects) {
         textureManager = _textureManager;
         verticesDoubleBuffer = _verticesDoubleBuffer;
         uvsDoubleBuffer = _uvsDoubleBuffer;
@@ -18,16 +18,16 @@ SceneObjectManager::SceneObjectManager(SceneObjectDataManager* _textureManager, 
 
 void SceneObjectManager::BuildWorld() {
 
-  for(uint16 row=0; row<visibleRows; row++) {
-    uint16 y = (map_viewport_height - 1) - row - currentRow;
+  for(uint16_t row=0; row<visibleRows; row++) {
+    uint16_t y = (map_viewport_height - 1) - row - currentRow;
     std::vector<ISceneObject*> rowObjects;
-    for(uint16 x=0;x<map_viewport_width;x++) {
+    for(uint16_t x=0;x<map_viewport_width;x++) {
       if(SceneObjectIdentificator obj_id = (SceneObjectIdentificator)worldMap[y][x]) {
         if(ISceneObject *objectPtr = SceneObjectFactory::Get(textureManager)->CreateSceneObject(obj_id)) {
 
           // Set the initial position of the object in the screen
-          objectPtr->position.setX(uint16(x*cell_w));
-          objectPtr->position.setY(uint16(row*cell_h));
+          objectPtr->position.setX(uint16_t(x*cell_w));
+          objectPtr->position.setY(uint16_t(row*cell_h));
           rowObjects.push_back(objectPtr);
 
           // Initial update to load the sprites and boundary box
@@ -54,7 +54,7 @@ void SceneObjectManager::Update(uchar pressedKeys) {
   updateVerticesAndUVSBuffers();
 }
 
-void SceneObjectManager::updateVerticesBufferAtIndex(uint16 index, ISceneObject *objectPtr) {
+void SceneObjectManager::updateVerticesBufferAtIndex(uint16_t index, ISceneObject *objectPtr) {
   verticesDoubleBuffer->producer_buffer[index * 12] = objectPtr->position.int_x + objectPtr->Width();
   verticesDoubleBuffer->producer_buffer[index * 12 + 1] = objectPtr->position.int_y;
 
@@ -79,7 +79,7 @@ void SceneObjectManager::updateVerticesBufferAtIndex(uint16 index, ISceneObject 
   verticesDoubleBuffer->producer_buffer[index * 12 + 11] = objectPtr->position.int_y;
 }
 
-void SceneObjectManager::updateUVSBufferAtIndex(uint16 index, ISceneObject *objectPtr) {
+void SceneObjectManager::updateUVSBufferAtIndex(uint16_t index, ISceneObject *objectPtr) {
   // top right
   uvsDoubleBuffer->producer_buffer[index * 12] = objectPtr->currentSprite.u2;
   uvsDoubleBuffer->producer_buffer[index * 12 + 1] = objectPtr->currentSprite.v2;
@@ -106,7 +106,7 @@ void SceneObjectManager::updateUVSBufferAtIndex(uint16 index, ISceneObject *obje
 }
 
 void SceneObjectManager::updateVerticesAndUVSBuffers() {
-  uint16 i = 0;
+  uint16_t i = 0;
   for (auto const& x : staticObjects) {
     ISceneObject* objectPtr = x.second;
     updateVerticesBufferAtIndex(i, objectPtr);
@@ -186,14 +186,14 @@ void SceneObjectManager::updateVerticalScroll(uchar pressedKeys) {
     if(!cameraIsMoving) {
       cameraIsMoving = true;
       totalPixelDisplacement = 0.0f;
-      for(uint16 row=0; row<levelRowOffset; row++) {
-        uint16 y = (map_viewport_height - 1) - row - currentRow - visibleRows;
+      for(uint16_t row=0; row<levelRowOffset; row++) {
+        uint16_t y = (map_viewport_height - 1) - row - currentRow - visibleRows;
         std::vector<ISceneObject*> rowObjects;
-        for(uint16 x=0;x<map_viewport_width;x++) {
+        for(uint16_t x=0;x<map_viewport_width;x++) {
           if(SceneObjectIdentificator obj_id = (SceneObjectIdentificator)worldMap[y][x]) {
             if(ISceneObject *objectPtr = SceneObjectFactory::Get(textureManager)->CreateSceneObject(obj_id)) {
-              objectPtr->position.setX(uint16(x*cell_w));
-              objectPtr->position.setY(uint16((visibleRows+row)*cell_h));
+              objectPtr->position.setX(uint16_t(x*cell_w));
+              objectPtr->position.setY(uint16_t((visibleRows+row)*cell_h));
               rowObjects.push_back(objectPtr);
 
               if(objectPtr->Type() == SceneObjectType::TERRAIN) staticObjects[objectPtr->uniqueId] = objectPtr;

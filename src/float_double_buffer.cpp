@@ -1,17 +1,17 @@
 #include "float_double_buffer.h"
 
-FloatDoubleBuffer::FloatDoubleBuffer(uint32 _length) {
+FloatDoubleBuffer::FloatDoubleBuffer(uint32_t _length) {
         length = _length;
         producer_buffer = (float *)calloc(_length, sizeof(float));
         consumer_buffer = (float *)calloc(_length, sizeof(float));
 }
 
-uint32 FloatDoubleBuffer::size()
+uint32_t FloatDoubleBuffer::size()
 {
         return (length * sizeof(float));
 }
 
-void FloatDoubleBuffer::cleanDataFromPosition(uint32 position)
+void FloatDoubleBuffer::cleanDataFromPosition(uint32_t position)
 {
   std::memset(producer_buffer+position, 0, length-position);
 }

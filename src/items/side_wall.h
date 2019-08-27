@@ -21,14 +21,14 @@ class SideWall: public ISceneObject
   SpriteData NextSpriteData();
   void LoadNextSprite();
 protected:
-  void LoadAnimationWithId(uint16);
+  void LoadAnimationWithId(uint16_t);
 public:
   SideWall(SceneObjectIdentificator, SceneObjectType, unsigned char);
   SideWall();
   ~SideWall();
   virtual void InitWithSpriteSheet(ObjectSpriteSheet*);
-  uint16 Width();
-  uint16 Height();
+  uint16_t Width();
+  uint16_t Height();
   virtual void PrintName();
   bool Update(uchar);
   static ISceneObject* Create();

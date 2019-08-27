@@ -7,15 +7,15 @@ class Position
 {
 public:
   float x, y;
-  uint16 int_x, int_y;
+  uint16_t int_x, int_y;
   Position();
   ~Position();
-  void setX(uint16);
-  void setY(uint16);
+  void setX(uint16_t);
+  void setY(uint16_t);
   void setX(float);
   void setY(float);
-  void addX(uint16);
-  void addY(uint16);
+  void addX(uint16_t);
+  void addY(uint16_t);
   void addX(float);
   void addY(float);
 };

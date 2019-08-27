@@ -7,15 +7,15 @@
 class FloatDoubleBuffer {
 
 public:
-  uint32 length;
+  uint32_t length;
   float *producer_buffer = nullptr;
   float *consumer_buffer = nullptr;
   std::mutex consumer_mutex;
   bool is_consuming_buffer = false;
 
-  FloatDoubleBuffer(uint32);
-  uint32 size();
-  void cleanDataFromPosition(uint32);
+  FloatDoubleBuffer(uint32_t);
+  uint32_t size();
+  void cleanDataFromPosition(uint32_t);
   void lock();
   void unlock();
   void swapBuffers();

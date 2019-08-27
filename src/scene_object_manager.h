@@ -12,26 +12,26 @@
 class SceneObjectManager
 {
   aabb::Tree<ISceneObject*> spacePartitionObjectsTree; // Used in the broad phase of object collision detection
-  std::map<uint32, ISceneObject*> mobileObjects;
-  std::map<uint32, ISceneObject*> staticObjects;
+  std::map<uint32_t, ISceneObject*> mobileObjects;
+  std::map<uint32_t, ISceneObject*> staticObjects;
   std::deque<std::vector<ISceneObject*>> rowsBuffer;
-  uint32 currentRow;
-  uint32 visibleRows;
+  uint32_t currentRow;
+  uint32_t visibleRows;
 
   //std::vector<ISceneObject*> objects;
   SceneObjectDataManager *textureManager;
   UInt16DoubleBuffer *verticesDoubleBuffer;
   FloatDoubleBuffer *uvsDoubleBuffer;
-  uint32 maxObjects;
-  uint32 currentEscalatedHeight;
+  uint32_t maxObjects;
+  uint32_t currentEscalatedHeight;
   void BuildWorld();
   bool cameraIsMoving;
   float totalPixelDisplacement;
-  const uint16 cell_w = 16, cell_h = 16; // pixels
-  const uint16 map_viewport_width = 32; // cells
-  const uint16 map_viewport_height = 30*6; // cells
-  const uint16 levelRowOffset = 6;
-  const uint16 worldMap[30*6][32] =
+  const uint16_t cell_w = 16, cell_h = 16; // pixels
+  const uint16_t map_viewport_width = 32; // cells
+  const uint16_t map_viewport_height = 30*6; // cells
+  const uint16_t levelRowOffset = 6;
+  const uint16_t worldMap[30*6][32] =
   {
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -224,10 +224,10 @@ class SceneObjectManager
   void updateMobileObjects(uchar);
   void updateStaticObjects();
   void updateVerticesAndUVSBuffers();
-  void updateVerticesBufferAtIndex(uint16, ISceneObject*);
-  void updateUVSBufferAtIndex(uint16, ISceneObject*);
+  void updateVerticesBufferAtIndex(uint16_t, ISceneObject*);
+  void updateUVSBufferAtIndex(uint16_t, ISceneObject*);
 public:
-  SceneObjectManager(SceneObjectDataManager*, UInt16DoubleBuffer*, FloatDoubleBuffer*, uint32);
+  SceneObjectManager(SceneObjectDataManager*, UInt16DoubleBuffer*, FloatDoubleBuffer*, uint32_t);
   ~SceneObjectManager();
   void Update(uchar);
 };

@@ -10,12 +10,12 @@ class SceneObject;
 class ObjectSpriteSheet
 {
         SceneObjectIdentificator Id;
-        std::map<uint16, ObjectSpriteSheetAnimation*> animations;
+        std::map<uint16_t, ObjectSpriteSheetAnimation*> animations;
 public:
         ObjectSpriteSheet(SceneObjectIdentificator);
         ~ObjectSpriteSheet();
         void AddAnimation(ObjectSpriteSheetAnimation*);
-        ObjectSpriteSheetAnimation* GetAnimationWithId(uint16);
+        ObjectSpriteSheetAnimation* GetAnimationWithId(uint16_t);
         void Print();
 };
 

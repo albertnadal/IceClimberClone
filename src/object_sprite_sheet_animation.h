@@ -5,14 +5,14 @@
 #include <defines.h>
 #include "sprite.h"
 
-struct SpriteData { uint16 width, height; float u1, v1, u2, v2; uint16 duration; bool beginNewLoop; uint16 lowerBoundX, lowerBoundY, upperBoundX, upperBoundY; SpriteAreas *areas; };
+struct SpriteData { uint16_t width, height; float u1, v1, u2, v2; uint16_t duration; bool beginNewLoop; uint16_t lowerBoundX, lowerBoundY, upperBoundX, upperBoundY; SpriteAreas *areas; };
 
 class ObjectSpriteSheetAnimation
 {
   std::vector<SpriteData> sprites;
 public:
-  uint16 Id;
-  ObjectSpriteSheetAnimation(uint16);
+  uint16_t Id;
+  ObjectSpriteSheetAnimation(uint16_t);
   ~ObjectSpriteSheetAnimation();
   void AddSprite(SpriteData);
   const std::vector<SpriteData>& GetSprites() const;

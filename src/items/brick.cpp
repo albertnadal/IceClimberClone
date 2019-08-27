@@ -9,11 +9,11 @@ Brick::Brick(SceneObjectIdentificator scene_id, SceneObjectType scene_type, unsi
         ISceneObject(scene_id, scene_type, max_states) {
 }
 
-uint16 Brick::Width() {
+uint16_t Brick::Width() {
         return currentSprite.width;
 }
 
-uint16 Brick::Height() {
+uint16_t Brick::Height() {
         return currentSprite.height;
 }
 
@@ -46,7 +46,7 @@ void Brick::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
         LoadAnimationWithId(BrickAnimation::BRICK_GREEN_STICKY);
 }
 
-void Brick::LoadAnimationWithId(uint16 animationId) {
+void Brick::LoadAnimationWithId(uint16_t animationId) {
         ObjectSpriteSheetAnimation *currentAnimation = spriteSheet->GetAnimationWithId(animationId);
         currentAnimationSprites = currentAnimation->GetSprites();
         animationHasOnlyOneSprite = (currentAnimationSprites.size() <= 1);

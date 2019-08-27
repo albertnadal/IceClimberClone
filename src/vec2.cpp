@@ -6,12 +6,12 @@ vec2::vec2()
 {
 }
 
-vec2::vec2(uint16 scalar)
+vec2::vec2(uint16_t scalar)
         : x(scalar), y(scalar)
 {
 }
 
-vec2::vec2(uint16 x, uint16 y)
+vec2::vec2(uint16_t x, uint16_t y)
         : x(x), y(y)
 {
 }
@@ -48,7 +48,7 @@ vec2& vec2::Divide(const vec2& other)
         return *this;
 }
 
-vec2& vec2::Add(uint16 value)
+vec2& vec2::Add(uint16_t value)
 {
         x += value;
         y += value;
@@ -56,7 +56,7 @@ vec2& vec2::Add(uint16 value)
         return *this;
 }
 
-vec2& vec2::Subtract(uint16 value)
+vec2& vec2::Subtract(uint16_t value)
 {
         x -= value;
         y -= value;
@@ -64,7 +64,7 @@ vec2& vec2::Subtract(uint16 value)
         return *this;
 }
 
-vec2& vec2::Multiply(uint16 value)
+vec2& vec2::Multiply(uint16_t value)
 {
         x *= value;
         y *= value;
@@ -72,7 +72,7 @@ vec2& vec2::Multiply(uint16 value)
         return *this;
 }
 
-vec2& vec2::Divide(uint16 value)
+vec2& vec2::Divide(uint16_t value)
 {
         x /= value;
         y /= value;
@@ -100,22 +100,22 @@ vec2 operator/(vec2 left, const vec2& right)
         return left.Divide(right);
 }
 
-vec2 operator+(vec2 left, uint16 value)
+vec2 operator+(vec2 left, uint16_t value)
 {
         return vec2(left.x + value, left.y + value);
 }
 
-vec2 operator-(vec2 left, uint16 value)
+vec2 operator-(vec2 left, uint16_t value)
 {
         return vec2(left.x - value, left.y - value);
 }
 
-vec2 operator*(vec2 left, uint16 value)
+vec2 operator*(vec2 left, uint16_t value)
 {
         return vec2(left.x * value, left.y * value);
 }
 
-vec2 operator/(vec2 left, uint16 value)
+vec2 operator/(vec2 left, uint16_t value)
 {
         return vec2(left.x / value, left.y / value);
 }
@@ -140,22 +140,22 @@ vec2& vec2::operator/=(const vec2& other)
         return Divide(other);
 }
 
-vec2& vec2::operator+=(uint16 value)
+vec2& vec2::operator+=(uint16_t value)
 {
         return Add(value);
 }
 
-vec2& vec2::operator-=(uint16 value)
+vec2& vec2::operator-=(uint16_t value)
 {
         return Subtract(value);
 }
 
-vec2& vec2::operator*=(uint16 value)
+vec2& vec2::operator*=(uint16_t value)
 {
         return Multiply(value);
 }
 
-vec2& vec2::operator/=(uint16 value)
+vec2& vec2::operator/=(uint16_t value)
 {
         return Divide(value);
 }
@@ -197,7 +197,7 @@ float vec2::Distance(const vec2& other) const
         return sqrt(a * a + b * b);
 }
 
-uint16 vec2::Dot(const vec2& other) const
+uint16_t vec2::Dot(const vec2& other) const
 {
         return x * other.x + y * other.y;
 }

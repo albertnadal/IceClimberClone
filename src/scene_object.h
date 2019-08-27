@@ -12,7 +12,7 @@
 
 using namespace std;
 
-struct Boundaries { uint16 lowerBoundX, lowerBoundY, upperBoundX, upperBoundY; };
+struct Boundaries { uint16_t lowerBoundX, lowerBoundY, upperBoundX, upperBoundY; };
 
 class ISceneObject : public StateMachine
 {
@@ -31,24 +31,24 @@ public:
   Sprite currentSprite;
   Position position;
   Boundaries boundingBox;
-  uint32 uniqueId;
+  uint32_t uniqueId;
   std::vector<Area>& GetSolidAreas();
   std::vector<Area>& GetSimpleAreas();
   void PositionSetX(float);
-  void PositionSetX(uint16);
+  void PositionSetX(uint16_t);
   void PositionSetY(float);
-  void PositionSetY(uint16);
+  void PositionSetY(uint16_t);
   void PositionAddX(float);
-  void PositionAddX(uint16);
+  void PositionAddX(uint16_t);
   void PositionAddY(float);
-  void PositionAddY(uint16);
-  virtual std::vector<uint16> GetLowerBound();
-  virtual std::vector<uint16> GetUpperBound();
+  void PositionAddY(uint16_t);
+  virtual std::vector<uint16_t> GetLowerBound();
+  virtual std::vector<uint16_t> GetUpperBound();
   virtual SceneObjectIdentificator Id();
   virtual SceneObjectType Type();
   virtual void InitWithSpriteSheet(ObjectSpriteSheet*);
-  virtual uint16 Width();
-  virtual uint16 Height();
+  virtual uint16_t Width();
+  virtual uint16_t Height();
   virtual void PrintName();
   virtual void PrintBoundaries();
   virtual bool Update();

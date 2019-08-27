@@ -1,7 +1,7 @@
 #include <iostream>
 #include "object_sprite_sheet_animation.h"
 
-ObjectSpriteSheetAnimation::ObjectSpriteSheetAnimation(uint16 _id)
+ObjectSpriteSheetAnimation::ObjectSpriteSheetAnimation(uint16_t _id)
         : Id(_id)
 {
 
