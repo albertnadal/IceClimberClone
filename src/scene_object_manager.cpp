@@ -55,28 +55,28 @@ void SceneObjectManager::Update(uint8_t pressedKeys) {
 }
 
 void SceneObjectManager::updateVerticesBufferAtIndex(uint16_t index, ISceneObject *objectPtr) {
-  verticesDoubleBuffer->producer_buffer[index * 12] = objectPtr->position.int_x + objectPtr->Width();
-  verticesDoubleBuffer->producer_buffer[index * 12 + 1] = objectPtr->position.int_y;
+  verticesDoubleBuffer->producer_buffer[index * 12] = objectPtr->position.GetIntX() + objectPtr->Width();
+  verticesDoubleBuffer->producer_buffer[index * 12 + 1] = objectPtr->position.GetIntY();
 
   // bottom right
-  verticesDoubleBuffer->producer_buffer[index * 12 + 2] = objectPtr->position.int_x + objectPtr->Width();
-  verticesDoubleBuffer->producer_buffer[index * 12 + 3] = objectPtr->position.int_y + objectPtr->Height();
+  verticesDoubleBuffer->producer_buffer[index * 12 + 2] = objectPtr->position.GetIntX() + objectPtr->Width();
+  verticesDoubleBuffer->producer_buffer[index * 12 + 3] = objectPtr->position.GetIntY() + objectPtr->Height();
 
   // top left
-  verticesDoubleBuffer->producer_buffer[index * 12 + 4] = objectPtr->position.int_x;
-  verticesDoubleBuffer->producer_buffer[index * 12 + 5] = objectPtr->position.int_y;
+  verticesDoubleBuffer->producer_buffer[index * 12 + 4] = objectPtr->position.GetIntX();
+  verticesDoubleBuffer->producer_buffer[index * 12 + 5] = objectPtr->position.GetIntY();
 
   // bottom right
-  verticesDoubleBuffer->producer_buffer[index * 12 + 6] = objectPtr->position.int_x + objectPtr->Width();
-  verticesDoubleBuffer->producer_buffer[index * 12 + 7] = objectPtr->position.int_y + objectPtr->Height();
+  verticesDoubleBuffer->producer_buffer[index * 12 + 6] = objectPtr->position.GetIntX() + objectPtr->Width();
+  verticesDoubleBuffer->producer_buffer[index * 12 + 7] = objectPtr->position.GetIntY() + objectPtr->Height();
 
   // bottom left
-  verticesDoubleBuffer->producer_buffer[index * 12 + 8] = objectPtr->position.int_x;
-  verticesDoubleBuffer->producer_buffer[index * 12 + 9] = objectPtr->position.int_y + objectPtr->Height();
+  verticesDoubleBuffer->producer_buffer[index * 12 + 8] = objectPtr->position.GetIntX();
+  verticesDoubleBuffer->producer_buffer[index * 12 + 9] = objectPtr->position.GetIntY() + objectPtr->Height();
 
   // top left
-  verticesDoubleBuffer->producer_buffer[index * 12 + 10] = objectPtr->position.int_x;
-  verticesDoubleBuffer->producer_buffer[index * 12 + 11] = objectPtr->position.int_y;
+  verticesDoubleBuffer->producer_buffer[index * 12 + 10] = objectPtr->position.GetIntX();
+  verticesDoubleBuffer->producer_buffer[index * 12 + 11] = objectPtr->position.GetIntY();
 }
 
 void SceneObjectManager::updateUVSBufferAtIndex(uint16_t index, ISceneObject *objectPtr) {

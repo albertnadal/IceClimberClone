@@ -70,6 +70,8 @@ void Brick::LoadNextSprite()
 
   currentSprite.width = spriteData.width;
   currentSprite.height = spriteData.height;
+  currentSprite.xOffset = spriteData.xOffset;
+  currentSprite.yOffset = spriteData.yOffset;
   currentSprite.u1 = spriteData.u1;
   currentSprite.v1 = spriteData.v1;
   currentSprite.u2 = spriteData.u2;

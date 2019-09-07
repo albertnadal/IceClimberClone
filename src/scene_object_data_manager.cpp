@@ -106,24 +106,25 @@ void SceneObjectDataManager::LoadObjectsDataFromFile(std::string filename)
                 }
 
                 if(currentLineType == OBJ_SPRITE) {
-                        if(currentFrameValues->size() == 11) {
+                        if(currentFrameValues->size() == 13) {
                                 uint16_t width = stoi(currentFrameValues->at(0));
                                 uint16_t height = stoi(currentFrameValues->at(1));
-                                float u1 = stof(currentFrameValues->at(2));
-                                float v1 = stof(currentFrameValues->at(3));
-                                float u2 = stof(currentFrameValues->at(4));
-                                float v2 = stof(currentFrameValues->at(5));
-                                uint16_t duration = stoi(currentFrameValues->at(6));
-                                uint16_t lowerBoundX = stoi(currentFrameValues->at(7));
-                                uint16_t lowerBoundY = stoi(currentFrameValues->at(8));
-                                uint16_t upperBoundX = stoi(currentFrameValues->at(9));
-                                uint16_t upperBoundY = stoi(currentFrameValues->at(10));
+                                int16_t xOffset = stoi(currentFrameValues->at(2));
+                                int16_t yOffset = stoi(currentFrameValues->at(3));
+                                float u1 = stof(currentFrameValues->at(4));
+                                float v1 = stof(currentFrameValues->at(5));
+                                float u2 = stof(currentFrameValues->at(6));
+                                float v2 = stof(currentFrameValues->at(7));
+                                uint16_t duration = stoi(currentFrameValues->at(8));
+                                uint16_t lowerBoundX = stoi(currentFrameValues->at(9));
+                                uint16_t lowerBoundY = stoi(currentFrameValues->at(10));
+                                uint16_t upperBoundX = stoi(currentFrameValues->at(11));
+                                uint16_t upperBoundY = stoi(currentFrameValues->at(12));
 
                                 // An sprite may contain some areas defined by polygons in order to check possible collisions with other objects during the gameplay
                                 currentAreas = new SpriteAreas();
-                                currentObjectSpriteSheetAnimation->AddSprite({ width, height, u1, v1, u2, v2, duration, false, lowerBoundX, lowerBoundY, upperBoundX, upperBoundY, currentAreas });
+                                currentObjectSpriteSheetAnimation->AddSprite({ width, height, xOffset, yOffset, u1, v1, u2, v2, duration, false, lowerBoundX, lowerBoundY, upperBoundX, upperBoundY, currentAreas });
                         }
-
                 }
 
                 delete currentFrameValues;

@@ -34,6 +34,7 @@ public:
   uint32_t uniqueId;
   std::vector<Area>& GetSolidAreas();
   std::vector<Area>& GetSimpleAreas();
+  void PositionSetOffset(int16_t x, int16_t y);
   void PositionSetX(float);
   void PositionSetX(uint16_t);
   void PositionSetY(float);

@@ -32,7 +32,7 @@ std::vector<Area>& ISceneObject::GetSolidAreas() {
         std::vector<collision::vec2<float>> &currentPoints = currentSprite.areas->solidAreas.at(i).polygon.vertices;
         for(uint16_t j=0; j<currentPoints.size(); j++) {
           // Apply the current position to the current area point
-          updatedPoints.push_back(collision::vec2<float>(currentPoints.at(j).x + position.x, currentPoints.at(j).y + position.y));
+          updatedPoints.push_back(collision::vec2<float>(currentPoints.at(j).x + position.GetX(), currentPoints.at(j).y + position.GetY()));
         }
         collision::Polygon updatedPolygon(updatedPoints);
         solidAreas.push_back({currentSprite.areas->solidAreas.at(i).id, updatedPolygon});
@@ -87,13 +87,18 @@ void ISceneObject::PositionAddY(uint16_t y) {
   recalculateAreasDataIsNeeded = true;
 }
 
+void ISceneObject::PositionSetOffset(int16_t x, int16_t y) {
+  position.setOffset(x, y);
+  recalculateAreasDataIsNeeded = true;
+}
+
 std::vector<uint16_t> ISceneObject::GetLowerBound() {
-  std::vector<uint16_t> lowerBound{static_cast<uint16_t>(position.int_x + boundingBox.lowerBoundX), static_cast<uint16_t>(position.int_y + boundingBox.lowerBoundY)};
+  std::vector<uint16_t> lowerBound{static_cast<uint16_t>(position.GetIntX() + boundingBox.lowerBoundX), static_cast<uint16_t>(position.GetIntY() + boundingBox.lowerBoundY)};
   return lowerBound;
 }
 
 std::vector<uint16_t> ISceneObject::GetUpperBound() {
-  std::vector<uint16_t> upperBound{static_cast<uint16_t>(position.int_x + boundingBox.upperBoundX), static_cast<uint16_t>(position.int_y + boundingBox.upperBoundY)};
+  std::vector<uint16_t> upperBound{static_cast<uint16_t>(position.GetIntX() + boundingBox.upperBoundX), static_cast<uint16_t>(position.GetIntY() + boundingBox.upperBoundY)};
   return upperBound;
 }
 

@@ -267,11 +267,17 @@ void MainCharacter::LoadNextSprite()
 
   currentSprite.width = spriteData.width;
   currentSprite.height = spriteData.height;
+  currentSprite.xOffset = spriteData.xOffset;
+  currentSprite.yOffset = spriteData.yOffset;
   currentSprite.u1 = spriteData.u1;
   currentSprite.v1 = spriteData.v1;
   currentSprite.u2 = spriteData.u2;
   currentSprite.v2 = spriteData.v2;
   currentSprite.areas = spriteData.areas;
+
+  // Adjusts objectposition according to the sprite offset
+  PositionSetOffset(spriteData.xOffset, spriteData.yOffset);
+
   recalculateAreasDataIsNeeded = true; // Is necessary because the current sprite may have different areas
   boundingBox = { spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY };
   firstSpriteOfCurrentAnimationIsLoaded = true;
@@ -369,8 +375,8 @@ void MainCharacter::Jump(float vSpeed, float hSpeed)
   cout << "MainCharacter::Jump" << endl;
   vInitialJumpSpeed = vSpeed;
   hInitialJumpSpeed = hSpeed;
-  vInitialJumpPosition = position.y;
-  hInitialJumpPosition = position.x;
+  vInitialJumpPosition = position.GetY();
+  hInitialJumpPosition = position.GetX();
   cout << "Initial JUMP X: " << hInitialJumpPosition << " Initial JUMP Y: " << vInitialJumpPosition << endl;
   tJump = 0.0f;
   isJumping = true;
@@ -383,8 +389,8 @@ void MainCharacter::Fall(float hSpeed)
   cout << " >>>>>>>>>>>>>>>>>>>>>> MainCharacter::Fall" << endl;
   vInitialFallSpeed = 0.0f;
   hInitialFallSpeed = hSpeed;
-  vInitialFallPosition = position.y;
-  hInitialFallPosition = position.x;
+  vInitialFallPosition = position.GetIntY();
+  hInitialFallPosition = position.GetIntX();
   cout << "Initial FALL X: " << hInitialFallPosition << " Initial FALL Y: " << vInitialFallPosition << endl;
   tFall = 0.0f;
   isJumping = false;
