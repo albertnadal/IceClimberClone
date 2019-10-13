@@ -7,7 +7,8 @@ SceneObjectManager::SceneObjectManager(SceneObjectDataManager* _textureManager, 
         verticesDoubleBuffer = _verticesDoubleBuffer;
         uvsDoubleBuffer = _uvsDoubleBuffer;
         maxObjects = _maxObjects;
-        spacePartitionObjectsTree.setDimension(2);
+        spacePartitionObjectsTree = new aabb::Tree<ISceneObject*>();
+        spacePartitionObjectsTree->setDimension(2);
         currentEscalatedHeight = 0; // height climbed
         cameraIsMoving = false;
         currentRow = 0;
@@ -17,13 +18,12 @@ SceneObjectManager::SceneObjectManager(SceneObjectDataManager* _textureManager, 
 }
 
 void SceneObjectManager::BuildWorld() {
-
   for(uint16_t row=0; row<visibleRows; row++) {
     uint16_t y = (map_viewport_height - 1) - row - currentRow;
     std::vector<ISceneObject*> rowObjects;
     for(uint16_t x=0;x<map_viewport_width;x++) {
       if(SceneObjectIdentificator obj_id = (SceneObjectIdentificator)worldMap[y][x]) {
-        if(ISceneObject *objectPtr = SceneObjectFactory::Get(textureManager)->CreateSceneObject(obj_id)) {
+        if(ISceneObject *objectPtr = SceneObjectFactory::Get(textureManager, spacePartitionObjectsTree)->CreateSceneObject(obj_id)) {
 
           // Set the initial position of the object in the screen
           objectPtr->position.setX(uint16_t(x*cell_w));
@@ -34,7 +34,7 @@ void SceneObjectManager::BuildWorld() {
           objectPtr->Update();
 
           // Insert the object into the space partition tree used for object collision detection
-          spacePartitionObjectsTree.insertParticle(objectPtr, objectPtr->GetLowerBound(), objectPtr->GetUpperBound());
+          spacePartitionObjectsTree->insertParticle(objectPtr, objectPtr->GetLowerBound(), objectPtr->GetUpperBound());
 
           // Save pointers to proper arrays for static objects and mobile objects
           if(objectPtr->Type() == SceneObjectType::TERRAIN) staticObjects[objectPtr->uniqueId] = objectPtr;
@@ -44,7 +44,6 @@ void SceneObjectManager::BuildWorld() {
     }
     rowsBuffer.push_back(rowObjects);
   }
-
 }
 
 void SceneObjectManager::Update(uint8_t pressedKeys) {
@@ -132,7 +131,7 @@ void SceneObjectManager::updateVerticesAndUVSBuffers() {
 void SceneObjectManager::updateMobileObjects(uint8_t pressedKeys) {
   for (auto const& x : mobileObjects) {
     ISceneObject* objectPtr = x.second;
-    objectPtr->Update(pressedKeys, spacePartitionObjectsTree);
+    objectPtr->Update(pressedKeys);
   }
 }
 
@@ -159,7 +158,7 @@ void SceneObjectManager::updateVerticalScroll(uint8_t pressedKeys) {
               ISceneObject *objectPtr = objects[o];
 
               // Remove the object from the spacet partitioning tree
-              spacePartitionObjectsTree.removeParticle(objectPtr);
+              spacePartitionObjectsTree->removeParticle(objectPtr);
 
               if(objectPtr->Type() == SceneObjectType::TERRAIN) {
                 staticObjects.erase(objectPtr->uniqueId);
@@ -191,7 +190,7 @@ void SceneObjectManager::updateVerticalScroll(uint8_t pressedKeys) {
         std::vector<ISceneObject*> rowObjects;
         for(uint16_t x=0;x<map_viewport_width;x++) {
           if(SceneObjectIdentificator obj_id = (SceneObjectIdentificator)worldMap[y][x]) {
-            if(ISceneObject *objectPtr = SceneObjectFactory::Get(textureManager)->CreateSceneObject(obj_id)) {
+            if(ISceneObject *objectPtr = SceneObjectFactory::Get(textureManager, spacePartitionObjectsTree)->CreateSceneObject(obj_id)) {
               objectPtr->position.setX(uint16_t(x*cell_w));
               objectPtr->position.setY(uint16_t((visibleRows+row)*cell_h));
               rowObjects.push_back(objectPtr);
@@ -209,5 +208,7 @@ void SceneObjectManager::updateVerticalScroll(uint8_t pressedKeys) {
 }
 
 SceneObjectManager::~SceneObjectManager() {
-
+  if(spacePartitionObjectsTree != nullptr) {
+    delete spacePartitionObjectsTree;
+  }
 }

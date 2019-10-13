@@ -2,8 +2,9 @@
 #include "object_sprite_sheet.h"
 #include <map>
 
-SceneObjectFactory::SceneObjectFactory(SceneObjectDataManager* _textureManager) {
+SceneObjectFactory::SceneObjectFactory(SceneObjectDataManager* _textureManager, aabb::Tree<ISceneObject*>* _spacePartitionObjectsTree) {
 	textureManager = _textureManager;
+	spacePartitionObjectsTree = _spacePartitionObjectsTree;
 	RegisterSceneObjects();
 }
 
@@ -49,14 +50,15 @@ ISceneObject *SceneObjectFactory::CreateSceneObject(const SceneObjectIdentificat
 	if( it != m_FactoryMap.end() ) {
 		ISceneObject *sceneObject = it->second();
 		ObjectSpriteSheet *objectSpriteSheet = textureManager->GetSpriteSheetBySceneObjectIdentificator(sceneObject->Id());
+		sceneObject->SetSpacePartitionObjectsTree(spacePartitionObjectsTree);
 		sceneObject->InitWithSpriteSheet(objectSpriteSheet);
 		return sceneObject;
 	}
 	return NULL;
 }
 
-SceneObjectFactory *SceneObjectFactory::Get(SceneObjectDataManager* _textureManager)
+SceneObjectFactory *SceneObjectFactory::Get(SceneObjectDataManager* _textureManager, aabb::Tree<ISceneObject*>* _spacePartitionObjectsTree)
 {
-	static SceneObjectFactory instance(_textureManager);
+	static SceneObjectFactory instance(_textureManager, _spacePartitionObjectsTree);
 	return &instance;
 }

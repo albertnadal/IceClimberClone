@@ -20,6 +20,10 @@ ISceneObject::ISceneObject(SceneObjectIdentificator _id, SceneObjectType _type, 
   recalculateAreasDataIsNeeded = true;
 }
 
+void ISceneObject::SetSpacePartitionObjectsTree(aabb::Tree<ISceneObject*> *_spacePartitionObjectsTree) {
+  spacePartitionObjectsTree = _spacePartitionObjectsTree;
+}
+
 std::vector<Area>& ISceneObject::GetSolidAreas() {
   if(recalculateAreasDataIsNeeded) {
     std::cout << "RECALCULATING SOLID AREAS" << endl;

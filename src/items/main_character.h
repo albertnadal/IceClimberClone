@@ -7,7 +7,6 @@
 #include <state_machine.h>
 #include <sprite.h>
 #include <position.h>
-#include <AABB/AABB.h>
 #include "collision/collision.h"
 
 using namespace std;
@@ -49,6 +48,7 @@ class MainCharacter: public ISceneObject
   uint16_t hMomentum = 0;
   const uint16_t maxMomentum = 15;
   collision::vec2<float> vectorDirection;
+  std::vector<ISceneObject*> pillarObjects;
 
   // Player action states
   bool isJumping = false;
@@ -57,6 +57,7 @@ class MainCharacter: public ISceneObject
   bool isFalling = false;
 
   // Player action update functions
+  void UpdateCollisions();
   void MoveTo(MainCharacterDirection);
   void Jump(float vSpeed, float hSpeed);
   void UpdateJump();
@@ -71,7 +72,7 @@ public:
   uint16_t Width();
   uint16_t Height();
   void PrintName();
-  bool Update(const uint8_t, aabb::Tree<ISceneObject*>&);
+  bool Update(const uint8_t);
   static ISceneObject* Create();
 
   void RightKeyPressed();

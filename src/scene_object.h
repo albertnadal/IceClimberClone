@@ -20,6 +20,7 @@ private:
   std::vector<Area> solidAreas;
   std::vector<Area> simpleAreas;
 protected:
+  aabb::Tree<ISceneObject*> *spacePartitionObjectsTree = nullptr;
   ObjectSpriteSheet *spriteSheet = nullptr;
   SceneObjectIdentificator id;
   SceneObjectType type;
@@ -32,6 +33,7 @@ public:
   Position position;
   Boundaries boundingBox;
   uint32_t uniqueId;
+  void SetSpacePartitionObjectsTree(aabb::Tree<ISceneObject*>*);
   std::vector<Area>& GetSolidAreas();
   std::vector<Area>& GetSimpleAreas();
   void PositionSetOffset(int16_t x, int16_t y);

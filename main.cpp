@@ -62,7 +62,7 @@ static void* gameLogicMainThreadFunc(void* v)
                 sceneObjectManager->Update(pressedKeys);
                 auto t1 = std::chrono::high_resolution_clock::now();
                 cpuTimePerUpdate = t1 - t0;
-                std::this_thread::sleep_for(std::chrono::milliseconds(16) - cpuTimePerUpdate);
+                std::this_thread::sleep_for(std::chrono::milliseconds(120/*16*/) - cpuTimePerUpdate);
         }
         return 0;
 }
