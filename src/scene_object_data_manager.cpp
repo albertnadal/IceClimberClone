@@ -90,13 +90,13 @@ void SceneObjectDataManager::LoadObjectsDataFromFile(std::string filename)
 
                                 delete currentCollisionAreaValues;
                                 // Initializes a polygon from the array of points
-                                Polygon polygon(points);
+                                Rectangle rectangle(points);
 
                                 // If the polygon corresponds to a solid area then add the polygon to the solidArea vector, otherwise add the polygon to simpleAreas
                                 if(collisionAreaType=="solid") {
-                                  currentAreas->solidAreas.push_back({ collisionAreaId, polygon });
+                                  currentAreas->solidAreas.push_back({ collisionAreaId, rectangle });
                                 } else if(collisionAreaType=="simple") {
-                                  currentAreas->simpleAreas.push_back({ collisionAreaId, polygon });
+                                  currentAreas->simpleAreas.push_back({ collisionAreaId, rectangle });
                                 }
 
                         } else {

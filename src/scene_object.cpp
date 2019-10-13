@@ -33,13 +33,13 @@ std::vector<Area>& ISceneObject::GetSolidAreas() {
       std::cout << "CURRENT SPRITE CONTAINS " << currentSprite.areas->solidAreas.size() << " SOLID AREAS" << endl;
       for(uint16_t i=0; i<currentSprite.areas->solidAreas.size(); i++) {
         std::vector<collision::vec2<float>> updatedPoints;
-        std::vector<collision::vec2<float>> &currentPoints = currentSprite.areas->solidAreas.at(i).polygon.vertices;
+        std::vector<collision::vec2<float>> &currentPoints = currentSprite.areas->solidAreas.at(i).rectangle.vertices;
         for(uint16_t j=0; j<currentPoints.size(); j++) {
           // Apply the current position to the current area point
           updatedPoints.push_back(collision::vec2<float>(currentPoints.at(j).x + position.GetX(), currentPoints.at(j).y + position.GetY()));
         }
-        collision::Polygon updatedPolygon(updatedPoints);
-        solidAreas.push_back({currentSprite.areas->solidAreas.at(i).id, updatedPolygon});
+        collision::Rectangle updatedRectangle(updatedPoints);
+        solidAreas.push_back({currentSprite.areas->solidAreas.at(i).id, updatedRectangle});
       }
     }
     recalculateAreasDataIsNeeded = false;

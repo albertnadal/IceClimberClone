@@ -84,7 +84,6 @@ namespace aabb
             // Validate the dimensionality of the bounds vectors.
             if (lowerBound.size() != upperBound.size())
             {
-              std::cout << "OK3!";
                 throw std::invalid_argument("[ERROR]: Dimensionality mismatch!");
             }
 
@@ -691,7 +690,6 @@ namespace aabb
         // Validate the dimensionality of the vectors.
         if ((periodicity.size() != dimension) || (boxSize.size() != dimension))
         {
-          std::cout << "OK4!";
             throw std::invalid_argument("[ERROR]: Dimensionality mismatch!");
         }
 
@@ -814,7 +812,6 @@ namespace aabb
         // Validate the dimensionality of the position vector.
         if (position.size() != dimension)
         {
-          std::cout << "OK5!";
             throw std::invalid_argument("[ERROR]: Dimensionality mismatch!");
         }
 
@@ -883,7 +880,6 @@ namespace aabb
         // Validate the dimensionality of the bounds vectors.
         if ((lowerBound.size() != dimension) || (upperBound.size() != dimension))
         {
-            std::cout << "DIMNESION: " << dimension << " OK0!";
             throw std::invalid_argument("[ERROR]: Dimensionality mismatch!");
         }
 
@@ -995,7 +991,6 @@ namespace aabb
         // Validate the dimensionality of the position vector.
         if (position.size() != dimension)
         {
-          std::cout << "OK1!";
             throw std::invalid_argument("[ERROR]: Dimensionality mismatch!");
         }
 
@@ -1021,7 +1016,6 @@ namespace aabb
         // Validate the dimensionality of the bounds vectors.
         if ((lowerBound.size() != dimension) && (upperBound.size() != dimension))
         {
-          std::cout << "OK2!";
             throw std::invalid_argument("[ERROR]: Dimensionality mismatch!");
         }
 

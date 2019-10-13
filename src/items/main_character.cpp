@@ -93,25 +93,25 @@ void MainCharacter::UpdateCollisions()
           std::vector<Area>& collisionCandidateObjectSolidAreas = collisionCandidateObject->GetSolidAreas();
 //                cout << "COLLISION OBJECT CANDIDATE HAVE " << collisionCandidateObjectSolidAreas.size() << " SOLID AREAS" << endl;
           for(uint16_t c=0; c<collisionCandidateObjectSolidAreas.size(); c++) {
-            collision::Polygon candidateSolidAreaPolygon = collisionCandidateObjectSolidAreas.at(c).polygon;
-//                  candidateSolidAreaPolygon.Print();
+            collision::Rectangle candidateSolidAreaRectangle = collisionCandidateObjectSolidAreas.at(c).rectangle;
+//                  candidateSolidAreaRectangle.Print();
 
             // Check collision with all main character solid areas
             std::vector<Area>& mainCharacterSolidAreas = GetSolidAreas();
 //                  cout << "MAIN CHARACTER OBJECT HAVE " << mainCharacterSolidAreas.size() << " SOLID AREAS" << endl;
             for(uint16_t s=0; s<mainCharacterSolidAreas.size(); s++) {
               uint16_t areaId = mainCharacterSolidAreas.at(s).id;
-              collision::Polygon mainCharacterSolidAreaPolygon = mainCharacterSolidAreas.at(s).polygon;
-//                    mainCharacterSolidAreaPolygon.Print();
+              collision::Rectangle mainCharacterSolidAreaRectangle = mainCharacterSolidAreas.at(s).rectangle;
+//                    mainCharacterSolidAreaRectangle.Print();
 
               collision::Penetration penetration;
-              bool collision = collisionDetector.detect(mainCharacterSolidAreaPolygon, candidateSolidAreaPolygon, penetration);
+              bool collision = collisionDetector.detect(mainCharacterSolidAreaRectangle, candidateSolidAreaRectangle, penetration);
 
               if(collision) {
                 std::cout << " ============ mainCharacterSolidArea ";
-                mainCharacterSolidAreaPolygon.Print();
-                std::cout << " ============ candidateSolidAreaPolygon ";
-                candidateSolidAreaPolygon.Print();
+                mainCharacterSolidAreaRectangle.Print();
+                std::cout << " ============ candidateSolidAreaRectangle ";
+                candidateSolidAreaRectangle.Print();
 
                 collidingSolidObjects.push_back({collisionCandidateObject, penetration.depth, penetration.normal});
               }

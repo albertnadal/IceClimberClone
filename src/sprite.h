@@ -7,7 +7,7 @@
 
 using namespace std;
 
-struct Area { uint16_t id; collision::Polygon polygon; };
+struct Area { uint16_t id; collision::Rectangle rectangle; };
 struct SpriteAreas { std::vector<Area> solidAreas; std::vector<Area> simpleAreas; };
 
 class Sprite

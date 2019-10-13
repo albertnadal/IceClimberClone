@@ -2,6 +2,7 @@
 #include <collision/algorithm/MinkowskiSum.h>
 #include <collision/math/Epsilon.h>
 #include <collision/math/Vector2Util.h>
+#include <iostream>
 
 using namespace std;
 
@@ -11,6 +12,31 @@ namespace collision
 GJKCollisionDetector::GJKCollisionDetector()
 {
   penetrationSolver = unique_ptr<EPAMinkowskiPenetrationSolver>(new EPAMinkowskiPenetrationSolver);
+}
+
+bool GJKCollisionDetector::detect(Rectangle &rectangle_a, Rectangle &rectangle_b, Penetration& penetration)
+{
+  if((rectangle_a.vertices.size() < 4) || (rectangle_b.vertices.size() < 4)) {
+    return false;
+  }
+
+  std::cout << "CHECKING COLLISION BETWEEN ";
+  rectangle_a.Print();
+  std::cout << " AND ";
+  rectangle_b.Print();
+  std::cout << "\n";
+
+  uint16_t a_x1 = rectangle_a.x1;
+  uint16_t a_y1 = rectangle_a.y1;
+  uint16_t a_x2 = rectangle_a.x2;
+  uint16_t a_y2 = rectangle_a.y2;
+
+  uint16_t b_x1 = rectangle_b.x1;
+  uint16_t b_y1 = rectangle_b.y1;
+  uint16_t b_x2 = rectangle_b.x2;
+  uint16_t b_y2 = rectangle_b.y2;
+
+  return (a_x1 < b_x2 && a_x2 > b_x1 && a_y1 < b_y2 && a_y2 > b_y1);
 }
 
 bool GJKCollisionDetector::detect(const Polygon &convex1, const Polygon &convex2, Penetration& penetration)
