@@ -14,8 +14,10 @@ public:
   ~Position();
 
   float GetX();
+  float GetRealX();
   float GetPrevX();
   float GetY();
+  float GetRealY();
   float GetPrevY();
   int16_t GetIntX();
   int16_t GetPrevIntX();

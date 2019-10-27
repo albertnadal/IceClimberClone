@@ -455,8 +455,8 @@ void MainCharacter::Jump(float vSpeed, float hSpeed)
   vectorDirection.y = (vSpeed > 0.0f) ? 1 : (vSpeed < 0.0f) ? -1 : 0;
   vInitialJumpSpeed = vSpeed;
   hInitialJumpSpeed = hSpeed;
-  vInitialJumpPosition = position.GetY();
-  hInitialJumpPosition = position.GetX();
+  vInitialJumpPosition = position.GetRealY();
+  hInitialJumpPosition = position.GetRealX();
   cout << "Initial JUMP X: " << hInitialJumpPosition << " Initial JUMP Y: " << vInitialJumpPosition << endl;
   tJump = 0.0f;
   isJumping = true;
@@ -471,8 +471,8 @@ void MainCharacter::Fall(float hSpeed)
   vectorDirection.y = -1;
   vInitialFallSpeed = 0.0f;
   hInitialFallSpeed = hSpeed;
-  vInitialFallPosition = position.GetIntY();
-  hInitialFallPosition = position.GetIntX();
+  vInitialFallPosition = position.GetRealY();
+  hInitialFallPosition = position.GetRealX();
   cout << "Initial FALL X: " << hInitialFallPosition << " Initial FALL Y: " << vInitialFallPosition << endl;
   tFall = 0.0f;
   isJumping = false;

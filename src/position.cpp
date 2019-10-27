@@ -10,8 +10,16 @@ float Position::GetX() {
   return x + static_cast<float>(int_x_offset);
 }
 
+float Position::GetRealX() {
+  return x;
+}
+
 float Position::GetY() {
   return y + static_cast<float>(int_y_offset);
+}
+
+float Position::GetRealY() {
+  return y;
 }
 
 int16_t Position::GetIntX() {
