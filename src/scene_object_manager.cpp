@@ -26,8 +26,8 @@ void SceneObjectManager::BuildWorld() {
         if(ISceneObject *objectPtr = SceneObjectFactory::Get(textureManager, spacePartitionObjectsTree)->CreateSceneObject(obj_id)) {
 
           // Set the initial position of the object in the screen
-          objectPtr->position.setX(uint16_t(x*cell_w));
-          objectPtr->position.setY(uint16_t(row*cell_h));
+          objectPtr->position.setX(int16_t(x*cell_w));
+          objectPtr->position.setY(int16_t(row*cell_h));
           rowObjects.push_back(objectPtr);
 
           // Initial update to load the sprites and boundary box
@@ -191,8 +191,8 @@ void SceneObjectManager::updateVerticalScroll(uint8_t pressedKeys) {
         for(uint16_t x=0;x<map_viewport_width;x++) {
           if(SceneObjectIdentificator obj_id = (SceneObjectIdentificator)worldMap[y][x]) {
             if(ISceneObject *objectPtr = SceneObjectFactory::Get(textureManager, spacePartitionObjectsTree)->CreateSceneObject(obj_id)) {
-              objectPtr->position.setX(uint16_t(x*cell_w));
-              objectPtr->position.setY(uint16_t((visibleRows+row)*cell_h));
+              objectPtr->position.setX(int16_t(x*cell_w));
+              objectPtr->position.setY(int16_t((visibleRows+row)*cell_h));
               rowObjects.push_back(objectPtr);
 
               if(objectPtr->Type() == SceneObjectType::TERRAIN) staticObjects[objectPtr->uniqueId] = objectPtr;

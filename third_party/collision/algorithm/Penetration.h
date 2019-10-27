@@ -4,9 +4,8 @@
 
 namespace collision
 {
-struct Penetration
-{
-    collision::vec2<float> normal;
-    float depth = 0.0f;
-};
-} // namespace collision
+  struct Penetration
+  {
+      collision::vec2<int16_t> depth;
+  };
+}

@@ -56,7 +56,7 @@ void ISceneObject::PositionSetX(float x) {
   recalculateAreasDataIsNeeded = true;
 }
 
-void ISceneObject::PositionSetX(uint16_t x) {
+void ISceneObject::PositionSetX(int16_t x) {
   position.setX(x);
   recalculateAreasDataIsNeeded = true;
 }
@@ -66,7 +66,7 @@ void ISceneObject::PositionSetY(float y) {
   recalculateAreasDataIsNeeded = true;
 }
 
-void ISceneObject::PositionSetY(uint16_t y) {
+void ISceneObject::PositionSetY(int16_t y) {
   position.setY(y);
   recalculateAreasDataIsNeeded = true;
 }
@@ -76,7 +76,7 @@ void ISceneObject::PositionAddX(float x) {
   recalculateAreasDataIsNeeded = true;
 }
 
-void ISceneObject::PositionAddX(uint16_t x) {
+void ISceneObject::PositionAddX(int16_t x) {
   position.addX(x);
   recalculateAreasDataIsNeeded = true;
 }
@@ -86,7 +86,7 @@ void ISceneObject::PositionAddY(float y) {
   recalculateAreasDataIsNeeded = true;
 }
 
-void ISceneObject::PositionAddY(uint16_t y) {
+void ISceneObject::PositionAddY(int16_t y) {
   position.addY(y);
   recalculateAreasDataIsNeeded = true;
 }

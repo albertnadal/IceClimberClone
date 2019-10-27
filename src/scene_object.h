@@ -38,13 +38,13 @@ public:
   std::vector<Area>& GetSimpleAreas();
   void PositionSetOffset(int16_t x, int16_t y);
   void PositionSetX(float);
-  void PositionSetX(uint16_t);
+  void PositionSetX(int16_t);
   void PositionSetY(float);
-  void PositionSetY(uint16_t);
+  void PositionSetY(int16_t);
   void PositionAddX(float);
-  void PositionAddX(uint16_t);
+  void PositionAddX(int16_t);
   void PositionAddY(float);
-  void PositionAddY(uint16_t);
+  void PositionAddY(int16_t);
   virtual std::vector<uint16_t> GetLowerBound();
   virtual std::vector<uint16_t> GetUpperBound();
   virtual SceneObjectIdentificator Id();

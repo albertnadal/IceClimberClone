@@ -6,7 +6,6 @@
 #include <scene_object.h>
 #include <state_machine.h>
 #include <sprite.h>
-#include <position.h>
 #include "collision/collision.h"
 
 using namespace std;
@@ -35,6 +34,7 @@ class MainCharacter: public ISceneObject
   float tJump = 0.0f;
   float hInitialJumpPosition = 0.0f;
   float vInitialJumpPosition = 0.0f;
+  float previous_vOffset = 0.0f;
 
   // Fall trajectory data
   float hInitialFallSpeed = 0.0f;
@@ -47,7 +47,7 @@ class MainCharacter: public ISceneObject
   const float gravity = 9.81f;
   uint16_t hMomentum = 0;
   const uint16_t maxMomentum = 15;
-  collision::vec2<float> vectorDirection;
+  collision::vec2<int16_t> vectorDirection;
   std::vector<ISceneObject*> pillarObjects;
 
   // Player action states
