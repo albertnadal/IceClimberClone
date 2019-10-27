@@ -26,11 +26,11 @@ void ISceneObject::SetSpacePartitionObjectsTree(aabb::Tree<ISceneObject*> *_spac
 
 std::vector<Area>& ISceneObject::GetSolidAreas() {
   if(recalculateAreasDataIsNeeded) {
-    std::cout << "RECALCULATING SOLID AREAS" << endl;
+//    std::cout << "RECALCULATING SOLID AREAS" << endl;
     // Updates the object solid areas values according to the current object position and current sprite areas
     solidAreas.clear();
     if(currentSprite.areas!=nullptr) {
-      std::cout << "CURRENT SPRITE CONTAINS " << currentSprite.areas->solidAreas.size() << " SOLID AREAS" << endl;
+//      std::cout << "CURRENT SPRITE CONTAINS " << currentSprite.areas->solidAreas.size() << " SOLID AREAS" << endl;
       for(uint16_t i=0; i<currentSprite.areas->solidAreas.size(); i++) {
         std::vector<collision::vec2<float>> updatedPoints;
         std::vector<collision::vec2<float>> &currentPoints = currentSprite.areas->solidAreas.at(i).rectangle.vertices;
@@ -93,6 +93,11 @@ void ISceneObject::PositionAddY(int16_t y) {
 
 void ISceneObject::PositionSetOffset(int16_t x, int16_t y) {
   position.setOffset(x, y);
+  recalculateAreasDataIsNeeded = true;
+}
+
+void ISceneObject::RecoverPreviousPosition() {
+  position.recoverPreviousPosition();
   recalculateAreasDataIsNeeded = true;
 }
 

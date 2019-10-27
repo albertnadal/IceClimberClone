@@ -85,6 +85,15 @@ void Position::addY(float _y) {
   int_y = static_cast<int16_t>(y);
 }
 
+void Position::recoverPreviousPosition() {
+  x = prev_x;
+  y = prev_y;
+  int_x = prev_int_x;
+  int_y = prev_int_y;
+  int_x_offset = prev_int_x_offset;
+  int_y_offset = prev_int_y_offset;
+}
+
 Position::~Position() {
 
 }

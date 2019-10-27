@@ -39,12 +39,12 @@ void Rectangle::SearchTopLeftAndBottomRightVertices() {
       if(v.y < y2) { y2 = v.y; }
   }
 
-  std::cout << "CREAT RECTANGLE (" << x1 << "," << y1 << ") (" << x2 << "," << y2 << ")\n";
+  //std::cout << "CREAT RECTANGLE (" << x1 << "," << y1 << ") (" << x2 << "," << y2 << ")\n";
 }
 
 void Rectangle::Print()
 {
-  std::cout << "RECTANGLE (" << x1 << "," << y1 << ") (" << x2 << "," << y2 << ")";
+  //std::cout << "RECTANGLE (" << x1 << "," << y1 << ") (" << x2 << "," << y2 << ")";
 }
 
 } // namespace collision

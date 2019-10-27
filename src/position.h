@@ -30,6 +30,7 @@ public:
   void addY(int16_t);
   void addX(float);
   void addY(float);
+  void recoverPreviousPosition();
 };
 
 #endif

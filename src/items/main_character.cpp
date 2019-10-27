@@ -102,13 +102,13 @@ void MainCharacter::UpdateCollisions()
               collision::Rectangle mainCharacterSolidAreaRectangle = mainCharacterSolidAreas.at(s).rectangle;
 //                    mainCharacterSolidAreaRectangle.Print();
 
-              std::cout << " ====> VECTOR DIRECCIO X: " << vectorDirection.x << " Y: " << vectorDirection.y << "\n";
+//              std::cout << " ====> VECTOR DIRECCIO X: " << vectorDirection.x << " Y: " << vectorDirection.y << "\n";
               bool collision = collisionDetector.detect(mainCharacterSolidAreaRectangle, candidateSolidAreaRectangle, penetration, vectorDirection);
 
               if(collision) {
-                std::cout << " ============ mainCharacterSolidArea ";
+//                std::cout << " ============ mainCharacterSolidArea ";
                 mainCharacterSolidAreaRectangle.Print();
-                std::cout << " ============ candidateSolidAreaRectangle ";
+//                std::cout << " ============ candidateSolidAreaRectangle ";
                 candidateSolidAreaRectangle.Print();
 
                 collidingSolidObjects.push_back({collisionCandidateObject, penetration.depth.x, penetration.depth.y, &vectorDirection});
@@ -125,67 +125,103 @@ void MainCharacter::UpdateCollisions()
     // Process colliding objects
     uint16_t collidingSolidObjectsCount = collidingSolidObjects.size();
     if(collidingSolidObjectsCount) {
-      int16_t maxHorizontalPenetrationDepth = 0;
-      int16_t maxVerticalPenetrationDepth = 0;
-      std::cout << " HI HA CANDITATS QUE FAN COLLISIO REAL" << std::endl;
-      for(uint16_t i=0; i<collidingSolidObjectsCount; i++) {
-        ObjectCollisionData objectCollisionData = collidingSolidObjects.at(i);
-        std::cout << " ----- penetration depth X:" << objectCollisionData.penetration_x << " Y: " << objectCollisionData.penetration_y << std::endl;
-        if(std::abs(objectCollisionData.penetration_y) > std::abs(maxVerticalPenetrationDepth)) {
-          maxVerticalPenetrationDepth = objectCollisionData.penetration_y;
+
+      if((vectorDirection.x == 0) || (vectorDirection.y == 0)) {
+        std::cout << " >>>>>> CAS (A)\n";
+        // Collision when object displacement is vertical or horizontal. Non diagonal displacement.
+        int16_t maxHorizontalPenetrationDepth = 0;
+        int16_t maxVerticalPenetrationDepth = 0;
+//        std::cout << " HI HA CANDITATS QUE FAN COLLISIO REAL" << std::endl;
+        for(uint16_t i=0; i<collidingSolidObjectsCount; i++) {
+          ObjectCollisionData objectCollisionData = collidingSolidObjects.at(i);
+//          std::cout << " ----- penetration depth X:" << objectCollisionData.penetration_x << " Y: " << objectCollisionData.penetration_y << std::endl;
+          if(std::abs(objectCollisionData.penetration_y) > std::abs(maxVerticalPenetrationDepth)) {
+            maxVerticalPenetrationDepth = objectCollisionData.penetration_y;
+          }
+
+          if(std::abs(objectCollisionData.penetration_x) > std::abs(maxHorizontalPenetrationDepth)) {
+            maxHorizontalPenetrationDepth = objectCollisionData.penetration_x;
+          }
         }
 
-        if(std::abs(objectCollisionData.penetration_x) > std::abs(maxHorizontalPenetrationDepth)) {
-          maxHorizontalPenetrationDepth = objectCollisionData.penetration_x;
+        // Update the array of pillar objects (objects who are currently sustaining the main character from the bottom side)
+        pillarObjects.clear();
+        for(uint16_t i=0; i<collidingSolidObjectsCount; i++) {
+          ObjectCollisionData objectCollisionData = collidingSolidObjects.at(i);
+          if(objectCollisionData.penetration_y == maxVerticalPenetrationDepth) {
+            pillarObjects.push_back(objectCollisionData.object);
+          }
         }
+
+        //std::cout << " COLLISION >>>>>>>>>>>>>>>>>>>> HORIZONTAL OFFSET: " << maxHorizontalPenetrationDepth << std::endl;
+
+        //std::cout << " COLLISION >>>>>>>>>>>>>>>>>>>> HORIZONTAL OFFSET: " << maxHorizontalPenetrationDepth << std::endl;
+        // Apply horizontal possition corrective
+
+//        std::cout << "     --------------------------- CORRECCIO X: " << int16_t(-maxHorizontalPenetrationDepth) << " ----------------\n";
+//        std::cout << "     --------------------------- CORRECCIO Y: " << int16_t(-maxVerticalPenetrationDepth) << " ----------------\n";
+        PositionAddX(int16_t(-maxHorizontalPenetrationDepth));
+        //std::cout << " COLLISION >>>>>>>>>>>>>>>>>>>> VERTICAL OFFSET: " << maxVerticalPenetrationDepth << std::endl;
+        // Apply vertical possition corrective
+        PositionAddY(int16_t(-maxVerticalPenetrationDepth));
+
+        // Colliding during jump causes finish jump and fall
+        if(isJumping) {
+          //FinishJump();
+//          std::cout << " -------------- IS JUMPING" << std::endl;
+//          std::cout << " -------------- COLLISION DURING JUMPING VERTICAL PENETRATION: " << maxVerticalPenetrationDepth << std::endl;
+//          std::cout << " -------------- COLLISION DURING JUMPING HORIZONTAL PENETRATION: " << maxHorizontalPenetrationDepth << std::endl;
+
+          // Check if collision has been detected on top of the main character during jumping
+          if(maxVerticalPenetrationDepth > 0.0f) {
+            // Causes main character fall
+            TopCollisionDuringJump();
+//            std::cout << " ============= FALLING ========" << std::endl;
+          } else {
+            // Causes main character lay on the ground
+            FinishJump();
+//            std::cout << " ============= FINISH JUMP ========" << std::endl;
+          }
+        } else if(isFalling) {
+//          std::cout << " -------------- IS FALLING" << std::endl;
+//          std::cout << " -------------- COLLISION DURING FALL VERTICAL PENETRATION: " << maxVerticalPenetrationDepth << std::endl;
+//          std::cout << " -------------- COLLISION DURING FALL HORIZONTAL PENETRATION: " << maxHorizontalPenetrationDepth << std::endl;
+//          std::cout << " ============= FINISH FALL ========" << std::endl;
+          //BottomCollisionDuringFall();
+          FinishFall();
+        }
+
+      } else {
+        std::cout << " >>>>>> CAS (B)\n";
+        // Collision when object displacement is diagonal
+        // Recover previous position
+        RecoverPreviousPosition();
+        if(isJumping) { FinishJump(); }
+        // Colliding during jump causes finish jump and fall
+/*
+        if(isJumping) {
+          //FinishJump();
+          std::cout << " -------------- IS JUMPING" << std::endl;
+
+          // Check if collision has been detected on top of the main character during jumping
+          if(vectorDirection.y > 0.0f) {
+            // Causes main character fall
+            TopCollisionDuringJump();
+            std::cout << " ============= FALLING ========" << std::endl;
+          } else {
+            // Causes main character lay on the ground
+            FinishJump();
+            std::cout << " ============= FINISH JUMP ========" << std::endl;
+          }
+        } else if(isFalling) {
+          std::cout << " -------------- IS FALLING" << std::endl;
+          std::cout << " ============= FINISH FALL ========" << std::endl;
+          //BottomCollisionDuringFall();
+          FinishFall();
+        }
+*/
       }
 
-      // Update the array of pillar objects (objects who are currently sustaining the main character from the bottom side)
-      pillarObjects.clear();
-      for(uint16_t i=0; i<collidingSolidObjectsCount; i++) {
-        ObjectCollisionData objectCollisionData = collidingSolidObjects.at(i);
-        if(objectCollisionData.penetration_y == maxVerticalPenetrationDepth) {
-          pillarObjects.push_back(objectCollisionData.object);
-        }
-      }
-
-      //std::cout << " COLLISION >>>>>>>>>>>>>>>>>>>> HORIZONTAL OFFSET: " << maxHorizontalPenetrationDepth << std::endl;
-
-      //std::cout << " COLLISION >>>>>>>>>>>>>>>>>>>> HORIZONTAL OFFSET: " << maxHorizontalPenetrationDepth << std::endl;
-      // Apply horizontal possition corrective
-
-      std::cout << "     --------------------------- CORRECCIO X: " << int16_t(-maxHorizontalPenetrationDepth) << " ----------------\n";
-      std::cout << "     --------------------------- CORRECCIO Y: " << int16_t(-maxVerticalPenetrationDepth) << " ----------------\n";
-      PositionAddX(int16_t(-maxHorizontalPenetrationDepth));
-      //std::cout << " COLLISION >>>>>>>>>>>>>>>>>>>> VERTICAL OFFSET: " << maxVerticalPenetrationDepth << std::endl;
-      // Apply vertical possition corrective
-      PositionAddY(int16_t(-maxVerticalPenetrationDepth));
-
-      // Colliding during jump causes finish jump and fall
-      if(isJumping) {
-        //FinishJump();
-        std::cout << " -------------- IS JUMPING" << std::endl;
-        std::cout << " -------------- COLLISION DURING JUMPING VERTICAL PENETRATION: " << maxVerticalPenetrationDepth << std::endl;
-        std::cout << " -------------- COLLISION DURING JUMPING HORIZONTAL PENETRATION: " << maxHorizontalPenetrationDepth << std::endl;
-
-        // Check if collision has been detected on top of the main character during jumping
-        if(maxVerticalPenetrationDepth > 0.0f) {
-          // Causes main character fall
-          TopCollisionDuringJump();
-          std::cout << " ============= FALLING ========" << std::endl;
-        } else {
-          // Causes main character lay on the ground
-          FinishJump();
-          std::cout << " ============= FINISH JUMP ========" << std::endl;
-        }
-      } else if(isFalling) {
-        std::cout << " -------------- IS FALLING" << std::endl;
-        std::cout << " -------------- COLLISION DURING FALL VERTICAL PENETRATION: " << maxVerticalPenetrationDepth << std::endl;
-        std::cout << " -------------- COLLISION DURING FALL HORIZONTAL PENETRATION: " << maxHorizontalPenetrationDepth << std::endl;
-        std::cout << " ============= FINISH FALL ========" << std::endl;
-        //BottomCollisionDuringFall();
-        FinishFall();
-      }
     } else {
       //cout << " ============== NO COLLISION ========== \n";
     }
