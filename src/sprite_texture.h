@@ -6,7 +6,7 @@
 
 class SpriteTexture
 {
-  GLint textureId;
+  //GLint textureId;
 public:
   SpriteTexture();
   ~SpriteTexture();

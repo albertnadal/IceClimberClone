@@ -27,6 +27,8 @@ class MainCharacter: public ISceneObject
   void LoadAnimationWithId(uint16_t);
   SpriteData NextSpriteData();
   void LoadNextSprite();
+  bool PlayerIsQuiet();
+  void UpdatePreviousDirection();
 
   // Jump trajectory data
   float hInitialJumpSpeed = 0.0f;
@@ -48,6 +50,7 @@ class MainCharacter: public ISceneObject
   uint16_t hMomentum = 0;
   const uint16_t maxMomentum = 15;
   collision::vec2<int16_t> vectorDirection;
+  collision::vec2<int16_t> prevVectorDirection;
   std::vector<ISceneObject*> pillarObjects;
 
   // Player action states

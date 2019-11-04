@@ -1,5 +1,4 @@
 #include <collision/geometry/Rectangle.h>
-#include <collision/math/Vector2Util.h>
 #include <cmath>
 #include <iostream>
 
@@ -13,12 +12,12 @@ Rectangle::Rectangle(vector<collision::vec2<float>> points)
     vertices.insert(vertices.end(), points.begin(), points.end());
     SearchTopLeftAndBottomRightVertices();
 }
-
+/*
 Rectangle::Rectangle(initializer_list<collision::vec2<float>> points)
 {
     vertices.insert(vertices.end(), points.begin(), points.end());
     SearchTopLeftAndBottomRightVertices();
-}
+}*/
 
 void Rectangle::SearchTopLeftAndBottomRightVertices() {
   if(vertices.size() == 0) {
@@ -44,7 +43,7 @@ void Rectangle::SearchTopLeftAndBottomRightVertices() {
 
 void Rectangle::Print()
 {
-  //std::cout << "RECTANGLE (" << x1 << "," << y1 << ") (" << x2 << "," << y2 << ")";
+  std::cout << "RECTANGLE (" << x1 << "," << y1 << ") (" << x2 << "," << y2 << ")";
 }
 
 } // namespace collision

@@ -5,7 +5,7 @@
 #include <defines.h>
 #include <object_sprite_sheet_animation.h>
 
-class SceneObject;
+//class SceneObject;
 
 class ObjectSpriteSheet
 {

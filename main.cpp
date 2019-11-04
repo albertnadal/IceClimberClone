@@ -7,13 +7,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <shader_s.h>
-#include <filesystem.h>
-#include <vec2.h>
 #include <defines.h>
 #include <scene_object_data_manager.h>
 #include <scene_object_manager.h>
-#include <scene_object.h>
-#include <items/main_character.h>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
@@ -212,7 +208,6 @@ void keyboard_callback(GLFWwindow* window, int key, int32_t scancode, int32_t ac
                 }
 
                 std::bitset<8> x(pressedKeys);
-                //std::cout << "KEYS: " << x << endl;
         }
 }
 

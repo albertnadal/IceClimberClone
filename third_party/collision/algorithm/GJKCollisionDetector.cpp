@@ -1,5 +1,4 @@
 #include <collision/algorithm/GJKCollisionDetector.h>
-#include <collision/math/Epsilon.h>
 #include <collision/math/Vector2Util.h>
 #include <iostream>
 
@@ -18,11 +17,11 @@ bool GJKCollisionDetector::detect(Rectangle &rectangle_a, Rectangle &rectangle_b
     return false;
   }
 
-//  std::cout << "CHECKING COLLISION BETWEEN ";
-//  rectangle_a.Print();
-//  std::cout << " AND ";
-//  rectangle_b.Print();
-//  std::cout << "\n";
+  //std::cout << "CHECKING COLLISION BETWEEN ";
+  //rectangle_a.Print();
+  //std::cout << " AND ";
+  //rectangle_b.Print();
+  //std::cout << "\n";
 
   penetration.depth.x = 0;
   penetration.depth.y = 0;
@@ -61,7 +60,8 @@ bool GJKCollisionDetector::detect(Rectangle &rectangle_a, Rectangle &rectangle_b
       penetration.depth.y = -(b_y1 - a_y2);
     }
 
-//    std::cout << " DEPTH X: " << penetration.depth.x << " Y: " << penetration.depth.y << "\n";
+    std::cout << " DIRECTION X: " << vectorDirection.x << " Y: " << vectorDirection.y << "\n";
+    std::cout << " DEPTH X: " << penetration.depth.x << " Y: " << penetration.depth.y << "\n";
 //    std::cout << " >>>>> COLLISIO <<<<<\n";
     return true;
   }

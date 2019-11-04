@@ -1,19 +1,21 @@
 #pragma once
 
 #include <defines.h>
+#include "vec2.h"
 
-struct fvec2
+class fvec2
 {
-        float x, y;
+    fvec2();
+    //fvec2(float scalar);
 
-        vec2();
-        vec2(float scalar);
-        vec2(float x, float y);
+    float x, y;
 
-        fvec2& Add(const vec2& other);
-        fvec2& Subtract(const vec2& other);
-        fvec2& Multiply(const vec2& other);
-        fvec2& Divide(const vec2& other);
+        fvec2(float x, float y);
+
+        fvec2 &Add(const fvec2 &other);
+        fvec2 &Subtract(const fvec2 &other);
+        fvec2 &Multiply(const fvec2 &other);
+        fvec2 &Divide(const fvec2 &other);
 
         fvec2& Add(float value);
         fvec2& Subtract(float value);
@@ -49,7 +51,7 @@ struct fvec2
         bool operator>=(const fvec2 &other) const;
 
         float Magnitude() const;
-        fvec2 Normalise() const;
+/*        fvec2 Normalise() const;
         float Distance(const fvec2& other) const;
-        float Dot(const fvec2& other) const;
+        float Dot(const fvec2& other) const;*/
 };

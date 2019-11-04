@@ -15,14 +15,14 @@ public:
 
   float GetX();
   float GetRealX();
-  float GetPrevX();
+  //float GetPrevX();
   float GetY();
   float GetRealY();
-  float GetPrevY();
+  //float GetPrevY();
   int16_t GetIntX();
-  int16_t GetPrevIntX();
+  //int16_t GetPrevIntX();
   int16_t GetIntY();
-  int16_t GetPrevIntY();
+  //int16_t GetPrevIntY();
   void setOffset(int16_t x, int16_t y);
   void setX(int16_t);
   void setY(int16_t);

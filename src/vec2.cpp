@@ -190,19 +190,7 @@ bool vec2::operator>=(const vec2& other) const
         return x >= other.x && y >= other.y;
 }
 
-float vec2::Distance(const vec2& other) const
-{
-        float a = x - other.x;
-        float b = y - other.y;
-        return sqrt(a * a + b * b);
-}
-
-uint16_t vec2::Dot(const vec2& other) const
-{
-        return x * other.x + y * other.y;
-}
-
-float vec2::Magnitude() const
+/*float vec2::Magnitude() const
 {
         return sqrt(x * x + y * y);
 }
@@ -212,3 +200,15 @@ vec2 vec2::Normalise() const
         float length = Magnitude();
         return vec2(x / length, y / length);
 }
+
+float vec2::Distance(const vec2& other) const
+{
+    float a = x - other.x;
+    float b = y - other.y;
+    return sqrt(a * a + b * b);
+}
+
+uint16_t vec2::Dot(const vec2& other) const
+{
+    return x * other.x + y * other.y;
+}*/

@@ -5,11 +5,11 @@ fvec2::fvec2()
         : x(0), y(0)
 {
 }
-
+/*
 fvec2::fvec2(float scalar)
         : x(scalar), y(scalar)
 {
-}
+}*/
 
 fvec2::fvec2(float x, float y)
         : x(x), y(y)
@@ -190,7 +190,7 @@ bool fvec2::operator>=(const fvec2& other) const
         return x >= other.x && y >= other.y;
 }
 
-float fvec2::Distance(const fvec2& other) const
+/*float fvec2::Distance(const fvec2& other) const
 {
         float a = x - other.x;
         float b = y - other.y;
@@ -200,15 +200,15 @@ float fvec2::Distance(const fvec2& other) const
 float fvec2::Dot(const fvec2& other) const
 {
         return x * other.x + y * other.y;
-}
+}*/
 
 float fvec2::Magnitude() const
 {
         return sqrt(x * x + y * y);
 }
-
+/*
 fvec2 fvec2::Normalise() const
 {
         float length = Magnitude();
         return fvec2(x / length, y / length);
-}
+}*/

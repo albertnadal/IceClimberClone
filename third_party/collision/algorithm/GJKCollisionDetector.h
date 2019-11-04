@@ -11,8 +11,6 @@ using namespace std;
 namespace collision
 {
 
-class MinkowskiSum;
-
 class GJKCollisionDetector
 {
   public:

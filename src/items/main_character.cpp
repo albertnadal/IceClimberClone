@@ -8,6 +8,8 @@ MainCharacter::MainCharacter() :
           //Initially the object is quiet
           vectorDirection.x = 0;
           vectorDirection.y = 0;
+          prevVectorDirection.x = 0;
+          prevVectorDirection.y = 0;
 }
 
 uint16_t MainCharacter::Width() {
@@ -103,7 +105,7 @@ void MainCharacter::UpdateCollisions()
 //                    mainCharacterSolidAreaRectangle.Print();
 
 //              std::cout << " ====> VECTOR DIRECCIO X: " << vectorDirection.x << " Y: " << vectorDirection.y << "\n";
-              bool collision = collisionDetector.detect(mainCharacterSolidAreaRectangle, candidateSolidAreaRectangle, penetration, vectorDirection);
+              bool collision = collisionDetector.detect(mainCharacterSolidAreaRectangle, candidateSolidAreaRectangle, penetration, PlayerIsQuiet() ? prevVectorDirection : vectorDirection);
 
               if(collision) {
 //                std::cout << " ============ mainCharacterSolidArea ";
@@ -134,7 +136,7 @@ void MainCharacter::UpdateCollisions()
 //        std::cout << " HI HA CANDITATS QUE FAN COLLISIO REAL" << std::endl;
         for(uint16_t i=0; i<collidingSolidObjectsCount; i++) {
           ObjectCollisionData objectCollisionData = collidingSolidObjects.at(i);
-//          std::cout << " ----- penetration depth X:" << objectCollisionData.penetration_x << " Y: " << objectCollisionData.penetration_y << std::endl;
+          std::cout << " ----- penetration depth X:" << objectCollisionData.penetration_x << " Y: " << objectCollisionData.penetration_y << std::endl;
           if(std::abs(objectCollisionData.penetration_y) > std::abs(maxVerticalPenetrationDepth)) {
             maxVerticalPenetrationDepth = objectCollisionData.penetration_y;
           }
@@ -229,6 +231,19 @@ void MainCharacter::UpdateCollisions()
     //std::cout << " ------- TOTAL PILLAR OBJECTS:  " << pillarObjects.size() << "\n";
 
   } // end check and process collisions
+}
+
+void MainCharacter::UpdatePreviousDirection()
+{
+  if ((vectorDirection.x != 0) || (vectorDirection.y != 0)) {
+    prevVectorDirection.x = vectorDirection.x;
+    prevVectorDirection.y = vectorDirection.y;
+  }
+}
+
+bool MainCharacter::PlayerIsQuiet()
+{
+  return (vectorDirection.x == vectorDirection.y) && (vectorDirection.x == 0);
 }
 
 void MainCharacter::ProcessPressedKeys(bool checkPreviousPressedKeys)
@@ -397,7 +412,8 @@ void MainCharacter::UpdateJump() {
     // Update vertical jumpt position
     PositionSetY(round(vInitialJumpPosition + vOffset));
   /*}*/
-  vectorDirection.x = (hInitialFallSpeed > 0.0f) ? 1 : (hInitialFallSpeed < 0.0f) ? -1 : 0;
+  UpdatePreviousDirection();
+  vectorDirection.x = (hInitialJumpSpeed > 0.0f) ? 1 : (hInitialJumpSpeed < 0.0f) ? -1 : 0;
   vectorDirection.y = (previous_vOffset < vOffset) ? 1 : -1;
   std::cout << "                          ==================> X: " << vectorDirection.x << " Y: " << vectorDirection.y << "\n";
   previous_vOffset = vOffset;
@@ -407,6 +423,7 @@ void MainCharacter::FinishJump() {
   isJumping = false;
   isLeaningOnTheGround = true;
   hMomentum = 0;
+  UpdatePreviousDirection();
   vectorDirection.x = 0;
   vectorDirection.y = 0;
   JumpLanding();
@@ -426,6 +443,7 @@ void MainCharacter::UpdateFall() {
   } else {*/
     PositionSetY(vInitialFallPosition + vOffset);
   /*}*/
+  UpdatePreviousDirection();
   vectorDirection.x = (hInitialFallSpeed > 0.0f) ? 1 : (hInitialFallSpeed < 0.0f) ? -1 : 0;
   vectorDirection.y = -1;
 }
@@ -433,6 +451,7 @@ void MainCharacter::UpdateFall() {
 void MainCharacter::FinishFall() {
   isFalling = false;
   isLeaningOnTheGround = true;
+  UpdatePreviousDirection();
   vectorDirection.x = 0;
   vectorDirection.y = 0;
   FallLanding();
@@ -451,6 +470,7 @@ void MainCharacter::MoveTo(MainCharacterDirection direction)
 void MainCharacter::Jump(float vSpeed, float hSpeed)
 {
   cout << "MainCharacter::Jump" << endl;
+  UpdatePreviousDirection();
   vectorDirection.x = (hSpeed > 0.0f) ? 1 : (hSpeed < 0.0f) ? -1 : 0;
   vectorDirection.y = (vSpeed > 0.0f) ? 1 : (vSpeed < 0.0f) ? -1 : 0;
   vInitialJumpSpeed = vSpeed;
@@ -467,6 +487,7 @@ void MainCharacter::Jump(float vSpeed, float hSpeed)
 void MainCharacter::Fall(float hSpeed)
 {
   cout << " >>>>>>>>>>>>>>>>>>>>>> MainCharacter::Fall" << endl;
+  UpdatePreviousDirection();
   vectorDirection.x = (hSpeed > 0.0f) ? 1 : (hSpeed < 0.0f) ? -1 : 0;
   vectorDirection.y = -1;
   vInitialFallSpeed = 0.0f;
@@ -714,6 +735,7 @@ void MainCharacter::STATE_Idle_Right()
 {
         cout << "MainCharacter::STATE_Idle_Right" << endl;
         hMomentum = 0;
+        UpdatePreviousDirection();
         vectorDirection.x = 0;
         vectorDirection.y = 0;
         LoadAnimationWithId(MainCharacterAnimation::STAND_BY_RIGHT);
@@ -724,6 +746,7 @@ void MainCharacter::STATE_Idle_Left()
 {
         cout << "MainCharacter::STATE_Idle_Left" << endl;
         hMomentum = 0;
+        UpdatePreviousDirection();
         vectorDirection.x = 0;
         vectorDirection.y = 0;
         LoadAnimationWithId(MainCharacterAnimation::STAND_BY_LEFT);
@@ -734,6 +757,7 @@ void MainCharacter::STATE_Idle_Left()
 void MainCharacter::STATE_Run_Right()
 {
         cout << "MainCharacter::STATE_Run_Right" << endl;
+        UpdatePreviousDirection();
         vectorDirection.x = 1;
         vectorDirection.y = 0;
         LoadAnimationWithId(MainCharacterAnimation::RUN_TO_RIGHT);
@@ -743,6 +767,7 @@ void MainCharacter::STATE_Run_Right()
 void MainCharacter::STATE_Run_Left()
 {
         cout << "MainCharacter::STATE_Run_Left" << endl;
+        UpdatePreviousDirection();
         vectorDirection.x = -1;
         vectorDirection.y = 0;
         LoadAnimationWithId(MainCharacterAnimation::RUN_TO_LEFT);

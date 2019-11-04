@@ -4,8 +4,8 @@ CFLAGS=-std=c++11 -stdlib=libc++ -Ofast -march=native -flto -fno-signed-zeros -f
 LDFLAGS=-Wl,-search_paths_first -Wl,-headerpad_max_install_names -framework OpenGL -framework Cocoa -lGLFW -L/usr/local/Cellar/glfw/3.3/lib/
 EXEC=main
 
-all: glad.o Polygon.o Rectangle.o GJKCollisionDetector.o Epsilon.o float_double_buffer.o uint16_double_buffer.o position.o vec2.o scene_object.o scene_object_factory.o main_character.o brick.o brick_brown.o brick_blue.o brick_green_half.o brick_brown_half.o brick_blue_half.o side_wall.o side_wall_green_left.o side_wall_green_right.o side_wall_green_columns_left.o side_wall_green_columns_right.o side_wall_brown_columns_left.o side_wall_brown_columns_right.o side_wall_brown_left.o side_wall_brown_right.o side_wall_blue_left.o side_wall_blue_right.o side_wall_blue_columns_left.o side_wall_blue_columns_right.o state_machine.o scene_object_manager.o sprite.o sprite_texture.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_data_manager.o
-	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o main_character.o brick.o brick_brown.o brick_blue.o brick_green_half.o brick_brown_half.o brick_blue_half.o side_wall.o side_wall_green_left.o side_wall_green_right.o side_wall_green_columns_left.o side_wall_green_columns_right.o side_wall_brown_columns_left.o side_wall_brown_columns_right.o side_wall_brown_left.o side_wall_brown_right.o side_wall_blue_left.o side_wall_blue_right.o side_wall_blue_columns_left.o side_wall_blue_columns_right.o state_machine.o scene_object_manager.o sprite.o sprite_texture.o scene_object_data_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o position.o vec2.o float_double_buffer.o uint16_double_buffer.o glad.o Polygon.o Rectangle.o GJKCollisionDetector.o Epsilon.o -o $(EXEC)
+all: glad.o Rectangle.o GJKCollisionDetector.o float_double_buffer.o uint16_double_buffer.o position.o vec2.o scene_object.o scene_object_factory.o main_character.o brick.o brick_brown.o brick_blue.o brick_green_half.o brick_brown_half.o brick_blue_half.o side_wall.o side_wall_green_left.o side_wall_green_right.o side_wall_green_columns_left.o side_wall_green_columns_right.o side_wall_brown_columns_left.o side_wall_brown_columns_right.o side_wall_brown_left.o side_wall_brown_right.o side_wall_blue_left.o side_wall_blue_right.o side_wall_blue_columns_left.o side_wall_blue_columns_right.o state_machine.o scene_object_manager.o sprite.o sprite_texture.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_data_manager.o
+	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o main_character.o brick.o brick_brown.o brick_blue.o brick_green_half.o brick_brown_half.o brick_blue_half.o side_wall.o side_wall_green_left.o side_wall_green_right.o side_wall_green_columns_left.o side_wall_green_columns_right.o side_wall_brown_columns_left.o side_wall_brown_columns_right.o side_wall_brown_left.o side_wall_brown_right.o side_wall_blue_left.o side_wall_blue_right.o side_wall_blue_columns_left.o side_wall_blue_columns_right.o state_machine.o scene_object_manager.o sprite.o sprite_texture.o scene_object_data_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o position.o vec2.o float_double_buffer.o uint16_double_buffer.o glad.o Rectangle.o GJKCollisionDetector.o -o $(EXEC)
 
 main_character.o: src/items/main_character.cpp
 	$(CXX) -c $(CFLAGS) src/items/main_character.cpp
@@ -109,17 +109,11 @@ float_double_buffer.o: src/float_double_buffer.cpp
 glad.o: third_party/glad/glad.cpp
 	$(CXX) -c $(CFLAGS) third_party/glad/glad.cpp
 
-Polygon.o: third_party/collision/geometry/Polygon.cpp
-	$(CXX) -c $(CFLAGS) third_party/collision/geometry/Polygon.cpp
-
 Rectangle.o: third_party/collision/geometry/Rectangle.cpp
 	$(CXX) -c $(CFLAGS) third_party/collision/geometry/Rectangle.cpp
 
 GJKCollisionDetector.o: third_party/collision/algorithm/GJKCollisionDetector.cpp
 	$(CXX) -c $(CFLAGS) third_party/collision/algorithm/GJKCollisionDetector.cpp
-
-Epsilon.o: third_party/collision/math/Epsilon.cpp
-	$(CXX) -c $(CFLAGS) third_party/collision/math/Epsilon.cpp
 
 clean:
 	rm -f $(EXEC) *.o *.gch src/*.o src/*.gch third_party/collision/structures/*.gch third_party/AABB/*.gch

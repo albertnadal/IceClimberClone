@@ -12,7 +12,7 @@ struct SpriteAreas { std::vector<Area> solidAreas; std::vector<Area> simpleAreas
 
 class Sprite
 {
-  SpriteTexture texture;
+  //SpriteTexture texture;
 public:
   uint16_t width;
   uint16_t height;

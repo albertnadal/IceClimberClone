@@ -47,9 +47,9 @@ struct vec2
         bool operator<=(const vec2 &other) const;
         bool operator>(const vec2 &other) const;
         bool operator>=(const vec2 &other) const;
-
+/*
         float Magnitude() const;
         vec2 Normalise() const;
         float Distance(const vec2& other) const;
-        uint16_t Dot(const vec2& other) const;
+        uint16_t Dot(const vec2& other) const;*/
 };
