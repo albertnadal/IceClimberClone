@@ -37,14 +37,11 @@ public:
   std::vector<Area>& GetSolidAreas();
   std::vector<Area>& GetSimpleAreas();
   void PositionSetOffset(int16_t x, int16_t y);
+  void PositionSetXY(float, float);
   void PositionSetX(float);
-  void PositionSetX(int16_t);
   void PositionSetY(float);
-  void PositionSetY(int16_t);
   void PositionAddX(float);
-  void PositionAddX(int16_t);
   void PositionAddY(float);
-  void PositionAddY(int16_t);
   void RecoverPreviousPosition();
   virtual std::vector<uint16_t> GetLowerBound();
   virtual std::vector<uint16_t> GetUpperBound();

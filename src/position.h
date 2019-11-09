@@ -15,17 +15,12 @@ public:
 
   float GetX();
   float GetRealX();
-  //float GetPrevX();
   float GetY();
   float GetRealY();
-  //float GetPrevY();
   int16_t GetIntX();
-  //int16_t GetPrevIntX();
   int16_t GetIntY();
-  //int16_t GetPrevIntY();
   void setOffset(int16_t x, int16_t y);
-  void setX(int16_t);
-  void setY(int16_t);
+  void setXY(float, float);
   void setX(float);
   void setY(float);
   void addX(int16_t);
@@ -33,6 +28,7 @@ public:
   void addX(float);
   void addY(float);
   void recoverPreviousPosition();
+  float getTrajectoryTangent();
 };
 
 #endif

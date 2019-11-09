@@ -19,6 +19,15 @@ include_directories(third_party/KHR)
 include_directories(third_party/MersenneTwister)
 
 add_executable(rocket
+        src/collision/algorithm/CollisionDetector.cpp
+        src/collision/algorithm/CollisionDetector.h
+        src/collision/algorithm/Penetration.h
+        src/collision/geometry/Rectangle.cpp
+        src/collision/geometry/Rectangle.h
+        src/collision/math/Vector2Util.h
+        src/collision/structures/mat2x2.hpp
+        src/collision/structures/vec2.hpp
+        src/collision/collision.h
         src/items/brick.cpp
         src/items/brick.h
         src/items/brick_blue.cpp
@@ -95,15 +104,6 @@ add_executable(rocket
         src/vec2.cpp
         src/vec2.h
         third_party/AABB/AABB.h
-        third_party/collision/algorithm/GJKCollisionDetector.cpp
-        third_party/collision/algorithm/GJKCollisionDetector.h
-        third_party/collision/algorithm/Penetration.h
-        third_party/collision/geometry/Rectangle.cpp
-        third_party/collision/geometry/Rectangle.h
-        third_party/collision/math/Vector2Util.h
-        third_party/collision/structures/mat2x2.hpp
-        third_party/collision/structures/vec2.hpp
-        third_party/collision/collision.h
         third_party/glad/glad.cpp
         third_party/glad/glad.h
         third_party/KHR/khrplatform.h

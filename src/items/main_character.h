@@ -11,6 +11,7 @@
 using namespace std;
 
 enum MainCharacterDirection: uint8_t { RIGHT = 0, LEFT = 1 };
+struct ObjectCollisionData { ISceneObject* object; int16_t penetration_x; int16_t penetration_y; collision::vec2<int16_t> *vectorDirection; };
 
 class MainCharacter: public ISceneObject
 {
@@ -29,6 +30,8 @@ class MainCharacter: public ISceneObject
   void LoadNextSprite();
   bool PlayerIsQuiet();
   void UpdatePreviousDirection();
+  void GetSolidCollisions(std::vector<ObjectCollisionData>&);
+  void MoveToPositionOfNoCollision(std::vector<ObjectCollisionData>&);
 
   // Jump trajectory data
   float hInitialJumpSpeed = 0.0f;
@@ -49,6 +52,7 @@ class MainCharacter: public ISceneObject
   const float gravity = 9.81f;
   uint16_t hMomentum = 0;
   const uint16_t maxMomentum = 15;
+  collision::CollisionDetector collisionDetector;
   collision::vec2<int16_t> vectorDirection;
   collision::vec2<int16_t> prevVectorDirection;
   std::vector<ISceneObject*> pillarObjects;
@@ -70,12 +74,12 @@ class MainCharacter: public ISceneObject
   void FinishFall();
 public:
   MainCharacter();
-  ~MainCharacter();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
-  uint16_t Width();
-  uint16_t Height();
-  void PrintName();
-  bool Update(const uint8_t);
+  ~MainCharacter() override;
+  void InitWithSpriteSheet(ObjectSpriteSheet*) override;
+  uint16_t Width() override;
+  uint16_t Height() override;
+  void PrintName() override;
+  bool Update(uint8_t) override;
   static ISceneObject* Create();
 
   void RightKeyPressed();

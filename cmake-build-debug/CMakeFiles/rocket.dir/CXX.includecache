@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/defines.h
+cstdint
+-
+
+/Users/albert/labs/rocket/src/position.cpp
+position.h
+/Users/albert/labs/rocket/src/position.h
+cmath
+-
+limits
+-
+iostream
+-
+
+/Users/albert/labs/rocket/src/position.h
+defines.h
+-
+
