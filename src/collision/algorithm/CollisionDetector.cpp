@@ -8,8 +8,8 @@ namespace collision {
 
     }
 
-    bool CollisionDetector::detect(Rectangle &rectangle_a, Rectangle &rectangle_b, Penetration &penetration,
-                                   vec2<int16_t> &vectorDirection) {
+    bool CollisionDetector::checkCollision(Rectangle &rectangle_a, Rectangle &rectangle_b, Penetration &penetration,
+                                           vec2<int16_t> &vectorDirection) {
 
         if ((rectangle_a.vertices.size() < 4) || (rectangle_b.vertices.size() < 4)) {
             return false;
@@ -68,13 +68,81 @@ namespace collision {
         return false;
     }
 
-    void CollisionDetector::calculateNonCollidingPosition(std::vector<collision::Rectangle> &targetRectangles,
-                                                          std::vector<collision::Rectangle> &movingRectangles,
-                                                          Position &position) {
+    void CollisionDetector::updateWithNonCollidingPosition(std::vector<collision::Rectangle> &targetRectangles,
+                                                           std::vector<collision::Rectangle> &movingRectangles,
+                                                           Position &position,
+                                                           vec2<int16_t> &vectorDirection) {
+        uint16_t targetRectanglesCount = targetRectangles.size();
+        uint16_t movingRectanglesCount = movingRectangles.size();
         float tangent = position.getTrajectoryTangent();
+        float initial_x = position.GetPrevX();
+        float initial_y = position.GetPrevY();
+        float y_intercept = initial_y - (tangent * initial_x);
+        float start_x = initial_x + (vectorDirection.x >= 0 ? -5.0f : 5.0f); //initial_x;
+        float start_y = (tangent * start_x) + y_intercept; //initial_y;
+        float final_x = position.GetRealX();
+        float final_y = position.GetRealY();
+        float end_x = final_x;
+        float end_y = final_y;
+        float current_x, current_y, offset_x, offset_y;
+        float prev_start_x = start_x, prev_start_y = start_y;
+        bool current_position_collides;
+        collision::Penetration penetration;
 
-        for (Rectangle & rectangle : movingRectangles) {
+        bool position_of_no_collision_found = false;
+        while(!position_of_no_collision_found) {
+            current_position_collides = false;
+            current_x = start_x + ((end_x - start_x) / 2.0f);
+            current_y = (tangent * current_x) + y_intercept;
+            std::cout << "START => X: " << start_x << " Y: " << start_y << "\n";
+            std::cout << "END => X: " << end_x << " Y: " << end_y << "\n";
+            std::cout << "HALF => X: " << current_x << " Y: " << current_y << "\n";
 
+            offset_x = current_x - final_x;
+            offset_y = current_y - final_y;
+
+            std::cout << "OFFSET => X: " << offset_x << " Y: " << offset_y << "\n";
+
+            for (uint16_t i = 0; (i < movingRectanglesCount) && !current_position_collides; i++) {
+                Rectangle &movingRectangle = movingRectangles[i];
+                std::cout << "RECTANGLE NO   OFFSET: ";
+                movingRectangle.Print();
+                Rectangle *tempRectangle = movingRectangle.cloneWithOffset(offset_x, offset_y);
+                std::cout << "\nRECTANGLE WITH OFFSET: ";
+                tempRectangle->Print();
+
+                for (uint16_t e = 0; (e < targetRectanglesCount) && !current_position_collides; e++) {
+                    Rectangle &targetRectangle = targetRectangles[e];
+                    if(checkCollision(*tempRectangle, targetRectangle, penetration, vectorDirection)) {
+                        current_position_collides = true;
+                    }
+                }
+
+                tempRectangle->Print();
+                delete tempRectangle;
+            }
+
+            if(current_position_collides) {
+                std::cout << " >>> current position collides <<<\n";
+                start_x = prev_start_x;
+                start_y = prev_start_y;
+                end_x = current_x;
+                end_y = current_y;
+            } else {
+                std::cout << " >>> current position NOT collides <<<\n";
+                prev_start_x = start_x;
+                prev_start_y = start_y;
+                start_x = current_x;
+                start_y = current_y;
+            }
+
+            if(abs(start_x - end_x) <= 0.0001f) {
+                std::cout << " >>> DONE <<<\n";
+                position_of_no_collision_found = true;
+            }
         }
+
+        std::cout << " >>> RESULT CURRENT_X: " << current_x << " CURRENT_Y: " << current_y << " \n";
+        position.setXY(current_x, current_y);
     }
 } // namespace collision

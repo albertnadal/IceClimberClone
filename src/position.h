@@ -17,6 +17,8 @@ public:
   float GetRealX();
   float GetY();
   float GetRealY();
+  float GetPrevX();
+  float GetPrevY();
   int16_t GetIntX();
   int16_t GetIntY();
   void setOffset(int16_t x, int16_t y);

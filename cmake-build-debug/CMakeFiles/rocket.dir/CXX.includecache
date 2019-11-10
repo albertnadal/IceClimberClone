@@ -6,21 +6,57 @@
 
 #IncludeRegexTransform: 
 
-../src/defines.h
-cstdint
+../src/collision/algorithm/CollisionDetector.h
+memory
+-
+vector
+-
+collision/algorithm/Penetration.h
+-
+collision/structures/vec2.hpp
+-
+collision/geometry/Rectangle.h
+-
+position.h
 -
 
-/Users/albert/labs/rocket/src/position.cpp
-position.h
-/Users/albert/labs/rocket/src/position.h
+../src/collision/algorithm/Penetration.h
+collision/structures/vec2.hpp
+-
+
+../src/collision/geometry/Rectangle.h
+memory
+-
+vector
+-
 cmath
 -
 limits
 -
-iostream
+collision/structures/vec2.hpp
 -
 
-/Users/albert/labs/rocket/src/position.h
+../src/collision/math/Vector2Util.h
+collision/structures/vec2.hpp
+-
+cmath
+-
+
+../src/collision/structures/vec2.hpp
+
+../src/defines.h
+cstdint
+-
+
+../src/position.h
 defines.h
+-
+
+/Users/albert/labs/rocket/src/collision/algorithm/CollisionDetector.cpp
+collision/algorithm/CollisionDetector.h
+-
+collision/math/Vector2Util.h
+-
+iostream
 -
 

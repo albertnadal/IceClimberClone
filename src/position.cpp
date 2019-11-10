@@ -21,6 +21,14 @@ float Position::GetY() {
     return y + static_cast<float>(int_y_offset);
 }
 
+float Position::GetPrevX() {
+    return prev_x;
+}
+
+float Position::GetPrevY() {
+    return prev_y;
+}
+
 float Position::GetRealY() {
     return y;
 }

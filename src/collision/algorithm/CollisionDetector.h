@@ -9,13 +9,17 @@
 
 namespace collision {
 
-    class CollisionDetector
-    {
-        public:
+    class CollisionDetector {
+    public:
         CollisionDetector();
-        bool detect(Rectangle &rectangle1, Rectangle &rectangle2, Penetration &penetration, vec2<int16_t> &vectorDirection);
-        void calculateNonCollidingPosition(std::vector<collision::Rectangle> &targetRectangles,
-                                           std::vector<collision::Rectangle> &movingRectangles, Position &position);
+
+        bool
+        checkCollision(Rectangle &rectangle_a, Rectangle &rectangle_b, Penetration &penetration, vec2<int16_t> &vectorDirection);
+
+        void updateWithNonCollidingPosition(std::vector<collision::Rectangle> &targetRectangles,
+                                            std::vector<collision::Rectangle> &movingRectangles,
+                                            Position &position,
+                                            vec2<int16_t> &vectorDirection);
     };
 
 }

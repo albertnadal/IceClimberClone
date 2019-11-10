@@ -93,7 +93,10 @@ void MainCharacter::GetSolidCollisions(std::vector<ObjectCollisionData> &collidi
                     collision::Penetration penetration;
                     for (auto & mainCharacterSolidArea : mainCharacterSolidAreas) {
                         collision::Rectangle mainCharacterSolidAreaRectangle = mainCharacterSolidArea.rectangle;
-                        bool collision = collisionDetector.detect(mainCharacterSolidAreaRectangle,candidateSolidAreaRectangle, penetration,PlayerIsQuiet() ? prevVectorDirection: vectorDirection);
+                        bool collision = collisionDetector.checkCollision(mainCharacterSolidAreaRectangle,
+                                                                          candidateSolidAreaRectangle, penetration,
+                                                                          PlayerIsQuiet() ? prevVectorDirection
+                                                                                          : vectorDirection);
 
                         if (collision) {
                             //mainCharacterSolidAreaRectangle.Print();
@@ -122,7 +125,8 @@ void MainCharacter::MoveToPositionOfNoCollision(std::vector<ObjectCollisionData>
         movingRectangles.push_back(solidArea.rectangle);
     }
 
-    collisionDetector.calculateNonCollidingPosition(targetRectangles, movingRectangles, position);
+    collisionDetector.updateWithNonCollidingPosition(targetRectangles, movingRectangles, position,
+                                                     PlayerIsQuiet() ? prevVectorDirection : vectorDirection);
 }
 
 void MainCharacter::UpdateCollisions() {

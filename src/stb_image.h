@@ -114,7 +114,7 @@ want the zlib decoder to be available, #define STBI_SUPPORT_ZLIB
 #define STBI_NO_SIMD
 It should not be necessary to disable SIMD unless you have issues
 compiling (e.g. using an x86 compiler which doesn't support SSE
-intrinsics or that doesn't support the method used to detect
+intrinsics or that doesn't support the method used to checkCollision
 SSE2 support at run-time), and even those can be reported as
 bugs so I can refine the built-in compile-time checking to be
 smarter.
