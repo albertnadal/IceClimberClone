@@ -26,6 +26,7 @@ void MainCharacter::PrintName() {
 bool MainCharacter::Update(const uint8_t pressedKeys_) {
 
     bool needRedraw = false;
+    pressedKeys = pressedKeys_;
 
     if (isJumping) {
         UpdateJump();
@@ -33,14 +34,14 @@ bool MainCharacter::Update(const uint8_t pressedKeys_) {
     } else if (isFalling) {
         UpdateFall();
         needRedraw = true;
-    }
+    } else {
 
-    pressedKeys = pressedKeys_;
+        if (pressedKeys != KeyboardKeyCode::KEY_NONE) {
+            ProcessPressedKeys();
+        } else if (pressedKeys != prevPressedKeys) {
+            ProcessReleasedKeys();
+        }
 
-    if (pressedKeys != KeyboardKeyCode::KEY_NONE) {
-        ProcessPressedKeys();
-    } else if (pressedKeys != prevPressedKeys) {
-        ProcessReleasedKeys();
     }
 
     // Check for collisions
@@ -186,13 +187,13 @@ void MainCharacter::UpdateCollisions() {
 
         } else {
             std::cout << " >>>>>> DIAGONAL COLLISION\n";
-            // Collision when player displacement is diagonal
-            // RecoverPreviousPosition();
-            if (isJumping) { FinishJump(); }
-
-            // Cercar un punt de la recta formada per la posició anterior i la posició actual del jugador
+            // 
             this->MoveToPositionOfNoCollision(collidingSolidObjects);
+
+            if (isJumping) { FinishJump(); }
         }
+
+        //ProcessPressedKeys(false);
     }
 }
 
@@ -415,8 +416,8 @@ void MainCharacter::FinishFall() {
     isFalling = false;
     isLeaningOnTheGround = true;
     UpdatePreviousDirection();
-    vectorDirection.x = 0;
-    vectorDirection.y = 0;
+    //vectorDirection.x = 0;
+    //vectorDirection.y = 0;
     FallLanding();
 }
 
