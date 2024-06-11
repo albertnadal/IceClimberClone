@@ -36,7 +36,7 @@ bool MainCharacter::Update(const uint8_t pressedKeys_) {
         needRedraw = true;
     } else {
 
-        if (pressedKeys != KeyboardKeyCode::KEY_NONE) {
+        if (pressedKeys != KeyboardKeyCode::HC_KEY_NONE) {
             ProcessPressedKeys();
         } else if (pressedKeys != prevPressedKeys) {
             ProcessReleasedKeys();
@@ -209,10 +209,10 @@ bool MainCharacter::PlayerIsQuiet() {
 }
 
 void MainCharacter::ProcessPressedKeys(bool checkPreviousPressedKeys) {
-    // User pressed KEY_RIGHT
-    if ((pressedKeys & KeyboardKeyCode::KEY_RIGHT) == KeyboardKeyCode::KEY_RIGHT) {
-        // If is not KEY_RIGHT repeated press then change character state
-        if ((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::KEY_RIGHT) != KeyboardKeyCode::KEY_RIGHT))) {
+    // User pressed HC_KEY_RIGHT
+    if ((pressedKeys & KeyboardKeyCode::HC_KEY_RIGHT) == KeyboardKeyCode::HC_KEY_RIGHT) {
+        // If is not HC_KEY_RIGHT repeated press then change character state
+        if ((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::HC_KEY_RIGHT) != KeyboardKeyCode::HC_KEY_RIGHT))) {
             //transit<MainCharacterRunToRightState>();
             //stateMachine.dispatch(KeyRightPressedEvent());
 //                        LoadAnimationWithId(MainCharacterAnimation::RUN_TO_RIGHT);
@@ -220,51 +220,51 @@ void MainCharacter::ProcessPressedKeys(bool checkPreviousPressedKeys) {
             RightKeyPressed();
         }
         MoveTo(MainCharacterDirection::RIGHT);
-    } else if ((prevPressedKeys & KeyboardKeyCode::KEY_RIGHT) == KeyboardKeyCode::KEY_RIGHT) {
+    } else if ((prevPressedKeys & KeyboardKeyCode::HC_KEY_RIGHT) == KeyboardKeyCode::HC_KEY_RIGHT) {
         RightKeyReleased();
     }
 
-    if ((pressedKeys & KeyboardKeyCode::KEY_LEFT) == KeyboardKeyCode::KEY_LEFT) {
-        // If is not KEY_LEFT repeated press then change character state
+    if ((pressedKeys & KeyboardKeyCode::HC_KEY_LEFT) == KeyboardKeyCode::HC_KEY_LEFT) {
+        // If is not HC_KEY_LEFT repeated press then change character state
         if ((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) &&
-                                            ((prevPressedKeys & KeyboardKeyCode::KEY_LEFT) !=
-                                             KeyboardKeyCode::KEY_LEFT))) {
+                                            ((prevPressedKeys & KeyboardKeyCode::HC_KEY_LEFT) !=
+                                             KeyboardKeyCode::HC_KEY_LEFT))) {
             //cout << "KEY LEFT PRESSED" << endl;
 //                        LoadAnimationWithId(MainCharacterAnimation::RUN_TO_LEFT);
             headedToRight = false;
             LeftKeyPressed();
         }
         MoveTo(MainCharacterDirection::LEFT);
-    } else if ((prevPressedKeys & KeyboardKeyCode::KEY_LEFT) == KeyboardKeyCode::KEY_LEFT) {
+    } else if ((prevPressedKeys & KeyboardKeyCode::HC_KEY_LEFT) == KeyboardKeyCode::HC_KEY_LEFT) {
         //cout << "KEY LEFT RELEASED" << endl;
         LeftKeyReleased();
     }
 
-    if (!isJumping && ((pressedKeys & KeyboardKeyCode::KEY_UP) == KeyboardKeyCode::KEY_UP)) {
-        // If is not KEY_LEFT repeated press then change character state
+    if (!isJumping && ((pressedKeys & KeyboardKeyCode::HC_KEY_UP) == KeyboardKeyCode::HC_KEY_UP)) {
+        // If is not HC_KEY_LEFT repeated press then change character state
         if ((!checkPreviousPressedKeys) ||
-            ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::KEY_UP) != KeyboardKeyCode::KEY_UP))) {
+            ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::HC_KEY_UP) != KeyboardKeyCode::HC_KEY_UP))) {
             //cout << "KEY UP PRESSED" << endl;
             UpKeyPressed();
         }
     }
 
-    if (!isJumping && !isHitting && ((pressedKeys & KeyboardKeyCode::KEY_SPACE) == KeyboardKeyCode::KEY_SPACE)) {
-        // If is not KEY_LEFT repeated press then change character state
+    if (!isJumping && !isHitting && ((pressedKeys & KeyboardKeyCode::HC_KEY_SPACE) == KeyboardKeyCode::HC_KEY_SPACE)) {
+        // If is not HC_KEY_LEFT repeated press then change character state
         if ((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) &&
-                                            ((prevPressedKeys & KeyboardKeyCode::KEY_SPACE) !=
-                                             KeyboardKeyCode::KEY_SPACE))) {
+                                            ((prevPressedKeys & KeyboardKeyCode::HC_KEY_SPACE) !=
+                                             KeyboardKeyCode::HC_KEY_SPACE))) {
             //cout << "KEY SPACE PRESSED" << endl;
             isHitting = true;
             SpaceKeyPressed();
         }
     }
 
-    if (!isJumping && ((pressedKeys & KeyboardKeyCode::KEY_DOWN) == KeyboardKeyCode::KEY_DOWN)) {
-        // If is not KEY_LEFT repeated press then change character state
+    if (!isJumping && ((pressedKeys & KeyboardKeyCode::HC_KEY_DOWN) == KeyboardKeyCode::HC_KEY_DOWN)) {
+        // If is not HC_KEY_LEFT repeated press then change character state
         if ((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) &&
-                                            ((prevPressedKeys & KeyboardKeyCode::KEY_DOWN) !=
-                                             KeyboardKeyCode::KEY_DOWN))) {
+                                            ((prevPressedKeys & KeyboardKeyCode::HC_KEY_DOWN) !=
+                                             KeyboardKeyCode::HC_KEY_DOWN))) {
             //cout << "KEY UP PRESSED" << endl;
             DownKeyPressed();
         }
@@ -274,18 +274,18 @@ void MainCharacter::ProcessPressedKeys(bool checkPreviousPressedKeys) {
 }
 
 void MainCharacter::ProcessReleasedKeys() {
-    if ((prevPressedKeys & KeyboardKeyCode::KEY_RIGHT) == KeyboardKeyCode::KEY_RIGHT) {
+    if ((prevPressedKeys & KeyboardKeyCode::HC_KEY_RIGHT) == KeyboardKeyCode::HC_KEY_RIGHT) {
         RightKeyReleased();
     }
 
-    if ((prevPressedKeys & KeyboardKeyCode::KEY_LEFT) == KeyboardKeyCode::KEY_LEFT) {
+    if ((prevPressedKeys & KeyboardKeyCode::HC_KEY_LEFT) == KeyboardKeyCode::HC_KEY_LEFT) {
         LeftKeyReleased();
     }
 
     // character goes quiet headed in the proper direction
 //  LoadAnimationWithId(headedToRight ? MainCharacterAnimation::STAND_BY_RIGHT : MainCharacterAnimation::STAND_BY_LEFT);
 
-    prevPressedKeys = KeyboardKeyCode::KEY_NONE;
+    prevPressedKeys = KeyboardKeyCode::HC_KEY_NONE;
 }
 
 void MainCharacter::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {

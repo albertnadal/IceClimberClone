@@ -181,7 +181,7 @@ void SceneObjectManager::updateVerticalScroll(uint8_t pressedKeys) {
     totalPixelDisplacement+=pixelDisplacement;
   }
 
-  if((pressedKeys & KeyboardKeyCode::KEY_W) == KeyboardKeyCode::KEY_W) {
+  if((pressedKeys & KeyboardKeyCode::HC_KEY_W) == KeyboardKeyCode::HC_KEY_W) {
     if(!cameraIsMoving) {
       cameraIsMoving = true;
       totalPixelDisplacement = 0.0f;

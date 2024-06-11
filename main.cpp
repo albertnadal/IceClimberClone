@@ -6,6 +6,7 @@
 #include <bitset>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <raylib/raylib.h>
 #include <shader_s.h>
 #include <defines.h>
 #include <scene_object_data_manager.h>
@@ -29,12 +30,12 @@ std::chrono::duration<float> gpuTimePerUpdate;
 int nbFrames = 0;
 int previousFPS = 0;
 double lastTime = glfwGetTime();
-uint8_t pressedKeys = KEY_NONE;
+uint8_t pressedKeys = HC_KEY_NONE;
 bool running = true;
 
 GLFWwindow* window;
 uint32_t VBO, VAO, UBO, textureId;
-Shader* ourShader;
+HCShader* ourShader;
 SceneObjectDataManager *objectTextureManager;
 SceneObjectManager *sceneObjectManager;
 
@@ -97,7 +98,7 @@ int main()
                 return -1;
         }
 
-        ourShader = new Shader("shader.vs", "shader.fs");
+        ourShader = new HCShader("shader.vs", "shader.fs");
 
         // Load texture atlas into GPU memory
         textureId = objectTextureManager->LoadObjectsTextures();
@@ -115,7 +116,7 @@ int main()
         glVertexAttribPointer(0, 2, GL_UNSIGNED_SHORT, GL_FALSE, 2 * sizeof(uint16_t), 0);
 
         glBindBuffer(GL_ARRAY_BUFFER, UBO);
-        glBufferData(GL_ARRAY_BUFFER, uvsDoubleBuffer->size(), uvsDoubleBuffer->consumer_buffer, GL_DYNAMIC_DRAW /*GL_STATIC_DRAW*/);
+        glBufferData(GL_ARRAY_BUFFER, uvsDoubleBuffer->size(), uvsDoubleBuffer->consumer_buffer, GL_DYNAMIC_DRAW);
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, 2 * sizeof(float), 0);
 
         glEnableVertexAttribArray(0);
@@ -189,20 +190,20 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void keyboard_callback(GLFWwindow* window, int key, int32_t scancode, int32_t action, int32_t mode)
 {
-        KeyboardKeyCode keyCode = KEY_NONE;
+        KeyboardKeyCode keyCode = HC_KEY_NONE;
         switch(key) {
-        case GLFW_KEY_LEFT:   keyCode = KEY_LEFT; break;
-        case GLFW_KEY_RIGHT:  keyCode = KEY_RIGHT; break;
-        case GLFW_KEY_UP:     keyCode = KEY_UP; break;
-        case GLFW_KEY_DOWN:   keyCode = KEY_DOWN; break;
-        case GLFW_KEY_Q:      keyCode = KEY_Q; break;
-        case GLFW_KEY_W:      keyCode = KEY_W; break;
-        case GLFW_KEY_A:      keyCode = KEY_A; break;
-        case GLFW_KEY_SPACE:  keyCode = KEY_SPACE; break;
-        case GLFW_KEY_ESCAPE: if(action == GLFW_PRESS) { glfwSetWindowShouldClose(window, GL_TRUE); } keyCode = KEY_NONE; break;
+        case GLFW_KEY_LEFT:   keyCode = HC_KEY_LEFT; break;
+        case GLFW_KEY_RIGHT:  keyCode = HC_KEY_RIGHT; break;
+        case GLFW_KEY_UP:     keyCode = HC_KEY_UP; break;
+        case GLFW_KEY_DOWN:   keyCode = HC_KEY_DOWN; break;
+        case GLFW_KEY_Q:      keyCode = HC_KEY_Q; break;
+        case GLFW_KEY_W:      keyCode = HC_KEY_W; break;
+        case GLFW_KEY_A:      keyCode = HC_KEY_A; break;
+        case GLFW_KEY_SPACE:  keyCode = HC_KEY_SPACE; break;
+        case GLFW_KEY_ESCAPE: if(action == GLFW_PRESS) { glfwSetWindowShouldClose(window, GL_TRUE); } keyCode = HC_KEY_NONE; break;
         }
 
-        if(keyCode != KEY_NONE) {
+        if(keyCode != HC_KEY_NONE) {
                 if((action == GLFW_PRESS) || (action == GLFW_RELEASE)) {
                         pressedKeys = pressedKeys ^ keyCode;
                 }
