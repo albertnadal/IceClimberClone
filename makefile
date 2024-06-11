@@ -1,5 +1,5 @@
 CXX=g++
-SDKROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk
+SDKROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk
 CFLAGS=-std=c++11 -stdlib=libc++ -Ofast -march=native -flto -fno-signed-zeros -fno-trapping-math -funroll-loops -Wno-deprecated -I/usr/local/Cellar/glfw/3.3/include/ -I/usr/local/include -I. -Isrc/ -Ithird_party -isysroot $(SDKROOT)
 LDFLAGS=-Wl,-search_paths_first -Wl,-headerpad_max_install_names -framework OpenGL -framework Cocoa -lGLFW -L/usr/local/Cellar/glfw/3.3/lib/
 EXEC=main
@@ -109,11 +109,11 @@ float_double_buffer.o: src/float_double_buffer.cpp
 glad.o: third_party/glad/glad.cpp
 	$(CXX) -c $(CFLAGS) third_party/glad/glad.cpp
 
-Rectangle.o: third_party/collision/geometry/Rectangle.cpp
-	$(CXX) -c $(CFLAGS) third_party/collision/geometry/Rectangle.cpp
+Rectangle.o: src/collision/geometry/Rectangle.cpp
+	$(CXX) -c $(CFLAGS) src/collision/geometry/Rectangle.cpp
 
-CollisionDetector.o: third_party/collision/algorithm/CollisionDetector.cpp
-	$(CXX) -c $(CFLAGS) third_party/collision/algorithm/CollisionDetector.cpp
+CollisionDetector.o: src/collision/algorithm/CollisionDetector.cpp
+	$(CXX) -c $(CFLAGS) src/collision/algorithm/CollisionDetector.cpp
 
 clean:
 	rm -f $(EXEC) *.o *.gch src/*.o src/*.gch third_party/collision/structures/*.gch third_party/AABB/*.gch
