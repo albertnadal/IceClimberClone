@@ -27,6 +27,7 @@
 *.la
 *.a
 *.lib
+!third_party/raylib/libraylib.a
 
 # Executables
 *.exe
