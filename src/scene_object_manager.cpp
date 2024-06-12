@@ -2,10 +2,9 @@
 #include "scene_object_factory.h"
 #include "scene_object.h"
 
-SceneObjectManager::SceneObjectManager(SceneObjectDataManager* _textureManager, UInt16DoubleBuffer* _verticesDoubleBuffer, FloatDoubleBuffer* _uvsDoubleBuffer, uint32_t _maxObjects) {
+SceneObjectManager::SceneObjectManager(SceneObjectDataManager* _textureManager, SpriteRectDoubleBuffer* _spriteRectDoubleBuffer, uint32_t _maxObjects) {
         textureManager = _textureManager;
-        verticesDoubleBuffer = _verticesDoubleBuffer;
-        uvsDoubleBuffer = _uvsDoubleBuffer;
+        spriteRectDoubleBuffer = _spriteRectDoubleBuffer;
         maxObjects = _maxObjects;
         spacePartitionObjectsTree = new aabb::Tree<ISceneObject*>();
         spacePartitionObjectsTree->setDimension(2);
@@ -50,82 +49,29 @@ void SceneObjectManager::Update(uint8_t pressedKeys) {
   updateMobileObjects(pressedKeys);
   updateStaticObjects();
   updateVerticalScroll(pressedKeys);
-  updateVerticesAndUVSBuffers();
+  updateSpriteRectBuffers();
 }
 
-void SceneObjectManager::updateVerticesBufferAtIndex(uint16_t index, ISceneObject *objectPtr) {
-  verticesDoubleBuffer->producer_buffer[index * 12] = objectPtr->position.GetIntX() + objectPtr->Width();
-  verticesDoubleBuffer->producer_buffer[index * 12 + 1] = objectPtr->position.GetIntY();
-
-  // bottom right
-  verticesDoubleBuffer->producer_buffer[index * 12 + 2] = objectPtr->position.GetIntX() + objectPtr->Width();
-  verticesDoubleBuffer->producer_buffer[index * 12 + 3] = objectPtr->position.GetIntY() + objectPtr->Height();
-
-  // top left
-  verticesDoubleBuffer->producer_buffer[index * 12 + 4] = objectPtr->position.GetIntX();
-  verticesDoubleBuffer->producer_buffer[index * 12 + 5] = objectPtr->position.GetIntY();
-
-  // bottom right
-  verticesDoubleBuffer->producer_buffer[index * 12 + 6] = objectPtr->position.GetIntX() + objectPtr->Width();
-  verticesDoubleBuffer->producer_buffer[index * 12 + 7] = objectPtr->position.GetIntY() + objectPtr->Height();
-
-  // bottom left
-  verticesDoubleBuffer->producer_buffer[index * 12 + 8] = objectPtr->position.GetIntX();
-  verticesDoubleBuffer->producer_buffer[index * 12 + 9] = objectPtr->position.GetIntY() + objectPtr->Height();
-
-  // top left
-  verticesDoubleBuffer->producer_buffer[index * 12 + 10] = objectPtr->position.GetIntX();
-  verticesDoubleBuffer->producer_buffer[index * 12 + 11] = objectPtr->position.GetIntY();
-}
-
-void SceneObjectManager::updateUVSBufferAtIndex(uint16_t index, ISceneObject *objectPtr) {
-  // top right
-  uvsDoubleBuffer->producer_buffer[index * 12] = objectPtr->currentSprite.u2;
-  uvsDoubleBuffer->producer_buffer[index * 12 + 1] = objectPtr->currentSprite.v2;
-
-  // bottom right
-  uvsDoubleBuffer->producer_buffer[index * 12 + 2] = objectPtr->currentSprite.u2;
-  uvsDoubleBuffer->producer_buffer[index * 12 + 3] = objectPtr->currentSprite.v1;
-
-  // top left
-  uvsDoubleBuffer->producer_buffer[index * 12 + 4] = objectPtr->currentSprite.u1;
-  uvsDoubleBuffer->producer_buffer[index * 12 + 5] = objectPtr->currentSprite.v2;
-
-  // bottom right
-  uvsDoubleBuffer->producer_buffer[index * 12 + 6] = objectPtr->currentSprite.u2;
-  uvsDoubleBuffer->producer_buffer[index * 12 + 7] = objectPtr->currentSprite.v1;
-
-  // bottom left
-  uvsDoubleBuffer->producer_buffer[index * 12 + 8] = objectPtr->currentSprite.u1;
-  uvsDoubleBuffer->producer_buffer[index * 12 + 9] = objectPtr->currentSprite.v1;
-
-  // top left
-  uvsDoubleBuffer->producer_buffer[index * 12 + 10] = objectPtr->currentSprite.u1;
-  uvsDoubleBuffer->producer_buffer[index * 12 + 11] = objectPtr->currentSprite.v2;
-}
-
-void SceneObjectManager::updateVerticesAndUVSBuffers() {
+void SceneObjectManager::updateSpriteRectBuffers() {
   uint16_t i = 0;
   for (auto const& x : staticObjects) {
     ISceneObject* objectPtr = x.second;
-    updateVerticesBufferAtIndex(i, objectPtr);
-    updateUVSBufferAtIndex(i, objectPtr);
+    Rectangle src = { objectPtr->currentSprite.u1, objectPtr->currentSprite.v1, objectPtr->currentSprite.u2, objectPtr->currentSprite.v2 };
+    Vector2 pos = { objectPtr->position.GetX(), objectPtr->position.GetY() };
+    spriteRectDoubleBuffer->producer_buffer[i] = SpriteRect(src, pos);
     i++;
   }
 
   for (auto const& x : mobileObjects) {
     ISceneObject* objectPtr = x.second;
-    updateVerticesBufferAtIndex(i, objectPtr);
-    updateUVSBufferAtIndex(i, objectPtr);
+    Rectangle src = { objectPtr->currentSprite.u1, objectPtr->currentSprite.v1, objectPtr->currentSprite.u2, objectPtr->currentSprite.v2 };
+    Vector2 pos = { objectPtr->position.GetX(), objectPtr->position.GetY() };
+    spriteRectDoubleBuffer->producer_buffer[i] = SpriteRect(src, pos);
     i++;
   }
 
-  // Clean unused buffer area
-  verticesDoubleBuffer->cleanDataFromPosition(i*12);
-  uvsDoubleBuffer->cleanDataFromPosition(i*12);
-
-  verticesDoubleBuffer->swapBuffers();
-  uvsDoubleBuffer->swapBuffers();
+  spriteRectDoubleBuffer->producer_buffer_length = i;
+  spriteRectDoubleBuffer->swapBuffers();
 }
 
 void SceneObjectManager::updateMobileObjects(uint8_t pressedKeys) {

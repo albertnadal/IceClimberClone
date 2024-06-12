@@ -5,8 +5,7 @@
 #include <queue>
 #include "scene_object_factory.h"
 #include "scene_object_data_manager.h"
-#include "uint16_double_buffer.h"
-#include "float_double_buffer.h"
+#include "sprite_rect_double_buffer.h"
 #include <AABB/AABB.h>
 
 class SceneObjectManager
@@ -18,10 +17,8 @@ class SceneObjectManager
   uint32_t currentRow;
   uint32_t visibleRows;
 
-  //std::vector<ISceneObject*> objects;
   SceneObjectDataManager *textureManager;
-  UInt16DoubleBuffer *verticesDoubleBuffer;
-  FloatDoubleBuffer *uvsDoubleBuffer;
+  SpriteRectDoubleBuffer *spriteRectDoubleBuffer;
   uint32_t maxObjects;
   uint32_t currentEscalatedHeight;
   void BuildWorld();
@@ -223,11 +220,9 @@ class SceneObjectManager
   void updateVerticalScroll(uint8_t);
   void updateMobileObjects(uint8_t);
   void updateStaticObjects();
-  void updateVerticesAndUVSBuffers();
-  void updateVerticesBufferAtIndex(uint16_t, ISceneObject*);
-  void updateUVSBufferAtIndex(uint16_t, ISceneObject*);
+  void updateSpriteRectBuffers();
 public:
-  SceneObjectManager(SceneObjectDataManager*, UInt16DoubleBuffer*, FloatDoubleBuffer*, uint32_t);
+  SceneObjectManager(SceneObjectDataManager*, SpriteRectDoubleBuffer*, uint32_t);
   ~SceneObjectManager();
   void Update(uint8_t);
 };

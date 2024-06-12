@@ -2,8 +2,6 @@
 #include <fstream>
 #include <sstream>
 #include <utils.h>
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
 #include <collision/collision.h>
 
 using namespace collision;
@@ -90,7 +88,7 @@ void SceneObjectDataManager::LoadObjectsDataFromFile(std::string filename)
 
                                 delete currentCollisionAreaValues;
                                 // Initializes a polygon from the array of points
-                                Rectangle rectangle(points);
+                                collision::Rectangle rectangle(points);
 
                                 // If the polygon corresponds to a solid area then add the polygon to the solidArea vector, otherwise add the polygon to simpleAreas
                                 if(collisionAreaType=="solid") {
@@ -131,37 +129,8 @@ void SceneObjectDataManager::LoadObjectsDataFromFile(std::string filename)
         }
 }
 
-uint32_t SceneObjectDataManager::LoadObjectsTextures() {
-        glGenTextures(1, &textureId);
-        glBindTexture(GL_TEXTURE_2D, textureId);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-        int width, height, nrChannels;
-        unsigned char *data = stbi_load(FileSystem::getPath(textureFilename).c_str(), &width, &height, &nrChannels, 0);
-
-        if(data)
-        {
-                // Remove the chroma key color (##ff00ffff) of the texture atlas
-                for(int i=0; i < width*height*sizeof(GL_RGBA); i+=sizeof(GL_RGBA)) {
-                        if((data[i] == 255) && (data[i+1] == 0) && (data[i+2] == 255) && (data[i+3] == 255)) {
-                                data[i] = data[i+1] = data[i+2] = data[i+3] = 0;
-                        }
-                }
-
-                // Save the texture atlas in the vram
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-                glGenerateMipmap(GL_TEXTURE_2D);
-        }
-        else
-        {
-                std::cout << "Failed to load texture" << std::endl;
-        }
-
-        stbi_image_free(data);
-        return textureId;
+Texture2D SceneObjectDataManager::LoadTextureAtlas() {
+        return LoadTexture(FileSystem::getPath(textureFilename).c_str());
 }
 
 ObjectSpriteSheet* SceneObjectDataManager::GetSpriteSheetBySceneObjectIdentificator(SceneObjectIdentificator sceneObjectIdentificator) {

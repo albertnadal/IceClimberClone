@@ -5,8 +5,7 @@
 #include <string>
 #include <map>
 #include <object_sprite_sheet.h>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include <raylib/raylib.h>
 #include <filesystem.h>
 
 #define OBJECT_TYPES_FILENAME "objtypes.dat"
@@ -24,7 +23,7 @@ class SceneObjectDataManager
 public:
   SceneObjectDataManager();
   ~SceneObjectDataManager();
-  uint32_t LoadObjectsTextures();
+  Texture2D LoadTextureAtlas();
   ObjectSpriteSheet* GetSpriteSheetBySceneObjectIdentificator(SceneObjectIdentificator);
 };
 

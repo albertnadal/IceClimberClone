@@ -2,7 +2,6 @@
 #define SPRITE_H
 
 #include <defines.h>
-#include <sprite_texture.h>
 #include <collision/collision.h>
 
 using namespace std;
@@ -12,7 +11,7 @@ struct SpriteAreas { std::vector<Area> solidAreas; std::vector<Area> simpleAreas
 
 class Sprite
 {
-  //SpriteTexture texture;
+
 public:
   uint16_t width;
   uint16_t height;

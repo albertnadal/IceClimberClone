@@ -5,7 +5,7 @@ $ vim ~/.zshrc
 > export LIBRARY_PATH=/opt/homebrew/lib
 ```
 
-````
+```
 wget https://github.com/raysan5/raylib/archive/master.zip
 unzip master.zip
 cd raylib-master/src

@@ -1,11 +1,11 @@
 CXX=g++
 SDKROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk
-CFLAGS=-std=c++11 -stdlib=libc++ -Ofast -march=native -flto -fno-signed-zeros -fno-trapping-math -funroll-loops -Wno-deprecated -I/usr/local/Cellar/glfw/3.3/include/ -I/usr/local/include -I. -Isrc/ -Ithird_party -isysroot $(SDKROOT)
-LDFLAGS=-Wl,-search_paths_first -Wl,-headerpad_max_install_names -framework OpenGL -framework Cocoa -lGLFW -L/usr/local/Cellar/glfw/3.3/lib/ -lraylib -Lthird_party/raylib/
+CFLAGS=-std=c++11 -stdlib=libc++ -Ofast -march=native -flto -fno-signed-zeros -fno-trapping-math -funroll-loops -Wno-deprecated -I/usr/local/include -I. -Isrc/ -Ithird_party -isysroot $(SDKROOT)
+LDFLAGS=-Wl,-search_paths_first -Wl,-headerpad_max_install_names -framework OpenGL -framework Cocoa -framework IOKit -framework CoreAudio -framework CoreVideo -framework CoreFoundation -lraylib -Lthird_party/raylib/
 EXEC=main
 
-all: glad.o Rectangle.o CollisionDetector.o float_double_buffer.o uint16_double_buffer.o position.o vec2.o scene_object.o scene_object_factory.o main_character.o brick.o brick_brown.o brick_blue.o brick_green_half.o brick_brown_half.o brick_blue_half.o side_wall.o side_wall_green_left.o side_wall_green_right.o side_wall_green_columns_left.o side_wall_green_columns_right.o side_wall_brown_columns_left.o side_wall_brown_columns_right.o side_wall_brown_left.o side_wall_brown_right.o side_wall_blue_left.o side_wall_blue_right.o side_wall_blue_columns_left.o side_wall_blue_columns_right.o state_machine.o scene_object_manager.o sprite.o sprite_texture.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_data_manager.o
-	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o main_character.o brick.o brick_brown.o brick_blue.o brick_green_half.o brick_brown_half.o brick_blue_half.o side_wall.o side_wall_green_left.o side_wall_green_right.o side_wall_green_columns_left.o side_wall_green_columns_right.o side_wall_brown_columns_left.o side_wall_brown_columns_right.o side_wall_brown_left.o side_wall_brown_right.o side_wall_blue_left.o side_wall_blue_right.o side_wall_blue_columns_left.o side_wall_blue_columns_right.o state_machine.o scene_object_manager.o sprite.o sprite_texture.o scene_object_data_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o position.o vec2.o float_double_buffer.o uint16_double_buffer.o glad.o Rectangle.o CollisionDetector.o -o $(EXEC)
+all: Rectangle.o CollisionDetector.o sprite_rect_double_buffer.o position.o vec2.o scene_object.o scene_object_factory.o main_character.o brick.o brick_brown.o brick_blue.o brick_green_half.o brick_brown_half.o brick_blue_half.o side_wall.o side_wall_green_left.o side_wall_green_right.o side_wall_green_columns_left.o side_wall_green_columns_right.o side_wall_brown_columns_left.o side_wall_brown_columns_right.o side_wall_brown_left.o side_wall_brown_right.o side_wall_blue_left.o side_wall_blue_right.o side_wall_blue_columns_left.o side_wall_blue_columns_right.o state_machine.o scene_object_manager.o sprite.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_data_manager.o
+	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o main_character.o brick.o brick_brown.o brick_blue.o brick_green_half.o brick_brown_half.o brick_blue_half.o side_wall.o side_wall_green_left.o side_wall_green_right.o side_wall_green_columns_left.o side_wall_green_columns_right.o side_wall_brown_columns_left.o side_wall_brown_columns_right.o side_wall_brown_left.o side_wall_brown_right.o side_wall_blue_left.o side_wall_blue_right.o side_wall_blue_columns_left.o side_wall_blue_columns_right.o state_machine.o scene_object_manager.o sprite.o scene_object_data_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o position.o vec2.o sprite_rect_double_buffer.o Rectangle.o CollisionDetector.o -o $(EXEC)
 
 main_character.o: src/items/main_character.cpp
 	$(CXX) -c $(CFLAGS) src/items/main_character.cpp
@@ -88,9 +88,6 @@ object_sprite_sheet.o: src/object_sprite_sheet.cpp
 object_sprite_sheet_animation.o: src/object_sprite_sheet_animation.cpp
 	$(CXX) -c $(CFLAGS) src/object_sprite_sheet_animation.cpp
 
-sprite_texture.o: src/sprite_texture.cpp
-	$(CXX) -c $(CFLAGS) src/sprite_texture.cpp
-
 sprite.o: src/sprite.cpp
 	$(CXX) -c $(CFLAGS) src/sprite.cpp
 
@@ -100,14 +97,8 @@ vec2.o: src/vec2.cpp
 position.o: src/position.cpp
 	$(CXX) -c $(CFLAGS) src/position.cpp
 
-uint16_double_buffer.o: src/uint16_double_buffer.cpp
-	$(CXX) -c $(CFLAGS) src/uint16_double_buffer.cpp
-
-float_double_buffer.o: src/float_double_buffer.cpp
-	$(CXX) -c $(CFLAGS) src/float_double_buffer.cpp
-
-glad.o: third_party/glad/glad.cpp
-	$(CXX) -c $(CFLAGS) third_party/glad/glad.cpp
+sprite_rect_double_buffer.o: src/sprite_rect_double_buffer.cpp
+	$(CXX) -c $(CFLAGS) src/sprite_rect_double_buffer.cpp
 
 Rectangle.o: src/collision/geometry/Rectangle.cpp
 	$(CXX) -c $(CFLAGS) src/collision/geometry/Rectangle.cpp
