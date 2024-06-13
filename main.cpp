@@ -52,8 +52,18 @@ int main()
 
         while (!WindowShouldClose())
         {
+                if (IsKeyPressed(KEY_RIGHT) || IsKeyReleased(KEY_RIGHT)) pressedKeys ^= HC_KEY_RIGHT;
+                if (IsKeyPressed(KEY_LEFT) || IsKeyReleased(KEY_LEFT)) pressedKeys ^= HC_KEY_LEFT;
+                if (IsKeyPressed(KEY_UP) || IsKeyReleased(KEY_UP)) pressedKeys ^= HC_KEY_UP;
+                if (IsKeyPressed(KEY_DOWN) || IsKeyReleased(KEY_DOWN)) pressedKeys ^= HC_KEY_DOWN;
+                if (IsKeyPressed(KEY_Q) || IsKeyReleased(KEY_Q)) pressedKeys ^= HC_KEY_Q;
+                if (IsKeyPressed(KEY_W) || IsKeyReleased(KEY_W)) pressedKeys ^= HC_KEY_W;
+                if (IsKeyPressed(KEY_A) || IsKeyReleased(KEY_A)) pressedKeys ^= HC_KEY_A;
+                if (IsKeyPressed(KEY_SPACE) || IsKeyReleased(KEY_SPACE)) pressedKeys ^= HC_KEY_SPACE;
+                if (IsKeyPressed(KEY_ESCAPE) || IsKeyReleased(KEY_ESCAPE)) pressedKeys ^= HC_KEY_DOWN;
+
                 BeginDrawing();
-                        ClearBackground(RAYWHITE);
+                        ClearBackground(BLACK);
                         spriteRectDoubleBuffer->lock();
                         for(int i=0; i<spriteRectDoubleBuffer->consumer_buffer_length; i++) {
                                 auto position = spriteRectDoubleBuffer->consumer_buffer[i].position;
@@ -74,29 +84,3 @@ int main()
 
         return 0;
 }
-
-/*
-void keyboard_callback(GLFWwindow* window, int key, int32_t scancode, int32_t action, int32_t mode)
-{
-        KeyboardKeyCode keyCode = HC_KEY_NONE;
-        switch(key) {
-        case GLFW_KEY_LEFT:   keyCode = HC_KEY_LEFT; break;
-        case GLFW_KEY_RIGHT:  keyCode = HC_KEY_RIGHT; break;
-        case GLFW_KEY_UP:     keyCode = HC_KEY_UP; break;
-        case GLFW_KEY_DOWN:   keyCode = HC_KEY_DOWN; break;
-        case GLFW_KEY_Q:      keyCode = HC_KEY_Q; break;
-        case GLFW_KEY_W:      keyCode = HC_KEY_W; break;
-        case GLFW_KEY_A:      keyCode = HC_KEY_A; break;
-        case GLFW_KEY_SPACE:  keyCode = HC_KEY_SPACE; break;
-        case GLFW_KEY_ESCAPE: if(action == GLFW_PRESS) { glfwSetWindowShouldClose(window, GL_TRUE); } keyCode = HC_KEY_NONE; break;
-        }
-
-        if(keyCode != HC_KEY_NONE) {
-                if((action == GLFW_PRESS) || (action == GLFW_RELEASE)) {
-                        pressedKeys = pressedKeys ^ keyCode;
-                }
-
-                std::bitset<8> x(pressedKeys);
-        }
-}
-*/
