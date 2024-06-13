@@ -17,15 +17,15 @@ SceneObjectManager::SceneObjectManager(SceneObjectDataManager* _textureManager, 
 }
 
 void SceneObjectManager::BuildWorld() {
-  for(uint16_t row=0; row<visibleRows; row++) {
-    uint16_t y = (map_viewport_height - 1) - row - currentRow;
+  for(uint16_t row=0; row<7*6; row++) {
+    //uint16_t y = (map_viewport_height - 1) - row - currentRow;
     std::vector<ISceneObject*> rowObjects;
-    for(uint16_t x=0;x<map_viewport_width;x++) {
-      if(SceneObjectIdentificator obj_id = (SceneObjectIdentificator)worldMap[y][x]) {
+    for(uint16_t col=0; col<map_viewport_width; col++) {
+      if(SceneObjectIdentificator obj_id = (SceneObjectIdentificator)worldMap[row][col]) {
         if(ISceneObject *objectPtr = SceneObjectFactory::Get(textureManager, spacePartitionObjectsTree)->CreateSceneObject(obj_id)) {
 
           // Set the initial position of the object in the screen
-          objectPtr->position.setX(int16_t(x*cell_w));
+          objectPtr->position.setX(int16_t(col*cell_w));
           objectPtr->position.setY(int16_t(row*cell_h));
           rowObjects.push_back(objectPtr);
 
@@ -89,7 +89,7 @@ void SceneObjectManager::updateStaticObjects() {
 }
 
 void SceneObjectManager::updateVerticalScroll(uint8_t pressedKeys) {
-
+/*
   if(cameraIsMoving) {
     float pixelDisplacement = 2.5f;
     if((totalPixelDisplacement + pixelDisplacement) >= levelRowOffset*cell_h) {
@@ -151,6 +151,7 @@ void SceneObjectManager::updateVerticalScroll(uint8_t pressedKeys) {
       currentRow+=levelRowOffset;
     }
   }
+*/
 }
 
 SceneObjectManager::~SceneObjectManager() {
