@@ -121,7 +121,7 @@ void ISceneObject::PrintBoundaries() {
 }
 
 bool ISceneObject::Update() {
-  return Update(KeyboardKeyCode::HC_KEY_NONE);
+  return Update(KeyboardKeyCode::IC_KEY_NONE);
 }
 
 bool ISceneObject::Update(const uint8_t pressedKeys) {

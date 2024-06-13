@@ -9,15 +9,13 @@
 #include <scene_object_data_manager.h>
 #include <scene_object_manager.h>
 
-//void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
-
 const uint32_t SCR_WIDTH = 1280;
 const uint32_t SCR_HEIGHT = 750;
 const uint32_t MAX_OBJECTS = 1000;
 
 pthread_t gameLogicMainThreadId;
 std::chrono::duration<float> cpuTimePerUpdate;
-uint8_t pressedKeys = HC_KEY_NONE;
+uint8_t pressedKeys = IC_KEY_NONE;
 bool running = true;
 SceneObjectDataManager *objectTextureManager;
 SceneObjectManager *sceneObjectManager;
@@ -52,15 +50,15 @@ int main()
 
         while (!WindowShouldClose())
         {
-                if (IsKeyPressed(KEY_RIGHT) || IsKeyReleased(KEY_RIGHT)) pressedKeys ^= HC_KEY_RIGHT;
-                if (IsKeyPressed(KEY_LEFT) || IsKeyReleased(KEY_LEFT)) pressedKeys ^= HC_KEY_LEFT;
-                if (IsKeyPressed(KEY_UP) || IsKeyReleased(KEY_UP)) pressedKeys ^= HC_KEY_UP;
-                if (IsKeyPressed(KEY_DOWN) || IsKeyReleased(KEY_DOWN)) pressedKeys ^= HC_KEY_DOWN;
-                if (IsKeyPressed(KEY_Q) || IsKeyReleased(KEY_Q)) pressedKeys ^= HC_KEY_Q;
-                if (IsKeyPressed(KEY_W) || IsKeyReleased(KEY_W)) pressedKeys ^= HC_KEY_W;
-                if (IsKeyPressed(KEY_A) || IsKeyReleased(KEY_A)) pressedKeys ^= HC_KEY_A;
-                if (IsKeyPressed(KEY_SPACE) || IsKeyReleased(KEY_SPACE)) pressedKeys ^= HC_KEY_SPACE;
-                if (IsKeyPressed(KEY_ESCAPE) || IsKeyReleased(KEY_ESCAPE)) pressedKeys ^= HC_KEY_DOWN;
+                if (IsKeyPressed(KEY_RIGHT) || IsKeyReleased(KEY_RIGHT)) pressedKeys ^= IC_KEY_RIGHT;
+                if (IsKeyPressed(KEY_LEFT) || IsKeyReleased(KEY_LEFT)) pressedKeys ^= IC_KEY_LEFT;
+                if (IsKeyPressed(KEY_UP) || IsKeyReleased(KEY_UP)) pressedKeys ^= IC_KEY_UP;
+                if (IsKeyPressed(KEY_DOWN) || IsKeyReleased(KEY_DOWN)) pressedKeys ^= IC_KEY_DOWN;
+                if (IsKeyPressed(KEY_Q) || IsKeyReleased(KEY_Q)) pressedKeys ^= IC_KEY_Q;
+                if (IsKeyPressed(KEY_W) || IsKeyReleased(KEY_W)) pressedKeys ^= IC_KEY_W;
+                if (IsKeyPressed(KEY_A) || IsKeyReleased(KEY_A)) pressedKeys ^= IC_KEY_A;
+                if (IsKeyPressed(KEY_SPACE) || IsKeyReleased(KEY_SPACE)) pressedKeys ^= IC_KEY_SPACE;
+                if (IsKeyPressed(KEY_ESCAPE) || IsKeyReleased(KEY_ESCAPE)) pressedKeys ^= IC_KEY_DOWN;
 
                 BeginDrawing();
                         ClearBackground(BLACK);

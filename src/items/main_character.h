@@ -21,8 +21,8 @@ class MainCharacter: public ISceneObject
   bool animationHasOnlyOneSprite = false;
   bool animationLoaded = false;
   bool headedToRight = true;
-  uint8_t prevPressedKeys = KeyboardKeyCode::HC_KEY_NONE;
-  uint8_t pressedKeys = KeyboardKeyCode::HC_KEY_NONE;
+  uint8_t prevPressedKeys = KeyboardKeyCode::IC_KEY_NONE;
+  uint8_t pressedKeys = KeyboardKeyCode::IC_KEY_NONE;
   void ProcessPressedKeys(bool = true);
   void ProcessReleasedKeys();
   void LoadAnimationWithId(uint16_t);
