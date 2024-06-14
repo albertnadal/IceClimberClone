@@ -364,7 +364,7 @@ bool MainCharacter::ShouldBeginAnimationLoopAgain() {
 void MainCharacter::UpdateJump() {
     tJump += 0.2f;
     //PositionSetX(hInitialJumpPosition + (hInitialJumpSpeed * tJump));
-    float vOffset = (vInitialJumpSpeed * tJump - (0.5f) * gravity * tJump * tJump);
+    float vOffset = -(vInitialJumpSpeed * tJump - (0.5f) * gravity * tJump * tJump);
 
     /*if(vOffset <= 0.0f) {
       // Last position of trajectory
@@ -378,7 +378,7 @@ void MainCharacter::UpdateJump() {
     /*}*/
     UpdatePreviousDirection();
     vectorDirection.x = (hInitialJumpSpeed > 0.0f) ? 1 : (hInitialJumpSpeed < 0.0f) ? -1 : 0;
-    vectorDirection.y = (previous_vOffset < vOffset) ? 1 : -1;
+    vectorDirection.y = (previous_vOffset < vOffset) ? -1 : 1;
     std::cout << "                          ==================> X: " << vectorDirection.x << " Y: " << vectorDirection.y << "\n";
     previous_vOffset = vOffset;
 }
