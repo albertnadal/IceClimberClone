@@ -66,7 +66,8 @@ int main()
                         for(int i=0; i<spriteRectDoubleBuffer->consumer_buffer_length; i++) {
                                 auto position = spriteRectDoubleBuffer->consumer_buffer[i].position;
                                 auto source = spriteRectDoubleBuffer->consumer_buffer[i].source;
-                                DrawTextureRec(textureAtlas, spriteRectDoubleBuffer->consumer_buffer[i].source, spriteRectDoubleBuffer->consumer_buffer[i].position, WHITE);
+                                auto tint = spriteRectDoubleBuffer->consumer_buffer[i].tint;
+                                DrawTextureRec(textureAtlas, source, position, tint);
                         }
                         spriteRectDoubleBuffer->unlock();
                         DrawFPS(550, 10);

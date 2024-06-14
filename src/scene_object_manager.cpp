@@ -24,6 +24,10 @@ void SceneObjectManager::BuildWorld() {
       if(SceneObjectIdentificator obj_id = (SceneObjectIdentificator)worldMap[row][col]) {
         if(ISceneObject *objectPtr = SceneObjectFactory::Get(textureManager, spacePartitionObjectsTree)->CreateSceneObject(obj_id)) {
 
+          if (obj_id == SceneObjectIdentificator::MAIN_CHARACTER) {
+            player = objectPtr;
+          }
+
           // Set the initial position of the object in the screen
           objectPtr->position.setX(int16_t(col*cell_w));
           objectPtr->position.setY(int16_t(row*cell_h));
@@ -54,11 +58,24 @@ void SceneObjectManager::Update(uint8_t pressedKeys) {
 
 void SceneObjectManager::updateSpriteRectBuffers() {
   uint16_t i = 0;
+
+  std::vector<ISceneObject *> potentialCollisionCandidatesObjects = spacePartitionObjectsTree->query(player->GetLowerBound(),player->GetUpperBound());
+
   for (auto const& x : staticObjects) {
     ISceneObject* objectPtr = x.second;
     Rectangle src = { objectPtr->currentSprite.u1, objectPtr->currentSprite.v1, objectPtr->currentSprite.u2, objectPtr->currentSprite.v2 };
     Vector2 pos = { objectPtr->position.GetX(), objectPtr->position.GetY() };
-    spriteRectDoubleBuffer->producer_buffer[i] = SpriteRect(src, pos);
+    Color tint = WHITE;
+
+    // Tint in RED those objects that are candidates to collide with the player object.
+    auto it = std::find(potentialCollisionCandidatesObjects.begin(),
+                        potentialCollisionCandidatesObjects.end(),
+                        objectPtr);
+    if (it != potentialCollisionCandidatesObjects.end()) {
+      tint = RED;
+    }
+
+    spriteRectDoubleBuffer->producer_buffer[i] = SpriteRect(src, pos, tint);
     i++;
   }
 
@@ -66,7 +83,7 @@ void SceneObjectManager::updateSpriteRectBuffers() {
     ISceneObject* objectPtr = x.second;
     Rectangle src = { objectPtr->currentSprite.u1, objectPtr->currentSprite.v1, objectPtr->currentSprite.u2, objectPtr->currentSprite.v2 };
     Vector2 pos = { objectPtr->position.GetX(), objectPtr->position.GetY() };
-    spriteRectDoubleBuffer->producer_buffer[i] = SpriteRect(src, pos);
+    spriteRectDoubleBuffer->producer_buffer[i] = SpriteRect(src, pos, WHITE);
     i++;
   }
 

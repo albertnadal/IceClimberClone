@@ -8,9 +8,10 @@
 struct SpriteRect {
     Rectangle source;
     Vector2 position;
+    Color tint;  // Used only for debug purposes.
 
-    SpriteRect() : source({0,0,0,0}), position({0,0}) {}
-    SpriteRect(Rectangle src, Vector2 pos) : source(src), position(pos) {}
+    SpriteRect() : source({0,0,0,0}), position({0,0}), tint(WHITE) {}
+    SpriteRect(Rectangle src, Vector2 pos, Color tint) : source(src), position(pos), tint(tint) {}
 };
 
 class SpriteRectDoubleBuffer {
