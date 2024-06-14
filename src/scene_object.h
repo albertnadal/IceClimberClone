@@ -45,6 +45,7 @@ public:
   void RecoverPreviousPosition();
   virtual std::vector<uint16_t> GetLowerBound();
   virtual std::vector<uint16_t> GetUpperBound();
+  virtual Boundaries GetAbsoluteBoundaries();
   virtual SceneObjectIdentificator Id();
   virtual SceneObjectType Type();
   virtual void InitWithSpriteSheet(ObjectSpriteSheet*);

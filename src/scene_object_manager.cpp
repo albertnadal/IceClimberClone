@@ -65,6 +65,7 @@ void SceneObjectManager::updateSpriteRectBuffers() {
     ISceneObject* objectPtr = x.second;
     Rectangle src = { objectPtr->currentSprite.u1, objectPtr->currentSprite.v1, objectPtr->currentSprite.u2, objectPtr->currentSprite.v2 };
     Vector2 pos = { objectPtr->position.GetX(), objectPtr->position.GetY() };
+    Boundaries boundaries = objectPtr->GetAbsoluteBoundaries();
     Color tint = WHITE;
 
     // Tint in RED those objects that are candidates to collide with the player object.
@@ -75,7 +76,7 @@ void SceneObjectManager::updateSpriteRectBuffers() {
       tint = RED;
     }
 
-    spriteRectDoubleBuffer->producer_buffer[i] = SpriteRect(src, pos, tint);
+    spriteRectDoubleBuffer->producer_buffer[i] = SpriteRect(src, pos, boundaries, tint);
     i++;
   }
 
@@ -83,7 +84,8 @@ void SceneObjectManager::updateSpriteRectBuffers() {
     ISceneObject* objectPtr = x.second;
     Rectangle src = { objectPtr->currentSprite.u1, objectPtr->currentSprite.v1, objectPtr->currentSprite.u2, objectPtr->currentSprite.v2 };
     Vector2 pos = { objectPtr->position.GetX(), objectPtr->position.GetY() };
-    spriteRectDoubleBuffer->producer_buffer[i] = SpriteRect(src, pos, WHITE);
+    Boundaries boundaries = objectPtr->GetAbsoluteBoundaries();
+    spriteRectDoubleBuffer->producer_buffer[i] = SpriteRect(src, pos, boundaries, WHITE);
     i++;
   }
 

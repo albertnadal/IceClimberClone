@@ -94,6 +94,13 @@ std::vector<uint16_t> ISceneObject::GetUpperBound() {
   return upperBound;
 }
 
+Boundaries ISceneObject::GetAbsoluteBoundaries() {
+  return {static_cast<uint16_t>(position.GetIntX() + boundingBox.upperBoundX),
+          static_cast<uint16_t>(position.GetIntY() + boundingBox.upperBoundY),
+          static_cast<uint16_t>(position.GetIntX() + boundingBox.lowerBoundX),
+          static_cast<uint16_t>(position.GetIntY() + boundingBox.lowerBoundY)};
+}
+
 SceneObjectIdentificator ISceneObject::Id() {
   return id;
 }
