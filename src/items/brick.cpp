@@ -133,3 +133,118 @@ void Brick::STATE_Falling()
         cout << "Brick::STATE_Falling" << endl;
         LoadAnimationWithId(BrickAnimation::BRICK_GREEN_FALLING);
 }
+
+/* BrickBlue */
+
+BrickBlue::BrickBlue() :
+        Brick(SceneObjectIdentificator::BRICK_BLUE, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES) {
+}
+
+void BrickBlue::PrintName() {
+        std::cout << "BrickBlue." << std::endl;
+}
+
+void BrickBlue::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickBlueAnimation::BRICK_BLUE_STICKY);
+}
+
+ISceneObject* BrickBlue::Create() {
+        return new BrickBlue();
+}
+
+BrickBlue::~BrickBlue() {
+
+}
+
+/* BrickBlueHalf */
+
+BrickBlueHalf::BrickBlueHalf() :
+        Brick(SceneObjectIdentificator::BRICK_BLUE_HALF, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES) {
+}
+
+void BrickBlueHalf::PrintName() {
+        std::cout << "BrickBlueHalf." << std::endl;
+}
+
+void BrickBlueHalf::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickBlueHalfAnimation::BRICK_BLUE_HALF_STICKY);
+}
+
+ISceneObject* BrickBlueHalf::Create() {
+        return new BrickBlueHalf();
+}
+
+BrickBlueHalf::~BrickBlueHalf() {
+
+}
+
+/* BrickBrown */
+
+BrickBrown::BrickBrown() :
+        Brick(SceneObjectIdentificator::BRICK_BROWN, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES) {
+}
+
+void BrickBrown::PrintName() {
+        std::cout << "BrickBrown." << std::endl;
+}
+
+void BrickBrown::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickBrownAnimation::BRICK_BROWN_STICKY);
+}
+
+ISceneObject* BrickBrown::Create() {
+        return new BrickBrown();
+}
+
+BrickBrown::~BrickBrown() {
+
+}
+
+/* BrickBrownHalf */
+
+BrickBrownHalf::BrickBrownHalf() :
+        Brick(SceneObjectIdentificator::BRICK_BROWN_HALF, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES) {
+}
+
+void BrickBrownHalf::PrintName() {
+        std::cout << "BrickBrownHalf." << std::endl;
+}
+
+void BrickBrownHalf::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickBrownHalfAnimation::BRICK_BROWN_HALF_STICKY);
+}
+
+ISceneObject* BrickBrownHalf::Create() {
+        return new BrickBrownHalf();
+}
+
+BrickBrownHalf::~BrickBrownHalf() {
+
+}
+
+/* BrickGreenHalf */
+
+BrickGreenHalf::BrickGreenHalf() :
+        Brick(SceneObjectIdentificator::BRICK_GREEN_HALF, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES) {
+}
+
+void BrickGreenHalf::PrintName() {
+        std::cout << "BrickGreenHalf." << std::endl;
+}
+
+void BrickGreenHalf::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickGreenHalfAnimation::BRICK_GREEN_HALF_STICKY);
+}
+
+ISceneObject* BrickGreenHalf::Create() {
+        return new BrickGreenHalf();
+}
+
+BrickGreenHalf::~BrickGreenHalf() {
+
+}

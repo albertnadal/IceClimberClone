@@ -46,4 +46,148 @@ private:
   };
 };
 
+/* SideWallBlueLeft */
+
+class SideWallBlueLeft : public SideWall
+{
+public:
+  SideWallBlueLeft();
+  ~SideWallBlueLeft();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
+/* SideWallBlueRight */
+
+class SideWallBlueRight : public SideWall
+{
+public:
+  SideWallBlueRight();
+  ~SideWallBlueRight();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
+/* SideWallBlueColumnsLeft */
+
+class SideWallBlueColumnsLeft : public SideWall
+{
+public:
+  SideWallBlueColumnsLeft();
+  ~SideWallBlueColumnsLeft();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
+/* SideWallBlueColumnsRight */
+
+class SideWallBlueColumnsRight : public SideWall
+{
+public:
+  SideWallBlueColumnsRight();
+  ~SideWallBlueColumnsRight();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
+/* SideWallBrownLeft */
+
+class SideWallBrownLeft : public SideWall
+{
+public:
+  SideWallBrownLeft();
+  ~SideWallBrownLeft();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
+/* SideWallBrownRight */
+
+class SideWallBrownRight : public SideWall
+{
+public:
+  SideWallBrownRight();
+  ~SideWallBrownRight();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
+/* SideWallBrownColumnsLeft */
+
+class SideWallBrownColumnsLeft : public SideWall
+{
+public:
+  SideWallBrownColumnsLeft();
+  ~SideWallBrownColumnsLeft();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
+/* SideWallBrownColumnsRight */
+
+class SideWallBrownColumnsRight : public SideWall
+{
+public:
+  SideWallBrownColumnsRight();
+  ~SideWallBrownColumnsRight();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
+/* SideWallGreenLeft */
+
+class SideWallGreenLeft : public SideWall
+{
+public:
+  SideWallGreenLeft();
+  ~SideWallGreenLeft();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
+/* SideWallGreenRight */
+
+class SideWallGreenRight : public SideWall
+{
+public:
+  SideWallGreenRight();
+  ~SideWallGreenRight();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
+/* SideWallGreenColumnsLeft */
+
+class SideWallGreenColumnsLeft : public SideWall
+{
+public:
+  SideWallGreenColumnsLeft();
+  ~SideWallGreenColumnsLeft();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
+/* SideWallGreenColumnsRight */
+
+class SideWallGreenColumnsRight : public SideWall
+{
+public:
+  SideWallGreenColumnsRight();
+  ~SideWallGreenColumnsRight();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
 #endif

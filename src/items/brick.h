@@ -58,4 +58,64 @@ private:
   };
 };
 
+/* BrickBlue */
+
+class BrickBlue : public Brick
+{
+public:
+  BrickBlue();
+  ~BrickBlue();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
+/* BrickBlueHalf */
+
+class BrickBlueHalf : public Brick
+{
+public:
+  BrickBlueHalf();
+  ~BrickBlueHalf();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
+/* BrickBrown */
+
+class BrickBrown : public Brick
+{
+public:
+  BrickBrown();
+  ~BrickBrown();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
+/* BrickBrownHalf */
+
+class BrickBrownHalf : public Brick
+{
+public:
+  BrickBrownHalf();
+  ~BrickBrownHalf();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
+/* BrickGreenHalf */
+
+class BrickGreenHalf : public Brick
+{
+public:
+  BrickGreenHalf();
+  ~BrickGreenHalf();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
 #endif

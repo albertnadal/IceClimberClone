@@ -99,3 +99,279 @@ bool SideWall::BeginAnimationLoopAgain()
 {
         return false;
 }
+
+/* SideWallBlueLeft */
+
+SideWallBlueLeft::SideWallBlueLeft() :
+        SideWall(SceneObjectIdentificator::SIDE_WALL_BLUE_LEFT, SceneObjectType::TERRAIN, SideWallStateIdentificator::SIDE_WALL_MAX_STATES) {
+}
+
+void SideWallBlueLeft::PrintName() {
+        std::cout << "SideWallBlueLeft." << std::endl;
+}
+
+void SideWallBlueLeft::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(SideWallBlueLeftAnimation::SIDE_WALL_BLUE_LEFT_STICKY);
+}
+
+ISceneObject* SideWallBlueLeft::Create() {
+        return new SideWallBlueLeft();
+}
+
+SideWallBlueLeft::~SideWallBlueLeft() {
+
+}
+
+/* SideWallBlueRight */
+
+SideWallBlueRight::SideWallBlueRight() :
+        SideWall(SceneObjectIdentificator::SIDE_WALL_BLUE_RIGHT, SceneObjectType::TERRAIN, SideWallStateIdentificator::SIDE_WALL_MAX_STATES) {
+}
+
+void SideWallBlueRight::PrintName() {
+        std::cout << "SideWallBlueRight." << std::endl;
+}
+
+void SideWallBlueRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(SideWallBlueRightAnimation::SIDE_WALL_BLUE_RIGHT_STICKY);
+}
+
+ISceneObject* SideWallBlueRight::Create() {
+        return new SideWallBlueRight();
+}
+
+SideWallBlueRight::~SideWallBlueRight() {
+
+}
+
+/* SideWallBlueColumnsLeft */
+
+SideWallBlueColumnsLeft::SideWallBlueColumnsLeft() :
+        SideWall(SceneObjectIdentificator::SIDE_WALL_BLUE_COLUMNS_LEFT, SceneObjectType::TERRAIN, SideWallStateIdentificator::SIDE_WALL_MAX_STATES) {
+}
+
+void SideWallBlueColumnsLeft::PrintName() {
+        std::cout << "SideWallBlueColumnsLeft." << std::endl;
+}
+
+void SideWallBlueColumnsLeft::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(SideWallBlueColumnsLeftAnimation::SIDE_WALL_BLUE_COLUMNS_LEFT_STICKY);
+}
+
+ISceneObject* SideWallBlueColumnsLeft::Create() {
+        return new SideWallBlueColumnsLeft();
+}
+
+SideWallBlueColumnsLeft::~SideWallBlueColumnsLeft() {
+
+}
+
+/* SideWallBlueColumnsRight */
+
+SideWallBlueColumnsRight::SideWallBlueColumnsRight() :
+        SideWall(SceneObjectIdentificator::SIDE_WALL_BLUE_COLUMNS_RIGHT, SceneObjectType::TERRAIN, SideWallStateIdentificator::SIDE_WALL_MAX_STATES) {
+}
+
+void SideWallBlueColumnsRight::PrintName() {
+        std::cout << "SideWallBlueColumnsRight." << std::endl;
+}
+
+void SideWallBlueColumnsRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(SideWallBlueColumnsRightAnimation::SIDE_WALL_BLUE_COLUMNS_RIGHT_STICKY);
+}
+
+ISceneObject* SideWallBlueColumnsRight::Create() {
+        return new SideWallBlueColumnsRight();
+}
+
+SideWallBlueColumnsRight::~SideWallBlueColumnsRight() {
+
+}
+
+/* SideWallBrownLeft */
+
+SideWallBrownLeft::SideWallBrownLeft() :
+        SideWall(SceneObjectIdentificator::SIDE_WALL_BROWN_LEFT, SceneObjectType::TERRAIN, SideWallStateIdentificator::SIDE_WALL_MAX_STATES) {
+}
+
+void SideWallBrownLeft::PrintName() {
+        std::cout << "SideWallBrownLeft." << std::endl;
+}
+
+void SideWallBrownLeft::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(SideWallBrownLeftAnimation::SIDE_WALL_BROWN_LEFT_STICKY);
+}
+
+ISceneObject* SideWallBrownLeft::Create() {
+        return new SideWallBrownLeft();
+}
+
+SideWallBrownLeft::~SideWallBrownLeft() {
+
+}
+
+/* SideWallBrownRight */
+
+SideWallBrownRight::SideWallBrownRight() :
+        SideWall(SceneObjectIdentificator::SIDE_WALL_BROWN_RIGHT, SceneObjectType::TERRAIN, SideWallStateIdentificator::SIDE_WALL_MAX_STATES) {
+}
+
+void SideWallBrownRight::PrintName() {
+        std::cout << "SideWallBrownRight." << std::endl;
+}
+
+void SideWallBrownRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(SideWallBrownRightAnimation::SIDE_WALL_BROWN_RIGHT_STICKY);
+}
+
+ISceneObject* SideWallBrownRight::Create() {
+        return new SideWallBrownRight();
+}
+
+SideWallBrownRight::~SideWallBrownRight() {
+
+}
+
+/* SideWallBrownColumnsLeft */
+
+SideWallBrownColumnsLeft::SideWallBrownColumnsLeft() :
+        SideWall(SceneObjectIdentificator::SIDE_WALL_BROWN_COLUMNS_LEFT, SceneObjectType::TERRAIN, SideWallStateIdentificator::SIDE_WALL_MAX_STATES) {
+}
+
+void SideWallBrownColumnsLeft::PrintName() {
+        std::cout << "SideWallBrownColumnsLeft." << std::endl;
+}
+
+void SideWallBrownColumnsLeft::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(SideWallBrownColumnsLeftAnimation::SIDE_WALL_BROWN_COLUMNS_LEFT_STICKY);
+}
+
+ISceneObject* SideWallBrownColumnsLeft::Create() {
+        return new SideWallBrownColumnsLeft();
+}
+
+SideWallBrownColumnsLeft::~SideWallBrownColumnsLeft() {
+
+}
+
+/* SideWallBrownColumnsRight */
+
+SideWallBrownColumnsRight::SideWallBrownColumnsRight() :
+        SideWall(SceneObjectIdentificator::SIDE_WALL_BROWN_COLUMNS_RIGHT, SceneObjectType::TERRAIN, SideWallStateIdentificator::SIDE_WALL_MAX_STATES) {
+}
+
+void SideWallBrownColumnsRight::PrintName() {
+        std::cout << "SideWallBrownColumnsRight." << std::endl;
+}
+
+void SideWallBrownColumnsRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(SideWallBrownColumnsRightAnimation::SIDE_WALL_BROWN_COLUMNS_RIGHT_STICKY);
+}
+
+ISceneObject* SideWallBrownColumnsRight::Create() {
+        return new SideWallBrownColumnsRight();
+}
+
+SideWallBrownColumnsRight::~SideWallBrownColumnsRight() {
+
+}
+
+/* SideWallGreenLeft */
+
+SideWallGreenLeft::SideWallGreenLeft() :
+        SideWall(SceneObjectIdentificator::SIDE_WALL_GREEN_LEFT, SceneObjectType::TERRAIN, SideWallStateIdentificator::SIDE_WALL_MAX_STATES) {
+}
+
+void SideWallGreenLeft::PrintName() {
+        std::cout << "SideWallGreenLeft." << std::endl;
+}
+
+void SideWallGreenLeft::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(SideWallGreenLeftAnimation::SIDE_WALL_GREEN_LEFT_STICKY);
+}
+
+ISceneObject* SideWallGreenLeft::Create() {
+        return new SideWallGreenLeft();
+}
+
+SideWallGreenLeft::~SideWallGreenLeft() {
+
+}
+
+/* SideWallGreenRight */
+
+SideWallGreenRight::SideWallGreenRight() :
+        SideWall(SceneObjectIdentificator::SIDE_WALL_GREEN_RIGHT, SceneObjectType::TERRAIN, SideWallStateIdentificator::SIDE_WALL_MAX_STATES) {
+}
+
+void SideWallGreenRight::PrintName() {
+        std::cout << "SideWallGreenRight." << std::endl;
+}
+
+void SideWallGreenRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(SideWallGreenRightAnimation::SIDE_WALL_GREEN_RIGHT_STICKY);
+}
+
+ISceneObject* SideWallGreenRight::Create() {
+        return new SideWallGreenRight();
+}
+
+SideWallGreenRight::~SideWallGreenRight() {
+
+}
+
+/* SideWallGreenColumnsLeft */
+
+SideWallGreenColumnsLeft::SideWallGreenColumnsLeft() :
+        SideWall(SceneObjectIdentificator::SIDE_WALL_GREEN_COLUMNS_LEFT, SceneObjectType::TERRAIN, SideWallStateIdentificator::SIDE_WALL_MAX_STATES) {
+}
+
+void SideWallGreenColumnsLeft::PrintName() {
+        std::cout << "SideWallGreenColumnsLeft." << std::endl;
+}
+
+void SideWallGreenColumnsLeft::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(SideWallGreenColumnsLeftAnimation::SIDE_WALL_GREEN_COLUMNS_LEFT_STICKY);
+}
+
+ISceneObject* SideWallGreenColumnsLeft::Create() {
+        return new SideWallGreenColumnsLeft();
+}
+
+SideWallGreenColumnsLeft::~SideWallGreenColumnsLeft() {
+
+}
+
+/* SideWallGreenColumnsRight */
+
+SideWallGreenColumnsRight::SideWallGreenColumnsRight() :
+        SideWall(SceneObjectIdentificator::SIDE_WALL_GREEN_COLUMNS_RIGHT, SceneObjectType::TERRAIN, SideWallStateIdentificator::SIDE_WALL_MAX_STATES) {
+}
+
+void SideWallGreenColumnsRight::PrintName() {
+        std::cout << "SideWallGreenColumnsRight." << std::endl;
+}
+
+void SideWallGreenColumnsRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(SideWallGreenColumnsRightAnimation::SIDE_WALL_GREEN_COLUMNS_RIGHT_STICKY);
+}
+
+ISceneObject* SideWallGreenColumnsRight::Create() {
+        return new SideWallGreenColumnsRight();
+}
+
+SideWallGreenColumnsRight::~SideWallGreenColumnsRight() {
+
+}

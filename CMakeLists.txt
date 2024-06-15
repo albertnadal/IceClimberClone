@@ -30,44 +30,10 @@ add_executable(rocket
         src/collision/collision.h
         src/items/brick.cpp
         src/items/brick.h
-        src/items/brick_blue.cpp
-        src/items/brick_blue.h
-        src/items/brick_blue_half.cpp
-        src/items/brick_blue_half.h
-        src/items/brick_brown.cpp
-        src/items/brick_brown.h
-        src/items/brick_brown_half.cpp
-        src/items/brick_brown_half.h
-        src/items/brick_green_half.cpp
-        src/items/brick_green_half.h
         src/items/main_character.cpp
         src/items/main_character.h
         src/items/side_wall.cpp
         src/items/side_wall.h
-        src/items/side_wall_blue_columns_left.cpp
-        src/items/side_wall_blue_columns_left.h
-        src/items/side_wall_blue_columns_right.cpp
-        src/items/side_wall_blue_columns_right.h
-        src/items/side_wall_blue_left.cpp
-        src/items/side_wall_blue_left.h
-        src/items/side_wall_blue_right.cpp
-        src/items/side_wall_blue_right.h
-        src/items/side_wall_brown_columns_left.cpp
-        src/items/side_wall_brown_columns_left.h
-        src/items/side_wall_brown_columns_right.cpp
-        src/items/side_wall_brown_columns_right.h
-        src/items/side_wall_brown_left.cpp
-        src/items/side_wall_brown_left.h
-        src/items/side_wall_brown_right.cpp
-        src/items/side_wall_brown_right.h
-        src/items/side_wall_green_columns_left.cpp
-        src/items/side_wall_green_columns_left.h
-        src/items/side_wall_green_columns_right.cpp
-        src/items/side_wall_green_columns_right.h
-        src/items/side_wall_green_left.cpp
-        src/items/side_wall_green_left.h
-        src/items/side_wall_green_right.cpp
-        src/items/side_wall_green_right.h
         src/defines.h
         src/filesystem.h
         src/float_double_buffer.cpp
