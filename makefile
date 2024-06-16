@@ -4,17 +4,17 @@ CFLAGS=-std=c++11 -stdlib=libc++ -Ofast -march=native -flto -fno-signed-zeros -f
 LDFLAGS=-Wl,-search_paths_first -Wl,-headerpad_max_install_names -framework OpenGL -framework Cocoa -framework IOKit -framework CoreAudio -framework CoreVideo -framework CoreFoundation -lraylib -Lthird_party/raylib/
 EXEC=main
 
-all: Rectangle.o CollisionDetector.o sprite_rect_double_buffer.o position.o vec2.o scene_object.o scene_object_factory.o main_character.o brick.o side_wall.o state_machine.o scene_object_manager.o sprite.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_data_manager.o
-	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o main_character.o brick.o side_wall.o state_machine.o scene_object_manager.o sprite.o scene_object_data_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o position.o vec2.o sprite_rect_double_buffer.o Rectangle.o CollisionDetector.o -o $(EXEC)
+all: Rectangle.o CollisionDetector.o sprite_rect_double_buffer.o position.o vec2.o scene_object.o scene_object_factory.o player.o brick.o side_wall.o state_machine.o scene_object_manager.o sprite.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_data_manager.o
+	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o player.o brick.o side_wall.o state_machine.o scene_object_manager.o sprite.o scene_object_data_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o position.o vec2.o sprite_rect_double_buffer.o Rectangle.o CollisionDetector.o -o $(EXEC)
 
-main_character.o: src/items/main_character.cpp
-	$(CXX) -c $(CFLAGS) src/items/main_character.cpp
+player.o: src/objects/player.cpp
+	$(CXX) -c $(CFLAGS) src/objects/player.cpp
 
-brick.o: src/items/brick.cpp
-	$(CXX) -c $(CFLAGS) src/items/brick.cpp
+brick.o: src/objects/brick.cpp
+	$(CXX) -c $(CFLAGS) src/objects/brick.cpp
 
-side_wall.o: src/items/side_wall.cpp
-	$(CXX) -c $(CFLAGS) src/items/side_wall.cpp
+side_wall.o: src/objects/side_wall.cpp
+	$(CXX) -c $(CFLAGS) src/objects/side_wall.cpp
 
 state_machine.o: src/state_machine.cpp
 	$(CXX) -c $(CFLAGS) src/state_machine.cpp

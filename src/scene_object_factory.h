@@ -5,9 +5,9 @@
 #include <AABB/AABB.h>
 #include "scene_object.h"
 #include "scene_object_data_manager.h"
-#include "items/main_character.h"
-#include "items/brick.h"
-#include "items/side_wall.h"
+#include "objects/player.h"
+#include "objects/brick.h"
+#include "objects/side_wall.h"
 
 class SceneObjectFactory
 {

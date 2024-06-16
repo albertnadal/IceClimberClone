@@ -1,9 +1,9 @@
-#include "items/main_character.h"
+#include "objects/player.h"
 #include <chrono>
 
-MainCharacter::MainCharacter() :
+Player::Player() :
         ISceneObject(SceneObjectIdentificator::MAIN_CHARACTER, SceneObjectType::PLAYER,
-                     MainCharacterStateIdentificator::MAIN_CHARACTER_MAX_STATES) {
+                     PlayerStateIdentificator::MAIN_CHARACTER_MAX_STATES) {
     //Initially the object is quiet
     vectorDirection.x = 0;
     vectorDirection.y = 0;
@@ -11,19 +11,19 @@ MainCharacter::MainCharacter() :
     prevVectorDirection.y = 0;
 }
 
-uint16_t MainCharacter::Width() {
+uint16_t Player::Width() {
     return currentSprite.width;
 }
 
-uint16_t MainCharacter::Height() {
+uint16_t Player::Height() {
     return currentSprite.height;
 }
 
-void MainCharacter::PrintName() {
+void Player::PrintName() {
     std::cout << "Main character." << std::endl;
 }
 
-bool MainCharacter::Update(const uint8_t pressedKeys_) {
+bool Player::Update(const uint8_t pressedKeys_) {
 
     bool needRedraw = false;
     pressedKeys = pressedKeys_;
@@ -69,7 +69,7 @@ bool MainCharacter::Update(const uint8_t pressedKeys_) {
 }
 
 // Search for collisions with solid objects
-void MainCharacter::GetSolidCollisions(std::vector<ObjectCollisionData> &collidingSolidObjects) {
+void Player::GetSolidCollisions(std::vector<ObjectCollisionData> &collidingSolidObjects) {
     if (currentSprite.areas == nullptr) return;
 
     // Check for possible potential collision candidates objects
@@ -111,7 +111,7 @@ void MainCharacter::GetSolidCollisions(std::vector<ObjectCollisionData> &collidi
     }
 }
 
-void MainCharacter::MoveToPositionOfNoCollision(std::vector<ObjectCollisionData> &collidingSolidObjectsData) {
+void Player::MoveToPositionOfNoCollision(std::vector<ObjectCollisionData> &collidingSolidObjectsData) {
     if (currentSprite.areas == nullptr) return;
 
     std::vector<collision::Rectangle> targetRectangles;
@@ -130,7 +130,7 @@ void MainCharacter::MoveToPositionOfNoCollision(std::vector<ObjectCollisionData>
                                                      PlayerIsQuiet() ? prevVectorDirection : vectorDirection);
 }
 
-void MainCharacter::UpdateCollisions() {
+void Player::UpdateCollisions() {
     std::cout << "TRAJECTORY TANGENT: " << position.getTrajectoryTangent() << "\n";
 
     std::vector<ObjectCollisionData> collidingSolidObjects;
@@ -197,29 +197,29 @@ void MainCharacter::UpdateCollisions() {
     }
 }
 
-void MainCharacter::UpdatePreviousDirection() {
+void Player::UpdatePreviousDirection() {
     if ((vectorDirection.x != 0) || (vectorDirection.y != 0)) {
         prevVectorDirection.x = vectorDirection.x;
         prevVectorDirection.y = vectorDirection.y;
     }
 }
 
-bool MainCharacter::PlayerIsQuiet() {
+bool Player::PlayerIsQuiet() {
     return (vectorDirection.x == vectorDirection.y) && (vectorDirection.x == 0);
 }
 
-void MainCharacter::ProcessPressedKeys(bool checkPreviousPressedKeys) {
+void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {
     // User pressed IC_KEY_RIGHT
     if ((pressedKeys & KeyboardKeyCode::IC_KEY_RIGHT) == KeyboardKeyCode::IC_KEY_RIGHT) {
         // If is not IC_KEY_RIGHT repeated press then change character state
         if ((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::IC_KEY_RIGHT) != KeyboardKeyCode::IC_KEY_RIGHT))) {
-            //transit<MainCharacterRunToRightState>();
+            //transit<PlayerRunToRightState>();
             //stateMachine.dispatch(KeyRightPressedEvent());
-//                        LoadAnimationWithId(MainCharacterAnimation::RUN_TO_RIGHT);
+//                        LoadAnimationWithId(PlayerAnimation::RUN_TO_RIGHT);
             headedToRight = true;
             RightKeyPressed();
         }
-        MoveTo(MainCharacterDirection::RIGHT);
+        MoveTo(PlayerDirection::RIGHT);
     } else if ((prevPressedKeys & KeyboardKeyCode::IC_KEY_RIGHT) == KeyboardKeyCode::IC_KEY_RIGHT) {
         RightKeyReleased();
     }
@@ -230,11 +230,11 @@ void MainCharacter::ProcessPressedKeys(bool checkPreviousPressedKeys) {
                                             ((prevPressedKeys & KeyboardKeyCode::IC_KEY_LEFT) !=
                                              KeyboardKeyCode::IC_KEY_LEFT))) {
             //cout << "KEY LEFT PRESSED" << endl;
-//                        LoadAnimationWithId(MainCharacterAnimation::RUN_TO_LEFT);
+//                        LoadAnimationWithId(PlayerAnimation::RUN_TO_LEFT);
             headedToRight = false;
             LeftKeyPressed();
         }
-        MoveTo(MainCharacterDirection::LEFT);
+        MoveTo(PlayerDirection::LEFT);
     } else if ((prevPressedKeys & KeyboardKeyCode::IC_KEY_LEFT) == KeyboardKeyCode::IC_KEY_LEFT) {
         //cout << "KEY LEFT RELEASED" << endl;
         LeftKeyReleased();
@@ -273,7 +273,7 @@ void MainCharacter::ProcessPressedKeys(bool checkPreviousPressedKeys) {
     prevPressedKeys = pressedKeys;
 }
 
-void MainCharacter::ProcessReleasedKeys() {
+void Player::ProcessReleasedKeys() {
     if ((prevPressedKeys & KeyboardKeyCode::IC_KEY_RIGHT) == KeyboardKeyCode::IC_KEY_RIGHT) {
         RightKeyReleased();
     }
@@ -283,17 +283,17 @@ void MainCharacter::ProcessReleasedKeys() {
     }
 
     // character goes quiet headed in the proper direction
-//  LoadAnimationWithId(headedToRight ? MainCharacterAnimation::STAND_BY_RIGHT : MainCharacterAnimation::STAND_BY_LEFT);
+//  LoadAnimationWithId(headedToRight ? PlayerAnimation::STAND_BY_RIGHT : PlayerAnimation::STAND_BY_LEFT);
 
     prevPressedKeys = KeyboardKeyCode::IC_KEY_NONE;
 }
 
-void MainCharacter::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void Player::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
     spriteSheet = _spriteSheet;
-    LoadAnimationWithId(MainCharacterAnimation::STAND_BY_RIGHT);
+    LoadAnimationWithId(PlayerAnimation::STAND_BY_RIGHT);
 }
 
-void MainCharacter::LoadAnimationWithId(uint16_t animationId) {
+void Player::LoadAnimationWithId(uint16_t animationId) {
     ObjectSpriteSheetAnimation *currentAnimation = spriteSheet->GetAnimationWithId(animationId);
     currentAnimationSprites = currentAnimation->GetSprites();
     animationHasOnlyOneSprite = (currentAnimationSprites.size() <= 1);
@@ -303,7 +303,7 @@ void MainCharacter::LoadAnimationWithId(uint16_t animationId) {
     nextSpriteTime = std::chrono::system_clock::now();
 }
 
-void MainCharacter::LoadNextSprite() {
+void Player::LoadNextSprite() {
     SpriteData spriteData = NextSpriteData();
 
     if (spriteData.beginNewLoop) {
@@ -332,7 +332,7 @@ void MainCharacter::LoadNextSprite() {
     firstSpriteOfCurrentAnimationIsLoaded = true;
 }
 
-SpriteData MainCharacter::NextSpriteData() {
+SpriteData Player::NextSpriteData() {
     if (currentAnimationSpriteIterator == std::end(currentAnimationSprites)) {
         currentAnimationSpriteIterator = std::begin(currentAnimationSprites);
         (*currentAnimationSpriteIterator).beginNewLoop = true;
@@ -341,27 +341,27 @@ SpriteData MainCharacter::NextSpriteData() {
     return *currentAnimationSpriteIterator++;
 }
 
-ISceneObject *MainCharacter::Create() {
-    return new MainCharacter();
+ISceneObject *Player::Create() {
+    return new Player();
 }
 
-MainCharacter::~MainCharacter() = default;
+Player::~Player() = default;
 
-bool MainCharacter::ShouldBeginAnimationLoopAgain() {
-    if (currentState == MainCharacterStateIdentificator::STATE_HIT_RIGHT) {
+bool Player::ShouldBeginAnimationLoopAgain() {
+    if (currentState == PlayerStateIdentificator::STATE_HIT_RIGHT) {
         isHitting = false;
-        ExternalEvent(MainCharacterStateIdentificator::STATE_IDLE_RIGHT, nullptr);
+        ExternalEvent(PlayerStateIdentificator::STATE_IDLE_RIGHT, nullptr);
         return true;
-    } else if (currentState == MainCharacterStateIdentificator::STATE_HIT_LEFT) {
+    } else if (currentState == PlayerStateIdentificator::STATE_HIT_LEFT) {
         isHitting = false;
-        ExternalEvent(MainCharacterStateIdentificator::STATE_IDLE_LEFT, nullptr);
+        ExternalEvent(PlayerStateIdentificator::STATE_IDLE_LEFT, nullptr);
         return true;
     } else {
         return false;
     }
 }
 
-void MainCharacter::UpdateJump() {
+void Player::UpdateJump() {
     tJump += 0.2f;
     //PositionSetX(hInitialJumpPosition + (hInitialJumpSpeed * tJump));
     float vOffset = -(vInitialJumpSpeed * tJump - (0.5f) * gravity * tJump * tJump);
@@ -383,7 +383,7 @@ void MainCharacter::UpdateJump() {
     previous_vOffset = vOffset;
 }
 
-void MainCharacter::FinishJump() {
+void Player::FinishJump() {
     isJumping = false;
     isLeaningOnTheGround = true;
     hMomentum = 0;
@@ -393,7 +393,7 @@ void MainCharacter::FinishJump() {
     JumpLanding();
 }
 
-void MainCharacter::UpdateFall() {
+void Player::UpdateFall() {
     tFall += 0.2f;
     PositionSetX(hInitialFallPosition + (hInitialFallSpeed * tFall));
     float vOffset = -(0.5f) * gravity * tFall * tFall;
@@ -412,7 +412,7 @@ void MainCharacter::UpdateFall() {
     vectorDirection.y = -1;
 }
 
-void MainCharacter::FinishFall() {
+void Player::FinishFall() {
     isFalling = false;
     isLeaningOnTheGround = true;
     UpdatePreviousDirection();
@@ -421,17 +421,17 @@ void MainCharacter::FinishFall() {
     FallLanding();
 }
 
-void MainCharacter::MoveTo(MainCharacterDirection direction) {
+void Player::MoveTo(PlayerDirection direction) {
     if (!isJumping && !isHitting) {
-        PositionAddX(direction == MainCharacterDirection::RIGHT ? 4.0f : -4.0f);
+        PositionAddX(direction == PlayerDirection::RIGHT ? 4.0f : -4.0f);
         if (hMomentum < maxMomentum) {
             hMomentum++;
         }
     }
 }
 
-void MainCharacter::Jump(float vSpeed, float hSpeed) {
-    cout << "MainCharacter::Jump" << endl;
+void Player::Jump(float vSpeed, float hSpeed) {
+    cout << "Player::Jump" << endl;
     UpdatePreviousDirection();
     vectorDirection.x = (hSpeed > 0.0f) ? 1 : (hSpeed < 0.0f) ? -1 : 0;
     vectorDirection.y = (vSpeed > 0.0f) ? 1 : (vSpeed < 0.0f) ? -1 : 0;
@@ -446,8 +446,8 @@ void MainCharacter::Jump(float vSpeed, float hSpeed) {
     isLeaningOnTheGround = false;
 }
 
-void MainCharacter::Fall(float hSpeed) {
-    cout << " >>>>>>>>>>>>>>>>>>>>>> MainCharacter::Fall" << endl;
+void Player::Fall(float hSpeed) {
+    cout << " >>>>>>>>>>>>>>>>>>>>>> Player::Fall" << endl;
     UpdatePreviousDirection();
     vectorDirection.x = (hSpeed > 0.0f) ? 1 : (hSpeed < 0.0f) ? -1 : 0;
     vectorDirection.y = -1;
@@ -462,8 +462,8 @@ void MainCharacter::Fall(float hSpeed) {
     isLeaningOnTheGround = false;
 }
 
-void MainCharacter::RightKeyPressed() {
-    cout << "MainCharacter::RightKeyPressed()" << endl;
+void Player::RightKeyPressed() {
+    cout << "Player::RightKeyPressed()" << endl;
     BEGIN_TRANSITION_MAP                    // - Current State -
             TRANSITION_MAP_ENTRY (STATE_RUN_RIGHT) // STATE_Idle_Right
             TRANSITION_MAP_ENTRY (STATE_RUN_RIGHT)  // STATE_Idle_Left
@@ -484,8 +484,8 @@ void MainCharacter::RightKeyPressed() {
     END_TRANSITION_MAP(nullptr)
 }
 
-void MainCharacter::RightKeyReleased() {
-    cout << "MainCharacter::RightKeyReleased()" << endl;
+void Player::RightKeyReleased() {
+    cout << "Player::RightKeyReleased()" << endl;
     BEGIN_TRANSITION_MAP                    // - Current State -
             TRANSITION_MAP_ENTRY (EVENT_IGNORED) // STATE_Idle_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Idle_Left
@@ -506,8 +506,8 @@ void MainCharacter::RightKeyReleased() {
     END_TRANSITION_MAP(nullptr)
 }
 
-void MainCharacter::LeftKeyPressed() {
-    cout << "MainCharacter::LeftKeyPressed()" << endl;
+void Player::LeftKeyPressed() {
+    cout << "Player::LeftKeyPressed()" << endl;
     BEGIN_TRANSITION_MAP                                  // - Current State -
             TRANSITION_MAP_ENTRY (STATE_RUN_LEFT)                 // STATE_Idle_Right
             TRANSITION_MAP_ENTRY (STATE_RUN_LEFT)                 // STATE_Idle_Left
@@ -528,8 +528,8 @@ void MainCharacter::LeftKeyPressed() {
     END_TRANSITION_MAP(nullptr)
 }
 
-void MainCharacter::LeftKeyReleased() {
-    cout << "MainCharacter::LeftKeyReleased()" << endl;
+void Player::LeftKeyReleased() {
+    cout << "Player::LeftKeyReleased()" << endl;
     BEGIN_TRANSITION_MAP                    // - Current State -
             TRANSITION_MAP_ENTRY (EVENT_IGNORED) // STATE_Idle_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Idle_Left
@@ -550,8 +550,8 @@ void MainCharacter::LeftKeyReleased() {
     END_TRANSITION_MAP(nullptr)
 }
 
-void MainCharacter::UpKeyPressed() {
-    cout << "MainCharacter::UpKeyPressed()" << endl;
+void Player::UpKeyPressed() {
+    cout << "Player::UpKeyPressed()" << endl;
     BEGIN_TRANSITION_MAP                                  // - Current State -
             TRANSITION_MAP_ENTRY (STATE_JUMP_IDLE_RIGHT)          // STATE_Idle_Right
             TRANSITION_MAP_ENTRY (STATE_JUMP_IDLE_LEFT)                 // STATE_Idle_Left
@@ -572,8 +572,8 @@ void MainCharacter::UpKeyPressed() {
     END_TRANSITION_MAP(nullptr)
 }
 
-void MainCharacter::DownKeyPressed() {
-    cout << "MainCharacter::DownKeyPressed()" << endl;
+void Player::DownKeyPressed() {
+    cout << "Player::DownKeyPressed()" << endl;
     BEGIN_TRANSITION_MAP                                  // - Current State -
             TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_RIGHT)          // STATE_Idle_Right
             TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_LEFT)                 // STATE_Idle_Left
@@ -594,8 +594,8 @@ void MainCharacter::DownKeyPressed() {
     END_TRANSITION_MAP(nullptr)
 }
 
-void MainCharacter::TopCollisionDuringJump() {
-    cout << "MainCharacter::TopCollisionDuringJump()" << endl;
+void Player::TopCollisionDuringJump() {
+    cout << "Player::TopCollisionDuringJump()" << endl;
     BEGIN_TRANSITION_MAP                                  // - Current State -
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Idle_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Idle_Left
@@ -616,8 +616,8 @@ void MainCharacter::TopCollisionDuringJump() {
     END_TRANSITION_MAP(nullptr)
 }
 
-void MainCharacter::SpaceKeyPressed() {
-    cout << "MainCharacter::UpKeyPressed()" << endl;
+void Player::SpaceKeyPressed() {
+    cout << "Player::UpKeyPressed()" << endl;
     BEGIN_TRANSITION_MAP                                  // - Current State -
             TRANSITION_MAP_ENTRY (STATE_HIT_RIGHT)          // STATE_Idle_Right
             TRANSITION_MAP_ENTRY (STATE_HIT_LEFT)                 // STATE_Idle_Left
@@ -638,8 +638,8 @@ void MainCharacter::SpaceKeyPressed() {
     END_TRANSITION_MAP(nullptr)
 }
 
-void MainCharacter::JumpLanding() {
-    cout << "MainCharacter::JumpLanding()" << endl;
+void Player::JumpLanding() {
+    cout << "Player::JumpLanding()" << endl;
     BEGIN_TRANSITION_MAP                                  // - Current State -
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Idle_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Idle_Left
@@ -660,8 +660,8 @@ void MainCharacter::JumpLanding() {
     END_TRANSITION_MAP(nullptr)
 }
 
-void MainCharacter::FallLanding() {
-    cout << "MainCharacter::FallLanding()" << endl;
+void Player::FallLanding() {
+    cout << "Player::FallLanding()" << endl;
     BEGIN_TRANSITION_MAP                                  // - Current State -
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Idle_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Idle_Left
@@ -682,119 +682,119 @@ void MainCharacter::FallLanding() {
     END_TRANSITION_MAP(nullptr)
 }
 
-void MainCharacter::STATE_Idle_Right() {
-    cout << "MainCharacter::STATE_Idle_Right" << endl;
+void Player::STATE_Idle_Right() {
+    cout << "Player::STATE_Idle_Right" << endl;
     hMomentum = 0;
     UpdatePreviousDirection();
     vectorDirection.x = 0;
     vectorDirection.y = 0;
-    LoadAnimationWithId(MainCharacterAnimation::STAND_BY_RIGHT);
+    LoadAnimationWithId(PlayerAnimation::STAND_BY_RIGHT);
     ProcessPressedKeys(false);
 }
 
-void MainCharacter::STATE_Idle_Left() {
-    cout << "MainCharacter::STATE_Idle_Left" << endl;
+void Player::STATE_Idle_Left() {
+    cout << "Player::STATE_Idle_Left" << endl;
     hMomentum = 0;
     UpdatePreviousDirection();
     vectorDirection.x = 0;
     vectorDirection.y = 0;
-    LoadAnimationWithId(MainCharacterAnimation::STAND_BY_LEFT);
+    LoadAnimationWithId(PlayerAnimation::STAND_BY_LEFT);
     cout << "ProcessPressedKeys(false)" << endl;
     ProcessPressedKeys(false);
 }
 
-void MainCharacter::STATE_Run_Right() {
-    cout << "MainCharacter::STATE_Run_Right" << endl;
+void Player::STATE_Run_Right() {
+    cout << "Player::STATE_Run_Right" << endl;
     UpdatePreviousDirection();
     vectorDirection.x = 1;
     vectorDirection.y = 0;
-    LoadAnimationWithId(MainCharacterAnimation::RUN_TO_RIGHT);
+    LoadAnimationWithId(PlayerAnimation::RUN_TO_RIGHT);
     ProcessPressedKeys(false);
 }
 
-void MainCharacter::STATE_Run_Left() {
-    cout << "MainCharacter::STATE_Run_Left" << endl;
+void Player::STATE_Run_Left() {
+    cout << "Player::STATE_Run_Left" << endl;
     UpdatePreviousDirection();
     vectorDirection.x = -1;
     vectorDirection.y = 0;
-    LoadAnimationWithId(MainCharacterAnimation::RUN_TO_LEFT);
+    LoadAnimationWithId(PlayerAnimation::RUN_TO_LEFT);
     ProcessPressedKeys(false);
 }
 
-void MainCharacter::STATE_Jump_Idle_Right() {
+void Player::STATE_Jump_Idle_Right() {
     Jump(45.0f, 0.0f);
-    LoadAnimationWithId(MainCharacterAnimation::JUMP_RIGHT);
+    LoadAnimationWithId(PlayerAnimation::JUMP_RIGHT);
     ProcessPressedKeys(false);
 }
 
-void MainCharacter::STATE_Jump_Idle_Left() {
+void Player::STATE_Jump_Idle_Left() {
     Jump(45.0f, 0.0f);
-    LoadAnimationWithId(MainCharacterAnimation::JUMP_LEFT);
+    LoadAnimationWithId(PlayerAnimation::JUMP_LEFT);
     ProcessPressedKeys(false);
 }
 
-void MainCharacter::STATE_Jump_Run_Right() {
+void Player::STATE_Jump_Run_Right() {
     // More momentum produces a longer jump
     Jump(45.0f, hMomentum == maxMomentum ? 10.0f : 4.0f);
-    LoadAnimationWithId(MainCharacterAnimation::JUMP_RIGHT);
+    LoadAnimationWithId(PlayerAnimation::JUMP_RIGHT);
     ProcessPressedKeys(false);
 }
 
-void MainCharacter::STATE_Jump_Run_Left() {
+void Player::STATE_Jump_Run_Left() {
     // More momentum produces a longer jump
     Jump(45.0f, hMomentum == maxMomentum ? -10.0f : -4.0f);
-    LoadAnimationWithId(MainCharacterAnimation::JUMP_LEFT);
+    LoadAnimationWithId(PlayerAnimation::JUMP_LEFT);
     ProcessPressedKeys(false);
 }
 
-void MainCharacter::STATE_Fall_Idle_Right() {
-    cout << "MainCharacter::STATE_Fall_Idle_Right" << endl;
+void Player::STATE_Fall_Idle_Right() {
+    cout << "Player::STATE_Fall_Idle_Right" << endl;
     Fall(0.0f);
-    LoadAnimationWithId(MainCharacterAnimation::FALL_RIGHT);
+    LoadAnimationWithId(PlayerAnimation::FALL_RIGHT);
     ProcessPressedKeys(false);
 }
 
-void MainCharacter::STATE_Fall_Idle_Left() {
-    cout << "MainCharacter::STATE_Fall_Idle_Left" << endl;
+void Player::STATE_Fall_Idle_Left() {
+    cout << "Player::STATE_Fall_Idle_Left" << endl;
     Fall(0.0f);
-    LoadAnimationWithId(MainCharacterAnimation::FALL_LEFT);
+    LoadAnimationWithId(PlayerAnimation::FALL_LEFT);
     ProcessPressedKeys(false);
 }
 
-void MainCharacter::STATE_Fall_Run_Right() {
-    cout << "MainCharacter::STATE_Fall_Run_Right" << endl;
+void Player::STATE_Fall_Run_Right() {
+    cout << "Player::STATE_Fall_Run_Right" << endl;
     Fall(hMomentum == maxMomentum ? 10.0f : 4.0f);
-    LoadAnimationWithId(MainCharacterAnimation::FALL_RIGHT);
+    LoadAnimationWithId(PlayerAnimation::FALL_RIGHT);
     ProcessPressedKeys(false);
 }
 
-void MainCharacter::STATE_Fall_Run_Left() {
-    cout << "MainCharacter::STATE_Fall_Run_Left" << endl;
+void Player::STATE_Fall_Run_Left() {
+    cout << "Player::STATE_Fall_Run_Left" << endl;
     Fall(hMomentum == maxMomentum ? -10.0f : -4.0f);
-    LoadAnimationWithId(MainCharacterAnimation::FALL_LEFT);
+    LoadAnimationWithId(PlayerAnimation::FALL_LEFT);
     ProcessPressedKeys(false);
 }
 
-void MainCharacter::STATE_Fall_Jump_Run_Right() {
-    cout << "MainCharacter::STATE_Fall_Jump_Run_Right" << endl;
-    LoadAnimationWithId(MainCharacterAnimation::FALL_RIGHT);
+void Player::STATE_Fall_Jump_Run_Right() {
+    cout << "Player::STATE_Fall_Jump_Run_Right" << endl;
+    LoadAnimationWithId(PlayerAnimation::FALL_RIGHT);
     ProcessPressedKeys(false);
 }
 
-void MainCharacter::STATE_Fall_Jump_Run_Left() {
-    cout << "MainCharacter::STATE_Fall_Jump_Run_Left" << endl;
-    LoadAnimationWithId(MainCharacterAnimation::FALL_LEFT);
+void Player::STATE_Fall_Jump_Run_Left() {
+    cout << "Player::STATE_Fall_Jump_Run_Left" << endl;
+    LoadAnimationWithId(PlayerAnimation::FALL_LEFT);
     ProcessPressedKeys(false);
 }
 
-void MainCharacter::STATE_Hit_Right() {
-    cout << "MainCharacter::STATE_Hit_Right" << endl;
-    LoadAnimationWithId(MainCharacterAnimation::HIT_RIGHT);
+void Player::STATE_Hit_Right() {
+    cout << "Player::STATE_Hit_Right" << endl;
+    LoadAnimationWithId(PlayerAnimation::HIT_RIGHT);
     ProcessPressedKeys(false);
 }
 
-void MainCharacter::STATE_Hit_Left() {
-    cout << "MainCharacter::STATE_Hit_Left" << endl;
-    LoadAnimationWithId(MainCharacterAnimation::HIT_LEFT);
+void Player::STATE_Hit_Left() {
+    cout << "Player::STATE_Hit_Left" << endl;
+    LoadAnimationWithId(PlayerAnimation::HIT_LEFT);
     ProcessPressedKeys(false);
 }

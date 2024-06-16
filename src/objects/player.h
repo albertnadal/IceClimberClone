@@ -1,5 +1,5 @@
-#ifndef MAIN_CHARACTER_H
-#define MAIN_CHARACTER_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include <iostream>
 #include <vector>
@@ -10,10 +10,10 @@
 
 using namespace std;
 
-enum MainCharacterDirection: uint8_t { RIGHT = 0, LEFT = 1 };
+enum PlayerDirection: uint8_t { RIGHT = 0, LEFT = 1 };
 struct ObjectCollisionData { ISceneObject* object; int16_t penetration_x; int16_t penetration_y; collision::vec2<int16_t> *vectorDirection; };
 
-class MainCharacter: public ISceneObject
+class Player: public ISceneObject
 {
   std::vector<SpriteData>::iterator currentAnimationSpriteIterator;
   std::vector<SpriteData> currentAnimationSprites;
@@ -65,7 +65,7 @@ class MainCharacter: public ISceneObject
 
   // Player action update functions
   void UpdateCollisions();
-  void MoveTo(MainCharacterDirection);
+  void MoveTo(PlayerDirection);
   void Jump(float vSpeed, float hSpeed);
   void UpdateJump();
   void FinishJump();
@@ -73,8 +73,8 @@ class MainCharacter: public ISceneObject
   void UpdateFall();
   void FinishFall();
 public:
-  MainCharacter();
-  ~MainCharacter() override;
+  Player();
+  ~Player() override;
   void InitWithSpriteSheet(ObjectSpriteSheet*) override;
   uint16_t Width() override;
   uint16_t Height() override;
@@ -116,27 +116,27 @@ private:
 
   // state map to define state function order
   BEGIN_STATE_MAP
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Idle_Right)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Idle_Left)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Run_Right)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Run_Left)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Jump_Idle_Right)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Jump_Idle_Left)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Jump_Run_Right)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Jump_Run_Left)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Fall_Idle_Right)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Fall_Idle_Left)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Fall_Run_Right)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Fall_Run_Left)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Fall_Jump_Run_Right)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Fall_Jump_Run_Left)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Hit_Right)
-      STATE_MAP_ENTRY(&MainCharacter::STATE_Hit_Left)
+      STATE_MAP_ENTRY(&Player::STATE_Idle_Right)
+      STATE_MAP_ENTRY(&Player::STATE_Idle_Left)
+      STATE_MAP_ENTRY(&Player::STATE_Run_Right)
+      STATE_MAP_ENTRY(&Player::STATE_Run_Left)
+      STATE_MAP_ENTRY(&Player::STATE_Jump_Idle_Right)
+      STATE_MAP_ENTRY(&Player::STATE_Jump_Idle_Left)
+      STATE_MAP_ENTRY(&Player::STATE_Jump_Run_Right)
+      STATE_MAP_ENTRY(&Player::STATE_Jump_Run_Left)
+      STATE_MAP_ENTRY(&Player::STATE_Fall_Idle_Right)
+      STATE_MAP_ENTRY(&Player::STATE_Fall_Idle_Left)
+      STATE_MAP_ENTRY(&Player::STATE_Fall_Run_Right)
+      STATE_MAP_ENTRY(&Player::STATE_Fall_Run_Left)
+      STATE_MAP_ENTRY(&Player::STATE_Fall_Jump_Run_Right)
+      STATE_MAP_ENTRY(&Player::STATE_Fall_Jump_Run_Left)
+      STATE_MAP_ENTRY(&Player::STATE_Hit_Right)
+      STATE_MAP_ENTRY(&Player::STATE_Hit_Left)
   END_STATE_MAP
 
   // state enumeration order must match the order of state
   // method entries in the state map
-  enum MainCharacterStateIdentificator {
+  enum PlayerStateIdentificator {
       STATE_IDLE_RIGHT = 0, // Initial state
       STATE_IDLE_LEFT,
       STATE_RUN_RIGHT,

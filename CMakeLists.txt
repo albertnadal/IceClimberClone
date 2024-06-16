@@ -28,12 +28,12 @@ add_executable(rocket
         src/collision/structures/mat2x2.hpp
         src/collision/structures/vec2.hpp
         src/collision/collision.h
-        src/items/brick.cpp
-        src/items/brick.h
-        src/items/main_character.cpp
-        src/items/main_character.h
-        src/items/side_wall.cpp
-        src/items/side_wall.h
+        src/objects/brick.cpp
+        src/objects/brick.h
+        src/objects/player.cpp
+        src/objects/player.h
+        src/objects/side_wall.cpp
+        src/objects/side_wall.h
         src/defines.h
         src/filesystem.h
         src/float_double_buffer.cpp

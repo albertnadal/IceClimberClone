@@ -10,7 +10,7 @@ SceneObjectFactory::SceneObjectFactory(SceneObjectDataManager* _textureManager, 
 
 void SceneObjectFactory::RegisterSceneObjects() {
 	//std::cout << "REGISTERING OBJECTS." << std::endl;
-	Register(SceneObjectIdentificator::MAIN_CHARACTER, &MainCharacter::Create);
+	Register(SceneObjectIdentificator::MAIN_CHARACTER, &Player::Create);
 	Register(SceneObjectIdentificator::BRICK, &Brick::Create);
 	Register(SceneObjectIdentificator::BRICK_BROWN, &BrickBrown::Create);
 	Register(SceneObjectIdentificator::BRICK_BLUE, &BrickBlue::Create);
