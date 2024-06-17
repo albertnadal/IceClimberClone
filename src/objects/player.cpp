@@ -69,16 +69,40 @@ bool Player::Update(const uint8_t pressedKeys_) {
 }
 
 // Search for solid collisions with objects
-void Player::GetSolidCollisions(std::vector<ObjectCollisionData> &collidingSolidObjects) {
-    if (currentSprite.areas == nullptr) return;
-
+void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions) {
     // Check for collisions with other objects in the scene
     std::vector<aabb::AABBIntersection<ISceneObject*>> objectIntersections = spacePartitionObjectsTree->query(GetSolidLowerBound(), GetSolidUpperBound());
 
-    uint16_t intersectionsCount = objectIntersections.size();
-    if (intersectionsCount) {
-        std::cout << " >>>> player collides with " << intersectionsCount << " objects.\n";
+    if (objectIntersections.size() > 0) {
+        std::cout << " >>>> player collides with " << objectIntersections.size() << " objects.\n";
+    }
 
+    for (auto intersection : objectIntersections) {
+        if (intersection.particle == this) {
+            continue;
+        }
+
+        int horizontalCorrection = 0, verticalCorrection = 0;
+
+        // Compute position correction when player collides walking to the right
+        if ((vectorDirection.x > 0) && (intersection.rightIntersectionX < 0) && ((intersection.bottomIntersectionY > 0) || (intersection.bottomIntersectionY < 0))) {
+            horizontalCorrection = intersection.rightIntersectionX;
+        }
+        // Compute position correction when player collides walking to the left
+        else if ((vectorDirection.x < 0) && (intersection.leftIntersectionX > 0) && ((intersection.bottomIntersectionY > 0) || (intersection.bottomIntersectionY < 0))) {
+            horizontalCorrection = intersection.leftIntersectionX;
+        }
+        else {
+            continue;
+        }
+
+        std::cout << " ---- vectorDirection.x: " << vectorDirection.x << "\n";
+        std::cout << " ---- intersection.rightIntersectionX: " << intersection.rightIntersectionX << "\n";
+        std::cout << " ---- intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
+        std::cout << " >>>> horizontalCorrection: " << horizontalCorrection << "\n";
+        std::cout << " >>>> verticalCorrection: " << verticalCorrection << "\n";
+        collisions.push_back({intersection.particle, horizontalCorrection, verticalCorrection});
+    }
         /*
         // Iterate all potential collision candidates and check for real collisions
         for (uint16_t i = 0; i < intersectionsCount; i++) {
@@ -110,7 +134,6 @@ void Player::GetSolidCollisions(std::vector<ObjectCollisionData> &collidingSolid
                 }
             }
         }*/
-    }
 }
 
 void Player::MoveToPositionOfNoCollision(std::vector<ObjectCollisionData> &collidingSolidObjectsData) {
@@ -137,10 +160,28 @@ void Player::MoveToPositionOfNoCollision(std::vector<ObjectCollisionData> &colli
 void Player::UpdateCollisions() {
     //std::cout << "TRAJECTORY TANGENT: " << position.getTrajectoryTangent() << "\n";
 
-    std::vector<ObjectCollisionData> collidingSolidObjects;
-    // Search for collisions with solid objects
-    this->GetSolidCollisions(collidingSolidObjects);
+    std::vector<ObjectCollision> collisions;
 
+    // Search for collisions with solid objects
+    this->GetSolidCollisions(collisions);
+
+    // Get the major position correction of all collisions
+    int minHorizontalCorrection = 0, maxHorizontalCorrection = 0;
+    for (auto collision : collisions) {
+        minHorizontalCorrection = std::min(minHorizontalCorrection, collision.horizontalCorrection);
+        maxHorizontalCorrection = std::max(maxHorizontalCorrection, collision.horizontalCorrection);
+    }
+
+    // Apply position correction to the player
+    if (minHorizontalCorrection < 0) {
+        PositionAddX(int16_t(minHorizontalCorrection));
+    } else {
+        PositionAddX(int16_t(maxHorizontalCorrection));
+    }
+
+
+
+    /*
     // Process colliding objects according to the current scenario
     uint16_t collidingSolidObjectsCount = collidingSolidObjects.size();
     if (collidingSolidObjectsCount) {
@@ -198,7 +239,7 @@ void Player::UpdateCollisions() {
         }
 
         //ProcessPressedKeys(false);
-    }
+    }*/
 }
 
 void Player::UpdatePreviousDirection() {

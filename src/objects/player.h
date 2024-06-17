@@ -8,11 +8,14 @@
 #include <sprite.h>
 #include "collision/collision.h"
 #include <AABB/AABB.h>
+#include <algorithm>
 
 using namespace std;
 
 enum PlayerDirection: uint8_t { RIGHT = 0, LEFT = 1 };
-struct ObjectCollisionData { ISceneObject* object; int16_t penetration_x; int16_t penetration_y; collision::vec2<int16_t> *vectorDirection; };
+struct ObjectCollisionData { ISceneObject* object; int16_t penetration_x; int16_t penetration_y; collision::vec2<int16_t> *vectorDirection; }; // DEPRECATED
+struct ObjectCollision { ISceneObject* object; int horizontalCorrection; int verticalCorrection; };
+
 
 class Player: public ISceneObject
 {
@@ -31,7 +34,7 @@ class Player: public ISceneObject
   void LoadNextSprite();
   bool PlayerIsQuiet();
   void UpdatePreviousDirection();
-  void GetSolidCollisions(std::vector<ObjectCollisionData>&);
+  void GetSolidCollisions(std::vector<ObjectCollision>&);
   void MoveToPositionOfNoCollision(std::vector<ObjectCollisionData>&);
 
   // Jump trajectory data

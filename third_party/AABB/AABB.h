@@ -1151,8 +1151,8 @@ namespace aabb
                     // Can't interact with itself.
                     if (nodes[node].particle != particle)
                     {
-                        int rightIntersectionX = static_cast<int>(nodeAABB.upperBound[0] - aabb.lowerBound[0]);
-                        int leftIntersectionX = static_cast<int>(nodeAABB.lowerBound[0] - aabb.upperBound[0]);
+                        int rightIntersectionX = static_cast<int>(nodeAABB.lowerBound[0] - aabb.upperBound[0]);
+                        int leftIntersectionX = static_cast<int>(nodeAABB.upperBound[0] - aabb.lowerBound[0]);
                         int bottomIntersectionY = static_cast<int>(nodeAABB.lowerBound[1] - aabb.upperBound[1]);
                         int topIntersectionY = static_cast<int>(nodeAABB.upperBound[1] - aabb.lowerBound[1]);
                         intersections.push_back({nodes[node].particle, leftIntersectionX, rightIntersectionX, topIntersectionY, bottomIntersectionY});
