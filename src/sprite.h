@@ -18,7 +18,7 @@ public:
   int16_t xOffset;
   int16_t yOffset;
   float u1, v1, u2, v2;
-  SpriteAreas *areas;
+  SpriteAreas *areas; // DEPRECATED
   Sprite();
   ~Sprite();
 };

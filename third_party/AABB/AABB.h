@@ -35,12 +35,19 @@
 #include <map>
 #include <stdexcept>
 #include <vector>
+#include <optional>
 
 /// Null node flag.
 const unsigned int NULL_NODE = 0xffffffff;
 
 namespace aabb
 {
+    template <class T>
+    struct AABBIntersection {
+        T particle;
+        int leftIntersectionX, rightIntersectionX, topIntersectionY, bottomIntersectionY;
+    };
+
     /*! \brief The axis-aligned bounding box object.
 
         Axis-aligned bounding boxes (AABBs) store information for the minimum
@@ -167,6 +174,7 @@ namespace aabb
 
         bool overlaps(const AABB& aabb, bool touchIsOverlap) const
         {
+            assert(aabb.lowerBound.size() == 2); // Only 2 dimensional boundaries allowed
             assert(aabb.lowerBound.size() == lowerBound.size());
 
             bool rv = true;
@@ -433,10 +441,10 @@ namespace aabb
             \param aabb
                 The AABB.
 
-            \return particles
-                A vector of particle indices.
+            \return intersections
+                A vector of intersections with particle indices and intersection values.
          */
-        std::vector<T> query(T, const AABB&);
+        std::vector<AABBIntersection<T>> query(T, const AABB&);
 
         //! Query the tree to find candidate interactions for an AABB.
         /*! \param lowerbound
@@ -445,19 +453,19 @@ namespace aabb
             \param upperbound
                 The upperbound coordinate.
 
-            \return particles
-                A vector of particle indices.
+            \return intersections
+                A vector of intersections with particle indices and intersection values.
          */
-        std::vector<T> query(const std::vector<unsigned short>, const std::vector<unsigned short>);
+        std::vector<AABBIntersection<T>> query(const std::vector<unsigned short>, const std::vector<unsigned short>);
 
         //! Query the tree to find candidate interactions for an AABB.
         /*! \param aabb
                 The AABB.
 
-            \return particles
-                A vector of particle indices.
+            \return intersections
+                A vector of intersections with particle indices and intersection values.
          */
-        std::vector<T> query(const AABB&);
+        std::vector<AABBIntersection<T>> query(const AABB&);
 
         //! Get a particle AABB.
         /*! \param particle
@@ -1095,13 +1103,13 @@ namespace aabb
     }
 
     template <class T>
-    std::vector<T> Tree<T>::query(T particle, const AABB& aabb)
+    std::vector<AABBIntersection<T>> Tree<T>::query(T particle, const AABB& aabb)
     {
         std::vector<unsigned int> stack;
         stack.reserve(256);
         stack.push_back(root);
 
-        std::vector<T> particles;
+        std::vector<AABBIntersection<T>> intersections;
 
         while (stack.size() > 0)
         {
@@ -1143,7 +1151,11 @@ namespace aabb
                     // Can't interact with itself.
                     if (nodes[node].particle != particle)
                     {
-                        particles.push_back(nodes[node].particle);
+                        int rightIntersectionX = static_cast<int>(nodeAABB.upperBound[0] - aabb.lowerBound[0]);
+                        int leftIntersectionX = static_cast<int>(nodeAABB.lowerBound[0] - aabb.upperBound[0]);
+                        int bottomIntersectionY = static_cast<int>(nodeAABB.lowerBound[1] - aabb.upperBound[1]);
+                        int topIntersectionY = static_cast<int>(nodeAABB.upperBound[1] - aabb.lowerBound[1]);
+                        intersections.push_back({nodes[node].particle, leftIntersectionX, rightIntersectionX, topIntersectionY, bottomIntersectionY});
                     }
                 }
                 else
@@ -1154,11 +1166,11 @@ namespace aabb
             }
         }
 
-        return particles;
+        return intersections;
     }
 
     template <class T>
-    std::vector<T> Tree<T>::query(const std::vector<unsigned short> lowerBound_, const std::vector<unsigned short> upperBound_)
+    std::vector<AABBIntersection<T>> Tree<T>::query(const std::vector<unsigned short> lowerBound_, const std::vector<unsigned short> upperBound_)
     {
         std::vector<double> lowerBound;
         std::vector<double> upperBound;
@@ -1176,12 +1188,12 @@ namespace aabb
     }
 
     template <class T>
-    std::vector<T> Tree<T>::query(const AABB& aabb)
+    std::vector<AABBIntersection<T>> Tree<T>::query(const AABB& aabb)
     {
         // Make sure the tree isn't empty.
         if (particleMap.size() == 0)
         {
-            return std::vector<T>();
+            return std::vector<AABBIntersection<T>>();
         }
 
         // Test overlap of AABB against all particles.

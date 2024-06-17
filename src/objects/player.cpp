@@ -68,18 +68,20 @@ bool Player::Update(const uint8_t pressedKeys_) {
     return needRedraw;
 }
 
-// Search for collisions with solid objects
+// Search for solid collisions with objects
 void Player::GetSolidCollisions(std::vector<ObjectCollisionData> &collidingSolidObjects) {
     if (currentSprite.areas == nullptr) return;
 
-    // Check for possible potential collision candidates objects
-    std::vector<ISceneObject *> potentialCollisionCandidatesObjects = spacePartitionObjectsTree->query(GetLowerBound(),GetUpperBound());
+    // Check for collisions with other objects in the scene
+    std::vector<aabb::AABBIntersection<ISceneObject*>> objectIntersections = spacePartitionObjectsTree->query(GetSolidLowerBound(), GetSolidUpperBound());
 
-    uint16_t potentialCollisionObjectsCount = potentialCollisionCandidatesObjects.size();
-    if (potentialCollisionObjectsCount) {
+    uint16_t intersectionsCount = objectIntersections.size();
+    if (intersectionsCount) {
+        std::cout << " >>>> player collides with " << intersectionsCount << " objects.\n";
 
+        /*
         // Iterate all potential collision candidates and check for real collisions
-        for (uint16_t i = 0; i < potentialCollisionObjectsCount; i++) {
+        for (uint16_t i = 0; i < intersectionsCount; i++) {
             ISceneObject *collisionCandidateObject = potentialCollisionCandidatesObjects[i];
             if (collisionCandidateObject != this) {
 
@@ -107,11 +109,12 @@ void Player::GetSolidCollisions(std::vector<ObjectCollisionData> &collidingSolid
                     }
                 }
             }
-        }
+        }*/
     }
 }
 
 void Player::MoveToPositionOfNoCollision(std::vector<ObjectCollisionData> &collidingSolidObjectsData) {
+    /*
     if (currentSprite.areas == nullptr) return;
 
     std::vector<collision::Rectangle> targetRectangles;
@@ -128,10 +131,11 @@ void Player::MoveToPositionOfNoCollision(std::vector<ObjectCollisionData> &colli
 
     collisionDetector.updateWithNonCollidingPosition(targetRectangles, movingRectangles, position,
                                                      PlayerIsQuiet() ? prevVectorDirection : vectorDirection);
+    */
 }
 
 void Player::UpdateCollisions() {
-    std::cout << "TRAJECTORY TANGENT: " << position.getTrajectoryTangent() << "\n";
+    //std::cout << "TRAJECTORY TANGENT: " << position.getTrajectoryTangent() << "\n";
 
     std::vector<ObjectCollisionData> collidingSolidObjects;
     // Search for collisions with solid objects
@@ -142,7 +146,7 @@ void Player::UpdateCollisions() {
     if (collidingSolidObjectsCount) {
 
         if ((vectorDirection.x == 0) || (vectorDirection.y == 0)) {
-            std::cout << " >>>>>> VERTICAL or HORIZONTAL COLLISION\n";
+            std::cout << " >>>>>> VERTICAL or HORIZONTAL COLLISION (vectorDirection.x:" << vectorDirection.x << ") (vectorDirection.y:" << vectorDirection.y << ")" << "\n";
             // Collision when object displacement is vertical or horizontal. Non diagonal displacement.
             int16_t maxHorizontalPenetrationDepth = 0;
             int16_t maxVerticalPenetrationDepth = 0;
@@ -205,7 +209,7 @@ void Player::UpdatePreviousDirection() {
 }
 
 bool Player::PlayerIsQuiet() {
-    return (vectorDirection.x == vectorDirection.y) && (vectorDirection.x == 0);
+    return (vectorDirection.x == 0) && (vectorDirection.x == vectorDirection.y);
 }
 
 void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {
@@ -322,13 +326,14 @@ void Player::LoadNextSprite() {
     currentSprite.v1 = spriteData.v1;
     currentSprite.u2 = spriteData.u2;
     currentSprite.v2 = spriteData.v2;
-    currentSprite.areas = spriteData.areas;
+    //currentSprite.areas = spriteData.areas; DEPRECATED
 
     // Adjusts objectposition according to the sprite offset
     PositionSetOffset(spriteData.xOffset, spriteData.yOffset);
 
     recalculateAreasDataIsNeeded = true; // Is necessary because the current sprite may have different areas
     boundingBox = {spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY};
+    solidBoundingBox = {spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY};
     firstSpriteOfCurrentAnimationIsLoaded = true;
 }
 

@@ -17,8 +17,8 @@ struct Boundaries { uint16_t lowerBoundX, lowerBoundY, upperBoundX, upperBoundY;
 class ISceneObject : public StateMachine
 {
 private:
-  std::vector<Area> solidAreas;
-  std::vector<Area> simpleAreas;
+  std::vector<Boundaries> solidAreas;
+  std::vector<Boundaries> simpleAreas;
 protected:
   aabb::Tree<ISceneObject*> *spacePartitionObjectsTree = nullptr;
   ObjectSpriteSheet *spriteSheet = nullptr;
@@ -32,10 +32,11 @@ public:
   Sprite currentSprite;
   Position position;
   Boundaries boundingBox;
+  Boundaries solidBoundingBox;
   uint32_t uniqueId;
   void SetSpacePartitionObjectsTree(aabb::Tree<ISceneObject*>*);
-  std::vector<Area>& GetSolidAreas();
-  std::vector<Area>& GetSimpleAreas();
+  //std::vector<Area>& GetSolidAreas(); DEPRECATED Now this is GetAbsoluteSolidBoundaries
+  //std::vector<Area>& GetSimpleAreas(); DEPRECATED Now this is GetAbsoluteSimpleBoundaries
   void PositionSetOffset(int16_t x, int16_t y);
   void PositionSetXY(float, float);
   void PositionSetX(float);
@@ -45,7 +46,10 @@ public:
   void RecoverPreviousPosition();
   virtual std::vector<uint16_t> GetLowerBound();
   virtual std::vector<uint16_t> GetUpperBound();
+  virtual std::vector<uint16_t> GetSolidLowerBound();
+  virtual std::vector<uint16_t> GetSolidUpperBound();
   virtual Boundaries GetAbsoluteBoundaries();
+  virtual Boundaries GetAbsoluteSolidBoundaries();
   virtual SceneObjectIdentificator Id();
   virtual SceneObjectType Type();
   virtual void InitWithSpriteSheet(ObjectSpriteSheet*);

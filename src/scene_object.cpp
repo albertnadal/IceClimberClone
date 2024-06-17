@@ -6,7 +6,7 @@ ISceneObject::ISceneObject() {
   id = SceneObjectIdentificator::NONE;
   MersenneTwister rng;
   uniqueId = rng.integer(0, UINT_MAX);
-  boundingBox = {0, 0, 0, 0};
+  boundingBox = solidBoundingBox = {0, 0, 0, 0};
   recalculateAreasDataIsNeeded = true;
 }
 
@@ -16,7 +16,7 @@ ISceneObject::ISceneObject(SceneObjectIdentificator _id, SceneObjectType _type, 
   type(_type) {
   MersenneTwister rng;
   uniqueId = rng.integer(0, UINT_MAX);
-  boundingBox = {0, 0, 0, 0};
+  boundingBox = solidBoundingBox = {0, 0, 0, 0};
   recalculateAreasDataIsNeeded = true;
 }
 
@@ -24,6 +24,7 @@ void ISceneObject::SetSpacePartitionObjectsTree(aabb::Tree<ISceneObject*> *_spac
   spacePartitionObjectsTree = _spacePartitionObjectsTree;
 }
 
+/*
 std::vector<Area>& ISceneObject::GetSolidAreas() {
   if(recalculateAreasDataIsNeeded) {
     // Updates the object solid areas values according to the current object position and current sprite areas
@@ -44,10 +45,12 @@ std::vector<Area>& ISceneObject::GetSolidAreas() {
   }
   return solidAreas;
 }
-
+*/
+/*
 std::vector<Area>& ISceneObject::GetSimpleAreas() {
 
 }
+*/
 
 void ISceneObject::PositionSetXY(float x, float y) {
     position.setXY(x, y);
@@ -94,7 +97,24 @@ std::vector<uint16_t> ISceneObject::GetUpperBound() {
   return upperBound;
 }
 
+std::vector<uint16_t> ISceneObject::GetSolidLowerBound() {
+  std::vector<uint16_t> lowerBound{static_cast<uint16_t>(position.GetIntX() + solidBoundingBox.lowerBoundX), static_cast<uint16_t>(position.GetIntY() + solidBoundingBox.lowerBoundY)};
+  return lowerBound;
+}
+
+std::vector<uint16_t> ISceneObject::GetSolidUpperBound() {
+  std::vector<uint16_t> upperBound{static_cast<uint16_t>(position.GetIntX() + solidBoundingBox.upperBoundX), static_cast<uint16_t>(position.GetIntY() + solidBoundingBox.upperBoundY)};
+  return upperBound;
+}
+
 Boundaries ISceneObject::GetAbsoluteBoundaries() {
+  return {static_cast<uint16_t>(position.GetIntX() + boundingBox.upperBoundX),
+          static_cast<uint16_t>(position.GetIntY() + boundingBox.upperBoundY),
+          static_cast<uint16_t>(position.GetIntX() + boundingBox.lowerBoundX),
+          static_cast<uint16_t>(position.GetIntY() + boundingBox.lowerBoundY)};
+}
+
+Boundaries ISceneObject::GetAbsoluteSolidBoundaries() {
   return {static_cast<uint16_t>(position.GetIntX() + boundingBox.upperBoundX),
           static_cast<uint16_t>(position.GetIntY() + boundingBox.upperBoundY),
           static_cast<uint16_t>(position.GetIntX() + boundingBox.lowerBoundX),

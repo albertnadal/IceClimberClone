@@ -7,6 +7,7 @@
 #include <state_machine.h>
 #include <sprite.h>
 #include "collision/collision.h"
+#include <AABB/AABB.h>
 
 using namespace std;
 

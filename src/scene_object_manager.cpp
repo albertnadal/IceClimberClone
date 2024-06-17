@@ -58,21 +58,23 @@ void SceneObjectManager::Update(uint8_t pressedKeys) {
 
 void SceneObjectManager::updateSpriteRectBuffers() {
   uint16_t i = 0;
-
-  std::vector<ISceneObject *> potentialCollisionCandidatesObjects = spacePartitionObjectsTree->query(player->GetLowerBound(),player->GetUpperBound());
+  std::vector<aabb::AABBIntersection<ISceneObject*>> objectIntersections = spacePartitionObjectsTree->query(player->GetLowerBound(), player->GetUpperBound());
 
   for (auto const& x : staticObjects) {
     ISceneObject* objectPtr = x.second;
     Rectangle src = { objectPtr->currentSprite.u1, objectPtr->currentSprite.v1, objectPtr->currentSprite.u2, objectPtr->currentSprite.v2 };
     Vector2 pos = { objectPtr->position.GetX(), objectPtr->position.GetY() };
     Boundaries boundaries = objectPtr->GetAbsoluteBoundaries();
+    Boundaries solidBoundaries = objectPtr->GetAbsoluteSolidBoundaries();
     Color tint = WHITE;
 
     // Tint in RED those objects that are candidates to collide with the player object.
-    auto it = std::find(potentialCollisionCandidatesObjects.begin(),
-                        potentialCollisionCandidatesObjects.end(),
-                        objectPtr);
-    if (it != potentialCollisionCandidatesObjects.end()) {
+    auto it = std::find_if(objectIntersections.begin(), objectIntersections.end(),
+                           [objectPtr](const aabb::AABBIntersection<ISceneObject*>& intersection) {
+                               return intersection.particle == objectPtr;
+                           });
+
+    if (it != objectIntersections.end()) {
       tint = RED;
     }
 
@@ -85,6 +87,7 @@ void SceneObjectManager::updateSpriteRectBuffers() {
     Rectangle src = { objectPtr->currentSprite.u1, objectPtr->currentSprite.v1, objectPtr->currentSprite.u2, objectPtr->currentSprite.v2 };
     Vector2 pos = { objectPtr->position.GetX(), objectPtr->position.GetY() };
     Boundaries boundaries = objectPtr->GetAbsoluteBoundaries();
+    Boundaries solidBoundaries = objectPtr->GetAbsoluteSolidBoundaries();
     spriteRectDoubleBuffer->producer_buffer[i] = SpriteRect(src, pos, boundaries, WHITE);
     i++;
   }
