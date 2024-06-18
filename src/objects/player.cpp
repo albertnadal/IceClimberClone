@@ -85,18 +85,23 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions) {
         int horizontalCorrection = 0, verticalCorrection = 0;
 
         // Compute position correction when player collides walking to the right
-        if ((vectorDirection.x > 0) && (intersection.rightIntersectionX < 0) && ((intersection.bottomIntersectionY > 0) || (intersection.bottomIntersectionY < 0))) {
+        if ((vectorDirection.x > 0) && (vectorDirection.y == 0) && (intersection.rightIntersectionX < 0) && (intersection.bottomIntersectionY != 0)) {
             horizontalCorrection = intersection.rightIntersectionX;
         }
         // Compute position correction when player collides walking to the left
-        else if ((vectorDirection.x < 0) && (intersection.leftIntersectionX > 0) && ((intersection.bottomIntersectionY > 0) || (intersection.bottomIntersectionY < 0))) {
+        else if ((vectorDirection.x < 0) && (vectorDirection.y == 0) && (intersection.leftIntersectionX > 0) && (intersection.bottomIntersectionY != 0)) {
             horizontalCorrection = intersection.leftIntersectionX;
+        }
+        // Compute position correction when player collides during the descending of a 90 degrees jump
+        else if ((vectorDirection.y < 0) && (vectorDirection.x == 0) && (intersection.bottomIntersectionY < 0)) {
+            verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
         }
         else {
             continue;
         }
 
         std::cout << " ---- vectorDirection.x: " << vectorDirection.x << "\n";
+        std::cout << " ---- vectorDirection.y: " << vectorDirection.y << "\n";
         std::cout << " ---- intersection.rightIntersectionX: " << intersection.rightIntersectionX << "\n";
         std::cout << " ---- intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
         std::cout << " >>>> horizontalCorrection: " << horizontalCorrection << "\n";
@@ -166,19 +171,53 @@ void Player::UpdateCollisions() {
     this->GetSolidCollisions(collisions);
 
     // Get the major position correction of all collisions
-    int minHorizontalCorrection = 0, maxHorizontalCorrection = 0;
+    int minHorizontalCorrection = 0, maxHorizontalCorrection = 0, minVerticalCorrection = 0, maxVerticalCorrection = 0;
     for (auto collision : collisions) {
         minHorizontalCorrection = std::min(minHorizontalCorrection, collision.horizontalCorrection);
         maxHorizontalCorrection = std::max(maxHorizontalCorrection, collision.horizontalCorrection);
+        minVerticalCorrection = std::min(minVerticalCorrection, collision.verticalCorrection);
+        maxVerticalCorrection = std::max(maxVerticalCorrection, collision.verticalCorrection);
     }
 
-    // Apply position correction to the player
+    // Apply horizontal position correction to the player
     if (minHorizontalCorrection < 0) {
+        // Player collided walking to right direction
         PositionAddX(int16_t(minHorizontalCorrection));
     } else {
+        // Player collided walking to left direction
         PositionAddX(int16_t(maxHorizontalCorrection));
     }
 
+    // Apply vertical position correction to the player
+    if (minVerticalCorrection < 0) {
+        // Player collided on his foot (during a jump landing or fall)
+        PositionAddY(int16_t(minVerticalCorrection));
+        if (isJumping) {
+            FinishJump();
+        }
+    } else if (minVerticalCorrection > 0) {
+        // Player collided on his head (during a jump)
+        PositionAddY(int16_t(maxVerticalCorrection));
+        //if (isJumping) {
+        //    TopCollisionDuringJump();
+        //}
+    }
+/*
+            // Colliding during jump causes finish jump and fall
+            if (isJumping) {
+                // Check if collision has been detected on top of the main character during jumping
+                if (maxVerticalPenetrationDepth > 0) {
+                    // Causes main character fall down
+                    TopCollisionDuringJump();
+                } else {
+                    // Causes main character lay on the ground
+                    FinishJump();
+                }
+            } else if (isFalling) {
+                // If collision is produced during fall then finish the fall;
+                FinishFall();
+            }
+*/
 
 
     /*
