@@ -84,6 +84,9 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions) {
 
         int horizontalCorrection = 0, verticalCorrection = 0;
 
+        std::cout << " ==== intersection.topIntersectionY: " << intersection.topIntersectionY << "\n";
+
+        std::cout << " [ START ] intersection.topIntersectionY: " << intersection.topIntersectionY << " | intersection.bottomIntersectionY: " << intersection.bottomIntersectionY << " | intersection.rightIntersectionX: " << intersection.rightIntersectionX << " | intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
         // Compute position correction when player collides walking to the right
         if ((vectorDirection.x > 0) && (vectorDirection.y == 0) && (intersection.rightIntersectionX < 0) && (intersection.bottomIntersectionY != 0)) {
             horizontalCorrection = intersection.rightIntersectionX;
@@ -92,9 +95,15 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions) {
         else if ((vectorDirection.x < 0) && (vectorDirection.y == 0) && (intersection.leftIntersectionX > 0) && (intersection.bottomIntersectionY != 0)) {
             horizontalCorrection = intersection.leftIntersectionX;
         }
-        // Compute position correction when player collides during the descending of a 90 degrees jump
+        // Compute position correction when player foot collides during the descending of a 90 degrees jump
         else if ((vectorDirection.y < 0) && (vectorDirection.x == 0) && (intersection.bottomIntersectionY < 0)) {
+            std::cout << " [ CASE A ] intersection.topIntersectionY: " << intersection.bottomIntersectionY + currentSprite.yOffset + 1 << "\n";
             verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
+        }
+        // Compute position correction when player head collides during the ascending of a 90 degrees jump
+        else if ((vectorDirection.y > 0) && (vectorDirection.x == 0) && (intersection.topIntersectionY > 0) && (intersection.bottomIntersectionY < 0) && (intersection.rightIntersectionX != 0) && (intersection.leftIntersectionX != 0)) {
+            std::cout << " [ CASE B ] intersection.topIntersectionY: " << intersection.topIntersectionY << " | intersection.bottomIntersectionY: " << intersection.bottomIntersectionY << " | intersection.rightIntersectionX: " << intersection.rightIntersectionX << " | intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
+            verticalCorrection = intersection.topIntersectionY; // - currentSprite.yOffset + 1;
         }
         else {
             continue;
@@ -188,19 +197,19 @@ void Player::UpdateCollisions() {
         PositionAddX(int16_t(maxHorizontalCorrection));
     }
 
+    std::cout << " ---- minVerticalCorrection: " << minVerticalCorrection << "\n";
+    std::cout << " ---- maxVerticalCorrection: " << maxVerticalCorrection << "\n";
+
     // Apply vertical position correction to the player
-    if (minVerticalCorrection < 0) {
+    if (isJumping && minVerticalCorrection < 0) {
         // Player collided on his foot (during a jump landing or fall)
         PositionAddY(int16_t(minVerticalCorrection));
-        if (isJumping) {
-            FinishJump();
-        }
-    } else if (minVerticalCorrection > 0) {
+        FinishJump();
+    } else if (isJumping && maxVerticalCorrection > 0) {
         // Player collided on his head (during a jump)
+        std::cout << " >>>>>>> COLLIDING ON TOP <<<<<<<\n";
         PositionAddY(int16_t(maxVerticalCorrection));
-        //if (isJumping) {
-        //    TopCollisionDuringJump();
-        //}
+        TopCollisionDuringJump();
     }
 /*
             // Colliding during jump causes finish jump and fall
@@ -481,7 +490,7 @@ void Player::FinishJump() {
 void Player::UpdateFall() {
     tFall += 0.2f;
     PositionSetX(hInitialFallPosition + (hInitialFallSpeed * tFall));
-    float vOffset = -(0.5f) * gravity * tFall * tFall;
+    float vOffset = (0.5f) * gravity * tFall * tFall;
     /*if(vOffset <= 0.0f) {
       // Jump landing
       position.setY(vInitialJumpPosition);
