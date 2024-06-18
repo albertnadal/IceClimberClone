@@ -95,7 +95,7 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions) {
         else if ((vectorDirection.x < 0) && (vectorDirection.y == 0) && (intersection.leftIntersectionX > 0) && (intersection.bottomIntersectionY != 0)) {
             horizontalCorrection = intersection.leftIntersectionX;
         }
-        // Compute position correction when player foot collides during the descending of a 90 degrees jump
+        // Compute position correction when player collides with the ground during the descending of a 90 degrees jump
         else if ((vectorDirection.y < 0) && (vectorDirection.x == 0) && (intersection.bottomIntersectionY < 0)) {
             std::cout << " [ CASE A ] intersection.topIntersectionY: " << intersection.bottomIntersectionY + currentSprite.yOffset + 1 << "\n";
             verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
@@ -202,14 +202,21 @@ void Player::UpdateCollisions() {
 
     // Apply vertical position correction to the player
     if (isJumping && minVerticalCorrection < 0) {
-        // Player collided on his foot (during a jump landing or fall)
+        // Player collided with the ground (during a jump landing)
+        std::cout << " ))))) COLLIDING WITH THE GROUND DURING JUMP <<<<<<<\n";
         PositionAddY(int16_t(minVerticalCorrection));
         FinishJump();
     } else if (isJumping && maxVerticalCorrection > 0) {
         // Player collided on his head (during a jump)
-        std::cout << " >>>>>>> COLLIDING ON TOP <<<<<<<\n";
+        std::cout << " ))))) COLLIDING ON TOP DURING JUMP <<<<<<<\n";
         PositionAddY(int16_t(maxVerticalCorrection));
+        isJumping = false;
         TopCollisionDuringJump();
+    } else if (isFalling && minVerticalCorrection < 0) {
+        // Player collided with the ground (during a fall)
+        std::cout << " ))))) COLLIDING WITH THE GROUND DURING FALL minVerticalCorrection: " << minVerticalCorrection << "\n";
+        PositionAddY(int16_t(minVerticalCorrection));
+        FinishFall();
     }
 /*
             // Colliding during jump causes finish jump and fall
@@ -510,8 +517,9 @@ void Player::FinishFall() {
     isFalling = false;
     isLeaningOnTheGround = true;
     UpdatePreviousDirection();
-    //vectorDirection.x = 0;
-    //vectorDirection.y = 0;
+    previous_vOffset = 0.0f;
+    vectorDirection.x = 0;
+    vectorDirection.y = 0;
     FallLanding();
 }
 
