@@ -73,10 +73,6 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions) {
     // Check for collisions with other objects in the scene
     std::vector<aabb::AABBIntersection<ISceneObject*>> objectIntersections = spacePartitionObjectsTree->query(GetSolidLowerBound(), GetSolidUpperBound());
 
-    if (objectIntersections.size() > 0) {
-        std::cout << " >>>> player collides with " << objectIntersections.size() << " objects.\n";
-    }
-
     for (auto intersection : objectIntersections) {
         if (intersection.particle == this) {
             continue;
@@ -105,6 +101,18 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions) {
             std::cout << " [ CASE B ] intersection.topIntersectionY: " << intersection.topIntersectionY << " | intersection.bottomIntersectionY: " << intersection.bottomIntersectionY << " | intersection.rightIntersectionX: " << intersection.rightIntersectionX << " | intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
             verticalCorrection = intersection.topIntersectionY; // - currentSprite.yOffset + 1;
         }
+        // Compute position correction when player collides horizontaly jumping to the left during falling
+        else if ((vectorDirection.y < 0) && (vectorDirection.x < 0) && (intersection.leftIntersectionX >= 0) && (intersection.bottomIntersectionY <= 0)) {
+            std::cout << " [ CASE C ]\n";
+            horizontalCorrection = intersection.leftIntersectionX;
+            verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
+        }
+        // Compute position correction when player collides horizontaly jumping to the right during falling
+        else if ((vectorDirection.y < 0) && (vectorDirection.x > 0) && (intersection.rightIntersectionX <= 0) && (intersection.bottomIntersectionY <= 0)) {
+            std::cout << " [ CASE D ]\n";
+            horizontalCorrection = intersection.rightIntersectionX;
+            verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
+        }
         else {
             continue;
         }
@@ -117,6 +125,8 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions) {
         std::cout << " >>>> verticalCorrection: " << verticalCorrection << "\n";
         collisions.push_back({intersection.particle, horizontalCorrection, verticalCorrection});
     }
+
+    std::cout << " > PLAYER COLLIDES WITH " << objectIntersections.size() << " OBJECTS. " << collisions.size() << " CORRECTIONS NEEDED.\n";
         /*
         // Iterate all potential collision candidates and check for real collisions
         for (uint16_t i = 0; i < intersectionsCount; i++) {
@@ -188,20 +198,52 @@ void Player::UpdateCollisions() {
         maxVerticalCorrection = std::max(maxVerticalCorrection, collision.verticalCorrection);
     }
 
-    // Apply horizontal position correction to the player
-    if (minHorizontalCorrection < 0) {
-        // Player collided walking to right direction
-        PositionAddX(int16_t(minHorizontalCorrection));
-    } else {
-        // Player collided walking to left direction
-        PositionAddX(int16_t(maxHorizontalCorrection));
+    // Check for horizontal collision when player is walking
+    if (!isJumping && !isFalling) {
+        if (minHorizontalCorrection < 0) {
+            // Player collided walking to right direction
+            PositionAddX(int16_t(minHorizontalCorrection));
+        } else {
+            // Player collided walking to left direction
+            PositionAddX(int16_t(maxHorizontalCorrection));
+        }
     }
 
     std::cout << " ---- minVerticalCorrection: " << minVerticalCorrection << "\n";
     std::cout << " ---- maxVerticalCorrection: " << maxVerticalCorrection << "\n";
+    std::cout << " ---- minHorizontalCorrection: " << minHorizontalCorrection << "\n";
+    std::cout << " ---- maxHorizontalCorrection: " << maxHorizontalCorrection << "\n";
+    std::cout << " ---- std::abs(minVerticalCorrection): " << std::abs(minVerticalCorrection) << "\n";
+    std::cout << " ---- std::abs(minHorizontalCorrection): " << std::abs(minHorizontalCorrection) << "\n";
+    std::cout << " ---- collisions.size(): " << collisions.size() << "\n";
 
-    // Apply vertical position correction to the player
-    if (isJumping && minVerticalCorrection < 0) {
+    if (isJumping && collisions.size() == 1 && maxHorizontalCorrection >= 0 && minHorizontalCorrection == 0 && minVerticalCorrection < 0) {
+        // Check for single brick collision when player is falling to the left during a jump
+        if (std::abs(maxHorizontalCorrection) > 4) {
+            // Player collided vertically when jumping to left direction
+            std::cout << " ))))) SINGLE COLLISION ON THE TOP SIDE DURING JUMP FALLING <<<<<<<\n";
+            PositionAddY(int16_t(minVerticalCorrection));
+            FinishJump();
+        } else {
+            // Player collided horizontally when jumping to left direction
+            std::cout << " ))))) SINGLE COLLISION ON THE LEFT SIDE DURING JUMP FALLING <<<<<<<\n";
+            PositionAddX(int16_t(maxHorizontalCorrection));
+            FallDueToLateralCollisionJump();
+        }
+    } else if (isJumping && collisions.size() == 1 && minHorizontalCorrection <= 0 && maxHorizontalCorrection == 0 && minVerticalCorrection < 0) {
+        // Check for single brick collision when player is falling to the right during a jump
+        if (std::abs(minHorizontalCorrection) > 4) {
+            // Player collided vertically when jumping to right direction
+            std::cout << " ))))) SINGLE COLLISION ON THE TOP SIDE DURING JUMP FALLING <<<<<<<\n";
+            PositionAddY(int16_t(minVerticalCorrection));
+            FinishJump();
+        } else {
+            // Player collided horizontally when jumping to right direction
+            std::cout << " ))))) SINGLE COLLISION ON THE RIGHT SIDE DURING JUMP FALLING <<<<<<<\n";
+            PositionAddX(int16_t(minHorizontalCorrection));
+            FallDueToLateralCollisionJump();
+        }
+    } else if (isJumping && minVerticalCorrection < 0) {
         // Player collided with the ground (during a jump landing)
         std::cout << " ))))) COLLIDING WITH THE GROUND DURING JUMP <<<<<<<\n";
         PositionAddY(int16_t(minVerticalCorrection));
@@ -494,6 +536,16 @@ void Player::FinishJump() {
     JumpLanding();
 }
 
+void Player::FallDueToLateralCollisionJump() {
+    isJumping = false;
+    isLeaningOnTheGround = false;
+    hMomentum = 0;
+    UpdatePreviousDirection();
+    vectorDirection.x = 0;
+    vectorDirection.y = -1;
+    LateralCollisionDuringJump();
+}
+
 void Player::UpdateFall() {
     tFall += 0.2f;
     PositionSetX(hInitialFallPosition + (hInitialFallSpeed * tFall));
@@ -707,6 +759,28 @@ void Player::TopCollisionDuringJump() {
             TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_LEFT)    // STATE_Jump_Idle_Left
             TRANSITION_MAP_ENTRY (STATE_FALL_RUN_RIGHT)    // STATE_Jump_Run_Right
             TRANSITION_MAP_ENTRY (STATE_FALL_RUN_LEFT)    // STATE_Jump_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+    END_TRANSITION_MAP(nullptr)
+}
+
+void Player::LateralCollisionDuringJump() {
+    cout << "Player::LateralCollisionDuringJump()" << endl;
+    BEGIN_TRANSITION_MAP                                  // - Current State -
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Idle_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Idle_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                  // STATE_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                  // STATE_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                  // STATE_Jump_Idle_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                  // STATE_Jump_Idle_Left
+            TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_RIGHT)    // STATE_Jump_Run_Right
+            TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_LEFT)    // STATE_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right

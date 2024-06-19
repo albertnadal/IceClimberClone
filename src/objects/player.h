@@ -73,6 +73,7 @@ class Player: public ISceneObject
   void Jump(float vSpeed, float hSpeed);
   void UpdateJump();
   void FinishJump();
+  void FallDueToLateralCollisionJump();
   void Fall(float hSpeed);
   void UpdateFall();
   void FinishFall();
@@ -96,6 +97,7 @@ public:
   void JumpLanding();
   void FallLanding();
   void TopCollisionDuringJump();
+  void LateralCollisionDuringJump();
   bool ShouldBeginAnimationLoopAgain();
   //void ReachedSpeedForRunning();
 
