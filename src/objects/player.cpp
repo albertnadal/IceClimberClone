@@ -96,8 +96,8 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions) {
             std::cout << " [ CASE A ] intersection.topIntersectionY: " << intersection.bottomIntersectionY + currentSprite.yOffset + 1 << "\n";
             verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
         }
-        // Compute position correction when player head collides during the ascending of a 90 degrees jump
-        else if ((vectorDirection.y > 0) && (vectorDirection.x == 0) && (intersection.topIntersectionY > 0) && (intersection.bottomIntersectionY < 0) && (intersection.rightIntersectionX != 0) && (intersection.leftIntersectionX != 0)) {
+        // Compute position correction when player head collides during the ascending of a 90 degree or parabolic jump
+        else if ((vectorDirection.y > 0) && (intersection.topIntersectionY > 0) && (intersection.bottomIntersectionY < 0) && (intersection.rightIntersectionX != 0) && (intersection.leftIntersectionX != 0)) {
             std::cout << " [ CASE B ] intersection.topIntersectionY: " << intersection.topIntersectionY << " | intersection.bottomIntersectionY: " << intersection.bottomIntersectionY << " | intersection.rightIntersectionX: " << intersection.rightIntersectionX << " | intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
             verticalCorrection = intersection.topIntersectionY; // - currentSprite.yOffset + 1;
         }
@@ -232,8 +232,16 @@ void Player::UpdateCollisions() {
     std::cout << " ---- std::abs(minVerticalCorrection): " << std::abs(minVerticalCorrection) << "\n";
     std::cout << " ---- std::abs(minHorizontalCorrection): " << std::abs(minHorizontalCorrection) << "\n";
     std::cout << " ---- collisions.size(): " << collisions.size() << "\n";
+    std::cout << " ---- vectorDirection.y: " << vectorDirection.y << "\n";
+    std::cout << " ---- vectorDirection.x: " << vectorDirection.x << "\n";
 
-    if (isJumping && vectorDirection.x != 0 && collisions.size() >= 1 && maxHorizontalCorrection >= 0 && minHorizontalCorrection == 0 && minVerticalCorrection < 0) {
+    if (isJumping && vectorDirection.y > 0 && vectorDirection.x != 0 && maxVerticalCorrection > 0) {
+        // Player collided on his head (during a parabolic jump)
+        std::cout << " ))))) COLLIDING ON TOP DURING PARABOLIC JUMP <<<<<<<\n";
+        PositionAddY(int16_t(maxVerticalCorrection));
+        isJumping = false;
+        TopCollisionDuringJump();
+    } else if (isJumping && vectorDirection.x != 0 && collisions.size() >= 1 && maxHorizontalCorrection >= 0 && minHorizontalCorrection == 0 && minVerticalCorrection < 0) {
         // Check for single brick collision when player is falling to the left during a jump
         if (std::abs(maxHorizontalCorrection) > 8) {
             // Player collided vertically when jumping to left direction
@@ -248,7 +256,7 @@ void Player::UpdateCollisions() {
         }
     } else if (isJumping && vectorDirection.x != 0 && collisions.size() >= 1 && minHorizontalCorrection <= 0 && maxHorizontalCorrection == 0 && minVerticalCorrection < 0) {
         // Check for single brick collision when player is falling to the right during a jump
-        if (std::abs(minHorizontalCorrection) > 8) { // [ CURRENT - FIX THIS ]
+        if (std::abs(minHorizontalCorrection) > 8) {
             // Player collided vertically when jumping to right direction
             std::cout << " ))))) SINGLE COLLISION ON THE TOP RIGHT SIDE DURING JUMP FALLING <<<<<<<\n";
             PositionAddY(int16_t(minVerticalCorrection));
@@ -261,7 +269,7 @@ void Player::UpdateCollisions() {
         }
     } else if (isJumping && vectorDirection.x == 0 && collisions.size() == 1 && maxHorizontalCorrection > 0 && minHorizontalCorrection == 0 && minVerticalCorrection < 0) {
         // Check for single brick collision on the left side when player is falling during a 90 degree jump
-        if (std::abs(maxHorizontalCorrection) > 4) {
+        if (std::abs(maxHorizontalCorrection) > 8) {
             std::cout << " ))))) SINGLE COLLISION ON THE TOP SIDE DURING 90 DEGREE JUMP FALLING <<<<<<<\n";
             PositionAddY(int16_t(minVerticalCorrection));
             FinishJump();
@@ -272,7 +280,7 @@ void Player::UpdateCollisions() {
         }
     } else if (isJumping && vectorDirection.x == 0 && collisions.size() == 1 && minHorizontalCorrection < 0 && maxHorizontalCorrection == 0 && minVerticalCorrection < 0) {
         // Check for single brick collision on the right side when player is falling during a 90 degree jump
-        if (std::abs(minHorizontalCorrection) > 4) {
+        if (std::abs(minHorizontalCorrection) > 8) {
             // Player collided vertically when jumping looking to right direction
             std::cout << " ))))) SINGLE COLLISION ON THE TOP SIDE DURING 90 DEGREE JUMP FALLING <<<<<<<\n";
             PositionAddY(int16_t(minVerticalCorrection));
