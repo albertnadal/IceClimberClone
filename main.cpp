@@ -20,14 +20,17 @@ bool running = true;
 SceneObjectDataManager *objectTextureManager;
 SceneObjectManager *sceneObjectManager;
 int gameLogicFrequency = 16;
+bool paused = false;
 
 static void* gameLogicMainThreadFunc(void* v)
 {
         while(running) {
-                auto t0 = std::chrono::high_resolution_clock::now();
-                sceneObjectManager->Update(pressedKeys);
-                auto t1 = std::chrono::high_resolution_clock::now();
-                cpuTimePerUpdate = t1 - t0;
+                if (!paused) {
+                        auto t0 = std::chrono::high_resolution_clock::now();
+                        sceneObjectManager->Update(pressedKeys);
+                        auto t1 = std::chrono::high_resolution_clock::now();
+                        cpuTimePerUpdate = t1 - t0;
+                }
                 std::this_thread::sleep_for(std::chrono::milliseconds(gameLogicFrequency) - cpuTimePerUpdate);
         }
         return 0;
@@ -70,6 +73,7 @@ int main()
 
                 if (IsKeyPressed(KEY_P)) gameLogicFrequency += 10;
                 if (IsKeyPressed(KEY_O)) gameLogicFrequency -= 10;
+                if (IsKeyPressed(KEY_M)) paused = !paused;
 
                 BeginDrawing();
                         ClearBackground(BLACK);
