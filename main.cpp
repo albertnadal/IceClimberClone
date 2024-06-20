@@ -19,6 +19,7 @@ uint8_t pressedKeys = IC_KEY_NONE;
 bool running = true;
 SceneObjectDataManager *objectTextureManager;
 SceneObjectManager *sceneObjectManager;
+int gameLogicFrequency = 16;
 
 static void* gameLogicMainThreadFunc(void* v)
 {
@@ -27,7 +28,7 @@ static void* gameLogicMainThreadFunc(void* v)
                 sceneObjectManager->Update(pressedKeys);
                 auto t1 = std::chrono::high_resolution_clock::now();
                 cpuTimePerUpdate = t1 - t0;
-                std::this_thread::sleep_for(std::chrono::milliseconds(16) - cpuTimePerUpdate);
+                std::this_thread::sleep_for(std::chrono::milliseconds(gameLogicFrequency) - cpuTimePerUpdate);
         }
         return 0;
 }
@@ -38,7 +39,7 @@ int main()
 
         Camera2D camera = { 0 };
         camera.target = (Vector2){ 0, 0 };
-        camera.offset = (Vector2){ 0, -450 };
+        camera.offset = (Vector2){ 0, -150 };//-450 };
         camera.rotation = 0.0f;
         camera.zoom = 2.0f;  // 2x zoom just for debug purposes
 
@@ -66,6 +67,9 @@ int main()
                 if (IsKeyPressed(KEY_A) || IsKeyReleased(KEY_A)) pressedKeys ^= IC_KEY_A;
                 if (IsKeyPressed(KEY_SPACE) || IsKeyReleased(KEY_SPACE)) pressedKeys ^= IC_KEY_SPACE;
                 if (IsKeyPressed(KEY_ESCAPE) || IsKeyReleased(KEY_ESCAPE)) pressedKeys ^= IC_KEY_DOWN;
+
+                if (IsKeyPressed(KEY_P)) gameLogicFrequency += 10;
+                if (IsKeyPressed(KEY_O)) gameLogicFrequency -= 10;
 
                 BeginDrawing();
                         ClearBackground(BLACK);
