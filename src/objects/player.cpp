@@ -101,16 +101,32 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions) {
             std::cout << " [ CASE B ] intersection.topIntersectionY: " << intersection.topIntersectionY << " | intersection.bottomIntersectionY: " << intersection.bottomIntersectionY << " | intersection.rightIntersectionX: " << intersection.rightIntersectionX << " | intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
             verticalCorrection = intersection.topIntersectionY; // - currentSprite.yOffset + 1;
         }
-        // Compute position correction when player collides horizontaly jumping to the left during falling
-        else if ((vectorDirection.y < 0) && (vectorDirection.x < 0) && (intersection.leftIntersectionX >= 0) && (intersection.bottomIntersectionY <= 0)) {
-            std::cout << " [ CASE C ]\n";
+        // Compute position correction when player collides horizontaly (on the right side of a brick) jumping to the left during falling
+        else if ((vectorDirection.y < 0) && (vectorDirection.x < 0) && (intersection.leftIntersectionX >= 0) && (std::abs(intersection.rightIntersectionX) >= std::abs(intersection.leftIntersectionX)) && (intersection.bottomIntersectionY <= 0)) {
+            std::cout << " [ CASE C1 ]\n";
+            std::cout << " [ C1 ] &&&&&& intersection.rightIntersectionX: " << intersection.rightIntersectionX << " intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
             horizontalCorrection = intersection.leftIntersectionX;
             verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
         }
-        // Compute position correction when player collides horizontaly jumping to the right during falling
-        else if ((vectorDirection.y < 0) && (vectorDirection.x > 0) && (intersection.rightIntersectionX <= 0) && (intersection.bottomIntersectionY <= 0)) {
-            std::cout << " [ CASE D ]\n";
+        // Compute position correction when player collides horizontaly (on the left side of a brick) jumping to the left during falling
+        else if ((vectorDirection.y < 0) && (vectorDirection.x < 0) && (intersection.rightIntersectionX <= 0) && (std::abs(intersection.rightIntersectionX) < std::abs(intersection.leftIntersectionX)) && (intersection.bottomIntersectionY <= 0)) {
+            std::cout << " [ CASE C2 ]\n";
+            std::cout << " [ C2 ] &&&&&& intersection.rightIntersectionX: " << intersection.rightIntersectionX << " intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
             horizontalCorrection = intersection.rightIntersectionX;
+            verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
+        }
+        // Compute position correction when player collides horizontaly (on the left side of a brick) jumping to the right during falling
+        else if ((vectorDirection.y < 0) && (vectorDirection.x > 0) && (intersection.rightIntersectionX <= 0) && (std::abs(intersection.rightIntersectionX) <= std::abs(intersection.leftIntersectionX)) && (intersection.bottomIntersectionY <= 0)) {
+            std::cout << " [ CASE D1 ]\n";
+            std::cout << " [ D1 ] &&&&&& intersection.rightIntersectionX: " << intersection.rightIntersectionX << " intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
+            horizontalCorrection = intersection.rightIntersectionX;
+            verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
+        }
+        // Compute position correction when player collides horizontaly (on the right side of a brick) jumping to the right during falling
+        else if ((vectorDirection.y < 0) && (vectorDirection.x > 0) && (intersection.leftIntersectionX >= 0) && (std::abs(intersection.rightIntersectionX) > std::abs(intersection.leftIntersectionX)) && (intersection.bottomIntersectionY <= 0)) {
+            std::cout << " [ CASE D2 ]\n";
+            std::cout << " [ D2 ] &&&&&& intersection.rightIntersectionX: " << intersection.rightIntersectionX << " intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
+            horizontalCorrection = intersection.leftIntersectionX;
             verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
         }
         else {
@@ -217,9 +233,9 @@ void Player::UpdateCollisions() {
     std::cout << " ---- std::abs(minHorizontalCorrection): " << std::abs(minHorizontalCorrection) << "\n";
     std::cout << " ---- collisions.size(): " << collisions.size() << "\n";
 
-    if (isJumping && vectorDirection.x != 0 && collisions.size() == 1 && maxHorizontalCorrection >= 0 && minHorizontalCorrection == 0 && minVerticalCorrection < 0) {
+    if (isJumping && vectorDirection.x != 0 && collisions.size() >= 1 && maxHorizontalCorrection >= 0 && minHorizontalCorrection == 0 && minVerticalCorrection < 0) {
         // Check for single brick collision when player is falling to the left during a jump
-        if (std::abs(maxHorizontalCorrection) > 4) {
+        if (std::abs(maxHorizontalCorrection) > 8) {
             // Player collided vertically when jumping to left direction
             std::cout << " ))))) SINGLE COLLISION ON THE TOP SIDE DURING JUMP FALLING <<<<<<<\n";
             PositionAddY(int16_t(minVerticalCorrection));
@@ -230,11 +246,11 @@ void Player::UpdateCollisions() {
             PositionAddX(int16_t(maxHorizontalCorrection));
             FallDueToLateralCollisionJump();
         }
-    } else if (isJumping && vectorDirection.x != 0 && collisions.size() == 1 && minHorizontalCorrection <= 0 && maxHorizontalCorrection == 0 && minVerticalCorrection < 0) {
+    } else if (isJumping && vectorDirection.x != 0 && collisions.size() >= 1 && minHorizontalCorrection <= 0 && maxHorizontalCorrection == 0 && minVerticalCorrection < 0) {
         // Check for single brick collision when player is falling to the right during a jump
-        if (std::abs(minHorizontalCorrection) > 4) {
+        if (std::abs(minHorizontalCorrection) > 8) { // [ CURRENT - FIX THIS ]
             // Player collided vertically when jumping to right direction
-            std::cout << " ))))) SINGLE COLLISION ON THE TOP SIDE DURING JUMP FALLING <<<<<<<\n";
+            std::cout << " ))))) SINGLE COLLISION ON THE TOP RIGHT SIDE DURING JUMP FALLING <<<<<<<\n";
             PositionAddY(int16_t(minVerticalCorrection));
             FinishJump();
         } else {
