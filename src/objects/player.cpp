@@ -96,10 +96,25 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions) {
             std::cout << " [ CASE A ] intersection.topIntersectionY: " << intersection.bottomIntersectionY + currentSprite.yOffset + 1 << "\n";
             verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
         }
+        // Compute position correction when player collides horizontaly jumping to the right during the ascent
+        /*else if ((vectorDirection.y > 0) && (vectorDirection.x > 0) && (intersection.rightIntersectionX < 0) && (std::abs(intersection.rightIntersectionX) <= std::abs(intersection.leftIntersectionX)) && (intersection.bottomIntersectionY < 0)) {
+            std::cout << " [ CASE E1 ]\n";
+            std::cout << " [ E1 ] &&&&&& intersection.rightIntersectionX: " << intersection.rightIntersectionX << " intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
+            horizontalCorrection = intersection.rightIntersectionX;
+            verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
+        }*/
         // Compute position correction when player head collides during the ascending of a 90 degree or parabolic jump
         else if ((vectorDirection.y > 0) && (intersection.topIntersectionY > 0) && (intersection.bottomIntersectionY < 0) && (intersection.rightIntersectionX != 0) && (intersection.leftIntersectionX != 0)) {
             std::cout << " [ CASE B ] intersection.topIntersectionY: " << intersection.topIntersectionY << " | intersection.bottomIntersectionY: " << intersection.bottomIntersectionY << " | intersection.rightIntersectionX: " << intersection.rightIntersectionX << " | intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
             verticalCorrection = intersection.topIntersectionY; // - currentSprite.yOffset + 1;
+
+            if ((vectorDirection.x > 0) && (intersection.rightIntersectionX < 0)) {
+                horizontalCorrection = intersection.rightIntersectionX;
+                std::cout << " [ CASE B-0 ] horizontalCorrection: " << horizontalCorrection << "\n";
+            } else if ((vectorDirection.x < 0) && (intersection.leftIntersectionX > 0)) {
+                horizontalCorrection = intersection.leftIntersectionX;
+                std::cout << " [ CASE B-1 ] horizontalCorrection: " << horizontalCorrection << "\n";
+            }
         }
         // Compute position correction when player collides horizontaly (on the right side of a brick) jumping to the left during falling
         else if ((vectorDirection.y < 0) && (vectorDirection.x < 0) && (intersection.leftIntersectionX >= 0) && (std::abs(intersection.rightIntersectionX) >= std::abs(intersection.leftIntersectionX)) && (intersection.bottomIntersectionY <= 0)) {
@@ -235,7 +250,17 @@ void Player::UpdateCollisions() {
     std::cout << " ---- vectorDirection.y: " << vectorDirection.y << "\n";
     std::cout << " ---- vectorDirection.x: " << vectorDirection.x << "\n";
 
-    if (isJumping && vectorDirection.y > 0 && vectorDirection.x != 0 && maxVerticalCorrection > 0) {
+    if (isJumping && vectorDirection.y > 0 && vectorDirection.x > 0 && minHorizontalCorrection < 0 && std::abs(minHorizontalCorrection) <= 4) {
+        // Player collided horizontally when during the ascension to the right side of a jump
+        std::cout << " ))))) COLLISION ON THE RIGHT SIDE DURING JUMP ASCENSION <<<<<<<\n";
+        PositionAddX(int16_t(minHorizontalCorrection));
+        FallDueToLateralCollisionJump();
+    } else if (isJumping && vectorDirection.y > 0 && vectorDirection.x < 0 && maxHorizontalCorrection > 0 && std::abs(maxHorizontalCorrection) <= 4) {
+        // Player collided horizontally when during the ascension to the left side of a jump
+        std::cout << " ))))) COLLISION ON THE LEFT SIDE DURING JUMP ASCENSION <<<<<<<\n";
+        PositionAddX(int16_t(maxHorizontalCorrection));
+        FallDueToLateralCollisionJump();
+    } else if (isJumping && vectorDirection.y > 0 && vectorDirection.x != 0 && maxVerticalCorrection > 0) {
         // Player collided on his head (during a parabolic jump)
         std::cout << " ))))) COLLIDING ON TOP DURING PARABOLIC JUMP <<<<<<<\n";
         PositionAddY(int16_t(maxVerticalCorrection));
@@ -974,14 +999,12 @@ void Player::STATE_Fall_Idle_Right() {
     cout << "Player::STATE_Fall_Idle_Right" << endl;
     Fall(0.0f);
     LoadAnimationWithId(PlayerAnimation::FALL_RIGHT);
-    ProcessPressedKeys(false);
 }
 
 void Player::STATE_Fall_Idle_Left() {
     cout << "Player::STATE_Fall_Idle_Left" << endl;
     Fall(0.0f);
     LoadAnimationWithId(PlayerAnimation::FALL_LEFT);
-    ProcessPressedKeys(false);
 }
 
 void Player::STATE_Fall_Run_Right() {
