@@ -66,6 +66,8 @@ class Player: public ISceneObject
   bool isHitting = false;
   bool isLeaningOnTheGround = false;
   bool isFalling = false;
+  bool isBlockedRight = false;  // Player is stuck running to the right towards a brick
+  bool isBlockedLeft = false;   // Player is stuck running to the left towards a brick
 
   // Player action update functions
   void UpdateCollisions();

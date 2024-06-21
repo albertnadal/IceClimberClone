@@ -234,9 +234,11 @@ void Player::UpdateCollisions() {
         if (minHorizontalCorrection < 0) {
             // Player collided walking to right direction
             PositionAddX(int16_t(minHorizontalCorrection));
-        } else {
+            isBlockedRight = true;
+        } else if (maxHorizontalCorrection > 0) {
             // Player collided walking to left direction
             PositionAddX(int16_t(maxHorizontalCorrection));
+            isBlockedLeft = true;
         }
     }
 
@@ -249,6 +251,8 @@ void Player::UpdateCollisions() {
     std::cout << " ---- collisions.size(): " << collisions.size() << "\n";
     std::cout << " ---- vectorDirection.y: " << vectorDirection.y << "\n";
     std::cout << " ---- vectorDirection.x: " << vectorDirection.x << "\n";
+    std::cout << " ---- isBlockedRight: " << isBlockedRight << "\n";
+    std::cout << " ---- isBlockedLeft: " << isBlockedLeft << "\n";
 
     if (isJumping && vectorDirection.y > 0 && vectorDirection.x > 0 && minHorizontalCorrection < 0 && std::abs(minHorizontalCorrection) <= 4) {
         // Player collided horizontally when during the ascension to the right side of a jump
@@ -431,6 +435,7 @@ void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {
             //stateMachine.dispatch(KeyRightPressedEvent());
 //                        LoadAnimationWithId(PlayerAnimation::RUN_TO_RIGHT);
             headedToRight = true;
+            isBlockedLeft = false;
             RightKeyPressed();
         }
         MoveTo(PlayerDirection::RIGHT);
@@ -446,19 +451,18 @@ void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {
             //cout << "KEY LEFT PRESSED" << endl;
 //                        LoadAnimationWithId(PlayerAnimation::RUN_TO_LEFT);
             headedToRight = false;
+            isBlockedRight = false;
             LeftKeyPressed();
         }
         MoveTo(PlayerDirection::LEFT);
     } else if ((prevPressedKeys & KeyboardKeyCode::IC_KEY_LEFT) == KeyboardKeyCode::IC_KEY_LEFT) {
-        //cout << "KEY LEFT RELEASED" << endl;
         LeftKeyReleased();
     }
 
-    if (!isJumping && ((pressedKeys & KeyboardKeyCode::IC_KEY_UP) == KeyboardKeyCode::IC_KEY_UP)) {
+    if (!isJumping && !isFalling && ((headedToRight && !isBlockedRight) || (!headedToRight && !isBlockedLeft)) && ((pressedKeys & KeyboardKeyCode::IC_KEY_UP) == KeyboardKeyCode::IC_KEY_UP)) {
         // If is not IC_KEY_LEFT repeated press then change character state
         if ((!checkPreviousPressedKeys) ||
             ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::IC_KEY_UP) != KeyboardKeyCode::IC_KEY_UP))) {
-            //cout << "KEY UP PRESSED" << endl;
             UpKeyPressed();
         }
     }
@@ -865,7 +869,7 @@ void Player::LateralCollisionDuringJump() {
 }
 
 void Player::SpaceKeyPressed() {
-    cout << "Player::UpKeyPressed()" << endl;
+    cout << "Player::SpaceKeyPressed()" << endl;
     BEGIN_TRANSITION_MAP                                  // - Current State -
             TRANSITION_MAP_ENTRY (STATE_HIT_RIGHT)          // STATE_Idle_Right
             TRANSITION_MAP_ENTRY (STATE_HIT_LEFT)                 // STATE_Idle_Left
@@ -932,6 +936,8 @@ void Player::FallLanding() {
 
 void Player::STATE_Idle_Right() {
     cout << "Player::STATE_Idle_Right" << endl;
+    isBlockedRight = false;
+    isBlockedLeft = false;
     hMomentum = 0;
     UpdatePreviousDirection();
     vectorDirection.x = 0;
@@ -942,6 +948,8 @@ void Player::STATE_Idle_Right() {
 
 void Player::STATE_Idle_Left() {
     cout << "Player::STATE_Idle_Left" << endl;
+    isBlockedRight = false;
+    isBlockedLeft = false;
     hMomentum = 0;
     UpdatePreviousDirection();
     vectorDirection.x = 0;
