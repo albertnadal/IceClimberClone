@@ -34,7 +34,7 @@ class Player: public ISceneObject
   void LoadNextSprite();
   bool PlayerIsQuiet();
   void UpdatePreviousDirection();
-  void GetSolidCollisions(std::vector<ObjectCollision>&);
+  void GetSolidCollisions(std::vector<ObjectCollision>&, bool&);
   void MoveToPositionOfNoCollision(std::vector<ObjectCollisionData>&);
 
   // Jump trajectory data
@@ -76,6 +76,7 @@ class Player: public ISceneObject
   void UpdateJump();
   void FinishJump();
   void FallDueToLateralCollisionJump();
+  void FallDueToSuspendedInTheAir();
   void Fall(float hSpeed);
   void UpdateFall();
   void FinishFall();
@@ -100,6 +101,7 @@ public:
   void FallLanding();
   void TopCollisionDuringJump();
   void LateralCollisionDuringJump();
+  void SuspendedInTheAir();
   bool ShouldBeginAnimationLoopAgain();
   //void ReachedSpeedForRunning();
 

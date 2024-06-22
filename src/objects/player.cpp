@@ -69,9 +69,10 @@ bool Player::Update(const uint8_t pressedKeys_) {
 }
 
 // Search for solid collisions with objects
-void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions) {
+void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& playerIsSuspendedInTheAir) {
     // Check for collisions with other objects in the scene
     std::vector<aabb::AABBIntersection<ISceneObject*>> objectIntersections = spacePartitionObjectsTree->query(GetSolidLowerBound(), GetSolidUpperBound());
+    playerIsSuspendedInTheAir = true;
 
     for (auto intersection : objectIntersections) {
         if (intersection.particle == this) {
@@ -155,9 +156,29 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions) {
         std::cout << " >>>> horizontalCorrection: " << horizontalCorrection << "\n";
         std::cout << " >>>> verticalCorrection: " << verticalCorrection << "\n";
         collisions.push_back({intersection.particle, horizontalCorrection, verticalCorrection});
+        playerIsSuspendedInTheAir = false;
     }
 
     std::cout << " > PLAYER COLLIDES WITH " << objectIntersections.size() << " OBJECTS. " << collisions.size() << " CORRECTIONS NEEDED.\n";
+
+    // Check if the player is suspended in the air
+    if (playerIsSuspendedInTheAir && (objectIntersections.size() > 0) && (collisions.size() == 0)) {
+        for (auto intersection : objectIntersections) {
+            if (intersection.particle == this) {
+                continue;
+            }
+
+            // Check if the intersection object (particle) holds the player.
+            // TODO: Return the object (or objects) that holds the player.
+            if (intersection.bottomIntersectionY == 0) {
+                std::cout << " [ IS NOT SUSPENDED IN THE AIR ]\n";
+                std::cout << " &&&&&& intersection.rightIntersectionX: " << intersection.rightIntersectionX << " intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
+                playerIsSuspendedInTheAir = false;
+                break;
+            }
+        }
+    }
+
         /*
         // Iterate all potential collision candidates and check for real collisions
         for (uint16_t i = 0; i < intersectionsCount; i++) {
@@ -216,9 +237,16 @@ void Player::UpdateCollisions() {
     //std::cout << "TRAJECTORY TANGENT: " << position.getTrajectoryTangent() << "\n";
 
     std::vector<ObjectCollision> collisions;
+    bool playerIsSuspendedInTheAir = false;
 
     // Search for collisions with solid objects
-    this->GetSolidCollisions(collisions);
+    this->GetSolidCollisions(collisions, playerIsSuspendedInTheAir);
+
+    // Check if the player is floating in the air (no ground under his feet)
+    if (playerIsSuspendedInTheAir && !isJumping && !isFalling && !isHitting && !isBlockedRight && !isBlockedLeft) {
+        FallDueToSuspendedInTheAir();
+        return;
+    }
 
     // Get the major position correction of all collisions
     int minHorizontalCorrection = 0, maxHorizontalCorrection = 0, minVerticalCorrection = 0, maxVerticalCorrection = 0;
@@ -235,10 +263,12 @@ void Player::UpdateCollisions() {
             // Player collided walking to right direction
             PositionAddX(int16_t(minHorizontalCorrection));
             isBlockedRight = true;
+            return;
         } else if (maxHorizontalCorrection > 0) {
             // Player collided walking to left direction
             PositionAddX(int16_t(maxHorizontalCorrection));
             isBlockedLeft = true;
+            return;
         }
     }
 
@@ -622,6 +652,15 @@ void Player::FallDueToLateralCollisionJump() {
     LateralCollisionDuringJump();
 }
 
+void Player::FallDueToSuspendedInTheAir() {
+    isLeaningOnTheGround = false;
+    hMomentum = 0;
+    UpdatePreviousDirection();
+    vectorDirection.x = 0;
+    vectorDirection.y = -1;
+    SuspendedInTheAir();
+}
+
 void Player::UpdateFall() {
     tFall += 0.2f;
     PositionSetX(hInitialFallPosition + (hInitialFallSpeed * tFall));
@@ -857,6 +896,28 @@ void Player::LateralCollisionDuringJump() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                  // STATE_Jump_Idle_Left
             TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_RIGHT)    // STATE_Jump_Run_Right
             TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_LEFT)    // STATE_Jump_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+    END_TRANSITION_MAP(nullptr)
+}
+
+void Player::SuspendedInTheAir() {
+    cout << "Player::SuspendedInTheAir()" << endl;
+    BEGIN_TRANSITION_MAP                                  // - Current State -
+            TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_RIGHT)         // STATE_Idle_Right
+            TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_LEFT)          // STATE_Idle_Left
+            TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_RIGHT)         // STATE_Run_Right
+            TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_LEFT)          // STATE_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Jump_Idle_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Jump_Idle_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
