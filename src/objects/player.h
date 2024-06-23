@@ -64,6 +64,7 @@ class Player: public ISceneObject
   bool isHitting = false;
   bool isLeaningOnTheGround = false;
   bool isFalling = false;
+  bool isJumpApex = false;      // Player is at the the max altitude during a jump
   bool isBlockedRight = false;  // Player is stuck running to the right towards a brick
   bool isBlockedLeft = false;   // Player is stuck running to the left towards a brick
 
@@ -99,6 +100,8 @@ public:
   void FallLanding();
   void TopCollisionDuringJump();
   void LateralCollisionDuringJump();
+  void RightKeyPressedAtJumpApex();
+  void LeftKeyPressedAtJumpApex();
   void SuspendedInTheAir();
   bool ShouldBeginAnimationLoopAgain();
   //void ReachedSpeedForRunning();

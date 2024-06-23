@@ -278,6 +278,7 @@ void Player::UpdateCollisions() {
         std::cout << " ))))) COLLIDING ON TOP DURING PARABOLIC JUMP <<<<<<<\n";
         PositionAddY(int16_t(maxVerticalCorrection));
         isJumping = false;
+        isJumpApex = false;
         TopCollisionDuringJump();
     } else if (isJumping && vectorDirection.x != 0 && collisions.size() >= 1 && maxHorizontalCorrection >= 0 && minHorizontalCorrection == 0 && minVerticalCorrection < 0) {
         // Check for single brick collision when player is falling to the left during a jump
@@ -338,6 +339,7 @@ void Player::UpdateCollisions() {
         std::cout << " ))))) COLLIDING ON TOP DURING JUMP <<<<<<<\n";
         PositionAddY(int16_t(maxVerticalCorrection));
         isJumping = false;
+        isJumpApex = false;
         TopCollisionDuringJump();
     } else if (isFalling && minVerticalCorrection < 0) {
         // Player collided with the ground (during a fall)
@@ -363,11 +365,16 @@ void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {
     if ((pressedKeys & KeyboardKeyCode::IC_KEY_RIGHT) == KeyboardKeyCode::IC_KEY_RIGHT) {
         // If is not IC_KEY_RIGHT repeated press then change character state
         if ((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::IC_KEY_RIGHT) != KeyboardKeyCode::IC_KEY_RIGHT))) {
-            //transit<PlayerRunToRightState>();
-            //stateMachine.dispatch(KeyRightPressedEvent());
-//                        LoadAnimationWithId(PlayerAnimation::RUN_TO_RIGHT);
             headedToRight = true;
             isBlockedLeft = false;
+
+            if (isJumpApex) {
+                // Player fall on the right side when pressing the RIGHT key in the apex of a 90 degree jump.
+                hMomentum = 0;
+                RightKeyPressedAtJumpApex();
+                return;
+            }
+
             RightKeyPressed();
         }
         MoveTo(PlayerDirection::RIGHT);
@@ -377,13 +384,17 @@ void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {
 
     if ((pressedKeys & KeyboardKeyCode::IC_KEY_LEFT) == KeyboardKeyCode::IC_KEY_LEFT) {
         // If is not IC_KEY_LEFT repeated press then change character state
-        if ((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) &&
-                                            ((prevPressedKeys & KeyboardKeyCode::IC_KEY_LEFT) !=
-                                             KeyboardKeyCode::IC_KEY_LEFT))) {
-            //cout << "KEY LEFT PRESSED" << endl;
-//                        LoadAnimationWithId(PlayerAnimation::RUN_TO_LEFT);
+        if ((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::IC_KEY_LEFT) != KeyboardKeyCode::IC_KEY_LEFT))) {
             headedToRight = false;
             isBlockedRight = false;
+
+            if (isJumpApex) {
+                // Player fall on the right side when pressing the RIGHT key in the apex of a 90 degree jump.
+                hMomentum = 0;
+                LeftKeyPressedAtJumpApex();
+                return;
+            }
+
             LeftKeyPressed();
         }
         MoveTo(PlayerDirection::LEFT);
@@ -514,28 +525,29 @@ bool Player::ShouldBeginAnimationLoopAgain() {
 
 void Player::UpdateJump() {
     tJump += 0.2f;
-    //PositionSetX(hInitialJumpPosition + (hInitialJumpSpeed * tJump));
+
+    // Parabolic jump formula
     float vOffset = -(vInitialJumpSpeed * tJump - (0.5f) * gravity * tJump * tJump);
 
-    /*if(vOffset <= 0.0f) {
-      // Last position of trajectory
-      PositionSetY(vInitialJumpPosition);
-      // Finish jump
-      FinishJump();
-    } else {*/
-    // Update vertical jumpt position
-    //PositionSetY(vInitialJumpPosition + vOffset);
+    // Update vertical jump position
     PositionSetXY(hInitialJumpPosition + (hInitialJumpSpeed * tJump), vInitialJumpPosition + vOffset);
-    /*}*/
     UpdatePreviousDirection();
     vectorDirection.x = (hInitialJumpSpeed > 0.0f) ? 1 : (hInitialJumpSpeed < 0.0f) ? -1 : 0;
     vectorDirection.y = (previous_vOffset < vOffset) ? -1 : 1;
+    isJumpApex = ((prevVectorDirection.y == 1) && (vectorDirection.y == -1));
+
+    if (isJumpApex) {
+        // User is able to fall to the right or left side when pressing RIGHT or LEFT keys.
+        ProcessPressedKeys(false);
+    }
+
     std::cout << "                          ==================> X: " << vectorDirection.x << " Y: " << vectorDirection.y << "\n";
     previous_vOffset = vOffset;
 }
 
 void Player::FinishJump() {
     isJumping = false;
+    isJumpApex = false;
     isLeaningOnTheGround = true;
     hMomentum = 0;
     UpdatePreviousDirection();
@@ -546,6 +558,7 @@ void Player::FinishJump() {
 
 void Player::FallDueToLateralCollisionJump() {
     isJumping = false;
+    isJumpApex = false;
     isLeaningOnTheGround = false;
     hMomentum = 0;
     UpdatePreviousDirection();
@@ -613,6 +626,7 @@ void Player::Jump(float vSpeed, float hSpeed) {
     cout << "Initial JUMP X: " << hInitialJumpPosition << " Initial JUMP Y: " << vInitialJumpPosition << endl;
     tJump = 0.0f;
     isJumping = true;
+    isJumpApex = false;
     isFalling = false;
     isLeaningOnTheGround = false;
 }
@@ -629,6 +643,7 @@ void Player::Fall(float hSpeed) {
     cout << "Initial FALL X: " << hInitialFallPosition << " Initial FALL Y: " << vInitialFallPosition << endl;
     tFall = 0.0f;
     isJumping = false;
+    isJumpApex = false;
     isFalling = true;
     isLeaningOnTheGround = false;
 }
@@ -798,6 +813,50 @@ void Player::LateralCollisionDuringJump() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                  // STATE_Jump_Idle_Left
             TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_RIGHT)    // STATE_Jump_Run_Right
             TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_LEFT)    // STATE_Jump_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+    END_TRANSITION_MAP(nullptr)
+}
+
+void Player::RightKeyPressedAtJumpApex() {
+    cout << "Player::RightKeyPressedAtJumpApex()" << endl;
+    BEGIN_TRANSITION_MAP                    // - Current State -
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Idle_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                // STATE_Idle_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Run_Left
+            TRANSITION_MAP_ENTRY (STATE_FALL_RUN_RIGHT)          // STATE_Jump_Idle_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Jump_Idle_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Jump_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Jump_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+    END_TRANSITION_MAP(nullptr)
+}
+
+void Player::LeftKeyPressedAtJumpApex() {
+    cout << "Player::LeftKeyPressedAtJumpApex()" << endl;
+    BEGIN_TRANSITION_MAP                    // - Current State -
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Idle_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                // STATE_Idle_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Jump_Idle_Right
+            TRANSITION_MAP_ENTRY (STATE_FALL_RUN_LEFT)           // STATE_Jump_Idle_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Jump_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
@@ -982,14 +1041,14 @@ void Player::STATE_Fall_Run_Right() {
     cout << "Player::STATE_Fall_Run_Right" << endl;
     Fall(hMomentum == maxMomentum ? 10.0f : 4.0f);
     LoadAnimationWithId(PlayerAnimation::FALL_RIGHT);
-    ProcessPressedKeys(false);
+    //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Fall_Run_Left() {
     cout << "Player::STATE_Fall_Run_Left" << endl;
     Fall(hMomentum == maxMomentum ? -10.0f : -4.0f);
     LoadAnimationWithId(PlayerAnimation::FALL_LEFT);
-    ProcessPressedKeys(false);
+    //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Fall_Jump_Run_Right() {
