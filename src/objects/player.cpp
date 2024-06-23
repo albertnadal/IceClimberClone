@@ -70,7 +70,7 @@ bool Player::Update(const uint8_t pressedKeys_) {
 
 // Search for solid collisions with objects
 void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& playerIsSuspendedInTheAir) {
-    // Check for collisions with other objects in the scene
+    // Check for collisions with other objects present in the scene.
     std::vector<aabb::AABBIntersection<ISceneObject*>> objectIntersections = spacePartitionObjectsTree->query(GetSolidLowerBound(), GetSolidUpperBound());
     playerIsSuspendedInTheAir = true;
 
@@ -178,43 +178,9 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
             }
         }
     }
-
-        /*
-        // Iterate all potential collision candidates and check for real collisions
-        for (uint16_t i = 0; i < intersectionsCount; i++) {
-            ISceneObject *collisionCandidateObject = potentialCollisionCandidatesObjects[i];
-            if (collisionCandidateObject != this) {
-
-                // Check precise collision of every solid area of the collision candidate object with every solid area of the main character
-                std::vector<Area> &collisionCandidateObjectSolidAreas = collisionCandidateObject->GetSolidAreas();
-                for (auto & collisionCandidateObjectSolidArea : collisionCandidateObjectSolidAreas) {
-                    collision::Rectangle candidateSolidAreaRectangle = collisionCandidateObjectSolidArea.rectangle;
-
-                    // Check collision with all main character solid areas
-                    std::vector<Area> &mainCharacterSolidAreas = GetSolidAreas();
-
-                    collision::Penetration penetration;
-                    for (auto & mainCharacterSolidArea : mainCharacterSolidAreas) {
-                        collision::Rectangle mainCharacterSolidAreaRectangle = mainCharacterSolidArea.rectangle;
-                        bool collision = collisionDetector.checkCollision(mainCharacterSolidAreaRectangle,
-                                                                          candidateSolidAreaRectangle, penetration,
-                                                                          PlayerIsQuiet() ? prevVectorDirection
-                                                                                          : vectorDirection);
-
-                        if (collision) {
-                            //mainCharacterSolidAreaRectangle.Print();
-                            //candidateSolidAreaRectangle.Print();
-                            collidingSolidObjects.push_back({collisionCandidateObject, penetration.depth.x, penetration.depth.y,&vectorDirection});
-                        }
-                    }
-                }
-            }
-        }*/
 }
 
 void Player::UpdateCollisions() {
-    //std::cout << "TRAJECTORY TANGENT: " << position.getTrajectoryTangent() << "\n";
-
     std::vector<ObjectCollision> collisions;
     bool playerIsSuspendedInTheAir = false;
 
@@ -443,9 +409,6 @@ void Player::ProcessReleasedKeys() {
         LeftKeyReleased();
     }
 
-    // character goes quiet headed in the proper direction
-//  LoadAnimationWithId(headedToRight ? PlayerAnimation::STAND_BY_RIGHT : PlayerAnimation::STAND_BY_LEFT);
-
     prevPressedKeys = KeyboardKeyCode::IC_KEY_NONE;
 }
 
@@ -526,7 +489,7 @@ bool Player::ShouldBeginAnimationLoopAgain() {
 void Player::UpdateJump() {
     tJump += 0.2f;
 
-    // Parabolic jump formula
+    // Equation of vertical and horizontal displacement of a parabolic jump.
     float vOffset = -(vInitialJumpSpeed * tJump - (0.5f) * gravity * tJump * tJump);
 
     // Update vertical jump position
@@ -579,17 +542,10 @@ void Player::FallDueToSuspendedInTheAir() {
 void Player::UpdateFall() {
     tFall += 0.2f;
     PositionSetX(hInitialFallPosition + (hInitialFallSpeed * tFall));
+
+    // Equation of vertical displacement in free fall.
     float vOffset = (0.5f) * gravity * tFall * tFall;
-    /*if(vOffset <= 0.0f) {
-      // Jump landing
-      position.setY(vInitialJumpPosition);
-      isJumping = false;
-      isLeaningOnTheGround = true;
-      hMomentum = 0;
-      JumpLanding();
-    } else {*/
     PositionSetY(vInitialFallPosition + vOffset);
-    /*}*/
     UpdatePreviousDirection();
     vectorDirection.x = (hInitialFallSpeed > 0.0f) ? 1 : (hInitialFallSpeed < 0.0f) ? -1 : 0;
     vectorDirection.y = -1;

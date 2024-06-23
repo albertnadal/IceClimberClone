@@ -13,8 +13,8 @@
 using namespace std;
 
 enum PlayerDirection: uint8_t { RIGHT = 0, LEFT = 1 };
+// TODO: Move ObjectCollision definition to scene_object.h file
 struct ObjectCollision { ISceneObject* object; int horizontalCorrection; int verticalCorrection; };
-
 
 class Player: public ISceneObject
 {
@@ -104,7 +104,6 @@ public:
   void LeftKeyPressedAtJumpApex();
   void SuspendedInTheAir();
   bool ShouldBeginAnimationLoopAgain();
-  //void ReachedSpeedForRunning();
 
 private:
   // state machine state functions
