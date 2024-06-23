@@ -13,7 +13,6 @@
 using namespace std;
 
 enum PlayerDirection: uint8_t { RIGHT = 0, LEFT = 1 };
-struct ObjectCollisionData { ISceneObject* object; int16_t penetration_x; int16_t penetration_y; collision::vec2<int16_t> *vectorDirection; }; // DEPRECATED
 struct ObjectCollision { ISceneObject* object; int horizontalCorrection; int verticalCorrection; };
 
 
@@ -35,7 +34,6 @@ class Player: public ISceneObject
   bool PlayerIsQuiet();
   void UpdatePreviousDirection();
   void GetSolidCollisions(std::vector<ObjectCollision>&, bool&);
-  void MoveToPositionOfNoCollision(std::vector<ObjectCollisionData>&);
 
   // Jump trajectory data
   float hInitialJumpSpeed = 0.0f;

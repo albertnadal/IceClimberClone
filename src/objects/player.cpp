@@ -212,27 +212,6 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
         }*/
 }
 
-void Player::MoveToPositionOfNoCollision(std::vector<ObjectCollisionData> &collidingSolidObjectsData) {
-    /*
-    if (currentSprite.areas == nullptr) return;
-
-    std::vector<collision::Rectangle> targetRectangles;
-    for(auto & solidObjectData : collidingSolidObjectsData) {
-        for (auto & solidArea : solidObjectData.object->GetSolidAreas()) {
-            targetRectangles.push_back(solidArea.rectangle);
-        }
-    }
-
-    std::vector<collision::Rectangle> movingRectangles;
-    for (auto & solidArea : GetSolidAreas()) {
-        movingRectangles.push_back(solidArea.rectangle);
-    }
-
-    collisionDetector.updateWithNonCollidingPosition(targetRectangles, movingRectangles, position,
-                                                     PlayerIsQuiet() ? prevVectorDirection : vectorDirection);
-    */
-}
-
 void Player::UpdateCollisions() {
     //std::cout << "TRAJECTORY TANGENT: " << position.getTrajectoryTangent() << "\n";
 
@@ -366,83 +345,6 @@ void Player::UpdateCollisions() {
         PositionAddY(int16_t(minVerticalCorrection));
         FinishFall();
     }
-/*
-            // Colliding during jump causes finish jump and fall
-            if (isJumping) {
-                // Check if collision has been detected on top of the main character during jumping
-                if (maxVerticalPenetrationDepth > 0) {
-                    // Causes main character fall down
-                    TopCollisionDuringJump();
-                } else {
-                    // Causes main character lay on the ground
-                    FinishJump();
-                }
-            } else if (isFalling) {
-                // If collision is produced during fall then finish the fall;
-                FinishFall();
-            }
-*/
-
-
-    /*
-    // Process colliding objects according to the current scenario
-    uint16_t collidingSolidObjectsCount = collidingSolidObjects.size();
-    if (collidingSolidObjectsCount) {
-
-        if ((vectorDirection.x == 0) || (vectorDirection.y == 0)) {
-            std::cout << " >>>>>> VERTICAL or HORIZONTAL COLLISION (vectorDirection.x:" << vectorDirection.x << ") (vectorDirection.y:" << vectorDirection.y << ")" << "\n";
-            // Collision when object displacement is vertical or horizontal. Non diagonal displacement.
-            int16_t maxHorizontalPenetrationDepth = 0;
-            int16_t maxVerticalPenetrationDepth = 0;
-
-            for (uint16_t i = 0; i < collidingSolidObjectsCount; i++) {
-                ObjectCollisionData objectCollisionData = collidingSolidObjects.at(i);
-                if (std::abs(objectCollisionData.penetration_y) > std::abs(maxVerticalPenetrationDepth)) {
-                    maxVerticalPenetrationDepth = objectCollisionData.penetration_y;
-                }
-
-                if (std::abs(objectCollisionData.penetration_x) > std::abs(maxHorizontalPenetrationDepth)) {
-                    maxHorizontalPenetrationDepth = objectCollisionData.penetration_x;
-                }
-            }
-
-            // Update the array of pillar objects (objects who are currently sustaining the main character from the bottom side)
-            pillarObjects.clear();
-            for (uint16_t i = 0; i < collidingSolidObjectsCount; i++) {
-                ObjectCollisionData objectCollisionData = collidingSolidObjects.at(i);
-                if (objectCollisionData.penetration_y == maxVerticalPenetrationDepth) {
-                    pillarObjects.push_back(objectCollisionData.object);
-                }
-            }
-
-            PositionAddX(int16_t(-maxHorizontalPenetrationDepth));
-            PositionAddY(int16_t(-maxVerticalPenetrationDepth));
-
-            // Colliding during jump causes finish jump and fall
-            if (isJumping) {
-                // Check if collision has been detected on top of the main character during jumping
-                if (maxVerticalPenetrationDepth > 0) {
-                    // Causes main character fall down
-                    TopCollisionDuringJump();
-                } else {
-                    // Causes main character lay on the ground
-                    FinishJump();
-                }
-            } else if (isFalling) {
-                // If collision is produced during fall then finish the fall;
-                FinishFall();
-            }
-
-        } else {
-            std::cout << " >>>>>> DIAGONAL COLLISION\n";
-            // 
-            this->MoveToPositionOfNoCollision(collidingSolidObjects);
-
-            if (isJumping) { FinishJump(); }
-        }
-
-        //ProcessPressedKeys(false);
-    }*/
 }
 
 void Player::UpdatePreviousDirection() {
