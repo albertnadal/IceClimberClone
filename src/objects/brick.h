@@ -18,14 +18,30 @@ class Brick: public ISceneObject
   bool firstSpriteOfCurrentAnimationIsLoaded = false;
   bool animationHasOnlyOneSprite = false;
   bool animationLoaded = false;
+  bool propelToRight = true;
+  bool isPropelled = false;
   void ProcessPressedKeys(bool = true);
   void ProcessReleasedKeys();
   SpriteData NextSpriteData();
   void LoadNextSprite();
+  void Propel(float vSpeed, float hSpeed);
+  void UpdatePropel();
+  void FinishPropel();
+
+  // Propel trajectory data
+  float hInitialPropelSpeed = 0.0f;
+  float vInitialPropelSpeed = 0.0f;
+  float tPropel = 0.0f;
+  float hInitialPropelPosition = 0.0f;
+  float vInitialPropelPosition = 0.0f;
+  float previous_vOffset = 0.0f;
+
+  // Player global physics values
+  const float gravity = 9.81f;
 protected:
   void LoadAnimationWithId(uint16_t);
 public:
-  Brick(SceneObjectIdentificator, SceneObjectType, unsigned char);
+  Brick(SceneObjectIdentificator, SceneObjectType, unsigned char, bool);
   Brick();
   ~Brick();
   virtual void InitWithSpriteSheet(ObjectSpriteSheet*);
@@ -33,15 +49,17 @@ public:
   uint16_t Height();
   virtual void PrintName();
   bool Update(uint8_t);
+  void Hit(bool) override;
   static ISceneObject* Create();
 
-  void ReceiveHammerImpact();
+  // state machine triggers
+  void Break();
   bool BeginAnimationLoopAgain();
 
 private:
   // state machine state functions
-  void STATE_Sticky();
-  void STATE_Falling();
+  virtual void STATE_Sticky();
+  virtual void STATE_Falling();
 
   // state map to define state function order
   BEGIN_STATE_MAP
@@ -68,6 +86,10 @@ public:
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+  void STATE_Falling() override;
 };
 
 /* BrickBlueHalf */
@@ -80,6 +102,10 @@ public:
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+  void STATE_Falling() override;
 };
 
 /* BrickBrown */
@@ -92,6 +118,10 @@ public:
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+  void STATE_Falling() override;
 };
 
 /* BrickBrownHalf */
@@ -104,6 +134,10 @@ public:
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+  void STATE_Falling() override;
 };
 
 /* BrickGreenHalf */
@@ -116,6 +150,10 @@ public:
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+  void STATE_Falling() override;
 };
 
 #endif

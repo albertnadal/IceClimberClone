@@ -3,7 +3,7 @@
 
 Player::Player() :
         ISceneObject(SceneObjectIdentificator::MAIN_CHARACTER, SceneObjectType::PLAYER,
-                     PlayerStateIdentificator::MAIN_CHARACTER_MAX_STATES) {
+                     PlayerStateIdentificator::MAIN_CHARACTER_MAX_STATES, false) {
     //Initially the object is quiet
     vectorDirection.x = 0;
     vectorDirection.y = 0;
@@ -193,6 +193,10 @@ void Player::UpdateCollisions() {
         return;
     }
 
+    if (collisions.empty()) {
+        return;
+    }
+
     // Get the major position correction of all collisions
     int minHorizontalCorrection = 0, maxHorizontalCorrection = 0, minVerticalCorrection = 0, maxVerticalCorrection = 0;
     for (auto collision : collisions) {
@@ -334,6 +338,12 @@ void Player::UpdateCollisions() {
         PositionAddY(int16_t(maxVerticalCorrection));
         isJumping = false;
         isJumpApex = false;
+
+        ObjectCollision collision = collisions.front();
+        if (collision.object->isBreakable) {
+            collision.object->Hit(headedToRight);
+        }
+
         TopCollisionDuringJump();
     } else if (isFalling && minVerticalCorrection < 0) {
         // Player collided with the ground (during a fall)

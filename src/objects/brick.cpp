@@ -2,11 +2,11 @@
 #include <chrono>
 
 Brick::Brick() :
-        ISceneObject(SceneObjectIdentificator::BRICK, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES) {
+        ISceneObject(SceneObjectIdentificator::BRICK, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES, true) {
 }
 
-Brick::Brick(SceneObjectIdentificator scene_id, SceneObjectType scene_type, unsigned char max_states) :
-        ISceneObject(scene_id, scene_type, max_states) {
+Brick::Brick(SceneObjectIdentificator scene_id, SceneObjectType scene_type, unsigned char max_states, bool is_breakable) :
+        ISceneObject(scene_id, scene_type, max_states, is_breakable) {
 }
 
 uint16_t Brick::Width() {
@@ -21,6 +21,17 @@ void Brick::PrintName() {
         std::cout << "Brick." << std::endl;
 }
 
+void Brick::Propel(float vSpeed, float hSpeed) {
+    cout << "Brick::Propel" << endl;
+    vInitialPropelSpeed = vSpeed;
+    hInitialPropelSpeed = hSpeed;
+    vInitialPropelPosition = position.GetRealY();
+    hInitialPropelPosition = position.GetRealX();
+    cout << "Initial PROPEL X: " << hInitialPropelPosition << " Initial PROPEL Y: " << vInitialPropelPosition << endl;
+    tPropel = 0.0f;
+    isPropelled = true;
+}
+
 bool Brick::Update(uint8_t pressedKeys_) {
         bool needRedraw = false;
 
@@ -28,7 +39,11 @@ bool Brick::Update(uint8_t pressedKeys_) {
                 return false;
         }
 
-        if(animationHasOnlyOneSprite && firstSpriteOfCurrentAnimationIsLoaded) {
+        if (isPropelled) {
+                UpdatePropel();
+                needRedraw = true;
+        }
+        else if(animationHasOnlyOneSprite && firstSpriteOfCurrentAnimationIsLoaded) {
                 return false;
         }
 
@@ -39,6 +54,31 @@ bool Brick::Update(uint8_t pressedKeys_) {
         }
 
         return needRedraw;
+}
+
+void Brick::UpdatePropel() {
+    tPropel += 0.2f;
+
+    // Equation of vertical and horizontal displacement of a parabolic jump.
+    float vOffset = -(vInitialPropelSpeed * tPropel - (0.5f) * gravity * tPropel * tPropel);
+
+    // Update vertical propel position
+    PositionSetXY(hInitialPropelPosition + (hInitialPropelSpeed * tPropel), vInitialPropelPosition + vOffset);
+}
+
+void Brick::FinishPropel() {
+/*
+    isPropelled = false;
+    previous_vOffset = 0.0f;
+    FallLanding();
+*/
+}
+
+void Brick::Hit(bool _propelToRight) {
+        std::cout << " ........ BRICK HIT ........\n";
+        propelToRight = _propelToRight;
+        Break();
+        Propel(24.0f, propelToRight ? 10.0f : -10.0f);
 }
 
 void Brick::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
@@ -113,31 +153,29 @@ bool Brick::BeginAnimationLoopAgain()
         return false;
 }
 
-void Brick::ReceiveHammerImpact()
+void Brick::Break()
 {
-        cout << "Brick::ReceiveHammerImpact()" << endl;
-        BEGIN_TRANSITION_MAP                    // - Current State -
-        TRANSITION_MAP_ENTRY (STATE_FALLING) // STATE_Sticky
-        TRANSITION_MAP_ENTRY (EVENT_IGNORED)  // STATE_Falling
+        cout << "Brick::Break()" << endl;
+        BEGIN_TRANSITION_MAP                  // - Current State -
+                TRANSITION_MAP_ENTRY (STATE_FALLING)  // STATE_Sticky
+                TRANSITION_MAP_ENTRY (EVENT_IGNORED)  // STATE_Falling
         END_TRANSITION_MAP(NULL)
 }
 
 void Brick::STATE_Sticky()
 {
-        cout << "Brick::STATE_Sticky" << endl;
-        LoadAnimationWithId(BrickAnimation::BRICK_GREEN_STICKY);
+
 }
 
 void Brick::STATE_Falling()
 {
-        cout << "Brick::STATE_Falling" << endl;
-        LoadAnimationWithId(BrickAnimation::BRICK_GREEN_FALLING);
+
 }
 
 /* BrickBlue */
 
 BrickBlue::BrickBlue() :
-        Brick(SceneObjectIdentificator::BRICK_BLUE, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES) {
+        Brick(SceneObjectIdentificator::BRICK_BLUE, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES, true) {
 }
 
 void BrickBlue::PrintName() {
@@ -153,6 +191,18 @@ ISceneObject* BrickBlue::Create() {
         return new BrickBlue();
 }
 
+void BrickBlue::STATE_Sticky()
+{
+        cout << "BrickBlue::STATE_Sticky" << endl;
+        LoadAnimationWithId(BrickBlueAnimation::BRICK_BLUE_STICKY);
+}
+
+void BrickBlue::STATE_Falling()
+{
+        cout << "BrickBlue::STATE_Falling\n" << endl;
+        LoadAnimationWithId(BrickBlueAnimation::BRICK_BLUE_FALLING);
+}
+
 BrickBlue::~BrickBlue() {
 
 }
@@ -160,7 +210,7 @@ BrickBlue::~BrickBlue() {
 /* BrickBlueHalf */
 
 BrickBlueHalf::BrickBlueHalf() :
-        Brick(SceneObjectIdentificator::BRICK_BLUE_HALF, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES) {
+        Brick(SceneObjectIdentificator::BRICK_BLUE_HALF, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES, true) {
 }
 
 void BrickBlueHalf::PrintName() {
@@ -176,6 +226,18 @@ ISceneObject* BrickBlueHalf::Create() {
         return new BrickBlueHalf();
 }
 
+void BrickBlueHalf::STATE_Sticky()
+{
+        cout << "BrickBlueHalf::STATE_Sticky" << endl;
+        LoadAnimationWithId(BrickBlueHalfAnimation::BRICK_BLUE_HALF_STICKY);
+}
+
+void BrickBlueHalf::STATE_Falling()
+{
+        cout << "BrickBlueHalf::STATE_Falling\n" << endl;
+        LoadAnimationWithId(BrickBlueHalfAnimation::BRICK_BLUE_HALF_FALLING);
+}
+
 BrickBlueHalf::~BrickBlueHalf() {
 
 }
@@ -183,7 +245,7 @@ BrickBlueHalf::~BrickBlueHalf() {
 /* BrickBrown */
 
 BrickBrown::BrickBrown() :
-        Brick(SceneObjectIdentificator::BRICK_BROWN, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES) {
+        Brick(SceneObjectIdentificator::BRICK_BROWN, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES, true) {
 }
 
 void BrickBrown::PrintName() {
@@ -199,6 +261,18 @@ ISceneObject* BrickBrown::Create() {
         return new BrickBrown();
 }
 
+void BrickBrown::STATE_Sticky()
+{
+        cout << "BrickBrown::STATE_Sticky" << endl;
+        LoadAnimationWithId(BrickBrownAnimation::BRICK_BROWN_STICKY);
+}
+
+void BrickBrown::STATE_Falling()
+{
+        cout << "BrickBrown::STATE_Falling\n" << endl;
+        LoadAnimationWithId(BrickBrownAnimation::BRICK_BROWN_FALLING);
+}
+
 BrickBrown::~BrickBrown() {
 
 }
@@ -206,7 +280,7 @@ BrickBrown::~BrickBrown() {
 /* BrickBrownHalf */
 
 BrickBrownHalf::BrickBrownHalf() :
-        Brick(SceneObjectIdentificator::BRICK_BROWN_HALF, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES) {
+        Brick(SceneObjectIdentificator::BRICK_BROWN_HALF, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES, true) {
 }
 
 void BrickBrownHalf::PrintName() {
@@ -222,6 +296,18 @@ ISceneObject* BrickBrownHalf::Create() {
         return new BrickBrownHalf();
 }
 
+void BrickBrownHalf::STATE_Sticky()
+{
+        cout << "BrickBrownHalf::STATE_Sticky" << endl;
+        LoadAnimationWithId(BrickBrownHalfAnimation::BRICK_BROWN_HALF_STICKY);
+}
+
+void BrickBrownHalf::STATE_Falling()
+{
+        cout << "BrickBrownHalf::STATE_Falling\n" << endl;
+        LoadAnimationWithId(BrickBrownHalfAnimation::BRICK_BROWN_HALF_FALLING);
+}
+
 BrickBrownHalf::~BrickBrownHalf() {
 
 }
@@ -229,7 +315,7 @@ BrickBrownHalf::~BrickBrownHalf() {
 /* BrickGreenHalf */
 
 BrickGreenHalf::BrickGreenHalf() :
-        Brick(SceneObjectIdentificator::BRICK_GREEN_HALF, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES) {
+        Brick(SceneObjectIdentificator::BRICK_GREEN_HALF, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES, true) {
 }
 
 void BrickGreenHalf::PrintName() {
@@ -243,6 +329,18 @@ void BrickGreenHalf::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
 
 ISceneObject* BrickGreenHalf::Create() {
         return new BrickGreenHalf();
+}
+
+void BrickGreenHalf::STATE_Sticky()
+{
+        cout << "BrickGreenHalf::STATE_Sticky" << endl;
+        LoadAnimationWithId(BrickGreenHalfAnimation::BRICK_GREEN_HALF_STICKY);
+}
+
+void BrickGreenHalf::STATE_Falling()
+{
+        cout << "BrickGreenHalf::STATE_Falling\n" << endl;
+        LoadAnimationWithId(BrickGreenHalfAnimation::BRICK_GREEN_HALF_FALLING);
 }
 
 BrickGreenHalf::~BrickGreenHalf() {

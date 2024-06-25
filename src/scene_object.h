@@ -31,12 +31,13 @@ protected:
   bool recalculateAreasDataIsNeeded = true;
 public:
   ISceneObject();
-  ISceneObject(SceneObjectIdentificator, SceneObjectType, unsigned char);
+  ISceneObject(SceneObjectIdentificator, SceneObjectType, unsigned char, bool);
   Sprite currentSprite;
   Position position;
   Boundaries boundingBox;
   Boundaries solidBoundingBox;
   uint32_t uniqueId;
+  bool isBreakable = false;
   void SetSpacePartitionObjectsTree(aabb::Tree<ISceneObject*>*);
   //std::vector<Area>& GetSolidAreas(); DEPRECATED Now this is GetAbsoluteSolidBoundaries
   //std::vector<Area>& GetSimpleAreas(); DEPRECATED Now this is GetAbsoluteSimpleBoundaries
@@ -63,6 +64,7 @@ public:
   virtual bool Update();
   virtual bool Update(const uint8_t);
   virtual bool Update(const uint8_t, aabb::Tree<ISceneObject*>&);
+  virtual void Hit(bool);
 };
 
 typedef ISceneObject* (*CreateSceneObjectFn)(void);

@@ -8,12 +8,14 @@ ISceneObject::ISceneObject() {
   uniqueId = rng.integer(0, UINT_MAX);
   boundingBox = solidBoundingBox = {0, 0, 0, 0};
   recalculateAreasDataIsNeeded = true;
+  isBreakable = false;
 }
 
-ISceneObject::ISceneObject(SceneObjectIdentificator _id, SceneObjectType _type, unsigned char _maxStates) :
+ISceneObject::ISceneObject(SceneObjectIdentificator _id, SceneObjectType _type, unsigned char _maxStates, bool _isBreakable) :
   StateMachine(_maxStates),
   id(_id),
-  type(_type) {
+  type(_type),
+  isBreakable(_isBreakable) {
   MersenneTwister rng;
   uniqueId = rng.integer(0, UINT_MAX);
   boundingBox = solidBoundingBox = {0, 0, 0, 0};
@@ -161,4 +163,7 @@ bool ISceneObject::Update(const uint8_t pressedKeys, aabb::Tree<ISceneObject*>& 
 
 void ISceneObject::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
   spriteSheet = _spriteSheet;
+}
+
+void ISceneObject::Hit(bool) {
 }

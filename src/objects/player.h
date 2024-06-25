@@ -87,6 +87,7 @@ public:
   bool Update(uint8_t) override;
   static ISceneObject* Create();
 
+  // state machine triggers
   void RightKeyPressed();
   void RightKeyReleased();
   void LeftKeyPressed();
