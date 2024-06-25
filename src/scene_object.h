@@ -12,7 +12,10 @@
 
 using namespace std;
 
+class ISceneObject;
+
 struct Boundaries { uint16_t lowerBoundX, lowerBoundY, upperBoundX, upperBoundY; };
+struct ObjectCollision { ISceneObject* object; int horizontalCorrection; int verticalCorrection; };
 
 class ISceneObject : public StateMachine
 {

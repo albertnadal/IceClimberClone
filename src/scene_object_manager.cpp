@@ -12,7 +12,6 @@ SceneObjectManager::SceneObjectManager(SceneObjectDataManager* _textureManager, 
         cameraIsMoving = false;
         currentRow = 0;
         visibleRows = 56;
-
         BuildWorld();
 }
 
@@ -57,7 +56,7 @@ void SceneObjectManager::Update(uint8_t pressedKeys) {
 }
 
 void SceneObjectManager::updateSpriteRectBuffers() {
-  uint16_t i = 0;
+  int i = 0;
   std::vector<aabb::AABBIntersection<ISceneObject*>> objectIntersections = spacePartitionObjectsTree->query(player->GetLowerBound(), player->GetUpperBound());
 
   for (auto const& x : staticObjects) {
@@ -78,8 +77,7 @@ void SceneObjectManager::updateSpriteRectBuffers() {
       tint = RED;
     }
 
-    spriteRectDoubleBuffer->producer_buffer[i] = SpriteRect(src, pos, boundaries, tint);
-    i++;
+    spriteRectDoubleBuffer->producer_buffer[i++] = SpriteRect(src, pos, boundaries, tint);
   }
 
   for (auto const& x : mobileObjects) {

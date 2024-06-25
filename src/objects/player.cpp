@@ -242,7 +242,7 @@ void Player::UpdateCollisions() {
         PositionAddX(int16_t(maxHorizontalCorrection));
         FallDueToLateralCollisionJump();
     } else if (isJumping && vectorDirection.y > 0 && vectorDirection.x != 0 && maxVerticalCorrection > 0) {
-        // Player collided on his head (during a parabolic jump)
+        // Player head collided with an object (during a parabolic jump)
         std::cout << " ))))) COLLIDING ON TOP DURING PARABOLIC JUMP <<<<<<<\n";
         PositionAddY(int16_t(maxVerticalCorrection));
         isJumping = false;
