@@ -38,8 +38,6 @@ add_executable(rocket
         src/filesystem.h
         src/float_double_buffer.cpp
         src/float_double_buffer.h
-        src/fvec2.cpp
-        src/fvec2.h
         src/object_sprite_sheet.cpp
         src/object_sprite_sheet.h
         src/object_sprite_sheet_animation.cpp
@@ -66,9 +64,6 @@ add_executable(rocket
         src/stb_image.h
         src/uint16_double_buffer.cpp
         src/uint16_double_buffer.h
-        src/utils.h
-        src/vec2.cpp
-        src/vec2.h
         third_party/AABB/AABB.h
         third_party/glad/glad.cpp
         third_party/glad/glad.h

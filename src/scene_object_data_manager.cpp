@@ -1,7 +1,6 @@
 #include "scene_object_data_manager.h"
 #include <fstream>
 #include <sstream>
-#include <utils.h>
 #include <collision/collision.h>
 
 using namespace collision;

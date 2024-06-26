@@ -5,7 +5,6 @@
 #include <vector>
 #include <scene_object.h>
 #include <state_machine.h>
-#include <vec2.h>
 #include <sprite.h>
 #include <position.h>
 
