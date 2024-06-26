@@ -105,7 +105,6 @@ void Brick::LoadNextSprite()
 {
   SpriteData spriteData = NextSpriteData();
   if(spriteData.beginNewLoop) {
-          cout << "*** BEGIN NEW LOOP ***" << endl;
           if(BeginAnimationLoopAgain()) {
             spriteData = NextSpriteData();
           }
@@ -147,14 +146,6 @@ Brick::~Brick() {
 
 bool Brick::BeginAnimationLoopAgain()
 {
-/*
-        if(currentState == BrickStateIdentificator::STATE_STICKY) {
-          ExternalEvent(BrickStateIdentificator::STATE_FALLING, NULL);
-          return true;
-        } else {
-          return false;
-        }
-*/
         return false;
 }
 
