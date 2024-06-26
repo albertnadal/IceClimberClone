@@ -528,7 +528,7 @@ void Player::UpdateJump() {
     tJump += 0.2f;
 
     // Equation of vertical and horizontal displacement of a parabolic jump.
-    float vOffset = -(vInitialJumpSpeed * tJump - (0.5f) * gravity * tJump * tJump);
+    float vOffset = -(vInitialJumpSpeed * tJump - (0.5f) * GRAVITY * tJump * tJump);
 
     // Update vertical jump position
     PositionSetXY(hInitialJumpPosition + (hInitialJumpSpeed * tJump), vInitialJumpPosition + vOffset);
@@ -582,7 +582,7 @@ void Player::UpdateFall() {
     PositionSetX(hInitialFallPosition + (hInitialFallSpeed * tFall));
 
     // Equation of vertical displacement in free fall.
-    float vOffset = (0.5f) * gravity * tFall * tFall;
+    float vOffset = (0.5f) * GRAVITY * tFall * tFall;
     PositionSetY(vInitialFallPosition + vOffset);
     UpdatePreviousDirection();
     vectorDirection.x = (hInitialFallSpeed > 0.0f) ? 1 : (hInitialFallSpeed < 0.0f) ? -1 : 0;

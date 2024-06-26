@@ -9,6 +9,7 @@
 #include "collision/collision.h"
 #include <AABB/AABB.h>
 #include <algorithm>
+#include <defines.h>
 
 using namespace std;
 
@@ -49,7 +50,6 @@ class Player: public ISceneObject
   float vInitialFallPosition = 0.0f;
 
   // Player global physics values
-  const float gravity = 9.81f;
   uint16_t hMomentum = 0;
   const uint16_t maxMomentum = 15;
   collision::CollisionDetector collisionDetector;

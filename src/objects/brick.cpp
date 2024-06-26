@@ -64,7 +64,7 @@ void Brick::UpdatePropel() {
     tPropel += 0.2f;
 
     // Equation of vertical and horizontal displacement of a parabolic jump.
-    float vOffset = -(vInitialPropelSpeed * tPropel - (0.5f) * gravity * tPropel * tPropel);
+    float vOffset = -(vInitialPropelSpeed * tPropel - (0.5f) * GRAVITY * tPropel * tPropel);
 
     // Update vertical propel position
     PositionSetXY(hInitialPropelPosition + (hInitialPropelSpeed * tPropel), vInitialPropelPosition + vOffset);

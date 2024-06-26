@@ -8,6 +8,7 @@
 #include <vec2.h>
 #include <sprite.h>
 #include <position.h>
+#include <defines.h>
 
 using namespace std;
 
@@ -35,8 +36,6 @@ class Brick: public ISceneObject
   float vInitialPropelPosition = 0.0f;
   float previous_vOffset = 0.0f;
 
-  // Player global physics values
-  const float gravity = 9.81f;
 protected:
   void LoadAnimationWithId(uint16_t);
 public:

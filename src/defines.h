@@ -31,3 +31,6 @@ enum SideWallBlueLeftAnimation: uint16_t { SIDE_WALL_BLUE_LEFT_STICKY = 30 };
 enum SideWallBlueRightAnimation: uint16_t { SIDE_WALL_BLUE_RIGHT_STICKY = 31 };
 enum SideWallBlueColumnsLeftAnimation: uint16_t { SIDE_WALL_BLUE_COLUMNS_LEFT_STICKY = 32 };
 enum SideWallBlueColumnsRightAnimation: uint16_t { SIDE_WALL_BLUE_COLUMNS_RIGHT_STICKY = 33 };
+
+// Others
+const float GRAVITY = 9.81;
