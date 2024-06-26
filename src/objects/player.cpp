@@ -242,6 +242,10 @@ void Player::UpdateCollisions() {
         PositionAddY(int16_t(maxVerticalCorrection));
         isJumping = false;
         isJumpApex = false;
+
+        ObjectCollision collision = collisions.front();
+        collision.object->Hit(headedToRight);
+
         TopCollisionDuringJump();
     } else if (isJumping && vectorDirection.x != 0 && collisions.size() >= 1 && maxHorizontalCorrection >= 0 && minHorizontalCorrection == 0 && minVerticalCorrection < 0) {
         // Check for single brick collision when player is falling to the left during a jump
@@ -331,9 +335,7 @@ void Player::UpdateCollisions() {
         isJumpApex = false;
 
         ObjectCollision collision = collisions.front();
-        if (collision.object->isBreakable) {
-            collision.object->Hit(headedToRight);
-        }
+        collision.object->Hit(headedToRight);
 
         TopCollisionDuringJump();
     } else if (isFalling && minVerticalCorrection < 0) {

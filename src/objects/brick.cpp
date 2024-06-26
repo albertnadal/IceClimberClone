@@ -78,6 +78,10 @@ void Brick::FinishPropel() {
 }
 
 void Brick::Hit(bool propelToRight) {
+        if (!isBreakable) {
+                return;
+        }
+
         RemoveFromSpacePartitionObjectsTree();
         Break();
         Propel(24.0f, propelToRight ? 10.0f : -10.0f);
