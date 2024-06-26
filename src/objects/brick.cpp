@@ -74,9 +74,9 @@ void Brick::FinishPropel() {
 */
 }
 
-void Brick::Hit(bool _propelToRight) {
+void Brick::Hit(bool propelToRight) {
         std::cout << " ........ BRICK HIT ........\n";
-        propelToRight = _propelToRight;
+        RemoveFromSpacePartitionObjectsTree();
         Break();
         Propel(24.0f, propelToRight ? 10.0f : -10.0f);
 }

@@ -29,6 +29,7 @@ protected:
   SceneObjectType type;
   chrono::system_clock::time_point nextSpriteTime;
   bool recalculateAreasDataIsNeeded = true;
+  void RemoveFromSpacePartitionObjectsTree();
 public:
   ISceneObject();
   ISceneObject(SceneObjectIdentificator, SceneObjectType, unsigned char, bool);

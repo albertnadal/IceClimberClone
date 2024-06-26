@@ -89,6 +89,10 @@ void ISceneObject::RecoverPreviousPosition() {
   recalculateAreasDataIsNeeded = true;
 }
 
+void ISceneObject::RemoveFromSpacePartitionObjectsTree() {
+  spacePartitionObjectsTree->removeParticle(this);
+}
+
 std::vector<uint16_t> ISceneObject::GetLowerBound() {
   std::vector<uint16_t> lowerBound{static_cast<uint16_t>(position.GetIntX() + boundingBox.lowerBoundX), static_cast<uint16_t>(position.GetIntY() + boundingBox.lowerBoundY)};
   return lowerBound;

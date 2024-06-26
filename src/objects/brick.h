@@ -18,7 +18,6 @@ class Brick: public ISceneObject
   bool firstSpriteOfCurrentAnimationIsLoaded = false;
   bool animationHasOnlyOneSprite = false;
   bool animationLoaded = false;
-  bool propelToRight = true;
   bool isPropelled = false;
   void ProcessPressedKeys(bool = true);
   void ProcessReleasedKeys();
