@@ -34,3 +34,4 @@ enum SideWallBlueColumnsRightAnimation: uint16_t { SIDE_WALL_BLUE_COLUMNS_RIGHT_
 
 // Others
 const float GRAVITY = 9.81;
+const int MIN_PIXELS_ON_PLATFORM = 4; // Min number of pixels on the edge of a platform to do not fall

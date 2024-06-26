@@ -254,7 +254,7 @@ void Player::UpdateCollisions() {
         TopCollisionDuringJump();
     } else if (isJumping && vectorDirection.x != 0 && collisions.size() >= 1 && maxHorizontalCorrection >= 0 && minHorizontalCorrection == 0 && minVerticalCorrection < 0) {
         // Check for single brick collision when player is falling to the left during a jump
-        if ((std::abs(maxHorizontalCorrection) > 8) && (collisions.size() == 1)) {
+        if ((std::abs(maxHorizontalCorrection) > MIN_PIXELS_ON_PLATFORM) && (collisions.size() == 1)) {
             // Player collided vertically when jumping to left direction
             std::cout << " ))))) SINGLE COLLISION ON THE TOP SIDE DURING JUMP FALLING <<<<<<<\n";
             PositionAddY(int16_t(minVerticalCorrection));
@@ -267,7 +267,7 @@ void Player::UpdateCollisions() {
         }
     } else if (isJumping && vectorDirection.x != 0 && collisions.size() >= 1 && minHorizontalCorrection <= 0 && maxHorizontalCorrection == 0 && minVerticalCorrection < 0) {
         // Check for single brick collision when player is falling to the right during a jump
-        if ((std::abs(minHorizontalCorrection) > 8) && (collisions.size() == 1)) {
+        if ((std::abs(minHorizontalCorrection) > MIN_PIXELS_ON_PLATFORM) && (collisions.size() == 1)) {
             // Player collided vertically when jumping to right direction
             std::cout << " ))))) SINGLE COLLISION ON THE TOP RIGHT SIDE DURING JUMP FALLING <<<<<<<\n";
             PositionAddY(int16_t(minVerticalCorrection));
@@ -280,7 +280,7 @@ void Player::UpdateCollisions() {
         }
     } else if (isFalling && vectorDirection.x < 0 && collisions.size() >= 1 && maxHorizontalCorrection >= 0 && minHorizontalCorrection == 0 && minVerticalCorrection < 0) {
         // Check for single brick collision when player is falling to the left from the apex
-        if ((std::abs(maxHorizontalCorrection) > 8) && (collisions.size() == 1)) {
+        if ((std::abs(maxHorizontalCorrection) > MIN_PIXELS_ON_PLATFORM) && (collisions.size() == 1)) {
             // Player collided vertically when jumping to left direction
             std::cout << " ))))) SINGLE COLLISION ON THE TOP SIDE DURING FALL TO THE LEFT <<<<<<<\n";
             PositionAddY(int16_t(minVerticalCorrection));
@@ -293,7 +293,7 @@ void Player::UpdateCollisions() {
         }
     } else if (isFalling && vectorDirection.x > 0 && collisions.size() >= 1 && minHorizontalCorrection <= 0 && maxHorizontalCorrection == 0 && minVerticalCorrection < 0) {
         // Check for single brick collision when player is falling to the right from the apex
-        if ((std::abs(minHorizontalCorrection) > 8) && (collisions.size() == 1)) {
+        if ((std::abs(minHorizontalCorrection) > MIN_PIXELS_ON_PLATFORM) && (collisions.size() == 1)) {
             // Player collided vertically when jumping to right direction
             std::cout << " ))))) SINGLE COLLISION ON THE TOP RIGHT SIDE DURING FALL TO THE RIGHT <<<<<<<\n";
             PositionAddY(int16_t(minVerticalCorrection));
@@ -306,7 +306,7 @@ void Player::UpdateCollisions() {
         }
     } else if (isJumping && vectorDirection.x == 0 && collisions.size() == 1 && maxHorizontalCorrection > 0 && minHorizontalCorrection == 0 && minVerticalCorrection < 0) {
         // Check for single brick collision on the left side when player is falling during a 90 degree jump
-        if (std::abs(maxHorizontalCorrection) > 8) {
+        if (std::abs(maxHorizontalCorrection) > MIN_PIXELS_ON_PLATFORM) {
             std::cout << " ))))) SINGLE COLLISION ON THE TOP SIDE DURING 90 DEGREE JUMP FALLING <<<<<<<\n";
             PositionAddY(int16_t(minVerticalCorrection));
             FinishJump();
@@ -317,7 +317,7 @@ void Player::UpdateCollisions() {
         }
     } else if (isJumping && vectorDirection.x == 0 && collisions.size() == 1 && minHorizontalCorrection < 0 && maxHorizontalCorrection == 0 && minVerticalCorrection < 0) {
         // Check for single brick collision on the right side when player is falling during a 90 degree jump
-        if (std::abs(minHorizontalCorrection) > 8) {
+        if (std::abs(minHorizontalCorrection) > MIN_PIXELS_ON_PLATFORM) {
             // Player collided vertically when jumping looking to right direction
             std::cout << " ))))) SINGLE COLLISION ON THE TOP SIDE DURING 90 DEGREE JUMP FALLING <<<<<<<\n";
             PositionAddY(int16_t(minVerticalCorrection));
@@ -994,13 +994,13 @@ void Player::STATE_Run_Left() {
 }
 
 void Player::STATE_Jump_Idle_Right() {
-    Jump(45.0f, 0.0f);
+    Jump(47.0f, 0.0f);
     LoadAnimationWithId(PlayerAnimation::JUMP_RIGHT);
     ProcessPressedKeys(false);
 }
 
 void Player::STATE_Jump_Idle_Left() {
-    Jump(45.0f, 0.0f);
+    Jump(47.0f, 0.0f);
     LoadAnimationWithId(PlayerAnimation::JUMP_LEFT);
     ProcessPressedKeys(false);
 }
@@ -1033,16 +1033,14 @@ void Player::STATE_Fall_Idle_Left() {
 
 void Player::STATE_Fall_Run_Right() {
     cout << "Player::STATE_Fall_Run_Right" << endl;
-    Fall(hMomentum == maxMomentum ? 10.0f : 4.0f);
+    Fall(8.0f);
     LoadAnimationWithId(PlayerAnimation::FALL_RIGHT);
-    //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Fall_Run_Left() {
     cout << "Player::STATE_Fall_Run_Left" << endl;
-    Fall(hMomentum == maxMomentum ? -10.0f : -4.0f);
+    Fall(-8.0f);
     LoadAnimationWithId(PlayerAnimation::FALL_LEFT);
-    //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Fall_Jump_Run_Right() {
