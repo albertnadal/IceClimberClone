@@ -59,7 +59,6 @@ void SideWall::LoadNextSprite()
 {
   SpriteData spriteData = NextSpriteData();
   if(spriteData.beginNewLoop) {
-          cout << "*** BEGIN NEW LOOP ***" << endl;
           if(BeginAnimationLoopAgain()) {
             spriteData = NextSpriteData();
           }

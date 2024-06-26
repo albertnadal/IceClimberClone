@@ -22,12 +22,10 @@ void Brick::PrintName() {
 }
 
 void Brick::Propel(float vSpeed, float hSpeed) {
-    cout << "Brick::Propel" << endl;
     vInitialPropelSpeed = vSpeed;
     hInitialPropelSpeed = hSpeed;
     vInitialPropelPosition = position.GetRealY();
     hInitialPropelPosition = position.GetRealX();
-    cout << "Initial PROPEL X: " << hInitialPropelPosition << " Initial PROPEL Y: " << vInitialPropelPosition << endl;
     tPropel = 0.0f;
     isPropelled = true;
 }
@@ -80,7 +78,6 @@ void Brick::FinishPropel() {
 }
 
 void Brick::Hit(bool propelToRight) {
-        std::cout << " ........ BRICK HIT ........\n";
         RemoveFromSpacePartitionObjectsTree();
         Break();
         Propel(24.0f, propelToRight ? 10.0f : -10.0f);
@@ -151,7 +148,6 @@ bool Brick::BeginAnimationLoopAgain()
 
 void Brick::Break()
 {
-        cout << "Brick::Break()" << endl;
         BEGIN_TRANSITION_MAP                  // - Current State -
                 TRANSITION_MAP_ENTRY (STATE_FALLING)  // STATE_Sticky
                 TRANSITION_MAP_ENTRY (EVENT_IGNORED)  // STATE_Falling
@@ -189,13 +185,11 @@ ISceneObject* BrickBlue::Create() {
 
 void BrickBlue::STATE_Sticky()
 {
-        cout << "BrickBlue::STATE_Sticky" << endl;
         LoadAnimationWithId(BrickBlueAnimation::BRICK_BLUE_STICKY);
 }
 
 void BrickBlue::STATE_Falling()
 {
-        cout << "BrickBlue::STATE_Falling\n" << endl;
         LoadAnimationWithId(BrickBlueAnimation::BRICK_BLUE_FALLING);
 }
 
@@ -224,13 +218,11 @@ ISceneObject* BrickBlueHalf::Create() {
 
 void BrickBlueHalf::STATE_Sticky()
 {
-        cout << "BrickBlueHalf::STATE_Sticky" << endl;
         LoadAnimationWithId(BrickBlueHalfAnimation::BRICK_BLUE_HALF_STICKY);
 }
 
 void BrickBlueHalf::STATE_Falling()
 {
-        cout << "BrickBlueHalf::STATE_Falling\n" << endl;
         LoadAnimationWithId(BrickBlueHalfAnimation::BRICK_BLUE_HALF_FALLING);
 }
 
@@ -259,13 +251,11 @@ ISceneObject* BrickBrown::Create() {
 
 void BrickBrown::STATE_Sticky()
 {
-        cout << "BrickBrown::STATE_Sticky" << endl;
         LoadAnimationWithId(BrickBrownAnimation::BRICK_BROWN_STICKY);
 }
 
 void BrickBrown::STATE_Falling()
 {
-        cout << "BrickBrown::STATE_Falling\n" << endl;
         LoadAnimationWithId(BrickBrownAnimation::BRICK_BROWN_FALLING);
 }
 
@@ -294,13 +284,11 @@ ISceneObject* BrickBrownHalf::Create() {
 
 void BrickBrownHalf::STATE_Sticky()
 {
-        cout << "BrickBrownHalf::STATE_Sticky" << endl;
         LoadAnimationWithId(BrickBrownHalfAnimation::BRICK_BROWN_HALF_STICKY);
 }
 
 void BrickBrownHalf::STATE_Falling()
 {
-        cout << "BrickBrownHalf::STATE_Falling\n" << endl;
         LoadAnimationWithId(BrickBrownHalfAnimation::BRICK_BROWN_HALF_FALLING);
 }
 
@@ -329,13 +317,11 @@ ISceneObject* BrickGreenHalf::Create() {
 
 void BrickGreenHalf::STATE_Sticky()
 {
-        cout << "BrickGreenHalf::STATE_Sticky" << endl;
         LoadAnimationWithId(BrickGreenHalfAnimation::BRICK_GREEN_HALF_STICKY);
 }
 
 void BrickGreenHalf::STATE_Falling()
 {
-        cout << "BrickGreenHalf::STATE_Falling\n" << endl;
         LoadAnimationWithId(BrickGreenHalfAnimation::BRICK_GREEN_HALF_FALLING);
 }
 
