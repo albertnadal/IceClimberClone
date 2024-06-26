@@ -2,6 +2,7 @@
 #define SCENE_OBJECT_MANAGER_H
 
 #include <vector>
+#include <optional>
 #include "scene_object_factory.h"
 #include "scene_object_data_manager.h"
 #include "sprite_rect_double_buffer.h"
@@ -273,6 +274,7 @@ class SceneObjectManager
 
   void deleteUneededObjects();
   void updateVerticalScroll(uint8_t);
+  void updateObjects(std::map<uint32_t, ISceneObject*>&, std::optional<uint8_t>);
   void updateMobileObjects(uint8_t);
   void updateStaticObjects();
   void updateSpriteRectBuffers();

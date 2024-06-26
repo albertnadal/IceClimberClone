@@ -92,30 +92,29 @@ void SceneObjectManager::updateSpriteRectBuffers() {
   spriteRectDoubleBuffer->swapBuffers();
 }
 
-void SceneObjectManager::updateMobileObjects(uint8_t pressedKeys) {
-  for (auto const& x : mobileObjects) {
-    ISceneObject* objectPtr = x.second;
+void SceneObjectManager::updateObjects(std::map<uint32_t, ISceneObject*>& objects, std::optional<uint8_t> pressedKeys = std::nullopt) {
+    for (auto const& x : objects) {
+        ISceneObject* objectPtr = x.second;
 
-    if (objectPtr->isMarkedToDelete) {
-      objectsToDelete.push_back(objectPtr);
-      continue;
+        if (objectPtr->isMarkedToDelete) {
+            objectsToDelete.push_back(objectPtr);
+            continue;
+        }
+
+        if (pressedKeys.has_value()) {
+            objectPtr->Update(pressedKeys.value());
+        } else {
+            objectPtr->Update();
+        }
     }
+}
 
-    objectPtr->Update(pressedKeys);
-  }
+void SceneObjectManager::updateMobileObjects(uint8_t pressedKeys) {
+    updateObjects(mobileObjects, pressedKeys);
 }
 
 void SceneObjectManager::updateStaticObjects() {
-  for (auto const& x : staticObjects) {
-    ISceneObject* objectPtr = x.second;
-
-    if (objectPtr->isMarkedToDelete) {
-      objectsToDelete.push_back(objectPtr);
-      continue;
-    }
-
-    objectPtr->Update();
-  }
+    updateObjects(staticObjects);
 }
 
 void SceneObjectManager::deleteUneededObjects() {
