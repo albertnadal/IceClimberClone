@@ -2,7 +2,6 @@
 #define SCENE_OBJECT_MANAGER_H
 
 #include <vector>
-#include <queue>
 #include "scene_object_factory.h"
 #include "scene_object_data_manager.h"
 #include "sprite_rect_double_buffer.h"
@@ -10,10 +9,10 @@
 
 class SceneObjectManager
 {
-  aabb::Tree<ISceneObject*> *spacePartitionObjectsTree = nullptr; // Used in the broad phase of object collision detection
+  aabb::Tree<ISceneObject*> *spacePartitionObjectsTree = nullptr; // Used for of object collision detection
   std::map<uint32_t, ISceneObject*> mobileObjects;
   std::map<uint32_t, ISceneObject*> staticObjects;
-  std::deque<std::vector<ISceneObject*>> rowsBuffer;
+  std::vector<ISceneObject*> objectsToDelete;
   ISceneObject* player = nullptr;
   uint32_t currentRow;
   uint32_t visibleRows;
@@ -272,6 +271,7 @@ class SceneObjectManager
   };
   */
 
+  void deleteUneededObjects();
   void updateVerticalScroll(uint8_t);
   void updateMobileObjects(uint8_t);
   void updateStaticObjects();

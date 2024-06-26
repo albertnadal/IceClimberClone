@@ -33,6 +33,10 @@ void Brick::Propel(float vSpeed, float hSpeed) {
 }
 
 bool Brick::Update(uint8_t pressedKeys_) {
+        if (isMarkedToDelete) {
+                return false;
+        }
+
         bool needRedraw = false;
 
         if(!animationLoaded) {
@@ -64,14 +68,15 @@ void Brick::UpdatePropel() {
 
     // Update vertical propel position
     PositionSetXY(hInitialPropelPosition + (hInitialPropelSpeed * tPropel), vInitialPropelPosition + vOffset);
+
+    if (tPropel >= 30.0f) {
+        FinishPropel();
+    }
 }
 
 void Brick::FinishPropel() {
-/*
     isPropelled = false;
-    previous_vOffset = 0.0f;
-    FallLanding();
-*/
+    isMarkedToDelete = true;
 }
 
 void Brick::Hit(bool propelToRight) {

@@ -9,6 +9,7 @@ ISceneObject::ISceneObject() {
   boundingBox = solidBoundingBox = {0, 0, 0, 0};
   recalculateAreasDataIsNeeded = true;
   isBreakable = false;
+  isMarkedToDelete = false;
 }
 
 ISceneObject::ISceneObject(SceneObjectIdentificator _id, SceneObjectType _type, unsigned char _maxStates, bool _isBreakable) :

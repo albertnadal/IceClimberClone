@@ -18,7 +18,6 @@ SceneObjectManager::SceneObjectManager(SceneObjectDataManager* _textureManager, 
 void SceneObjectManager::BuildWorld() {
   for(uint16_t row=0; row<7*6; row++) {
     //uint16_t y = (map_viewport_height - 1) - row - currentRow;
-    std::vector<ISceneObject*> rowObjects;
     for(uint16_t col=0; col<map_viewport_width; col++) {
       if(SceneObjectIdentificator obj_id = (SceneObjectIdentificator)worldMap[row][col]) {
         if(ISceneObject *objectPtr = SceneObjectFactory::Get(textureManager, spacePartitionObjectsTree)->CreateSceneObject(obj_id)) {
@@ -30,7 +29,6 @@ void SceneObjectManager::BuildWorld() {
           // Set the initial position of the object in the screen
           objectPtr->position.setX(int16_t(col*cell_w));
           objectPtr->position.setY(int16_t(row*cell_h));
-          rowObjects.push_back(objectPtr);
 
           // Initial update to load the sprites and boundary box
           objectPtr->Update();
@@ -44,7 +42,6 @@ void SceneObjectManager::BuildWorld() {
         }
       }
     }
-    rowsBuffer.push_back(rowObjects);
   }
 }
 
@@ -53,6 +50,7 @@ void SceneObjectManager::Update(uint8_t pressedKeys) {
   updateStaticObjects();
   updateVerticalScroll(pressedKeys);
   updateSpriteRectBuffers();
+  deleteUneededObjects();
 }
 
 void SceneObjectManager::updateSpriteRectBuffers() {
@@ -97,6 +95,12 @@ void SceneObjectManager::updateSpriteRectBuffers() {
 void SceneObjectManager::updateMobileObjects(uint8_t pressedKeys) {
   for (auto const& x : mobileObjects) {
     ISceneObject* objectPtr = x.second;
+
+    if (objectPtr->isMarkedToDelete) {
+      objectsToDelete.push_back(objectPtr);
+      continue;
+    }
+
     objectPtr->Update(pressedKeys);
   }
 }
@@ -104,8 +108,29 @@ void SceneObjectManager::updateMobileObjects(uint8_t pressedKeys) {
 void SceneObjectManager::updateStaticObjects() {
   for (auto const& x : staticObjects) {
     ISceneObject* objectPtr = x.second;
+
+    if (objectPtr->isMarkedToDelete) {
+      objectsToDelete.push_back(objectPtr);
+      continue;
+    }
+
     objectPtr->Update();
   }
+}
+
+void SceneObjectManager::deleteUneededObjects() {
+  for (auto objectPtr : objectsToDelete) {
+    staticObjects.erase(objectPtr->uniqueId);
+    mobileObjects.erase(objectPtr->uniqueId);
+
+    // Objects are responsible for removing themselves from the space partition tree, so the
+    // following code is just for safety.
+    spacePartitionObjectsTree->removeParticle(objectPtr);
+
+    delete objectPtr;
+  }
+
+  objectsToDelete.clear();
 }
 
 void SceneObjectManager::updateVerticalScroll(uint8_t pressedKeys) {

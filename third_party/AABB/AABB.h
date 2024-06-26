@@ -951,7 +951,7 @@ namespace aabb
         // The particle doesn't exist.
         if (it == particleMap.end())
         {
-            throw std::invalid_argument("[ERROR]: Invalid particle index!");
+            return;
         }
 
         // Extract the node index.

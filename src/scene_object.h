@@ -39,6 +39,7 @@ public:
   Boundaries solidBoundingBox;
   uint32_t uniqueId;
   bool isBreakable = false;
+  bool isMarkedToDelete = false;
   void SetSpacePartitionObjectsTree(aabb::Tree<ISceneObject*>*);
   //std::vector<Area>& GetSolidAreas(); DEPRECATED Now this is GetAbsoluteSolidBoundaries
   //std::vector<Area>& GetSimpleAreas(); DEPRECATED Now this is GetAbsoluteSimpleBoundaries
