@@ -85,8 +85,8 @@ int main()
                                         auto tint = spriteRectDoubleBuffer->consumer_buffer[i].tint;
                                         DrawTextureRec(textureAtlas, source, position, tint);
 
-                                        auto box = spriteRectDoubleBuffer->consumer_buffer[i].boundaries;
-                                        DrawRectangleLinesEx({static_cast<float>(box.upperBoundX), static_cast<float>(box.upperBoundY), static_cast<float>(box.lowerBoundX-box.upperBoundX), static_cast<float>(box.lowerBoundY-box.upperBoundY)}, 1.0f, PINK);
+                                        //auto box = spriteRectDoubleBuffer->consumer_buffer[i].boundaries;
+                                        //DrawRectangleLinesEx({static_cast<float>(box.upperBoundX), static_cast<float>(box.upperBoundY), static_cast<float>(box.lowerBoundX-box.upperBoundX), static_cast<float>(box.lowerBoundY-box.upperBoundY)}, 1.0f, PINK);
                                 }
                                 spriteRectDoubleBuffer->unlock();
                                 DrawFPS(535, 110);

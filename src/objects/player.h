@@ -62,6 +62,7 @@ class Player: public ISceneObject
   bool isHitting = false;
   bool isLeaningOnTheGround = false;
   bool isFalling = false;
+  bool isSlipping = false;      // Player is slipping on a floor of ice
   bool isJumpApex = false;      // Player is at the the max altitude during a jump
   bool isBlockedRight = false;  // Player is stuck running to the right towards a brick
   bool isBlockedLeft = false;   // Player is stuck running to the left towards a brick
@@ -102,6 +103,7 @@ public:
   void RightKeyPressedAtJumpApex();
   void LeftKeyPressedAtJumpApex();
   void SuspendedInTheAir();
+  void StopRunningOnIce();
   bool ShouldBeginAnimationLoopAgain();
 
 private:
@@ -122,6 +124,8 @@ private:
   void STATE_Fall_Jump_Run_Left();
   void STATE_Hit_Right();
   void STATE_Hit_Left();
+  void STATE_Slip_Right();
+  void STATE_Slip_Left();
 
   // state map to define state function order
   BEGIN_STATE_MAP
@@ -141,6 +145,8 @@ private:
       STATE_MAP_ENTRY(&Player::STATE_Fall_Jump_Run_Left)
       STATE_MAP_ENTRY(&Player::STATE_Hit_Right)
       STATE_MAP_ENTRY(&Player::STATE_Hit_Left)
+      STATE_MAP_ENTRY(&Player::STATE_Slip_Right)
+      STATE_MAP_ENTRY(&Player::STATE_Slip_Left)
   END_STATE_MAP
 
   // state enumeration order must match the order of state
@@ -162,6 +168,8 @@ private:
       STATE_FALL_JUMP_RUN_LEFT,
       STATE_HIT_RIGHT,
       STATE_HIT_LEFT,
+      STATE_SLIP_RIGHT,
+      STATE_SLIP_LEFT,
       MAIN_CHARACTER_MAX_STATES
   };
 };

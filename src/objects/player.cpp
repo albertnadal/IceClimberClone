@@ -225,6 +225,7 @@ void Player::UpdateCollisions() {
     std::cout << " ---- isBlockedLeft: " << isBlockedLeft << "\n";
     std::cout << " ---- isJumping: " << isJumping << "\n";
     std::cout << " ---- isFalling: " << isFalling << "\n";
+    std::cout << " ---- isSlipping: " << isSlipping << "\n";
 
     if (isJumping && vectorDirection.y > 0 && vectorDirection.x > 0 && minHorizontalCorrection < 0 && std::abs(minHorizontalCorrection) <= 4) {
         // Player collided horizontally when during the ascension to the right side of a jump
@@ -610,6 +611,7 @@ void Player::Jump(float vSpeed, float hSpeed) {
     isJumping = true;
     isJumpApex = false;
     isFalling = false;
+    isSlipping = false;
     isLeaningOnTheGround = false;
 }
 
@@ -625,6 +627,7 @@ void Player::Fall(float hSpeed) {
     isJumping = false;
     isJumpApex = false;
     isFalling = true;
+    isSlipping = false;
     isLeaningOnTheGround = false;
 }
 
@@ -646,6 +649,8 @@ void Player::RightKeyPressed() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -667,6 +672,8 @@ void Player::RightKeyReleased() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -688,6 +695,8 @@ void Player::LeftKeyPressed() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -709,6 +718,8 @@ void Player::LeftKeyReleased() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -730,6 +741,8 @@ void Player::UpKeyPressed() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -751,6 +764,8 @@ void Player::DownKeyPressed() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -772,6 +787,8 @@ void Player::TopCollisionDuringJump() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -793,6 +810,8 @@ void Player::LateralCollisionDuringJump() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -814,6 +833,8 @@ void Player::RightKeyPressedAtJumpApex() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -835,6 +856,8 @@ void Player::LeftKeyPressedAtJumpApex() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -856,6 +879,31 @@ void Player::SuspendedInTheAir() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
+    END_TRANSITION_MAP(nullptr)
+}
+
+void Player::StopRunningOnIce() {
+    BEGIN_TRANSITION_MAP                                  // - Current State -
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Idle_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Idle_Left
+            TRANSITION_MAP_ENTRY (STATE_SLIP_RIGHT)              // STATE_Run_Right
+            TRANSITION_MAP_ENTRY (STATE_SLIP_LEFT)               // STATE_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Jump_Idle_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Jump_Idle_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -1023,5 +1071,15 @@ void Player::STATE_Hit_Right() {
 
 void Player::STATE_Hit_Left() {
     LoadAnimationWithId(PlayerAnimation::HIT_LEFT);
+    ProcessPressedKeys(false);
+}
+
+void Player::STATE_Slip_Right() {
+    LoadAnimationWithId(PlayerAnimation::SLIP_TO_RIGHT);
+    ProcessPressedKeys(false);
+}
+
+void Player::STATE_Slip_Left() {
+    LoadAnimationWithId(PlayerAnimation::SLIP_TO_LEFT);
     ProcessPressedKeys(false);
 }
