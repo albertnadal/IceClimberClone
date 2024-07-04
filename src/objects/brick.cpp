@@ -2,11 +2,11 @@
 #include <chrono>
 
 Brick::Brick() :
-        ISceneObject(SceneObjectIdentificator::BRICK, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES, true) {
+        ISceneObject(SceneObjectIdentificator::BRICK, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true) {
 }
 
-Brick::Brick(SceneObjectIdentificator scene_id, SceneObjectType scene_type, unsigned char max_states, bool is_breakable) :
-        ISceneObject(scene_id, scene_type, max_states, is_breakable) {
+Brick::Brick(SceneObjectIdentificator _id, SceneObjectType _type, SurfaceType surface_type, unsigned char max_states, bool is_breakable) :
+        ISceneObject(_id, _type, surface_type, max_states, is_breakable) {
 }
 
 uint16_t Brick::Width() {
@@ -171,7 +171,7 @@ void Brick::STATE_Falling()
 /* BrickBlue */
 
 BrickBlue::BrickBlue() :
-        Brick(SceneObjectIdentificator::BRICK_BLUE, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES, true) {
+        Brick(SceneObjectIdentificator::BRICK_BLUE, SceneObjectType::TERRAIN, SurfaceType::SLIDING, BrickStateIdentificator::BRICK_MAX_STATES, true) {
 }
 
 void BrickBlue::PrintName() {
@@ -204,7 +204,7 @@ BrickBlue::~BrickBlue() {
 /* BrickBlueHalf */
 
 BrickBlueHalf::BrickBlueHalf() :
-        Brick(SceneObjectIdentificator::BRICK_BLUE_HALF, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES, true) {
+        Brick(SceneObjectIdentificator::BRICK_BLUE_HALF, SceneObjectType::TERRAIN, SurfaceType::SLIDING, BrickStateIdentificator::BRICK_MAX_STATES, true) {
 }
 
 void BrickBlueHalf::PrintName() {
@@ -237,7 +237,7 @@ BrickBlueHalf::~BrickBlueHalf() {
 /* BrickBrown */
 
 BrickBrown::BrickBrown() :
-        Brick(SceneObjectIdentificator::BRICK_BROWN, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES, true) {
+        Brick(SceneObjectIdentificator::BRICK_BROWN, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true) {
 }
 
 void BrickBrown::PrintName() {
@@ -270,7 +270,7 @@ BrickBrown::~BrickBrown() {
 /* BrickBrownHalf */
 
 BrickBrownHalf::BrickBrownHalf() :
-        Brick(SceneObjectIdentificator::BRICK_BROWN_HALF, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES, true) {
+        Brick(SceneObjectIdentificator::BRICK_BROWN_HALF, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true) {
 }
 
 void BrickBrownHalf::PrintName() {
@@ -303,7 +303,7 @@ BrickBrownHalf::~BrickBrownHalf() {
 /* BrickGreenHalf */
 
 BrickGreenHalf::BrickGreenHalf() :
-        Brick(SceneObjectIdentificator::BRICK_GREEN_HALF, SceneObjectType::TERRAIN, BrickStateIdentificator::BRICK_MAX_STATES, true) {
+        Brick(SceneObjectIdentificator::BRICK_GREEN_HALF, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true) {
 }
 
 void BrickGreenHalf::PrintName() {

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <optional>
 #include <scene_object.h>
 #include <state_machine.h>
 #include <sprite.h>
@@ -49,13 +50,16 @@ class Player: public ISceneObject
   float hInitialFallPosition = 0.0f;
   float vInitialFallPosition = 0.0f;
 
+  // Slip data
+  float hInitialSlipPosition = 0.0f;
+
   // Player global physics values
   uint16_t hMomentum = 0;
   const uint16_t maxMomentum = 15;
   collision::CollisionDetector collisionDetector;
   collision::vec2<int16_t> vectorDirection;
   collision::vec2<int16_t> prevVectorDirection;
-  std::vector<ISceneObject*> pillarObjects;
+  std::optional<SurfaceType> underlyingObjectSurfaceType;
 
   // Player action states
   bool isJumping = false;
@@ -78,6 +82,8 @@ class Player: public ISceneObject
   void Fall(float hSpeed);
   void UpdateFall();
   void FinishFall();
+  void Slip();
+  void UpdateSlip();
 public:
   Player();
   ~Player() override;
@@ -103,7 +109,7 @@ public:
   void RightKeyPressedAtJumpApex();
   void LeftKeyPressedAtJumpApex();
   void SuspendedInTheAir();
-  void StopRunningOnIce();
+  void StopRunningOnSlidingSurface();
   bool ShouldBeginAnimationLoopAgain();
 
 private:

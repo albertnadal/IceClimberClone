@@ -11,6 +11,9 @@ enum SceneObjectIdentificator: uint16_t { NONE = 0, MAIN_CHARACTER = 1, BRICK = 
 // Object type
 enum SceneObjectType: uint16_t { TERRAIN = 0, PLAYER = 1, ENEMY = 2 };
 
+// Underlying object surface type
+enum SurfaceType: uint16_t { SIMPLE = 0, SLIDING = 1, MOBILE = 2 };
+
 // Object animation identificators
 enum PlayerAnimation: uint16_t { STAND_BY_RIGHT = 0, STAND_BY_LEFT = 1, RUN_TO_RIGHT = 2, RUN_TO_LEFT = 3, JUMP_RIGHT = 4, JUMP_LEFT = 5, FALL_RIGHT = 6, FALL_LEFT = 7, HIT_RIGHT = 8, HIT_LEFT = 9, SLIP_TO_RIGHT = 10, SLIP_TO_LEFT = 11 };
 enum BrickAnimation: uint16_t { BRICK_GREEN_STICKY = 10, BRICK_GREEN_FALLING = 11 };

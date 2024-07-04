@@ -12,10 +12,11 @@ ISceneObject::ISceneObject() {
   isMarkedToDelete = false;
 }
 
-ISceneObject::ISceneObject(SceneObjectIdentificator _id, SceneObjectType _type, unsigned char _maxStates, bool _isBreakable) :
+ISceneObject::ISceneObject(SceneObjectIdentificator _id, SceneObjectType _type, SurfaceType surface_type, unsigned char _maxStates, bool _isBreakable) :
   StateMachine(_maxStates),
   id(_id),
   type(_type),
+  surfaceType(surface_type),
   isBreakable(_isBreakable) {
   MersenneTwister rng;
   uniqueId = rng.integer(0, UINT_MAX);

@@ -2,12 +2,12 @@
 #include <chrono>
 
 Player::Player() :
-        ISceneObject(SceneObjectIdentificator::MAIN_CHARACTER, SceneObjectType::PLAYER,
-                     PlayerStateIdentificator::MAIN_CHARACTER_MAX_STATES, false) {
+        ISceneObject(SceneObjectIdentificator::MAIN_CHARACTER, SceneObjectType::PLAYER, SurfaceType::SIMPLE, PlayerStateIdentificator::MAIN_CHARACTER_MAX_STATES, false) {
     vectorDirection.x = 0;
     vectorDirection.y = 0;
     prevVectorDirection.x = 0;
     prevVectorDirection.y = 0;
+    underlyingObjectSurfaceType = SurfaceType::SIMPLE;
 }
 
 uint16_t Player::Width() {
@@ -32,6 +32,9 @@ bool Player::Update(const uint8_t pressedKeys_) {
         needRedraw = true;
     } else if (isFalling) {
         UpdateFall();
+        needRedraw = true;
+    } else if (isSlipping) {
+        UpdateSlip();
         needRedraw = true;
     } else {
 
@@ -148,6 +151,7 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
         std::cout << " >>>> verticalCorrection: " << verticalCorrection << "\n";
         collisions.push_back({intersection.particle, horizontalCorrection, verticalCorrection});
         playerIsSuspendedInTheAir = false;
+        underlyingObjectSurfaceType = intersection.particle->surfaceType;
     }
 
     std::cout << " > PLAYER COLLIDES WITH " << objectIntersections.size() << " OBJECTS. " << collisions.size() << " CORRECTIONS NEEDED.\n";
@@ -160,14 +164,18 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
             }
 
             // Check if the intersection object (particle) holds the player.
-            // TODO: Return the object (or objects) that holds the player.
             if (intersection.bottomIntersectionY == 0) {
                 std::cout << " [ IS NOT SUSPENDED IN THE AIR ]\n";
                 std::cout << " &&&&&& intersection.rightIntersectionX: " << intersection.rightIntersectionX << " intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
                 playerIsSuspendedInTheAir = false;
+                underlyingObjectSurfaceType = intersection.particle->surfaceType;
                 break;
             }
         }
+    }
+
+    if (playerIsSuspendedInTheAir) {
+        underlyingObjectSurfaceType = std::nullopt;
     }
 }
 
@@ -179,7 +187,7 @@ void Player::UpdateCollisions() {
     this->GetSolidCollisions(collisions, playerIsSuspendedInTheAir);
 
     // Check if the player is floating in the air (no ground under his feet)
-    if (playerIsSuspendedInTheAir && !isJumping && !isFalling && !isHitting && !isBlockedRight && !isBlockedLeft) {
+    if (playerIsSuspendedInTheAir && !isJumping && !isFalling && !isHitting && !isBlockedRight && !isBlockedLeft && !isSlipping) {
         FallDueToSuspendedInTheAir();
         return;
     }
@@ -377,6 +385,7 @@ void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {
         }
         MoveTo(PlayerDirection::RIGHT);
     } else if ((prevPressedKeys & KeyboardKeyCode::IC_KEY_RIGHT) == KeyboardKeyCode::IC_KEY_RIGHT) {
+        // Go back to stand-by state
         RightKeyReleased();
     }
 
@@ -397,19 +406,20 @@ void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {
         }
         MoveTo(PlayerDirection::LEFT);
     } else if ((prevPressedKeys & KeyboardKeyCode::IC_KEY_LEFT) == KeyboardKeyCode::IC_KEY_LEFT) {
+        // Go back to stand-by state
         LeftKeyReleased();
     }
 
-    if (!isJumping && !isFalling && ((headedToRight && !isBlockedRight) || (!headedToRight && !isBlockedLeft)) && ((pressedKeys & KeyboardKeyCode::IC_KEY_UP) == KeyboardKeyCode::IC_KEY_UP)) {
-        // If is not IC_KEY_LEFT repeated press then change character state
+    if (!isJumping && !isFalling && !isSlipping && ((headedToRight && !isBlockedRight) || (!headedToRight && !isBlockedLeft)) && ((pressedKeys & KeyboardKeyCode::IC_KEY_UP) == KeyboardKeyCode::IC_KEY_UP)) {
+        // If is not IC_KEY_UP repeated press then change character state
         if ((!checkPreviousPressedKeys) ||
             ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::IC_KEY_UP) != KeyboardKeyCode::IC_KEY_UP))) {
             UpKeyPressed();
         }
     }
 
-    if (!isJumping && !isHitting && ((pressedKeys & KeyboardKeyCode::IC_KEY_SPACE) == KeyboardKeyCode::IC_KEY_SPACE)) {
-        // If is not IC_KEY_LEFT repeated press then change character state
+    if (!isJumping && !isHitting && !isFalling && !isSlipping && ((pressedKeys & KeyboardKeyCode::IC_KEY_SPACE) == KeyboardKeyCode::IC_KEY_SPACE)) {
+        // If is not IC_KEY_SPACE repeated press then change character state
         if ((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) &&
                                             ((prevPressedKeys & KeyboardKeyCode::IC_KEY_SPACE) !=
                                              KeyboardKeyCode::IC_KEY_SPACE))) {
@@ -419,7 +429,7 @@ void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {
     }
 
     if (!isJumping && ((pressedKeys & KeyboardKeyCode::IC_KEY_DOWN) == KeyboardKeyCode::IC_KEY_DOWN)) {
-        // If is not IC_KEY_LEFT repeated press then change character state
+        // If is not IC_KEY_DOWN repeated press then change character state
         if ((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) &&
                                             ((prevPressedKeys & KeyboardKeyCode::IC_KEY_DOWN) !=
                                              KeyboardKeyCode::IC_KEY_DOWN))) {
@@ -431,11 +441,16 @@ void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {
 }
 
 void Player::ProcessReleasedKeys() {
-    if ((prevPressedKeys & KeyboardKeyCode::IC_KEY_RIGHT) == KeyboardKeyCode::IC_KEY_RIGHT) {
+    if (((prevPressedKeys & (KeyboardKeyCode::IC_KEY_RIGHT | KeyboardKeyCode::IC_KEY_LEFT)) != 0) && (underlyingObjectSurfaceType.has_value() && *underlyingObjectSurfaceType == SurfaceType::SLIDING)) {
+        // User stopped running to the RIGHT or LEFT on a sliding surface
+        StopRunningOnSlidingSurface();
+    }
+    else if ((prevPressedKeys & KeyboardKeyCode::IC_KEY_RIGHT) == KeyboardKeyCode::IC_KEY_RIGHT) {
+        // Go back to stand-by state
         RightKeyReleased();
     }
-
-    if ((prevPressedKeys & KeyboardKeyCode::IC_KEY_LEFT) == KeyboardKeyCode::IC_KEY_LEFT) {
+    else if ((prevPressedKeys & KeyboardKeyCode::IC_KEY_LEFT) == KeyboardKeyCode::IC_KEY_LEFT) {
+        // Go back to stand-by state
         LeftKeyReleased();
     }
 
@@ -590,6 +605,15 @@ void Player::FinishFall() {
     FallLanding();
 }
 
+void Player::UpdateSlip() {
+    PositionAddX(headedToRight ? 2.0f : -2.0f);
+    UpdatePreviousDirection();
+
+    if (std::abs(hInitialSlipPosition - position.GetRealX()) == 10.0f) {
+        std::cout << " -------- END OF SLIP -------" << std::endl;
+    }
+}
+
 void Player::MoveTo(PlayerDirection direction) {
     if (!isJumping && !isHitting) {
         PositionAddX(direction == PlayerDirection::RIGHT ? 4.0f : -4.0f);
@@ -629,6 +653,19 @@ void Player::Fall(float hSpeed) {
     isFalling = true;
     isSlipping = false;
     isLeaningOnTheGround = false;
+}
+
+void Player::Slip() {
+    UpdatePreviousDirection();
+    vectorDirection.x = headedToRight ? 1 : -1;
+    vectorDirection.y = 0;
+    hMomentum = 0;
+    hInitialSlipPosition = position.GetRealX();
+    isJumping = false;
+    isJumpApex = false;
+    isFalling = false;
+    isSlipping = true;
+    isLeaningOnTheGround = true;
 }
 
 void Player::RightKeyPressed() {
@@ -884,7 +921,7 @@ void Player::SuspendedInTheAir() {
     END_TRANSITION_MAP(nullptr)
 }
 
-void Player::StopRunningOnIce() {
+void Player::StopRunningOnSlidingSurface() {
     BEGIN_TRANSITION_MAP                                  // - Current State -
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Idle_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Idle_Left
@@ -1075,11 +1112,13 @@ void Player::STATE_Hit_Left() {
 }
 
 void Player::STATE_Slip_Right() {
+    Slip();
     LoadAnimationWithId(PlayerAnimation::SLIP_TO_RIGHT);
     ProcessPressedKeys(false);
 }
 
 void Player::STATE_Slip_Left() {
+    Slip();
     LoadAnimationWithId(PlayerAnimation::SLIP_TO_LEFT);
     ProcessPressedKeys(false);
 }

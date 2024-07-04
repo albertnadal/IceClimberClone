@@ -32,7 +32,8 @@ protected:
   void RemoveFromSpacePartitionObjectsTree();
 public:
   ISceneObject();
-  ISceneObject(SceneObjectIdentificator, SceneObjectType, unsigned char, bool);
+  ISceneObject(SceneObjectIdentificator, SceneObjectType, SurfaceType, unsigned char, bool);
+  SurfaceType surfaceType;
   Sprite currentSprite;
   Position position;
   Boundaries boundingBox;

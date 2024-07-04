@@ -22,7 +22,7 @@ class SideWall: public ISceneObject
 protected:
   void LoadAnimationWithId(uint16_t);
 public:
-  SideWall(SceneObjectIdentificator, SceneObjectType, unsigned char, bool);
+  SideWall(SceneObjectIdentificator, SceneObjectType, SurfaceType, unsigned char, bool);
   SideWall();
   ~SideWall();
   virtual void InitWithSpriteSheet(ObjectSpriteSheet*);
