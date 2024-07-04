@@ -555,7 +555,6 @@ void Player::UpdateJump() {
 void Player::FinishJump() {
     isJumping = false;
     isJumpApex = false;
-    isLeaningOnTheGround = true;
     hMomentum = 0;
     UpdatePreviousDirection();
     vectorDirection.x = 0;
@@ -566,7 +565,6 @@ void Player::FinishJump() {
 void Player::FallDueToLateralCollisionJump() {
     isJumping = false;
     isJumpApex = false;
-    isLeaningOnTheGround = false;
     hMomentum = 0;
     UpdatePreviousDirection();
     vectorDirection.x = 0;
@@ -575,7 +573,6 @@ void Player::FallDueToLateralCollisionJump() {
 }
 
 void Player::FallDueToSuspendedInTheAir() {
-    isLeaningOnTheGround = false;
     hMomentum = 0;
     UpdatePreviousDirection();
     vectorDirection.x = 0;
@@ -597,7 +594,6 @@ void Player::UpdateFall() {
 
 void Player::FinishFall() {
     isFalling = false;
-    isLeaningOnTheGround = true;
     UpdatePreviousDirection();
     previous_vOffset = 0.0f;
     vectorDirection.x = 0;
@@ -636,7 +632,6 @@ void Player::Jump(float vSpeed, float hSpeed) {
     isJumpApex = false;
     isFalling = false;
     isSlipping = false;
-    isLeaningOnTheGround = false;
 }
 
 void Player::Fall(float hSpeed) {
@@ -652,7 +647,6 @@ void Player::Fall(float hSpeed) {
     isJumpApex = false;
     isFalling = true;
     isSlipping = false;
-    isLeaningOnTheGround = false;
 }
 
 void Player::Slip() {
@@ -665,7 +659,6 @@ void Player::Slip() {
     isJumpApex = false;
     isFalling = false;
     isSlipping = true;
-    isLeaningOnTheGround = true;
 }
 
 void Player::RightKeyPressed() {

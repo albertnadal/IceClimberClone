@@ -64,7 +64,6 @@ class Player: public ISceneObject
   // Player action states
   bool isJumping = false;
   bool isHitting = false;
-  bool isLeaningOnTheGround = false;
   bool isFalling = false;
   bool isSlipping = false;      // Player is slipping on a floor of ice
   bool isJumpApex = false;      // Player is at the the max altitude during a jump
