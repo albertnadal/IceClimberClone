@@ -89,7 +89,7 @@ int main()
                                         DrawRectangleLinesEx({static_cast<float>(box.upperBoundX), static_cast<float>(box.upperBoundY), static_cast<float>(box.lowerBoundX-box.upperBoundX), static_cast<float>(box.lowerBoundY-box.upperBoundY)}, 1.0f, PINK);
                                 }
                                 spriteRectDoubleBuffer->unlock();
-                                DrawFPS(550, 10);
+                                DrawFPS(535, 110);
                         EndMode2D();
                 EndDrawing();
         }
