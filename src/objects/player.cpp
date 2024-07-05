@@ -441,7 +441,7 @@ void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {
 }
 
 void Player::ProcessReleasedKeys() {
-    if (((prevPressedKeys & (KeyboardKeyCode::IC_KEY_RIGHT | KeyboardKeyCode::IC_KEY_LEFT)) != 0) && (underlyingObjectSurfaceType.has_value() && *underlyingObjectSurfaceType == SurfaceType::SLIDING)) {
+    if (((prevPressedKeys & (KeyboardKeyCode::IC_KEY_RIGHT | KeyboardKeyCode::IC_KEY_LEFT)) != 0) && (hMomentum == maxMomentum) && (underlyingObjectSurfaceType.has_value() && *underlyingObjectSurfaceType == SurfaceType::SLIDING)) {
         // User stopped running to the RIGHT or LEFT on a sliding surface
         StopRunningOnSlidingSurface();
     }
