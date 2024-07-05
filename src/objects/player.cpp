@@ -22,19 +22,29 @@ void Player::PrintName() {
     std::cout << "Main character." << std::endl;
 }
 
-inline void Player::DisplacePlayerIfUnderlyingSurfaceIsMobile() {
-    if (underlyingObjectSurfaceType.has_value() && (*underlyingObjectSurfaceType == SurfaceType::MOBILE_RIGHT || *underlyingObjectSurfaceType == SurfaceType::MOBILE_LEFT)) {
-        PositionAddX((*underlyingObjectSurfaceType == SurfaceType::MOBILE_RIGHT) ? 1.0f : -1.0f);
+void Player::DisplacePlayerIfUnderlyingSurfaceIsMobile() {
+    if (!underlyingObjectSurfaceType.has_value()) {
+        return;
     }
+
+    float displacement = 0.0f;
+    if ((*underlyingObjectSurfaceType == SurfaceType::MOBILE_RIGHT) && !isBlockedRight) {
+        displacement = 1.0f;
+        vectorDirection.x = 1;
+    }
+    else if ((*underlyingObjectSurfaceType == SurfaceType::MOBILE_LEFT) && !isBlockedLeft) {
+        displacement = -1.0f;
+        vectorDirection.x = -1;
+    }
+    else return;
+
+    PositionAddX(displacement);
 }
 
 bool Player::Update(const uint8_t pressedKeys_) {
 
     bool needRedraw = false;
     pressedKeys = pressedKeys_;
-
-    // Displace the player if the underlying surface is mobile
-    DisplacePlayerIfUnderlyingSurfaceIsMobile();
 
     if (isJumping) {
         UpdateJump();
@@ -46,6 +56,9 @@ bool Player::Update(const uint8_t pressedKeys_) {
         UpdateSlip();
         needRedraw = true;
     } else {
+
+        // Displace the player if the underlying surface is mobile
+        DisplacePlayerIfUnderlyingSurfaceIsMobile();
 
         if (pressedKeys != KeyboardKeyCode::IC_KEY_NONE) {
             ProcessPressedKeys();
@@ -631,6 +644,7 @@ void Player::FinishSlip() {
 void Player::MoveTo(PlayerDirection direction) {
     if (!isJumping && !isHitting) {
         PositionAddX(direction == PlayerDirection::RIGHT ? 4.0f : -4.0f);
+        vectorDirection.x = (direction == PlayerDirection::RIGHT ? 1 : -1);
         if (hMomentum < maxMomentum) {
             hMomentum++;
         }
