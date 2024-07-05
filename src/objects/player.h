@@ -83,6 +83,7 @@ class Player: public ISceneObject
   void FinishFall();
   void Slip();
   void UpdateSlip();
+  void FinishSlip();
 public:
   Player();
   ~Player() override;
@@ -109,6 +110,7 @@ public:
   void LeftKeyPressedAtJumpApex();
   void SuspendedInTheAir();
   void StopRunningOnSlidingSurface();
+  void StopSlipping();
   bool ShouldBeginAnimationLoopAgain();
 
 private:

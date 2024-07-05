@@ -605,9 +605,18 @@ void Player::UpdateSlip() {
     PositionAddX(headedToRight ? 2.0f : -2.0f);
     UpdatePreviousDirection();
 
-    if (std::abs(hInitialSlipPosition - position.GetRealX()) == 10.0f) {
-        std::cout << " -------- END OF SLIP -------" << std::endl;
+    if (std::abs(hInitialSlipPosition - position.GetRealX()) >= SLIPPING_DISTANCE) {
+        FinishSlip();
     }
+}
+
+void Player::FinishSlip() {
+    isSlipping = false;
+    UpdatePreviousDirection();
+    previous_vOffset = 0.0f;
+    vectorDirection.x = 0;
+    vectorDirection.y = 0;
+    StopSlipping();
 }
 
 void Player::MoveTo(PlayerDirection direction) {
@@ -934,6 +943,29 @@ void Player::StopRunningOnSlidingSurface() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
+    END_TRANSITION_MAP(nullptr)
+}
+
+void Player::StopSlipping() {
+    BEGIN_TRANSITION_MAP                                  // - Current State -
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Idle_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Idle_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Jump_Idle_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                 // STATE_Jump_Idle_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Jump_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
+            TRANSITION_MAP_ENTRY (STATE_IDLE_RIGHT) // STATE_Slip_Right
+            TRANSITION_MAP_ENTRY (STATE_IDLE_LEFT)  // STATE_Slip_Left
     END_TRANSITION_MAP(nullptr)
 }
 
