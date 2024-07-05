@@ -332,3 +332,201 @@ void BrickGreenHalf::STATE_Falling()
 BrickGreenHalf::~BrickGreenHalf() {
 
 }
+
+/* BrickBlueConveyorBeltRight */
+
+BrickBlueConveyorBeltRight::BrickBlueConveyorBeltRight() :
+        Brick(SceneObjectIdentificator::BRICK_BLUE_CONVEYOR_BELT_RIGHT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true) {
+}
+
+void BrickBlueConveyorBeltRight::PrintName() {
+        std::cout << "BrickBlueConveyorBeltRight." << std::endl;
+}
+
+void BrickBlueConveyorBeltRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickBlueConveyorBeltRightAnimation::BRICK_BLUE_CONVEYOR_BELT_RIGHT_STICKY);
+}
+
+ISceneObject* BrickBlueConveyorBeltRight::Create() {
+        return new BrickBlueConveyorBeltRight();
+}
+
+void BrickBlueConveyorBeltRight::STATE_Sticky()
+{
+        LoadAnimationWithId(BrickBlueConveyorBeltRightAnimation::BRICK_BLUE_CONVEYOR_BELT_RIGHT_STICKY);
+}
+
+void BrickBlueConveyorBeltRight::STATE_Falling()
+{
+        LoadAnimationWithId(BrickBlueAnimation::BRICK_BLUE_FALLING);
+}
+
+BrickBlueConveyorBeltRight::~BrickBlueConveyorBeltRight() {
+
+}
+
+/* BrickBlueConveyorBeltLeft */
+
+BrickBlueConveyorBeltLeft::BrickBlueConveyorBeltLeft() :
+        Brick(SceneObjectIdentificator::BRICK_BLUE_CONVEYOR_BELT_LEFT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true) {
+}
+
+void BrickBlueConveyorBeltLeft::PrintName() {
+        std::cout << "BrickBlueConveyorBeltLeft." << std::endl;
+}
+
+void BrickBlueConveyorBeltLeft::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickBlueConveyorBeltLeftAnimation::BRICK_BLUE_CONVEYOR_BELT_LEFT_STICKY);
+}
+
+ISceneObject* BrickBlueConveyorBeltLeft::Create() {
+        return new BrickBlueConveyorBeltLeft();
+}
+
+void BrickBlueConveyorBeltLeft::STATE_Sticky()
+{
+        LoadAnimationWithId(BrickBlueConveyorBeltLeftAnimation::BRICK_BLUE_CONVEYOR_BELT_LEFT_STICKY);
+}
+
+void BrickBlueConveyorBeltLeft::STATE_Falling()
+{
+        LoadAnimationWithId(BrickBlueAnimation::BRICK_BLUE_FALLING);
+}
+
+BrickBlueConveyorBeltLeft::~BrickBlueConveyorBeltLeft() {
+
+}
+
+/* BrickBrownConveyorBeltRight */
+
+BrickBrownConveyorBeltRight::BrickBrownConveyorBeltRight() :
+        Brick(SceneObjectIdentificator::BRICK_BROWN_CONVEYOR_BELT_RIGHT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true) {
+}
+
+void BrickBrownConveyorBeltRight::PrintName() {
+        std::cout << "BrickBrownConveyorBeltRight." << std::endl;
+}
+
+void BrickBrownConveyorBeltRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickBrownConveyorBeltRightAnimation::BRICK_BROWN_CONVEYOR_BELT_RIGHT_STICKY);
+}
+
+ISceneObject* BrickBrownConveyorBeltRight::Create() {
+        return new BrickBrownConveyorBeltRight();
+}
+
+void BrickBrownConveyorBeltRight::STATE_Sticky()
+{
+        LoadAnimationWithId(BrickBrownConveyorBeltRightAnimation::BRICK_BROWN_CONVEYOR_BELT_RIGHT_STICKY);
+}
+
+void BrickBrownConveyorBeltRight::STATE_Falling()
+{
+        LoadAnimationWithId(BrickBrownAnimation::BRICK_BROWN_FALLING);
+}
+
+BrickBrownConveyorBeltRight::~BrickBrownConveyorBeltRight() {
+
+}
+
+/* BrickBrownConveyorBeltLeft */
+
+BrickBrownConveyorBeltLeft::BrickBrownConveyorBeltLeft() :
+        Brick(SceneObjectIdentificator::BRICK_BROWN_CONVEYOR_BELT_LEFT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true) {
+}
+
+void BrickBrownConveyorBeltLeft::PrintName() {
+        std::cout << "BrickBrownConveyorBeltLeft." << std::endl;
+}
+
+void BrickBrownConveyorBeltLeft::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickBrownConveyorBeltLeftAnimation::BRICK_BROWN_CONVEYOR_BELT_LEFT_STICKY);
+}
+
+ISceneObject* BrickBrownConveyorBeltLeft::Create() {
+        return new BrickBrownConveyorBeltLeft();
+}
+
+void BrickBrownConveyorBeltLeft::STATE_Sticky()
+{
+        LoadAnimationWithId(BrickBrownConveyorBeltLeftAnimation::BRICK_BROWN_CONVEYOR_BELT_LEFT_STICKY);
+}
+
+void BrickBrownConveyorBeltLeft::STATE_Falling()
+{
+        LoadAnimationWithId(BrickBrownAnimation::BRICK_BROWN_FALLING);
+}
+
+BrickBrownConveyorBeltLeft::~BrickBrownConveyorBeltLeft() {
+
+}
+
+/* BrickGreenConveyorBeltRight */
+
+BrickGreenConveyorBeltRight::BrickGreenConveyorBeltRight() :
+        Brick(SceneObjectIdentificator::BRICK_GREEN_CONVEYOR_BELT_RIGHT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true) {
+}
+
+void BrickGreenConveyorBeltRight::PrintName() {
+        std::cout << "BrickGreenConveyorBeltRight." << std::endl;
+}
+
+void BrickGreenConveyorBeltRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickGreenConveyorBeltRightAnimation::BRICK_GREEN_CONVEYOR_BELT_RIGHT_STICKY);
+}
+
+ISceneObject* BrickGreenConveyorBeltRight::Create() {
+        return new BrickGreenConveyorBeltRight();
+}
+
+void BrickGreenConveyorBeltRight::STATE_Sticky()
+{
+        LoadAnimationWithId(BrickGreenConveyorBeltRightAnimation::BRICK_GREEN_CONVEYOR_BELT_RIGHT_STICKY);
+}
+
+void BrickGreenConveyorBeltRight::STATE_Falling()
+{
+        LoadAnimationWithId(BrickAnimation::BRICK_GREEN_FALLING);
+}
+
+BrickGreenConveyorBeltRight::~BrickGreenConveyorBeltRight() {
+
+}
+
+/* BrickGreenConveyorBeltLeft */
+
+BrickGreenConveyorBeltLeft::BrickGreenConveyorBeltLeft() :
+        Brick(SceneObjectIdentificator::BRICK_GREEN_CONVEYOR_BELT_LEFT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true) {
+}
+
+void BrickGreenConveyorBeltLeft::PrintName() {
+        std::cout << "BrickGreenConveyorBeltLeft." << std::endl;
+}
+
+void BrickGreenConveyorBeltLeft::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickGreenConveyorBeltLeftAnimation::BRICK_GREEN_CONVEYOR_BELT_LEFT_STICKY);
+}
+
+ISceneObject* BrickGreenConveyorBeltLeft::Create() {
+        return new BrickGreenConveyorBeltLeft();
+}
+
+void BrickGreenConveyorBeltLeft::STATE_Sticky()
+{
+        LoadAnimationWithId(BrickGreenConveyorBeltLeftAnimation::BRICK_GREEN_CONVEYOR_BELT_LEFT_STICKY);
+}
+
+void BrickGreenConveyorBeltLeft::STATE_Falling()
+{
+        LoadAnimationWithId(BrickAnimation::BRICK_GREEN_FALLING);
+}
+
+BrickGreenConveyorBeltLeft::~BrickGreenConveyorBeltLeft() {
+
+}

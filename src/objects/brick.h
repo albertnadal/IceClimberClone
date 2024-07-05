@@ -153,4 +153,100 @@ private:
   void STATE_Falling() override;
 };
 
+/* BrickBlueConveyorBeltRight */
+
+class BrickBlueConveyorBeltRight : public Brick
+{
+public:
+  BrickBlueConveyorBeltRight();
+  ~BrickBlueConveyorBeltRight();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+  void STATE_Falling() override;
+};
+
+/* BrickBlueConveyorBeltLeft */
+
+class BrickBlueConveyorBeltLeft : public Brick
+{
+public:
+  BrickBlueConveyorBeltLeft();
+  ~BrickBlueConveyorBeltLeft();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+  void STATE_Falling() override;
+};
+
+/* BrickBrownConveyorBeltRight */
+
+class BrickBrownConveyorBeltRight : public Brick
+{
+public:
+  BrickBrownConveyorBeltRight();
+  ~BrickBrownConveyorBeltRight();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+  void STATE_Falling() override;
+};
+
+/* BrickBrownConveyorBeltLeft */
+
+class BrickBrownConveyorBeltLeft : public Brick
+{
+public:
+  BrickBrownConveyorBeltLeft();
+  ~BrickBrownConveyorBeltLeft();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+  void STATE_Falling() override;
+};
+
+/* BrickGreenConveyorBeltRight */
+
+class BrickGreenConveyorBeltRight : public Brick
+{
+public:
+  BrickGreenConveyorBeltRight();
+  ~BrickGreenConveyorBeltRight();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+  void STATE_Falling() override;
+};
+
+/* BrickGreenConveyorBeltLeft */
+
+class BrickGreenConveyorBeltLeft : public Brick
+{
+public:
+  BrickGreenConveyorBeltLeft();
+  ~BrickGreenConveyorBeltLeft();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+  void STATE_Falling() override;
+};
+
 #endif

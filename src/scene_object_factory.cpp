@@ -9,7 +9,6 @@ SceneObjectFactory::SceneObjectFactory(SceneObjectDataManager* _textureManager, 
 }
 
 void SceneObjectFactory::RegisterSceneObjects() {
-	//std::cout << "REGISTERING OBJECTS." << std::endl;
 	Register(SceneObjectIdentificator::MAIN_CHARACTER, &Player::Create);
 	Register(SceneObjectIdentificator::BRICK, &Brick::Create);
 	Register(SceneObjectIdentificator::BRICK_BROWN, &BrickBrown::Create);
@@ -17,6 +16,12 @@ void SceneObjectFactory::RegisterSceneObjects() {
 	Register(SceneObjectIdentificator::BRICK_GREEN_HALF, &BrickGreenHalf::Create);
 	Register(SceneObjectIdentificator::BRICK_BROWN_HALF, &BrickBrownHalf::Create);
 	Register(SceneObjectIdentificator::BRICK_BLUE_HALF, &BrickBlueHalf::Create);
+	Register(SceneObjectIdentificator::BRICK_BLUE_CONVEYOR_BELT_RIGHT, &BrickBlueConveyorBeltRight::Create);
+	Register(SceneObjectIdentificator::BRICK_BLUE_CONVEYOR_BELT_LEFT, &BrickBlueConveyorBeltLeft::Create);
+	Register(SceneObjectIdentificator::BRICK_BROWN_CONVEYOR_BELT_RIGHT, &BrickBrownConveyorBeltRight::Create);
+	Register(SceneObjectIdentificator::BRICK_BROWN_CONVEYOR_BELT_LEFT, &BrickBrownConveyorBeltLeft::Create);
+	Register(SceneObjectIdentificator::BRICK_GREEN_CONVEYOR_BELT_RIGHT, &BrickGreenConveyorBeltRight::Create);
+	Register(SceneObjectIdentificator::BRICK_GREEN_CONVEYOR_BELT_LEFT, &BrickGreenConveyorBeltLeft::Create);
 	Register(SceneObjectIdentificator::SIDE_WALL_GREEN_LEFT, &SideWallGreenLeft::Create);
 	Register(SceneObjectIdentificator::SIDE_WALL_GREEN_RIGHT, &SideWallGreenRight::Create);
 	Register(SceneObjectIdentificator::SIDE_WALL_GREEN_COLUMNS_LEFT, &SideWallGreenColumnsLeft::Create);
