@@ -605,7 +605,7 @@ void Player::UpdateSlip() {
     PositionAddX(headedToRight ? 2.0f : -2.0f);
     UpdatePreviousDirection();
 
-    if (std::abs(hInitialSlipPosition - position.GetRealX()) >= SLIPPING_DISTANCE) {
+    if ((std::abs(hInitialSlipPosition - position.GetRealX()) >= SLIPPING_DISTANCE) || isBlockedLeft || isBlockedRight) {
         FinishSlip();
     }
 }
