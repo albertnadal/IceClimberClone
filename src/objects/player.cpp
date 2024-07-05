@@ -22,10 +22,19 @@ void Player::PrintName() {
     std::cout << "Main character." << std::endl;
 }
 
+inline void Player::DisplacePlayerIfUnderlyingSurfaceIsMobile() {
+    if (underlyingObjectSurfaceType.has_value() && (*underlyingObjectSurfaceType == SurfaceType::MOBILE_RIGHT || *underlyingObjectSurfaceType == SurfaceType::MOBILE_LEFT)) {
+        PositionAddX((*underlyingObjectSurfaceType == SurfaceType::MOBILE_RIGHT) ? 1.0f : -1.0f);
+    }
+}
+
 bool Player::Update(const uint8_t pressedKeys_) {
 
     bool needRedraw = false;
     pressedKeys = pressedKeys_;
+
+    // Displace the player if the underlying surface is mobile
+    DisplacePlayerIfUnderlyingSurfaceIsMobile();
 
     if (isJumping) {
         UpdateJump();

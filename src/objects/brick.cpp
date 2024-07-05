@@ -336,7 +336,7 @@ BrickGreenHalf::~BrickGreenHalf() {
 /* BrickBlueConveyorBeltRight */
 
 BrickBlueConveyorBeltRight::BrickBlueConveyorBeltRight() :
-        Brick(SceneObjectIdentificator::BRICK_BLUE_CONVEYOR_BELT_RIGHT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true) {
+        Brick(SceneObjectIdentificator::BRICK_BLUE_CONVEYOR_BELT_RIGHT, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, true) {
 }
 
 void BrickBlueConveyorBeltRight::PrintName() {
@@ -369,7 +369,7 @@ BrickBlueConveyorBeltRight::~BrickBlueConveyorBeltRight() {
 /* BrickBlueConveyorBeltLeft */
 
 BrickBlueConveyorBeltLeft::BrickBlueConveyorBeltLeft() :
-        Brick(SceneObjectIdentificator::BRICK_BLUE_CONVEYOR_BELT_LEFT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true) {
+        Brick(SceneObjectIdentificator::BRICK_BLUE_CONVEYOR_BELT_LEFT, SceneObjectType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, true) {
 }
 
 void BrickBlueConveyorBeltLeft::PrintName() {
@@ -402,7 +402,7 @@ BrickBlueConveyorBeltLeft::~BrickBlueConveyorBeltLeft() {
 /* BrickBrownConveyorBeltRight */
 
 BrickBrownConveyorBeltRight::BrickBrownConveyorBeltRight() :
-        Brick(SceneObjectIdentificator::BRICK_BROWN_CONVEYOR_BELT_RIGHT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true) {
+        Brick(SceneObjectIdentificator::BRICK_BROWN_CONVEYOR_BELT_RIGHT, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, true) {
 }
 
 void BrickBrownConveyorBeltRight::PrintName() {
@@ -435,7 +435,7 @@ BrickBrownConveyorBeltRight::~BrickBrownConveyorBeltRight() {
 /* BrickBrownConveyorBeltLeft */
 
 BrickBrownConveyorBeltLeft::BrickBrownConveyorBeltLeft() :
-        Brick(SceneObjectIdentificator::BRICK_BROWN_CONVEYOR_BELT_LEFT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true) {
+        Brick(SceneObjectIdentificator::BRICK_BROWN_CONVEYOR_BELT_LEFT, SceneObjectType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, true) {
 }
 
 void BrickBrownConveyorBeltLeft::PrintName() {
@@ -468,7 +468,7 @@ BrickBrownConveyorBeltLeft::~BrickBrownConveyorBeltLeft() {
 /* BrickGreenConveyorBeltRight */
 
 BrickGreenConveyorBeltRight::BrickGreenConveyorBeltRight() :
-        Brick(SceneObjectIdentificator::BRICK_GREEN_CONVEYOR_BELT_RIGHT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true) {
+        Brick(SceneObjectIdentificator::BRICK_GREEN_CONVEYOR_BELT_RIGHT, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, true) {
 }
 
 void BrickGreenConveyorBeltRight::PrintName() {
@@ -501,7 +501,7 @@ BrickGreenConveyorBeltRight::~BrickGreenConveyorBeltRight() {
 /* BrickGreenConveyorBeltLeft */
 
 BrickGreenConveyorBeltLeft::BrickGreenConveyorBeltLeft() :
-        Brick(SceneObjectIdentificator::BRICK_GREEN_CONVEYOR_BELT_LEFT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true) {
+        Brick(SceneObjectIdentificator::BRICK_GREEN_CONVEYOR_BELT_LEFT, SceneObjectType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, true) {
 }
 
 void BrickGreenConveyorBeltLeft::PrintName() {

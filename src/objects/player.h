@@ -34,6 +34,7 @@ class Player: public ISceneObject
   bool PlayerIsQuiet();
   void UpdatePreviousDirection();
   void GetSolidCollisions(std::vector<ObjectCollision>&, bool&);
+  void DisplacePlayerIfUnderlyingSurfaceIsMobile();
 
   // Jump trajectory data
   float hInitialJumpSpeed = 0.0f;
