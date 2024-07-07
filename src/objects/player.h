@@ -64,10 +64,10 @@ class Player: public ISceneObject
 
   // Player action states
   bool isRunning = false;          // Player is running on a floor
-  bool isJumping = false;
-  bool isHitting = false;
-  bool isFalling = false;
-  bool isSlipping = false;         // Player is slipping on a floor of ice
+  bool isJumping = false;          // Player is jumping (parabolic trajectory)
+  bool isHitting = false;          // Player is hitting with the hammer
+  bool isFalling = false;          // Player is falling
+  bool isSlipping = false;         // Player is slipping on a sliding floor
   bool isJumpApex = false;         // Player is at the the max altitude during a jump
   bool isBlockedRight = false;     // Player is stuck running to the right towards a brick
   bool isBlockedLeft = false;      // Player is stuck running to the left towards a brick
