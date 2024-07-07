@@ -2,6 +2,7 @@
 #define OBJECT_SPRITE_SHEET_H
 
 #include <map>
+#include <optional>
 #include <defines.h>
 #include <object_sprite_sheet_animation.h>
 
@@ -15,7 +16,7 @@ public:
         ObjectSpriteSheet(SceneObjectIdentificator);
         ~ObjectSpriteSheet();
         void AddAnimation(ObjectSpriteSheetAnimation*);
-        ObjectSpriteSheetAnimation* GetAnimationWithId(uint16_t);
+        std::optional<ObjectSpriteSheetAnimation*> GetAnimationWithId(uint16_t);
         void Print();
 };
 

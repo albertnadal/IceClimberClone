@@ -36,7 +36,11 @@ void ObjectSpriteSheet::AddAnimation(ObjectSpriteSheetAnimation *animation) {
   animations.insert(std::pair<uint16_t,ObjectSpriteSheetAnimation*>(animation->Id, animation));
 }
 
-ObjectSpriteSheetAnimation* ObjectSpriteSheet::GetAnimationWithId(uint16_t AnimationId) {
-  ObjectSpriteSheetAnimation* a = animations.find(AnimationId)->second;
-  return a;
+std::optional<ObjectSpriteSheetAnimation*> ObjectSpriteSheet::GetAnimationWithId(uint16_t AnimationId) {
+    auto it = animations.find(AnimationId);
+    if (it != animations.end()) {
+        return it->second;
+    }
+
+    return std::nullopt;
 }

@@ -93,8 +93,9 @@ void Brick::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
 }
 
 void Brick::LoadAnimationWithId(uint16_t animationId) {
-        ObjectSpriteSheetAnimation *currentAnimation = spriteSheet->GetAnimationWithId(animationId);
-        currentAnimationSprites = currentAnimation->GetSprites();
+        std::optional<ObjectSpriteSheetAnimation *> currentAnimation = spriteSheet->GetAnimationWithId(animationId);
+        assert(currentAnimation != std::nullopt);
+        currentAnimationSprites = (*currentAnimation)->GetSprites();
         animationHasOnlyOneSprite = (currentAnimationSprites.size() <= 1);
         currentAnimationSpriteIterator = std::begin(currentAnimationSprites);
         animationLoaded = true;
@@ -359,7 +360,7 @@ void BrickBlueConveyorBeltRight::STATE_Sticky()
 
 void BrickBlueConveyorBeltRight::STATE_Falling()
 {
-        LoadAnimationWithId(BrickBlueAnimation::BRICK_BLUE_FALLING);
+        LoadAnimationWithId(BrickBlueConveyorBeltRightAnimation::BRICK_BLUE_CONVEYOR_BELT_RIGHT_FALLING);
 }
 
 BrickBlueConveyorBeltRight::~BrickBlueConveyorBeltRight() {
@@ -392,7 +393,7 @@ void BrickBlueConveyorBeltLeft::STATE_Sticky()
 
 void BrickBlueConveyorBeltLeft::STATE_Falling()
 {
-        LoadAnimationWithId(BrickBlueAnimation::BRICK_BLUE_FALLING);
+        LoadAnimationWithId(BrickBlueConveyorBeltLeftAnimation::BRICK_BLUE_CONVEYOR_BELT_LEFT_FALLING);
 }
 
 BrickBlueConveyorBeltLeft::~BrickBlueConveyorBeltLeft() {
@@ -425,7 +426,7 @@ void BrickBrownConveyorBeltRight::STATE_Sticky()
 
 void BrickBrownConveyorBeltRight::STATE_Falling()
 {
-        LoadAnimationWithId(BrickBrownAnimation::BRICK_BROWN_FALLING);
+        LoadAnimationWithId(BrickBrownConveyorBeltRightAnimation::BRICK_BROWN_CONVEYOR_BELT_RIGHT_FALLING);
 }
 
 BrickBrownConveyorBeltRight::~BrickBrownConveyorBeltRight() {
@@ -458,7 +459,7 @@ void BrickBrownConveyorBeltLeft::STATE_Sticky()
 
 void BrickBrownConveyorBeltLeft::STATE_Falling()
 {
-        LoadAnimationWithId(BrickBrownAnimation::BRICK_BROWN_FALLING);
+        LoadAnimationWithId(BrickBrownConveyorBeltLeftAnimation::BRICK_BROWN_CONVEYOR_BELT_LEFT_FALLING);
 }
 
 BrickBrownConveyorBeltLeft::~BrickBrownConveyorBeltLeft() {
@@ -491,7 +492,7 @@ void BrickGreenConveyorBeltRight::STATE_Sticky()
 
 void BrickGreenConveyorBeltRight::STATE_Falling()
 {
-        LoadAnimationWithId(BrickAnimation::BRICK_GREEN_FALLING);
+        LoadAnimationWithId(BrickGreenConveyorBeltRightAnimation::BRICK_GREEN_CONVEYOR_BELT_RIGHT_FALLING);
 }
 
 BrickGreenConveyorBeltRight::~BrickGreenConveyorBeltRight() {
@@ -524,7 +525,7 @@ void BrickGreenConveyorBeltLeft::STATE_Sticky()
 
 void BrickGreenConveyorBeltLeft::STATE_Falling()
 {
-        LoadAnimationWithId(BrickAnimation::BRICK_GREEN_FALLING);
+        LoadAnimationWithId(BrickGreenConveyorBeltLeftAnimation::BRICK_GREEN_CONVEYOR_BELT_LEFT_FALLING);
 }
 
 BrickGreenConveyorBeltLeft::~BrickGreenConveyorBeltLeft() {

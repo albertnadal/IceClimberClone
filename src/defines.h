@@ -34,12 +34,12 @@ enum SideWallBlueLeftAnimation: uint16_t { SIDE_WALL_BLUE_LEFT_STICKY = 30 };
 enum SideWallBlueRightAnimation: uint16_t { SIDE_WALL_BLUE_RIGHT_STICKY = 31 };
 enum SideWallBlueColumnsLeftAnimation: uint16_t { SIDE_WALL_BLUE_COLUMNS_LEFT_STICKY = 32 };
 enum SideWallBlueColumnsRightAnimation: uint16_t { SIDE_WALL_BLUE_COLUMNS_RIGHT_STICKY = 33 };
-enum BrickBlueConveyorBeltRightAnimation: uint16_t { BRICK_BLUE_CONVEYOR_BELT_RIGHT_STICKY = 34 };
-enum BrickBlueConveyorBeltLeftAnimation: uint16_t { BRICK_BLUE_CONVEYOR_BELT_LEFT_STICKY = 35 };
-enum BrickBrownConveyorBeltRightAnimation: uint16_t { BRICK_BROWN_CONVEYOR_BELT_RIGHT_STICKY = 36 };
-enum BrickBrownConveyorBeltLeftAnimation: uint16_t { BRICK_BROWN_CONVEYOR_BELT_LEFT_STICKY = 37 };
-enum BrickGreenConveyorBeltRightAnimation: uint16_t { BRICK_GREEN_CONVEYOR_BELT_RIGHT_STICKY = 38 };
-enum BrickGreenConveyorBeltLeftAnimation: uint16_t { BRICK_GREEN_CONVEYOR_BELT_LEFT_STICKY = 39 };
+enum BrickBlueConveyorBeltRightAnimation: uint16_t { BRICK_BLUE_CONVEYOR_BELT_RIGHT_STICKY = 34, BRICK_BLUE_CONVEYOR_BELT_RIGHT_FALLING = 35 };
+enum BrickBlueConveyorBeltLeftAnimation: uint16_t { BRICK_BLUE_CONVEYOR_BELT_LEFT_STICKY = 36, BRICK_BLUE_CONVEYOR_BELT_LEFT_FALLING = 37 };
+enum BrickBrownConveyorBeltRightAnimation: uint16_t { BRICK_BROWN_CONVEYOR_BELT_RIGHT_STICKY = 38, BRICK_BROWN_CONVEYOR_BELT_RIGHT_FALLING = 39 };
+enum BrickBrownConveyorBeltLeftAnimation: uint16_t { BRICK_BROWN_CONVEYOR_BELT_LEFT_STICKY = 40, BRICK_BROWN_CONVEYOR_BELT_LEFT_FALLING = 41 };
+enum BrickGreenConveyorBeltRightAnimation: uint16_t { BRICK_GREEN_CONVEYOR_BELT_RIGHT_STICKY = 42, BRICK_GREEN_CONVEYOR_BELT_RIGHT_FALLING = 43 };
+enum BrickGreenConveyorBeltLeftAnimation: uint16_t { BRICK_GREEN_CONVEYOR_BELT_LEFT_STICKY = 44, BRICK_GREEN_CONVEYOR_BELT_LEFT_FALLING = 45 };
 
 // Others
 const float GRAVITY = 9.81;

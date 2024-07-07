@@ -46,8 +46,9 @@ void SideWall::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
 }
 
 void SideWall::LoadAnimationWithId(uint16_t animationId) {
-        ObjectSpriteSheetAnimation *currentAnimation = spriteSheet->GetAnimationWithId(animationId);
-        currentAnimationSprites = currentAnimation->GetSprites();
+        std::optional<ObjectSpriteSheetAnimation *> currentAnimation = spriteSheet->GetAnimationWithId(animationId);
+        assert(currentAnimation != std::nullopt);
+        currentAnimationSprites = (*currentAnimation)->GetSprites();
         animationHasOnlyOneSprite = (currentAnimationSprites.size() <= 1);
         currentAnimationSpriteIterator = std::begin(currentAnimationSprites);
         animationLoaded = true;
