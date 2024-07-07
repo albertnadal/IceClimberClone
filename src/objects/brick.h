@@ -249,4 +249,49 @@ private:
   void STATE_Falling() override;
 };
 
+/* BrickGreenUnbreakable */
+
+class BrickGreenUnbreakable : public Brick
+{
+public:
+  BrickGreenUnbreakable();
+  ~BrickGreenUnbreakable();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+};
+
+/* BrickBrownUnbreakable */
+
+class BrickBrownUnbreakable : public Brick
+{
+public:
+  BrickBrownUnbreakable();
+  ~BrickBrownUnbreakable();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+};
+
+/* BrickBlueUnbreakable */
+
+class BrickBlueUnbreakable : public Brick
+{
+public:
+  BrickBlueUnbreakable();
+  ~BrickBlueUnbreakable();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+};
+
 #endif

@@ -531,3 +531,87 @@ void BrickGreenConveyorBeltLeft::STATE_Falling()
 BrickGreenConveyorBeltLeft::~BrickGreenConveyorBeltLeft() {
 
 }
+
+/* BrickGreenUnbreakable */
+
+BrickGreenUnbreakable::BrickGreenUnbreakable() :
+        Brick(SceneObjectIdentificator::BRICK_GREEN_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, false) {
+}
+
+void BrickGreenUnbreakable::PrintName() {
+        std::cout << "BrickGreenUnbreakable." << std::endl;
+}
+
+void BrickGreenUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickGreenUnbreakableAnimation::BRICK_GREEN_UNBREAKABLE_STICKY);
+}
+
+ISceneObject* BrickGreenUnbreakable::Create() {
+        return new BrickGreenUnbreakable();
+}
+
+void BrickGreenUnbreakable::STATE_Sticky()
+{
+        LoadAnimationWithId(BrickGreenUnbreakableAnimation::BRICK_GREEN_UNBREAKABLE_STICKY);
+}
+
+BrickGreenUnbreakable::~BrickGreenUnbreakable() {
+
+}
+
+/* BrickBrownUnbreakable */
+
+BrickBrownUnbreakable::BrickBrownUnbreakable() :
+        Brick(SceneObjectIdentificator::BRICK_BROWN_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, false) {
+}
+
+void BrickBrownUnbreakable::PrintName() {
+        std::cout << "BrickBrownUnbreakable." << std::endl;
+}
+
+void BrickBrownUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickBrownUnbreakableAnimation::BRICK_BROWN_UNBREAKABLE_STICKY);
+}
+
+ISceneObject* BrickBrownUnbreakable::Create() {
+        return new BrickBrownUnbreakable();
+}
+
+void BrickBrownUnbreakable::STATE_Sticky()
+{
+        LoadAnimationWithId(BrickBrownUnbreakableAnimation::BRICK_BROWN_UNBREAKABLE_STICKY);
+}
+
+BrickBrownUnbreakable::~BrickBrownUnbreakable() {
+
+}
+
+/* BrickBlueUnbreakable */
+
+BrickBlueUnbreakable::BrickBlueUnbreakable() :
+        Brick(SceneObjectIdentificator::BRICK_BLUE_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::SLIDING, BrickStateIdentificator::BRICK_MAX_STATES, false) {
+}
+
+void BrickBlueUnbreakable::PrintName() {
+        std::cout << "BrickBlueUnbreakable." << std::endl;
+}
+
+void BrickBlueUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickBlueUnbreakableAnimation::BRICK_BLUE_UNBREAKABLE_STICKY);
+}
+
+ISceneObject* BrickBlueUnbreakable::Create() {
+        return new BrickBlueUnbreakable();
+}
+
+void BrickBlueUnbreakable::STATE_Sticky()
+{
+        LoadAnimationWithId(BrickBlueUnbreakableAnimation::BRICK_BLUE_UNBREAKABLE_STICKY);
+}
+
+BrickBlueUnbreakable::~BrickBlueUnbreakable() {
+
+}
