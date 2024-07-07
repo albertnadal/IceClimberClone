@@ -96,6 +96,9 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
     // Check for collisions with other objects present in the scene.
     std::vector<aabb::AABBIntersection<ISceneObject*>> objectIntersections = spacePartitionObjectsTree->query(GetSolidLowerBound(), GetSolidUpperBound());
     playerIsSuspendedInTheAir = true;
+    ISceneObject* underlyingObjectCandidate = nullptr;
+    int minBottomIntersectionYUnderlyingObjectCandidate = 9999;
+    int minIntersectionXDiffUnderlyingObjectCandidate = 9999;
 
     for (auto intersection : objectIntersections) {
         if (intersection.particle == this) {
@@ -172,32 +175,43 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
         std::cout << " >>>> horizontalCorrection: " << horizontalCorrection << "\n";
         std::cout << " >>>> verticalCorrection: " << verticalCorrection << "\n";
         collisions.push_back({intersection.particle, horizontalCorrection, verticalCorrection});
-        playerIsSuspendedInTheAir = false;
-        underlyingObjectSurfaceType = intersection.particle->surfaceType;
+
+        if (intersection.bottomIntersectionY < minBottomIntersectionYUnderlyingObjectCandidate) {
+            minBottomIntersectionYUnderlyingObjectCandidate = intersection.bottomIntersectionY;
+            underlyingObjectCandidate = intersection.particle;
+        }
     }
 
     std::cout << " > PLAYER COLLIDES WITH " << objectIntersections.size() << " OBJECTS. " << collisions.size() << " CORRECTIONS NEEDED.\n";
 
-    // Check if the player is suspended in the air
-    if (playerIsSuspendedInTheAir && (objectIntersections.size() > 0) && (collisions.size() == 0)) {
-        for (auto intersection : objectIntersections) {
-            if (intersection.particle == this) {
-                continue;
-            }
+    // Check if the player is suspended in the air and also get the underlying surface type
+    for (auto intersection : objectIntersections) {
+        if (intersection.particle == this) {
+            continue;
+        }
 
-            // Check if the intersection object (particle) holds the player.
-            if (intersection.bottomIntersectionY == 0) {
-                std::cout << " [ IS NOT SUSPENDED IN THE AIR ]\n";
-                std::cout << " &&&&&& intersection.rightIntersectionX: " << intersection.rightIntersectionX << " intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
-                playerIsSuspendedInTheAir = false;
-                underlyingObjectSurfaceType = intersection.particle->surfaceType;
-                break;
+        // Check if the intersection object is the proper underlying surface
+        if (intersection.bottomIntersectionY == 0) {
+            int intersectionXDiff = std::abs(std::abs(intersection.rightIntersectionX) - std::abs(intersection.leftIntersectionX));
+
+            if (intersectionXDiff < minIntersectionXDiffUnderlyingObjectCandidate) {
+                minIntersectionXDiffUnderlyingObjectCandidate = intersectionXDiff;
+                underlyingObjectCandidate = intersection.particle;
             }
         }
     }
 
-    if (playerIsSuspendedInTheAir) {
+    if (underlyingObjectCandidate != nullptr) {
+        playerIsSuspendedInTheAir = false;
+        underlyingObjectSurfaceType = underlyingObjectCandidate->surfaceType;
+        isOnMobileSurface = (underlyingObjectSurfaceType == SurfaceType::MOBILE_RIGHT) || (underlyingObjectSurfaceType == SurfaceType::MOBILE_LEFT);
+
+        std::cout << " ------ Underlying object: ";
+        underlyingObjectCandidate->PrintName();
+    }
+    else {
         underlyingObjectSurfaceType = std::nullopt;
+        isOnMobileSurface = false;
     }
 }
 
@@ -231,17 +245,19 @@ void Player::UpdateCollisions() {
     if (!isJumping && !isFalling) {
         if (minHorizontalCorrection < 0) {
             // Player collided walking to right direction
+            std::cout << " ))))) COLLISION WHEN MOVING TO RIGHT <<<<<<<\n";
             PositionAddX(int16_t(minHorizontalCorrection));
             isBlockedRight = true;
             return;
         } else if (maxHorizontalCorrection > 0) {
             // Player collided walking to left direction
+            std::cout << " ))))) COLLISION WHEN MOVING TO LEFT <<<<<<<\n";
             PositionAddX(int16_t(maxHorizontalCorrection));
             isBlockedLeft = true;
             return;
         }
     }
-
+/*
     std::cout << " ---- minVerticalCorrection: " << minVerticalCorrection << "\n";
     std::cout << " ---- maxVerticalCorrection: " << maxVerticalCorrection << "\n";
     std::cout << " ---- minHorizontalCorrection: " << minHorizontalCorrection << "\n";
@@ -256,7 +272,7 @@ void Player::UpdateCollisions() {
     std::cout << " ---- isJumping: " << isJumping << "\n";
     std::cout << " ---- isFalling: " << isFalling << "\n";
     std::cout << " ---- isSlipping: " << isSlipping << "\n";
-
+*/
     if (isJumping && vectorDirection.y > 0 && vectorDirection.x > 0 && minHorizontalCorrection < 0 && std::abs(minHorizontalCorrection) <= 4) {
         // Player collided horizontally when during the ascension to the right side of a jump
         std::cout << " ))))) COLLISION ON THE RIGHT SIDE DURING JUMP ASCENSION <<<<<<<\n";
@@ -432,7 +448,7 @@ void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {
         LeftKeyReleased();
     }
 
-    if (!isJumping && !isFalling && !isSlipping && ((headedToRight && !isBlockedRight) || (!headedToRight && !isBlockedLeft)) && ((pressedKeys & KeyboardKeyCode::IC_KEY_UP) == KeyboardKeyCode::IC_KEY_UP)) {
+    if (!isJumping && !isFalling && !isSlipping && (isOnMobileSurface || (headedToRight && !isBlockedRight) || (!headedToRight && !isBlockedLeft)) && ((pressedKeys & KeyboardKeyCode::IC_KEY_UP) == KeyboardKeyCode::IC_KEY_UP)) {
         // If is not IC_KEY_UP repeated press then change character state
         if ((!checkPreviousPressedKeys) ||
             ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::IC_KEY_UP) != KeyboardKeyCode::IC_KEY_UP))) {
@@ -1082,7 +1098,7 @@ void Player::STATE_Run_Right() {
     vectorDirection.x = 1;
     vectorDirection.y = 0;
     LoadAnimationWithId(PlayerAnimation::RUN_TO_RIGHT);
-    ProcessPressedKeys(false);
+    //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Run_Left() {
@@ -1090,33 +1106,33 @@ void Player::STATE_Run_Left() {
     vectorDirection.x = -1;
     vectorDirection.y = 0;
     LoadAnimationWithId(PlayerAnimation::RUN_TO_LEFT);
-    ProcessPressedKeys(false);
+    //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Jump_Idle_Right() {
     Jump(47.0f, 0.0f);
     LoadAnimationWithId(PlayerAnimation::JUMP_RIGHT);
-    ProcessPressedKeys(false);
+    //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Jump_Idle_Left() {
     Jump(47.0f, 0.0f);
     LoadAnimationWithId(PlayerAnimation::JUMP_LEFT);
-    ProcessPressedKeys(false);
+    //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Jump_Run_Right() {
     // More momentum produces a longer jump
     Jump(45.0f, hMomentum == maxMomentum ? 10.0f : 4.0f);
     LoadAnimationWithId(PlayerAnimation::JUMP_RIGHT);
-    ProcessPressedKeys(false);
+    //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Jump_Run_Left() {
     // More momentum produces a longer jump
     Jump(45.0f, hMomentum == maxMomentum ? -10.0f : -4.0f);
     LoadAnimationWithId(PlayerAnimation::JUMP_LEFT);
-    ProcessPressedKeys(false);
+    //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Fall_Idle_Right() {
@@ -1141,32 +1157,32 @@ void Player::STATE_Fall_Run_Left() {
 
 void Player::STATE_Fall_Jump_Run_Right() {
     LoadAnimationWithId(PlayerAnimation::FALL_RIGHT);
-    ProcessPressedKeys(false);
+    //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Fall_Jump_Run_Left() {
     LoadAnimationWithId(PlayerAnimation::FALL_LEFT);
-    ProcessPressedKeys(false);
+    //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Hit_Right() {
     LoadAnimationWithId(PlayerAnimation::HIT_RIGHT);
-    ProcessPressedKeys(false);
+    //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Hit_Left() {
     LoadAnimationWithId(PlayerAnimation::HIT_LEFT);
-    ProcessPressedKeys(false);
+    //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Slip_Right() {
     Slip();
     LoadAnimationWithId(PlayerAnimation::SLIP_TO_RIGHT);
-    ProcessPressedKeys(false);
+    //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Slip_Left() {
     Slip();
     LoadAnimationWithId(PlayerAnimation::SLIP_TO_LEFT);
-    ProcessPressedKeys(false);
+    //ProcessPressedKeys(false);
 }

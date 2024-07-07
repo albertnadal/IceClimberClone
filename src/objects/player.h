@@ -66,10 +66,11 @@ class Player: public ISceneObject
   bool isJumping = false;
   bool isHitting = false;
   bool isFalling = false;
-  bool isSlipping = false;      // Player is slipping on a floor of ice
-  bool isJumpApex = false;      // Player is at the the max altitude during a jump
-  bool isBlockedRight = false;  // Player is stuck running to the right towards a brick
-  bool isBlockedLeft = false;   // Player is stuck running to the left towards a brick
+  bool isSlipping = false;         // Player is slipping on a floor of ice
+  bool isJumpApex = false;         // Player is at the the max altitude during a jump
+  bool isBlockedRight = false;     // Player is stuck running to the right towards a brick
+  bool isBlockedLeft = false;      // Player is stuck running to the left towards a brick
+  bool isOnMobileSurface = false;  // Player underlying surface is mobile
 
   // Player action update functions
   void UpdateCollisions();
