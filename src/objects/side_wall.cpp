@@ -119,10 +119,6 @@ ISceneObject* SideWallBlueLeft::Create() {
         return new SideWallBlueLeft();
 }
 
-SideWallBlueLeft::~SideWallBlueLeft() {
-
-}
-
 /* SideWallBlueRight */
 
 SideWallBlueRight::SideWallBlueRight() :
@@ -140,10 +136,6 @@ void SideWallBlueRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
 
 ISceneObject* SideWallBlueRight::Create() {
         return new SideWallBlueRight();
-}
-
-SideWallBlueRight::~SideWallBlueRight() {
-
 }
 
 /* SideWallBlueColumnsLeft */
@@ -165,10 +157,6 @@ ISceneObject* SideWallBlueColumnsLeft::Create() {
         return new SideWallBlueColumnsLeft();
 }
 
-SideWallBlueColumnsLeft::~SideWallBlueColumnsLeft() {
-
-}
-
 /* SideWallBlueColumnsRight */
 
 SideWallBlueColumnsRight::SideWallBlueColumnsRight() :
@@ -186,10 +174,6 @@ void SideWallBlueColumnsRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteShe
 
 ISceneObject* SideWallBlueColumnsRight::Create() {
         return new SideWallBlueColumnsRight();
-}
-
-SideWallBlueColumnsRight::~SideWallBlueColumnsRight() {
-
 }
 
 /* SideWallBrownLeft */
@@ -211,10 +195,6 @@ ISceneObject* SideWallBrownLeft::Create() {
         return new SideWallBrownLeft();
 }
 
-SideWallBrownLeft::~SideWallBrownLeft() {
-
-}
-
 /* SideWallBrownRight */
 
 SideWallBrownRight::SideWallBrownRight() :
@@ -232,10 +212,6 @@ void SideWallBrownRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
 
 ISceneObject* SideWallBrownRight::Create() {
         return new SideWallBrownRight();
-}
-
-SideWallBrownRight::~SideWallBrownRight() {
-
 }
 
 /* SideWallBrownColumnsLeft */
@@ -257,10 +233,6 @@ ISceneObject* SideWallBrownColumnsLeft::Create() {
         return new SideWallBrownColumnsLeft();
 }
 
-SideWallBrownColumnsLeft::~SideWallBrownColumnsLeft() {
-
-}
-
 /* SideWallBrownColumnsRight */
 
 SideWallBrownColumnsRight::SideWallBrownColumnsRight() :
@@ -278,10 +250,6 @@ void SideWallBrownColumnsRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSh
 
 ISceneObject* SideWallBrownColumnsRight::Create() {
         return new SideWallBrownColumnsRight();
-}
-
-SideWallBrownColumnsRight::~SideWallBrownColumnsRight() {
-
 }
 
 /* SideWallGreenLeft */
@@ -303,10 +271,6 @@ ISceneObject* SideWallGreenLeft::Create() {
         return new SideWallGreenLeft();
 }
 
-SideWallGreenLeft::~SideWallGreenLeft() {
-
-}
-
 /* SideWallGreenRight */
 
 SideWallGreenRight::SideWallGreenRight() :
@@ -324,10 +288,6 @@ void SideWallGreenRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
 
 ISceneObject* SideWallGreenRight::Create() {
         return new SideWallGreenRight();
-}
-
-SideWallGreenRight::~SideWallGreenRight() {
-
 }
 
 /* SideWallGreenColumnsLeft */
@@ -349,10 +309,6 @@ ISceneObject* SideWallGreenColumnsLeft::Create() {
         return new SideWallGreenColumnsLeft();
 }
 
-SideWallGreenColumnsLeft::~SideWallGreenColumnsLeft() {
-
-}
-
 /* SideWallGreenColumnsRight */
 
 SideWallGreenColumnsRight::SideWallGreenColumnsRight() :
@@ -370,8 +326,4 @@ void SideWallGreenColumnsRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSh
 
 ISceneObject* SideWallGreenColumnsRight::Create() {
         return new SideWallGreenColumnsRight();
-}
-
-SideWallGreenColumnsRight::~SideWallGreenColumnsRight() {
-
 }

@@ -198,10 +198,6 @@ void BrickBlue::STATE_Falling()
         LoadAnimationWithId(BrickBlueAnimation::BRICK_BLUE_FALLING);
 }
 
-BrickBlue::~BrickBlue() {
-
-}
-
 /* BrickBlueHalf */
 
 BrickBlueHalf::BrickBlueHalf() :
@@ -229,10 +225,6 @@ void BrickBlueHalf::STATE_Sticky()
 void BrickBlueHalf::STATE_Falling()
 {
         LoadAnimationWithId(BrickBlueHalfAnimation::BRICK_BLUE_HALF_FALLING);
-}
-
-BrickBlueHalf::~BrickBlueHalf() {
-
 }
 
 /* BrickBrown */
@@ -264,10 +256,6 @@ void BrickBrown::STATE_Falling()
         LoadAnimationWithId(BrickBrownAnimation::BRICK_BROWN_FALLING);
 }
 
-BrickBrown::~BrickBrown() {
-
-}
-
 /* BrickBrownHalf */
 
 BrickBrownHalf::BrickBrownHalf() :
@@ -295,10 +283,6 @@ void BrickBrownHalf::STATE_Sticky()
 void BrickBrownHalf::STATE_Falling()
 {
         LoadAnimationWithId(BrickBrownHalfAnimation::BRICK_BROWN_HALF_FALLING);
-}
-
-BrickBrownHalf::~BrickBrownHalf() {
-
 }
 
 /* BrickGreenHalf */
@@ -330,10 +314,6 @@ void BrickGreenHalf::STATE_Falling()
         LoadAnimationWithId(BrickGreenHalfAnimation::BRICK_GREEN_HALF_FALLING);
 }
 
-BrickGreenHalf::~BrickGreenHalf() {
-
-}
-
 /* BrickBlueConveyorBeltRight */
 
 BrickBlueConveyorBeltRight::BrickBlueConveyorBeltRight() :
@@ -361,10 +341,6 @@ void BrickBlueConveyorBeltRight::STATE_Sticky()
 void BrickBlueConveyorBeltRight::STATE_Falling()
 {
         LoadAnimationWithId(BrickBlueConveyorBeltRightAnimation::BRICK_BLUE_CONVEYOR_BELT_RIGHT_FALLING);
-}
-
-BrickBlueConveyorBeltRight::~BrickBlueConveyorBeltRight() {
-
 }
 
 /* BrickBlueConveyorBeltLeft */
@@ -396,10 +372,6 @@ void BrickBlueConveyorBeltLeft::STATE_Falling()
         LoadAnimationWithId(BrickBlueConveyorBeltLeftAnimation::BRICK_BLUE_CONVEYOR_BELT_LEFT_FALLING);
 }
 
-BrickBlueConveyorBeltLeft::~BrickBlueConveyorBeltLeft() {
-
-}
-
 /* BrickBrownConveyorBeltRight */
 
 BrickBrownConveyorBeltRight::BrickBrownConveyorBeltRight() :
@@ -427,10 +399,6 @@ void BrickBrownConveyorBeltRight::STATE_Sticky()
 void BrickBrownConveyorBeltRight::STATE_Falling()
 {
         LoadAnimationWithId(BrickBrownConveyorBeltRightAnimation::BRICK_BROWN_CONVEYOR_BELT_RIGHT_FALLING);
-}
-
-BrickBrownConveyorBeltRight::~BrickBrownConveyorBeltRight() {
-
 }
 
 /* BrickBrownConveyorBeltLeft */
@@ -462,10 +430,6 @@ void BrickBrownConveyorBeltLeft::STATE_Falling()
         LoadAnimationWithId(BrickBrownConveyorBeltLeftAnimation::BRICK_BROWN_CONVEYOR_BELT_LEFT_FALLING);
 }
 
-BrickBrownConveyorBeltLeft::~BrickBrownConveyorBeltLeft() {
-
-}
-
 /* BrickGreenConveyorBeltRight */
 
 BrickGreenConveyorBeltRight::BrickGreenConveyorBeltRight() :
@@ -493,10 +457,6 @@ void BrickGreenConveyorBeltRight::STATE_Sticky()
 void BrickGreenConveyorBeltRight::STATE_Falling()
 {
         LoadAnimationWithId(BrickGreenConveyorBeltRightAnimation::BRICK_GREEN_CONVEYOR_BELT_RIGHT_FALLING);
-}
-
-BrickGreenConveyorBeltRight::~BrickGreenConveyorBeltRight() {
-
 }
 
 /* BrickGreenConveyorBeltLeft */
@@ -528,10 +488,6 @@ void BrickGreenConveyorBeltLeft::STATE_Falling()
         LoadAnimationWithId(BrickGreenConveyorBeltLeftAnimation::BRICK_GREEN_CONVEYOR_BELT_LEFT_FALLING);
 }
 
-BrickGreenConveyorBeltLeft::~BrickGreenConveyorBeltLeft() {
-
-}
-
 /* BrickGreenUnbreakable */
 
 BrickGreenUnbreakable::BrickGreenUnbreakable() :
@@ -554,10 +510,6 @@ ISceneObject* BrickGreenUnbreakable::Create() {
 void BrickGreenUnbreakable::STATE_Sticky()
 {
         LoadAnimationWithId(BrickGreenUnbreakableAnimation::BRICK_GREEN_UNBREAKABLE_STICKY);
-}
-
-BrickGreenUnbreakable::~BrickGreenUnbreakable() {
-
 }
 
 /* BrickBrownUnbreakable */
@@ -584,10 +536,6 @@ void BrickBrownUnbreakable::STATE_Sticky()
         LoadAnimationWithId(BrickBrownUnbreakableAnimation::BRICK_BROWN_UNBREAKABLE_STICKY);
 }
 
-BrickBrownUnbreakable::~BrickBrownUnbreakable() {
-
-}
-
 /* BrickBlueUnbreakable */
 
 BrickBlueUnbreakable::BrickBlueUnbreakable() :
@@ -610,8 +558,4 @@ ISceneObject* BrickBlueUnbreakable::Create() {
 void BrickBlueUnbreakable::STATE_Sticky()
 {
         LoadAnimationWithId(BrickBlueUnbreakableAnimation::BRICK_BLUE_UNBREAKABLE_STICKY);
-}
-
-BrickBlueUnbreakable::~BrickBlueUnbreakable() {
-
 }

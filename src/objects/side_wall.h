@@ -51,7 +51,6 @@ class SideWallBlueLeft : public SideWall
 {
 public:
   SideWallBlueLeft();
-  ~SideWallBlueLeft();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -63,7 +62,6 @@ class SideWallBlueRight : public SideWall
 {
 public:
   SideWallBlueRight();
-  ~SideWallBlueRight();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -75,7 +73,6 @@ class SideWallBlueColumnsLeft : public SideWall
 {
 public:
   SideWallBlueColumnsLeft();
-  ~SideWallBlueColumnsLeft();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -87,7 +84,6 @@ class SideWallBlueColumnsRight : public SideWall
 {
 public:
   SideWallBlueColumnsRight();
-  ~SideWallBlueColumnsRight();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -99,7 +95,6 @@ class SideWallBrownLeft : public SideWall
 {
 public:
   SideWallBrownLeft();
-  ~SideWallBrownLeft();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -111,7 +106,6 @@ class SideWallBrownRight : public SideWall
 {
 public:
   SideWallBrownRight();
-  ~SideWallBrownRight();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -123,7 +117,6 @@ class SideWallBrownColumnsLeft : public SideWall
 {
 public:
   SideWallBrownColumnsLeft();
-  ~SideWallBrownColumnsLeft();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -135,7 +128,6 @@ class SideWallBrownColumnsRight : public SideWall
 {
 public:
   SideWallBrownColumnsRight();
-  ~SideWallBrownColumnsRight();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -147,7 +139,6 @@ class SideWallGreenLeft : public SideWall
 {
 public:
   SideWallGreenLeft();
-  ~SideWallGreenLeft();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -159,7 +150,6 @@ class SideWallGreenRight : public SideWall
 {
 public:
   SideWallGreenRight();
-  ~SideWallGreenRight();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -171,7 +161,6 @@ class SideWallGreenColumnsLeft : public SideWall
 {
 public:
   SideWallGreenColumnsLeft();
-  ~SideWallGreenColumnsLeft();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -183,7 +172,6 @@ class SideWallGreenColumnsRight : public SideWall
 {
 public:
   SideWallGreenColumnsRight();
-  ~SideWallGreenColumnsRight();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();

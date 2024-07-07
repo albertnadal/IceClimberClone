@@ -79,7 +79,6 @@ class BrickBlue : public Brick
 {
 public:
   BrickBlue();
-  ~BrickBlue();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -95,7 +94,6 @@ class BrickBlueHalf : public Brick
 {
 public:
   BrickBlueHalf();
-  ~BrickBlueHalf();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -111,7 +109,6 @@ class BrickBrown : public Brick
 {
 public:
   BrickBrown();
-  ~BrickBrown();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -127,7 +124,6 @@ class BrickBrownHalf : public Brick
 {
 public:
   BrickBrownHalf();
-  ~BrickBrownHalf();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -143,7 +139,6 @@ class BrickGreenHalf : public Brick
 {
 public:
   BrickGreenHalf();
-  ~BrickGreenHalf();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -159,7 +154,6 @@ class BrickBlueConveyorBeltRight : public Brick
 {
 public:
   BrickBlueConveyorBeltRight();
-  ~BrickBlueConveyorBeltRight();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -175,7 +169,6 @@ class BrickBlueConveyorBeltLeft : public Brick
 {
 public:
   BrickBlueConveyorBeltLeft();
-  ~BrickBlueConveyorBeltLeft();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -191,7 +184,6 @@ class BrickBrownConveyorBeltRight : public Brick
 {
 public:
   BrickBrownConveyorBeltRight();
-  ~BrickBrownConveyorBeltRight();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -207,7 +199,6 @@ class BrickBrownConveyorBeltLeft : public Brick
 {
 public:
   BrickBrownConveyorBeltLeft();
-  ~BrickBrownConveyorBeltLeft();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -223,7 +214,6 @@ class BrickGreenConveyorBeltRight : public Brick
 {
 public:
   BrickGreenConveyorBeltRight();
-  ~BrickGreenConveyorBeltRight();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -239,7 +229,6 @@ class BrickGreenConveyorBeltLeft : public Brick
 {
 public:
   BrickGreenConveyorBeltLeft();
-  ~BrickGreenConveyorBeltLeft();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -255,7 +244,6 @@ class BrickGreenUnbreakable : public Brick
 {
 public:
   BrickGreenUnbreakable();
-  ~BrickGreenUnbreakable();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -270,7 +258,6 @@ class BrickBrownUnbreakable : public Brick
 {
 public:
   BrickBrownUnbreakable();
-  ~BrickBrownUnbreakable();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
@@ -285,7 +272,6 @@ class BrickBlueUnbreakable : public Brick
 {
 public:
   BrickBlueUnbreakable();
-  ~BrickBlueUnbreakable();
   void InitWithSpriteSheet(ObjectSpriteSheet*);
   void PrintName();
   static ISceneObject* Create();
