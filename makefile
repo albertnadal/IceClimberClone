@@ -4,11 +4,14 @@ CFLAGS=-std=c++17 -stdlib=libc++ -Ofast -march=native -flto -fno-signed-zeros -f
 LDFLAGS=-Wl,-search_paths_first -Wl,-headerpad_max_install_names -framework OpenGL -framework Cocoa -framework IOKit -framework CoreAudio -framework CoreVideo -framework CoreFoundation -lraylib -Lthird_party/raylib/
 EXEC=main
 
-all: Rectangle.o CollisionDetector.o sprite_rect_double_buffer.o position.o scene_object.o scene_object_factory.o player.o brick.o side_wall.o state_machine.o scene_object_manager.o sprite.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_data_manager.o
-	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o player.o brick.o side_wall.o state_machine.o scene_object_manager.o sprite.o scene_object_data_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o position.o sprite_rect_double_buffer.o Rectangle.o CollisionDetector.o -o $(EXEC)
+all: Rectangle.o CollisionDetector.o sprite_rect_double_buffer.o position.o scene_object.o scene_object_factory.o player.o player_state_transitions.o brick.o side_wall.o state_machine.o scene_object_manager.o sprite.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_data_manager.o
+	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o player.o player_state_transitions.o brick.o side_wall.o state_machine.o scene_object_manager.o sprite.o scene_object_data_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o position.o sprite_rect_double_buffer.o Rectangle.o CollisionDetector.o -o $(EXEC)
 
 player.o: src/objects/player.cpp
 	$(CXX) -c $(CFLAGS) src/objects/player.cpp
+
+player_state_transitions.o: src/objects/player_state_transitions.cpp
+	$(CXX) -c $(CFLAGS) src/objects/player_state_transitions.cpp
 
 brick.o: src/objects/brick.cpp
 	$(CXX) -c $(CFLAGS) src/objects/brick.cpp

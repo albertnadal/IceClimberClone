@@ -30,6 +30,7 @@ add_executable(rocket
         src/collision/collision.h
         src/objects/brick.cpp
         src/objects/brick.h
+        src/objects/player_state_transitions.cpp
         src/objects/player.cpp
         src/objects/player.h
         src/objects/side_wall.cpp
