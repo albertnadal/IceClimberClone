@@ -448,7 +448,7 @@ void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {
         LeftKeyReleased();
     }
 
-    if (!isJumping && !isFalling && !isSlipping && (isOnMobileSurface || (headedToRight && !isBlockedRight) || (!headedToRight && !isBlockedLeft)) && ((pressedKeys & KeyboardKeyCode::IC_KEY_UP) == KeyboardKeyCode::IC_KEY_UP)) {
+    if (!isJumping && !isFalling && !isSlipping && ((isOnMobileSurface && !isRunning && (isBlockedRight || isBlockedLeft)) || (isRunning && !isBlockedRight && !isBlockedLeft) || (headedToRight && !isBlockedRight) || (!headedToRight && !isBlockedLeft)) && ((pressedKeys & KeyboardKeyCode::IC_KEY_UP) == KeyboardKeyCode::IC_KEY_UP)) {
         // If is not IC_KEY_UP repeated press then change character state
         if ((!checkPreviousPressedKeys) ||
             ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::IC_KEY_UP) != KeyboardKeyCode::IC_KEY_UP))) {
@@ -1072,6 +1072,7 @@ void Player::FallLanding() {
 }
 
 void Player::STATE_Idle_Right() {
+    isRunning = false;
     isBlockedRight = false;
     isBlockedLeft = false;
     hMomentum = 0;
@@ -1083,6 +1084,7 @@ void Player::STATE_Idle_Right() {
 }
 
 void Player::STATE_Idle_Left() {
+    isRunning = false;
     isBlockedRight = false;
     isBlockedLeft = false;
     hMomentum = 0;
@@ -1094,6 +1096,7 @@ void Player::STATE_Idle_Left() {
 }
 
 void Player::STATE_Run_Right() {
+    isRunning = true;
     UpdatePreviousDirection();
     vectorDirection.x = 1;
     vectorDirection.y = 0;
@@ -1102,6 +1105,7 @@ void Player::STATE_Run_Right() {
 }
 
 void Player::STATE_Run_Left() {
+    isRunning = true;
     UpdatePreviousDirection();
     vectorDirection.x = -1;
     vectorDirection.y = 0;
@@ -1110,18 +1114,22 @@ void Player::STATE_Run_Left() {
 }
 
 void Player::STATE_Jump_Idle_Right() {
+    cout << ">>>>> STATE_Jump_Idle_Right\n";
     Jump(47.0f, 0.0f);
     LoadAnimationWithId(PlayerAnimation::JUMP_RIGHT);
     //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Jump_Idle_Left() {
+    cout << ">>>>> STATE_Jump_Idle_Left\n";
     Jump(47.0f, 0.0f);
     LoadAnimationWithId(PlayerAnimation::JUMP_LEFT);
     //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Jump_Run_Right() {
+    cout << ">>>>> STATE_Jump_Run_Right\n";
+    isRunning = false;
     // More momentum produces a longer jump
     Jump(45.0f, hMomentum == maxMomentum ? 10.0f : 4.0f);
     LoadAnimationWithId(PlayerAnimation::JUMP_RIGHT);
@@ -1129,6 +1137,8 @@ void Player::STATE_Jump_Run_Right() {
 }
 
 void Player::STATE_Jump_Run_Left() {
+    cout << ">>>>> STATE_Jump_Run_Left\n";
+    isRunning = false;
     // More momentum produces a longer jump
     Jump(45.0f, hMomentum == maxMomentum ? -10.0f : -4.0f);
     LoadAnimationWithId(PlayerAnimation::JUMP_LEFT);
@@ -1136,52 +1146,66 @@ void Player::STATE_Jump_Run_Left() {
 }
 
 void Player::STATE_Fall_Idle_Right() {
+    cout << ">>>>> STATE_Fall_Idle_Right\n";
+    isRunning = false;
     Fall(0.0f);
     LoadAnimationWithId(PlayerAnimation::FALL_RIGHT);
 }
 
 void Player::STATE_Fall_Idle_Left() {
+    cout << ">>>>> STATE_Fall_Idle_Left\n";
+    isRunning = false;
     Fall(0.0f);
     LoadAnimationWithId(PlayerAnimation::FALL_LEFT);
 }
 
 void Player::STATE_Fall_Run_Right() {
+    cout << ">>>>> STATE_Fall_Run_Right\n";
+    isRunning = false;
     Fall(8.0f);
     LoadAnimationWithId(PlayerAnimation::FALL_RIGHT);
 }
 
 void Player::STATE_Fall_Run_Left() {
+    cout << ">>>>> STATE_Fall_Run_Left\n";
+    isRunning = false;
     Fall(-8.0f);
     LoadAnimationWithId(PlayerAnimation::FALL_LEFT);
 }
 
 void Player::STATE_Fall_Jump_Run_Right() {
+    cout << ">>>>> STATE_Fall_Jump_Run_Right\n";
     LoadAnimationWithId(PlayerAnimation::FALL_RIGHT);
     //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Fall_Jump_Run_Left() {
+    cout << ">>>>> STATE_Fall_Jump_Run_Left\n";
     LoadAnimationWithId(PlayerAnimation::FALL_LEFT);
     //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Hit_Right() {
+    isRunning = false;
     LoadAnimationWithId(PlayerAnimation::HIT_RIGHT);
     //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Hit_Left() {
+    isRunning = false;
     LoadAnimationWithId(PlayerAnimation::HIT_LEFT);
     //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Slip_Right() {
+    isRunning = false;
     Slip();
     LoadAnimationWithId(PlayerAnimation::SLIP_TO_RIGHT);
     //ProcessPressedKeys(false);
 }
 
 void Player::STATE_Slip_Left() {
+    isRunning = false;
     Slip();
     LoadAnimationWithId(PlayerAnimation::SLIP_TO_LEFT);
     //ProcessPressedKeys(false);

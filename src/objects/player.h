@@ -63,6 +63,7 @@ class Player: public ISceneObject
   std::optional<SurfaceType> underlyingObjectSurfaceType;
 
   // Player action states
+  bool isRunning = false;          // Player is running on a floor
   bool isJumping = false;
   bool isHitting = false;
   bool isFalling = false;
