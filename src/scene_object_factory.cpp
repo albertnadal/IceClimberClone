@@ -25,6 +25,12 @@ void SceneObjectFactory::RegisterSceneObjects() {
 	Register(SceneObjectIdentificator::BRICK_BROWN_CONVEYOR_BELT_LEFT, &BrickBrownConveyorBeltLeft::Create);
 	Register(SceneObjectIdentificator::BRICK_GREEN_CONVEYOR_BELT_RIGHT, &BrickGreenConveyorBeltRight::Create);
 	Register(SceneObjectIdentificator::BRICK_GREEN_CONVEYOR_BELT_LEFT, &BrickGreenConveyorBeltLeft::Create);
+	Register(SceneObjectIdentificator::BRICK_BLUE_CONVEYOR_BELT_RIGHT_UNBREAKABLE, &BrickBlueConveyorBeltRightUnbreakable::Create);
+	Register(SceneObjectIdentificator::BRICK_BLUE_CONVEYOR_BELT_LEFT_UNBREAKABLE, &BrickBlueConveyorBeltLeftUnbreakable::Create);
+	Register(SceneObjectIdentificator::BRICK_BROWN_CONVEYOR_BELT_RIGHT_UNBREAKABLE, &BrickBrownConveyorBeltRightUnbreakable::Create);
+	Register(SceneObjectIdentificator::BRICK_BROWN_CONVEYOR_BELT_LEFT_UNBREAKABLE, &BrickBrownConveyorBeltLeftUnbreakable::Create);
+	Register(SceneObjectIdentificator::BRICK_GREEN_CONVEYOR_BELT_RIGHT_UNBREAKABLE, &BrickGreenConveyorBeltRightUnbreakable::Create);
+	Register(SceneObjectIdentificator::BRICK_GREEN_CONVEYOR_BELT_LEFT_UNBREAKABLE, &BrickGreenConveyorBeltLeftUnbreakable::Create);
 	Register(SceneObjectIdentificator::SIDE_WALL_GREEN_LEFT, &SideWallGreenLeft::Create);
 	Register(SceneObjectIdentificator::SIDE_WALL_GREEN_RIGHT, &SideWallGreenRight::Create);
 	Register(SceneObjectIdentificator::SIDE_WALL_GREEN_COLUMNS_LEFT, &SideWallGreenColumnsLeft::Create);
@@ -52,17 +58,19 @@ void SceneObjectFactory::Register(const SceneObjectIdentificator sceneObjectId, 
 	m_FactoryMap[sceneObjectId] = pfnCreate;
 }
 
-ISceneObject *SceneObjectFactory::CreateSceneObject(const SceneObjectIdentificator sceneObjectId)
+std::optional<ISceneObject*> SceneObjectFactory::CreateSceneObject(const SceneObjectIdentificator sceneObjectId)
 {
 	FactoryMap::iterator it = m_FactoryMap.find(sceneObjectId);
 	if( it != m_FactoryMap.end() ) {
 		ISceneObject *sceneObject = it->second();
-		ObjectSpriteSheet *objectSpriteSheet = textureManager->GetSpriteSheetBySceneObjectIdentificator(sceneObject->Id());
+		std::optional<ObjectSpriteSheet *> objectSpriteSheet = textureManager->GetSpriteSheetBySceneObjectIdentificator(sceneObject->Id());
+		assert(objectSpriteSheet != std::nullopt);
 		sceneObject->SetSpacePartitionObjectsTree(spacePartitionObjectsTree);
-		sceneObject->InitWithSpriteSheet(objectSpriteSheet);
+		sceneObject->InitWithSpriteSheet(*objectSpriteSheet);
 		return sceneObject;
 	}
-	return NULL;
+
+	return std::nullopt;
 }
 
 SceneObjectFactory *SceneObjectFactory::Get(SceneObjectDataManager* _textureManager, aabb::Tree<ISceneObject*>* _spacePartitionObjectsTree)

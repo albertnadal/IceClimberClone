@@ -19,26 +19,28 @@ void SceneObjectManager::BuildWorld() {
   for(uint16_t row=0; row<7*6; row++) {
     //uint16_t y = (map_viewport_height - 1) - row - currentRow;
     for(uint16_t col=0; col<map_viewport_width; col++) {
-      if(SceneObjectIdentificator obj_id = (SceneObjectIdentificator)worldMap[row][col]) {
-        if(ISceneObject *objectPtr = SceneObjectFactory::Get(textureManager, spacePartitionObjectsTree)->CreateSceneObject(obj_id)) {
 
+      if(SceneObjectIdentificator obj_id = (SceneObjectIdentificator)worldMap[row][col]) {
+        std::optional<ISceneObject *> objectPtr = SceneObjectFactory::Get(textureManager, spacePartitionObjectsTree)->CreateSceneObject(obj_id);
+
+        if(objectPtr.has_value()) {
           if (obj_id == SceneObjectIdentificator::MAIN_CHARACTER) {
-            player = objectPtr;
+            player = *objectPtr;
           }
 
           // Set the initial position of the object in the screen
-          objectPtr->position.setX(int16_t(col*cell_w));
-          objectPtr->position.setY(int16_t(row*cell_h));
+          (*objectPtr)->position.setX(int16_t(col*cell_w));
+          (*objectPtr)->position.setY(int16_t(row*cell_h));
 
           // Initial update to load the sprites and boundary box
-          objectPtr->Update();
+          (*objectPtr)->Update();
 
           // Insert the object into the space partition tree used for object collision detection
-          spacePartitionObjectsTree->insertParticle(objectPtr, objectPtr->GetLowerBound(), objectPtr->GetUpperBound());
+          spacePartitionObjectsTree->insertParticle(*objectPtr, (*objectPtr)->GetLowerBound(), (*objectPtr)->GetUpperBound());
 
           // Save pointers to proper arrays for static objects and mobile objects
-          if(objectPtr->Type() == SceneObjectType::TERRAIN) staticObjects[objectPtr->uniqueId] = objectPtr;
-          else mobileObjects[objectPtr->uniqueId] = objectPtr;
+          if((*objectPtr)->Type() == SceneObjectType::TERRAIN) staticObjects[(*objectPtr)->uniqueId] = *objectPtr;
+          else mobileObjects[(*objectPtr)->uniqueId] = *objectPtr;
         }
       }
     }

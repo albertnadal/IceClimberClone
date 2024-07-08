@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <optional>
 #include <object_sprite_sheet.h>
 #include <raylib/raylib.h>
 #include <filesystem.h>
@@ -24,7 +25,7 @@ public:
   SceneObjectDataManager();
   ~SceneObjectDataManager();
   Texture2D LoadTextureAtlas();
-  ObjectSpriteSheet* GetSpriteSheetBySceneObjectIdentificator(SceneObjectIdentificator);
+  std::optional<ObjectSpriteSheet*> GetSpriteSheetBySceneObjectIdentificator(SceneObjectIdentificator);
 };
 
 bool startsWith(std::string mainStr, std::string toMatch);

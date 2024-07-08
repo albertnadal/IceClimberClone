@@ -2,6 +2,7 @@
 #define SCENE_OBJECT_FACTORY_H
 
 #include <map>
+#include <optional>
 #include <AABB/AABB.h>
 #include "scene_object.h"
 #include "scene_object_data_manager.h"
@@ -23,7 +24,7 @@ public:
 	~SceneObjectFactory();
 	static SceneObjectFactory *Get(SceneObjectDataManager*, aabb::Tree<ISceneObject*>*);
 	void Register(const SceneObjectIdentificator, CreateSceneObjectFn);
-	ISceneObject *CreateSceneObject(const SceneObjectIdentificator);
+	std::optional<ISceneObject*> CreateSceneObject(const SceneObjectIdentificator);
 };
 
 #endif

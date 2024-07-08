@@ -132,13 +132,13 @@ Texture2D SceneObjectDataManager::LoadTextureAtlas() {
         return LoadTexture(FileSystem::getPath(textureFilename).c_str());
 }
 
-ObjectSpriteSheet* SceneObjectDataManager::GetSpriteSheetBySceneObjectIdentificator(SceneObjectIdentificator sceneObjectIdentificator) {
+std::optional<ObjectSpriteSheet*> SceneObjectDataManager::GetSpriteSheetBySceneObjectIdentificator(SceneObjectIdentificator sceneObjectIdentificator) {
         auto searchIterator = objectSpriteSheetsMap.find(sceneObjectIdentificator);
         if (searchIterator != objectSpriteSheetsMap.end()) {
                 return searchIterator->second;
-        } else {
-                return nullptr;
         }
+
+        return std::nullopt;
 }
 
 bool startsWith(std::string mainStr, std::string toMatch)

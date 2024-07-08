@@ -559,3 +559,147 @@ void BrickBlueUnbreakable::STATE_Sticky()
 {
         LoadAnimationWithId(BrickBlueUnbreakableAnimation::BRICK_BLUE_UNBREAKABLE_STICKY);
 }
+
+/* BrickBlueConveyorBeltRightUnbreakable */
+
+BrickBlueConveyorBeltRightUnbreakable::BrickBlueConveyorBeltRightUnbreakable() :
+        Brick(SceneObjectIdentificator::BRICK_BLUE_CONVEYOR_BELT_RIGHT_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, false) {
+}
+
+void BrickBlueConveyorBeltRightUnbreakable::PrintName() {
+        std::cout << "BrickBlueConveyorBeltRightUnbreakable." << std::endl;
+}
+
+void BrickBlueConveyorBeltRightUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickBlueConveyorBeltRightUnbreakableAnimation::BRICK_BLUE_CONVEYOR_BELT_RIGHT_UNBREAKABLE_STICKY);
+}
+
+ISceneObject* BrickBlueConveyorBeltRightUnbreakable::Create() {
+        return new BrickBlueConveyorBeltRightUnbreakable();
+}
+
+void BrickBlueConveyorBeltRightUnbreakable::STATE_Sticky()
+{
+        LoadAnimationWithId(BrickBlueConveyorBeltRightUnbreakableAnimation::BRICK_BLUE_CONVEYOR_BELT_RIGHT_UNBREAKABLE_STICKY);
+}
+
+/* BrickBlueConveyorBeltLeftUnbreakable */
+
+BrickBlueConveyorBeltLeftUnbreakable::BrickBlueConveyorBeltLeftUnbreakable() :
+        Brick(SceneObjectIdentificator::BRICK_BLUE_CONVEYOR_BELT_LEFT_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, false) {
+}
+
+void BrickBlueConveyorBeltLeftUnbreakable::PrintName() {
+        std::cout << "BrickBlueConveyorBeltLeftUnbreakable." << std::endl;
+}
+
+void BrickBlueConveyorBeltLeftUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickBlueConveyorBeltLeftUnbreakableAnimation::BRICK_BLUE_CONVEYOR_BELT_LEFT_UNBREAKABLE_STICKY);
+}
+
+ISceneObject* BrickBlueConveyorBeltLeftUnbreakable::Create() {
+        return new BrickBlueConveyorBeltLeftUnbreakable();
+}
+
+void BrickBlueConveyorBeltLeftUnbreakable::STATE_Sticky()
+{
+        LoadAnimationWithId(BrickBlueConveyorBeltLeftUnbreakableAnimation::BRICK_BLUE_CONVEYOR_BELT_LEFT_UNBREAKABLE_STICKY);
+}
+
+/* BrickGreenConveyorBeltRightUnbreakable */
+
+BrickGreenConveyorBeltRightUnbreakable::BrickGreenConveyorBeltRightUnbreakable() :
+        Brick(SceneObjectIdentificator::BRICK_GREEN_CONVEYOR_BELT_RIGHT_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, false) {
+}
+
+void BrickGreenConveyorBeltRightUnbreakable::PrintName() {
+        std::cout << "BrickGreenConveyorBeltRightUnbreakable." << std::endl;
+}
+
+void BrickGreenConveyorBeltRightUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickGreenConveyorBeltRightUnbreakableAnimation::BRICK_GREEN_CONVEYOR_BELT_RIGHT_UNBREAKABLE_STICKY);
+}
+
+ISceneObject* BrickGreenConveyorBeltRightUnbreakable::Create() {
+        return new BrickGreenConveyorBeltRightUnbreakable();
+}
+
+void BrickGreenConveyorBeltRightUnbreakable::STATE_Sticky()
+{
+        LoadAnimationWithId(BrickGreenConveyorBeltRightUnbreakableAnimation::BRICK_GREEN_CONVEYOR_BELT_RIGHT_UNBREAKABLE_STICKY);
+}
+
+/* BrickGreenConveyorBeltLeftUnbreakable */
+
+BrickGreenConveyorBeltLeftUnbreakable::BrickGreenConveyorBeltLeftUnbreakable() :
+        Brick(SceneObjectIdentificator::BRICK_GREEN_CONVEYOR_BELT_LEFT_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, false) {
+}
+
+void BrickGreenConveyorBeltLeftUnbreakable::PrintName() {
+        std::cout << "BrickGreenConveyorBeltLeftUnbreakable." << std::endl;
+}
+
+void BrickGreenConveyorBeltLeftUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickGreenConveyorBeltLeftUnbreakableAnimation::BRICK_GREEN_CONVEYOR_BELT_LEFT_UNBREAKABLE_STICKY);
+}
+
+ISceneObject* BrickGreenConveyorBeltLeftUnbreakable::Create() {
+        return new BrickGreenConveyorBeltLeftUnbreakable();
+}
+
+void BrickGreenConveyorBeltLeftUnbreakable::STATE_Sticky()
+{
+        LoadAnimationWithId(BrickGreenConveyorBeltLeftUnbreakableAnimation::BRICK_GREEN_CONVEYOR_BELT_LEFT_UNBREAKABLE_STICKY);
+}
+
+/* BrickBrownConveyorBeltRightUnbreakable */
+
+BrickBrownConveyorBeltRightUnbreakable::BrickBrownConveyorBeltRightUnbreakable() :
+        Brick(SceneObjectIdentificator::BRICK_BROWN_CONVEYOR_BELT_RIGHT_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, false) {
+}
+
+void BrickBrownConveyorBeltRightUnbreakable::PrintName() {
+        std::cout << "BrickBrownConveyorBeltRightUnbreakable." << std::endl;
+}
+
+void BrickBrownConveyorBeltRightUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickBrownConveyorBeltRightUnbreakableAnimation::BRICK_BROWN_CONVEYOR_BELT_RIGHT_UNBREAKABLE_STICKY);
+}
+
+ISceneObject* BrickBrownConveyorBeltRightUnbreakable::Create() {
+        return new BrickBrownConveyorBeltRightUnbreakable();
+}
+
+void BrickBrownConveyorBeltRightUnbreakable::STATE_Sticky()
+{
+        LoadAnimationWithId(BrickBrownConveyorBeltRightUnbreakableAnimation::BRICK_BROWN_CONVEYOR_BELT_RIGHT_UNBREAKABLE_STICKY);
+}
+
+/* BrickBrownConveyorBeltLeftUnbreakable */
+
+BrickBrownConveyorBeltLeftUnbreakable::BrickBrownConveyorBeltLeftUnbreakable() :
+        Brick(SceneObjectIdentificator::BRICK_BROWN_CONVEYOR_BELT_LEFT_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, false) {
+}
+
+void BrickBrownConveyorBeltLeftUnbreakable::PrintName() {
+        std::cout << "BrickBrownConveyorBeltLeftUnbreakable." << std::endl;
+}
+
+void BrickBrownConveyorBeltLeftUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(BrickBrownConveyorBeltLeftUnbreakableAnimation::BRICK_BROWN_CONVEYOR_BELT_LEFT_UNBREAKABLE_STICKY);
+}
+
+ISceneObject* BrickBrownConveyorBeltLeftUnbreakable::Create() {
+        return new BrickBrownConveyorBeltLeftUnbreakable();
+}
+
+void BrickBrownConveyorBeltLeftUnbreakable::STATE_Sticky()
+{
+        LoadAnimationWithId(BrickBrownConveyorBeltLeftUnbreakableAnimation::BRICK_BROWN_CONVEYOR_BELT_LEFT_UNBREAKABLE_STICKY);
+}

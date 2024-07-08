@@ -280,4 +280,88 @@ private:
   void STATE_Sticky() override;
 };
 
+/* BrickBlueConveyorBeltRightUnbreakable */
+
+class BrickBlueConveyorBeltRightUnbreakable : public Brick
+{
+public:
+  BrickBlueConveyorBeltRightUnbreakable();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+};
+
+/* BrickBlueConveyorBeltLeftUnbreakable */
+
+class BrickBlueConveyorBeltLeftUnbreakable : public Brick
+{
+public:
+  BrickBlueConveyorBeltLeftUnbreakable();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+};
+
+/* BrickBrownConveyorBeltRightUnbreakable */
+
+class BrickBrownConveyorBeltRightUnbreakable : public Brick
+{
+public:
+  BrickBrownConveyorBeltRightUnbreakable();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+};
+
+/* BrickBrownConveyorBeltLeftUnbreakable */
+
+class BrickBrownConveyorBeltLeftUnbreakable : public Brick
+{
+public:
+  BrickBrownConveyorBeltLeftUnbreakable();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+};
+
+/* BrickGreenConveyorBeltRightUnbreakable */
+
+class BrickGreenConveyorBeltRightUnbreakable : public Brick
+{
+public:
+  BrickGreenConveyorBeltRightUnbreakable();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+};
+
+/* BrickGreenConveyorBeltLeftUnbreakable */
+
+class BrickGreenConveyorBeltLeftUnbreakable : public Brick
+{
+public:
+  BrickGreenConveyorBeltLeftUnbreakable();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+
+private:
+  void STATE_Sticky() override;
+};
+
 #endif
