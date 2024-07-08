@@ -33,15 +33,15 @@ float Position::GetRealY() {
     return y;
 }
 
-int16_t Position::GetIntX() {
+int Position::GetIntX() {
     return int_x + int_x_offset;
 }
 
-int16_t Position::GetIntY() {
+int Position::GetIntY() {
     return int_y + int_y_offset;
 }
 
-void Position::setOffset(int16_t _x, int16_t _y) {
+void Position::setOffset(int _x, int _y) {
     prev_int_x_offset = int_x_offset;
     prev_int_y_offset = int_y_offset;
     int_x_offset = _x;
@@ -52,17 +52,17 @@ void Position::setXY(float _x, float _y) {
     prev_y = y;
     prev_x = x;
     prev_int_x = int_x;
-    int_x = static_cast<int16_t>(_x);
+    int_x = static_cast<int>(_x);
     x = _x;
     prev_int_y = int_y;
-    int_y = static_cast<int16_t>(_y);
+    int_y = static_cast<int>(_y);
     y = _y;
 }
 
 void Position::setX(float _x) {
     prev_y = y;
     prev_int_x = int_x;
-    int_x = static_cast<int16_t>(_x);
+    int_x = static_cast<int>(_x);
     prev_x = x;
     x = _x;
 }
@@ -70,7 +70,7 @@ void Position::setX(float _x) {
 void Position::setY(float _y) {
     prev_x = x;
     prev_int_y = int_y;
-    int_y = static_cast<int16_t>(_y);
+    int_y = static_cast<int>(_y);
     prev_y = y;
     y = _y;
 }
@@ -81,7 +81,7 @@ void Position::addX(float _x) {
     x += _x;
     std::cout << "addX: " << x << "\n";
     prev_int_x = int_x;
-    int_x = static_cast<int16_t>(x);
+    int_x = static_cast<int>(x);
 }
 
 void Position::addY(float _y) {
@@ -90,7 +90,7 @@ void Position::addY(float _y) {
     y += _y;
     std::cout << "addY: " << y << "\n";
     prev_int_y = int_y;
-    int_y = static_cast<int16_t>(y);
+    int_y = static_cast<int>(y);
 }
 
 void Position::recoverPreviousPosition() {

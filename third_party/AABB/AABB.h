@@ -367,7 +367,7 @@ namespace aabb
             \param upperBound
                 The upper bound in each dimension.
          */
-        void insertParticle(T, std::vector<unsigned short>&, std::vector<unsigned short>&);
+        void insertParticle(T, std::vector<int>&, std::vector<int>&);
         //! Insert a particle into the tree (arbitrary shape with bounding box).
         /*! \param index
                 The index of the particle.
@@ -423,7 +423,7 @@ namespace aabb
             \param alwaysReinsert
                 Always reinsert the particle, even if it's within its old AABB (default: false)
          */
-        bool updateParticle(T, std::vector<unsigned short>&, std::vector<unsigned short>&, bool alwaysReinsert=false);
+        bool updateParticle(T, std::vector<int>&, std::vector<int>&, bool alwaysReinsert=false);
 
         //! Update the tree if a particle moves outside its fattened AABB.
         /*! \param particle
@@ -471,7 +471,7 @@ namespace aabb
             \return intersections
                 A vector of intersections with particle indices and intersection values.
          */
-        std::vector<AABBIntersection<T>> query(const std::vector<unsigned short>, const std::vector<unsigned short>);
+        std::vector<AABBIntersection<T>> query(const std::vector<int>, const std::vector<int>);
 
         //! Query the tree to find candidate interactions for an AABB.
         /*! \param aabb
@@ -875,7 +875,7 @@ namespace aabb
     }
 
     template <class T>
-    void Tree<T>::insertParticle(T particle, std::vector<unsigned short>& lowerBound_, std::vector<unsigned short>& upperBound_)
+    void Tree<T>::insertParticle(T particle, std::vector<int>& lowerBound_, std::vector<int>& upperBound_)
     {
         std::vector<double> lowerBound;
         std::vector<double> upperBound;
@@ -1033,7 +1033,7 @@ namespace aabb
     }
 
     template <class T>
-    bool Tree<T>::updateParticle(T particle, std::vector<unsigned short>& lowerBound_, std::vector<unsigned short>& upperBound_, bool alwaysReinsert)
+    bool Tree<T>::updateParticle(T particle, std::vector<int>& lowerBound_, std::vector<int>& upperBound_, bool alwaysReinsert)
     {
         std::vector<double> lowerBound;
         std::vector<double> upperBound;
@@ -1202,7 +1202,7 @@ namespace aabb
     }
 
     template <class T>
-    std::vector<AABBIntersection<T>> Tree<T>::query(const std::vector<unsigned short> lowerBound_, const std::vector<unsigned short> upperBound_)
+    std::vector<AABBIntersection<T>> Tree<T>::query(const std::vector<int> lowerBound_, const std::vector<int> upperBound_)
     {
         std::vector<double> lowerBound;
         std::vector<double> upperBound;

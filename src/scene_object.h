@@ -14,7 +14,7 @@ using namespace std;
 
 class ISceneObject;
 
-struct Boundaries { uint16_t lowerBoundX, lowerBoundY, upperBoundX, upperBoundY; };
+struct Boundaries { int lowerBoundX, lowerBoundY, upperBoundX, upperBoundY; };
 struct ObjectCollision { ISceneObject* object; int horizontalCorrection; int verticalCorrection; };
 
 class ISceneObject : public StateMachine
@@ -51,10 +51,10 @@ public:
   void PositionAddX(float);
   void PositionAddY(float);
   void RecoverPreviousPosition();
-  virtual std::vector<uint16_t> GetLowerBound();
-  virtual std::vector<uint16_t> GetUpperBound();
-  virtual std::vector<uint16_t> GetSolidLowerBound();
-  virtual std::vector<uint16_t> GetSolidUpperBound();
+  virtual std::vector<int> GetLowerBound();
+  virtual std::vector<int> GetUpperBound();
+  virtual std::vector<int> GetSolidLowerBound();
+  virtual std::vector<int> GetSolidUpperBound();
   virtual Boundaries GetAbsoluteBoundaries();
   virtual Boundaries GetAbsoluteSolidBoundaries();
   virtual SceneObjectIdentificator Id();

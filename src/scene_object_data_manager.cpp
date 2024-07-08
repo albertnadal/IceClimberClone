@@ -113,10 +113,10 @@ void SceneObjectDataManager::LoadObjectsDataFromFile(std::string filename)
                                 float u2 = stof(currentFrameValues->at(6));
                                 float v2 = stof(currentFrameValues->at(7));
                                 uint16_t duration = stoi(currentFrameValues->at(8));
-                                uint16_t lowerBoundX = stoi(currentFrameValues->at(9));
-                                uint16_t lowerBoundY = stoi(currentFrameValues->at(10));
-                                uint16_t upperBoundX = stoi(currentFrameValues->at(11));
-                                uint16_t upperBoundY = stoi(currentFrameValues->at(12));
+                                int lowerBoundX = stoi(currentFrameValues->at(9));
+                                int lowerBoundY = stoi(currentFrameValues->at(10));
+                                int upperBoundX = stoi(currentFrameValues->at(11));
+                                int upperBoundY = stoi(currentFrameValues->at(12));
 
                                 // An sprite may contain some areas defined by polygons in order to check possible collisions with other objects during the gameplay
                                 currentAreas = new SpriteAreas();

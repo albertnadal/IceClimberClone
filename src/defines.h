@@ -57,3 +57,4 @@ enum CloudTinyAnimation: uint16_t { CLOUD_TINY_FLYING = 57 };
 const float GRAVITY = 9.81;
 const int MIN_PIXELS_ON_UNDERLYING_SURFACE = 4;  // Min number of pixels on the edge of an underlying surface to do not fall.
 const int SLIPPING_DISTANCE = 30;                // The distance, in pixels, the player slips when suddenly stopping on an ice floor.
+const int LEVEL_WIDTH = 32 * 16;                 // The width in pixels of a level. 32bricks x 16px

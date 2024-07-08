@@ -95,38 +95,38 @@ void ISceneObject::RemoveFromSpacePartitionObjectsTree() {
   spacePartitionObjectsTree->removeParticle(this);
 }
 
-std::vector<uint16_t> ISceneObject::GetLowerBound() {
-  std::vector<uint16_t> lowerBound{static_cast<uint16_t>(position.GetIntX() + boundingBox.lowerBoundX), static_cast<uint16_t>(position.GetIntY() + boundingBox.lowerBoundY)};
+std::vector<int> ISceneObject::GetLowerBound() {
+  std::vector<int> lowerBound{position.GetIntX() + boundingBox.lowerBoundX, position.GetIntY() + boundingBox.lowerBoundY};
   return lowerBound;
 }
 
-std::vector<uint16_t> ISceneObject::GetUpperBound() {
-  std::vector<uint16_t> upperBound{static_cast<uint16_t>(position.GetIntX() + boundingBox.upperBoundX), static_cast<uint16_t>(position.GetIntY() + boundingBox.upperBoundY)};
+std::vector<int> ISceneObject::GetUpperBound() {
+  std::vector<int> upperBound{position.GetIntX() + boundingBox.upperBoundX, position.GetIntY() + boundingBox.upperBoundY};
   return upperBound;
 }
 
-std::vector<uint16_t> ISceneObject::GetSolidLowerBound() {
-  std::vector<uint16_t> lowerBound{static_cast<uint16_t>(position.GetIntX() + solidBoundingBox.lowerBoundX), static_cast<uint16_t>(position.GetIntY() + solidBoundingBox.lowerBoundY)};
+std::vector<int> ISceneObject::GetSolidLowerBound() {
+  std::vector<int> lowerBound{position.GetIntX() + solidBoundingBox.lowerBoundX, position.GetIntY() + solidBoundingBox.lowerBoundY};
   return lowerBound;
 }
 
-std::vector<uint16_t> ISceneObject::GetSolidUpperBound() {
-  std::vector<uint16_t> upperBound{static_cast<uint16_t>(position.GetIntX() + solidBoundingBox.upperBoundX), static_cast<uint16_t>(position.GetIntY() + solidBoundingBox.upperBoundY)};
+std::vector<int> ISceneObject::GetSolidUpperBound() {
+  std::vector<int> upperBound{position.GetIntX() + solidBoundingBox.upperBoundX, position.GetIntY() + solidBoundingBox.upperBoundY};
   return upperBound;
 }
 
 Boundaries ISceneObject::GetAbsoluteBoundaries() {
-  return {static_cast<uint16_t>(position.GetIntX() + boundingBox.upperBoundX),
-          static_cast<uint16_t>(position.GetIntY() + boundingBox.upperBoundY),
-          static_cast<uint16_t>(position.GetIntX() + boundingBox.lowerBoundX),
-          static_cast<uint16_t>(position.GetIntY() + boundingBox.lowerBoundY)};
+  return {position.GetIntX() + boundingBox.upperBoundX,
+          position.GetIntY() + boundingBox.upperBoundY,
+          position.GetIntX() + boundingBox.lowerBoundX,
+          position.GetIntY() + boundingBox.lowerBoundY};
 }
 
 Boundaries ISceneObject::GetAbsoluteSolidBoundaries() {
-  return {static_cast<uint16_t>(position.GetIntX() + boundingBox.upperBoundX),
-          static_cast<uint16_t>(position.GetIntY() + boundingBox.upperBoundY),
-          static_cast<uint16_t>(position.GetIntX() + boundingBox.lowerBoundX),
-          static_cast<uint16_t>(position.GetIntY() + boundingBox.lowerBoundY)};
+  return {position.GetIntX() + boundingBox.upperBoundX,
+          position.GetIntY() + boundingBox.upperBoundY,
+          position.GetIntX() + boundingBox.lowerBoundX,
+          position.GetIntY() + boundingBox.lowerBoundY};
 }
 
 SceneObjectIdentificator ISceneObject::Id() {
@@ -150,9 +150,9 @@ void ISceneObject::PrintName() {
 }
 
 void ISceneObject::PrintBoundaries() {
-  std::vector<uint16_t> lowerBound = GetLowerBound();
-  std::vector<uint16_t> upperBound = GetUpperBound();
-  std:cout << "Lowerbound X: " << lowerBound[0] << " Y: " << lowerBound[1] << " | Upperbound X: " << upperBound[0] << " Y: " << upperBound[1] << endl;
+  std::vector<int> lowerBound = GetLowerBound();
+  std::vector<int> upperBound = GetUpperBound();
+  std:cout << "Lowerbound X: " << lowerBound[0] << " Y: " << lowerBound[1] << " | Upperbound X: " << upperBound[0] << " Y: " << upperBound[1] << endl;
 }
 
 bool ISceneObject::Update() {
