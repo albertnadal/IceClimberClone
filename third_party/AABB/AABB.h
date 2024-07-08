@@ -367,7 +367,7 @@ namespace aabb
             \param upperBound
                 The upper bound in each dimension.
          */
-        void insertParticle(T, std::vector<unsigned short>, std::vector<unsigned short>);
+        void insertParticle(T, std::vector<unsigned short>&, std::vector<unsigned short>&);
         //! Insert a particle into the tree (arbitrary shape with bounding box).
         /*! \param index
                 The index of the particle.
@@ -409,6 +409,21 @@ namespace aabb
                 Whether the particle was reinserted.
          */
         bool updateParticle(T, std::vector<double>&, double, bool alwaysReinsert=false);
+
+        //! Update the tree if a particle moves outside its fattened AABB.
+        /*! \param particle
+                The particle index (particleMap will be used to map the node).
+
+            \param lowerBound
+                The lower bound in each dimension.
+
+            \param upperBound
+                The upper bound in each dimension.
+
+            \param alwaysReinsert
+                Always reinsert the particle, even if it's within its old AABB (default: false)
+         */
+        bool updateParticle(T, std::vector<unsigned short>&, std::vector<unsigned short>&, bool alwaysReinsert=false);
 
         //! Update the tree if a particle moves outside its fattened AABB.
         /*! \param particle
@@ -860,7 +875,7 @@ namespace aabb
     }
 
     template <class T>
-    void Tree<T>::insertParticle(T particle, std::vector<unsigned short> lowerBound_, std::vector<unsigned short> upperBound_)
+    void Tree<T>::insertParticle(T particle, std::vector<unsigned short>& lowerBound_, std::vector<unsigned short>& upperBound_)
     {
         std::vector<double> lowerBound;
         std::vector<double> upperBound;
@@ -1018,6 +1033,23 @@ namespace aabb
     }
 
     template <class T>
+    bool Tree<T>::updateParticle(T particle, std::vector<unsigned short>& lowerBound_, std::vector<unsigned short>& upperBound_, bool alwaysReinsert)
+    {
+        std::vector<double> lowerBound;
+        std::vector<double> upperBound;
+
+        for(int i=0; i<lowerBound_.size(); i++) {
+          lowerBound.push_back((double)lowerBound_.at(i));
+        }
+
+        for(int i=0; i<upperBound_.size(); i++) {
+          upperBound.push_back((double)upperBound_.at(i));
+        }
+
+        return updateParticle(particle, lowerBound, upperBound, alwaysReinsert);
+    }
+
+    template <class T>
     bool Tree<T>::updateParticle(T particle, std::vector<double>& lowerBound,
                               std::vector<double>& upperBound, bool alwaysReinsert)
     {
@@ -1036,7 +1068,7 @@ namespace aabb
         // The particle doesn't exist.
         if (it == particleMap.end())
         {
-            throw std::invalid_argument("[ERROR]: Invalid particle index!");
+            return false;
         }
 
         // Extract the node index.

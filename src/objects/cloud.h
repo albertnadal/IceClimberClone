@@ -22,6 +22,7 @@ class Cloud: public ISceneObject
   void LoadNextSprite();
 protected:
   void LoadAnimationWithId(uint16_t);
+  void UpdateFlight();
   bool flyToRight = true;
 public:
   Cloud(SceneObjectIdentificator, SceneObjectType, SurfaceType, unsigned char, bool);

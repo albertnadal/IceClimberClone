@@ -36,7 +36,9 @@ void SceneObjectManager::BuildWorld() {
           (*objectPtr)->Update();
 
           // Insert the object into the space partition tree used for object collision detection
-          spacePartitionObjectsTree->insertParticle(*objectPtr, (*objectPtr)->GetLowerBound(), (*objectPtr)->GetUpperBound());
+          std::vector<uint16_t> lowerBound = (*objectPtr)->GetLowerBound();
+          std::vector<uint16_t> upperBound = (*objectPtr)->GetUpperBound();
+          spacePartitionObjectsTree->insertParticle(*objectPtr, lowerBound, upperBound);
 
           // Save pointers to proper arrays for static objects and mobile objects
           if((*objectPtr)->Type() == SceneObjectType::TERRAIN) staticObjects[(*objectPtr)->uniqueId] = *objectPtr;

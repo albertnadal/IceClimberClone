@@ -21,12 +21,23 @@ void Cloud::PrintName() {
         std::cout << "Cloud." << std::endl;
 }
 
+void Cloud::UpdateFlight() {
+        PositionAddX(flyToRight ? 1.0f : -1.0f);
+
+        // Update the position of the cloud in the space partition tree
+        std::vector<uint16_t> lowerBound = GetLowerBound();
+        std::vector<uint16_t> upperBound = GetUpperBound();
+        spacePartitionObjectsTree->updateParticle(this, lowerBound, upperBound);
+}
+
 bool Cloud::Update(uint8_t pressedKeys_) {
         if (isMarkedToDelete) {
                 return false;
         }
 
         bool needRedraw = false;
+
+        UpdateFlight();
 
         if(!animationLoaded) {
                 return false;
