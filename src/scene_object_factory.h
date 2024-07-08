@@ -9,6 +9,7 @@
 #include "objects/player.h"
 #include "objects/brick.h"
 #include "objects/side_wall.h"
+#include "objects/cloud.h"
 
 class SceneObjectFactory
 {

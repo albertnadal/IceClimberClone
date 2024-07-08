@@ -19,8 +19,6 @@ class Brick: public ISceneObject
   bool animationHasOnlyOneSprite = false;
   bool animationLoaded = false;
   bool isPropelled = false;
-  void ProcessPressedKeys(bool = true);
-  void ProcessReleasedKeys();
   SpriteData NextSpriteData();
   void LoadNextSprite();
   void Propel(float vSpeed, float hSpeed);

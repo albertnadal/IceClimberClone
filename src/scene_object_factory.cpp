@@ -43,6 +43,9 @@ void SceneObjectFactory::RegisterSceneObjects() {
 	Register(SceneObjectIdentificator::SIDE_WALL_BLUE_RIGHT, &SideWallBlueRight::Create);
 	Register(SceneObjectIdentificator::SIDE_WALL_BLUE_COLUMNS_LEFT, &SideWallBlueColumnsLeft::Create);
 	Register(SceneObjectIdentificator::SIDE_WALL_BLUE_COLUMNS_RIGHT, &SideWallBlueColumnsRight::Create);
+	Register(SceneObjectIdentificator::CLOUD_SMALL, &CloudSmall::Create);
+	Register(SceneObjectIdentificator::CLOUD_BIG, &CloudBig::Create);
+	Register(SceneObjectIdentificator::CLOUD_TINY, &CloudTiny::Create);
 }
 
 SceneObjectFactory &SceneObjectFactory::operator=(const SceneObjectFactory &) {
