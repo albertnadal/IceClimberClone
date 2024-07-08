@@ -102,23 +102,6 @@ void Position::recoverPreviousPosition() {
     int_y_offset = prev_int_y_offset;
 }
 
-float Position::getTrajectoryTangent() {
-    float _x = prev_x - x;
-    float _y = prev_y - y;
-
-    if (abs(_x) == 0.0f) {
-        if (_y < 0.0f) {
-            return -(std::numeric_limits<float>::max());
-        } else if (_y == 0.0f) {
-            return 0.0f;
-        } else {
-            return std::numeric_limits<float>::max();
-        }
-    } else {
-        return _y / _x;
-    }
-}
-
 Position::~Position() {
 
 }

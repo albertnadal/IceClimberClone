@@ -4,8 +4,8 @@ CFLAGS=-std=c++17 -stdlib=libc++ -Ofast -march=native -flto -fno-signed-zeros -f
 LDFLAGS=-Wl,-search_paths_first -Wl,-headerpad_max_install_names -framework OpenGL -framework Cocoa -framework IOKit -framework CoreAudio -framework CoreVideo -framework CoreFoundation -lraylib -Lthird_party/raylib/
 EXEC=main
 
-all: Rectangle.o CollisionDetector.o sprite_rect_double_buffer.o position.o scene_object.o scene_object_factory.o player.o player_state_transitions.o brick.o cloud.o side_wall.o state_machine.o scene_object_manager.o sprite.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_data_manager.o
-	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o player.o player_state_transitions.o brick.o cloud.o side_wall.o state_machine.o scene_object_manager.o sprite.o scene_object_data_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o position.o sprite_rect_double_buffer.o Rectangle.o CollisionDetector.o -o $(EXEC)
+all: Rectangle.o sprite_rect_double_buffer.o position.o scene_object.o scene_object_factory.o player.o player_state_transitions.o brick.o cloud.o side_wall.o state_machine.o scene_object_manager.o sprite.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_data_manager.o
+	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o player.o player_state_transitions.o brick.o cloud.o side_wall.o state_machine.o scene_object_manager.o sprite.o scene_object_data_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o position.o sprite_rect_double_buffer.o Rectangle.o -o $(EXEC)
 
 player.o: src/objects/player.cpp
 	$(CXX) -c $(CFLAGS) src/objects/player.cpp
@@ -54,9 +54,6 @@ sprite_rect_double_buffer.o: src/sprite_rect_double_buffer.cpp
 
 Rectangle.o: src/collision/geometry/Rectangle.cpp
 	$(CXX) -c $(CFLAGS) src/collision/geometry/Rectangle.cpp
-
-CollisionDetector.o: src/collision/algorithm/CollisionDetector.cpp
-	$(CXX) -c $(CFLAGS) src/collision/algorithm/CollisionDetector.cpp
 
 clean:
 	rm -f $(EXEC) *.o *.gch src/*.o src/*.gch third_party/collision/structures/*.gch third_party/AABB/*.gch

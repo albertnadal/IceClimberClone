@@ -10,7 +10,6 @@ include_directories(src/items)
 include_directories(third_party)
 include_directories(third_party/AABB)
 include_directories(third_party/collision)
-include_directories(third_party/collision/algorithm)
 include_directories(third_party/collision/geometry)
 include_directories(third_party/collision/math)
 include_directories(third_party/collision/structures)
@@ -19,9 +18,6 @@ include_directories(third_party/KHR)
 include_directories(third_party/MersenneTwister)
 
 add_executable(rocket
-        src/collision/algorithm/CollisionDetector.cpp
-        src/collision/algorithm/CollisionDetector.h
-        src/collision/algorithm/Penetration.h
         src/collision/geometry/Rectangle.cpp
         src/collision/geometry/Rectangle.h
         src/collision/math/Vector2Util.h

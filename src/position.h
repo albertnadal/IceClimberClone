@@ -30,7 +30,6 @@ public:
   void addX(float);
   void addY(float);
   void recoverPreviousPosition();
-  float getTrajectoryTangent();
 };
 
 #endif

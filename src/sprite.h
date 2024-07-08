@@ -1,8 +1,9 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
+#include <vector>
 #include <defines.h>
-#include <collision/collision.h>
+#include <collision/geometry/Rectangle.h>
 
 using namespace std;
 
