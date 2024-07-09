@@ -149,6 +149,10 @@ void ISceneObject::PrintName() {
   std::cout << "PrintName not overloaded for object." << std::endl;
 }
 
+bool ISceneObject::IsCloud() {
+  return false;
+}
+
 void ISceneObject::PrintBoundaries() {
   std::vector<int> lowerBound = GetLowerBound();
   std::vector<int> upperBound = GetUpperBound();

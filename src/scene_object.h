@@ -68,6 +68,7 @@ public:
   virtual bool Update(const uint8_t);
   virtual bool Update(const uint8_t, aabb::Tree<ISceneObject*>&);
   virtual void Hit(bool);
+  virtual bool IsCloud();
 };
 
 typedef ISceneObject* (*CreateSceneObjectFn)(void);

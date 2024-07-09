@@ -22,6 +22,10 @@ void Player::PrintName() {
     std::cout << "Main character." << std::endl;
 }
 
+bool Player::IsCloud() {
+  return false;
+}
+
 void Player::DisplacePlayerIfUnderlyingSurfaceIsMobile() {
     if (!underlyingObjectSurfaceType.has_value()) {
         return;
@@ -97,11 +101,13 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
     std::vector<aabb::AABBIntersection<ISceneObject*>> objectIntersections = spacePartitionObjectsTree->query(GetSolidLowerBound(), GetSolidUpperBound());
     playerIsSuspendedInTheAir = true;
     ISceneObject* underlyingObjectCandidate = nullptr;
+    prevUnderlyingCloud = currentUnderlyingCloud;
+    currentUnderlyingCloud = nullptr;
     int minBottomIntersectionYUnderlyingObjectCandidate = 9999;
     int minIntersectionXDiffUnderlyingObjectCandidate = 9999;
 
     for (auto intersection : objectIntersections) {
-        if (intersection.particle == this) {
+        if ((intersection.particle == this) || (std::find(objectsToIgnoreDuringFall.begin(), objectsToIgnoreDuringFall.end(), intersection.particle) != objectsToIgnoreDuringFall.end())) {
             continue;
         }
 
@@ -203,6 +209,11 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
 
     if (underlyingObjectCandidate != nullptr) {
         playerIsSuspendedInTheAir = false;
+
+        if (underlyingObjectCandidate->IsCloud()) {
+            currentUnderlyingCloud = underlyingObjectCandidate;
+        }
+
         underlyingObjectSurfaceType = underlyingObjectCandidate->surfaceType;
         isOnMobileSurface = (underlyingObjectSurfaceType == SurfaceType::MOBILE_RIGHT) || (underlyingObjectSurfaceType == SurfaceType::MOBILE_LEFT);
 
@@ -612,6 +623,11 @@ void Player::FallDueToLateralCollisionJump() {
 }
 
 void Player::FallDueToSuspendedInTheAir() {
+    // Ignore collisions with the previous underlying cloud when player falls.
+    if (prevUnderlyingCloud != nullptr && (std::find(objectsToIgnoreDuringFall.begin(), objectsToIgnoreDuringFall.end(), prevUnderlyingCloud) == objectsToIgnoreDuringFall.end())) {
+        objectsToIgnoreDuringFall.push_back(prevUnderlyingCloud);
+    }
+
     hMomentum = 0;
     UpdatePreviousDirection();
     vectorDirection.x = 0;
@@ -633,6 +649,7 @@ void Player::UpdateFall() {
 
 void Player::FinishFall() {
     isFalling = false;
+    objectsToIgnoreDuringFall.clear();
     UpdatePreviousDirection();
     previous_vOffset = 0.0f;
     vectorDirection.x = 0;

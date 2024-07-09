@@ -60,6 +60,9 @@ class Player: public ISceneObject
   collision::vec2<int16_t> vectorDirection;
   collision::vec2<int16_t> prevVectorDirection;
   std::optional<SurfaceType> underlyingObjectSurfaceType;
+  ISceneObject* prevUnderlyingCloud = nullptr;
+  ISceneObject* currentUnderlyingCloud = nullptr;
+  std::vector<ISceneObject*> objectsToIgnoreDuringFall;
 
   // Player action states
   bool isRunning = false;          // Player is running on a floor
@@ -93,6 +96,7 @@ public:
   uint16_t Width() override;
   uint16_t Height() override;
   void PrintName() override;
+  bool IsCloud() override;
   bool Update(uint8_t) override;
   static ISceneObject* Create();
 

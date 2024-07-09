@@ -21,6 +21,10 @@ void Cloud::PrintName() {
         std::cout << "Cloud." << std::endl;
 }
 
+bool Cloud::IsCloud() {
+  return true;
+}
+
 void Cloud::UpdateFlight() {
         PositionAddX(flyToRight ? 1.0f : -1.0f);
 
