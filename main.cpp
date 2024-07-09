@@ -19,7 +19,8 @@ uint8_t pressedKeys = IC_KEY_NONE;
 bool running = true;
 SceneObjectDataManager *objectTextureManager;
 SceneObjectManager *sceneObjectManager;
-int gameLogicFrequency = 16;
+int gameLogicFrequency = 16; // 16 milliseconds ≈ 60 ticks per second
+int framesPerSecond = 60;
 bool paused = false;
 
 static void* gameLogicMainThreadFunc(void* v)
@@ -46,7 +47,7 @@ int main()
         camera.rotation = 0.0f;
         camera.zoom = 2.0f;  // 2x zoom just for debug purposes
 
-        SetTargetFPS(30);
+        SetTargetFPS(framesPerSecond);
 
         objectTextureManager = new SceneObjectDataManager();
         SpriteRectDoubleBuffer *spriteRectDoubleBuffer = new SpriteRectDoubleBuffer(MAX_OBJECTS);
