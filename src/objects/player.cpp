@@ -184,7 +184,7 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
 
     std::cout << " > PLAYER COLLIDES WITH " << objectIntersections.size() << " OBJECTS. " << collisions.size() << " CORRECTIONS NEEDED.\n";
 
-    // Check if the player is suspended in the air and also get the underlying surface type
+    // Check if the player is suspended in the air or get the underlying surface type
     for (auto intersection : objectIntersections) {
         if (intersection.particle == this) {
             continue;
@@ -223,7 +223,7 @@ void Player::UpdateCollisions() {
     this->GetSolidCollisions(collisions, playerIsSuspendedInTheAir);
 
     // Check if the player is floating in the air (no ground under his feet)
-    if (playerIsSuspendedInTheAir && !isJumping && !isFalling && !isHitting && !isBlockedRight && !isBlockedLeft && !isSlipping) {
+    if (playerIsSuspendedInTheAir && !isJumping && !isFalling && !isHitting && /*!isBlockedRight && !isBlockedLeft &&*/ !isSlipping) {
         FallDueToSuspendedInTheAir();
         return;
     }
