@@ -13,7 +13,7 @@ const uint32_t SCR_WIDTH = 1280;
 const uint32_t SCR_HEIGHT = 750;
 const uint32_t MAX_OBJECTS = 1000;
 
-pthread_t gameLogicMainThreadId;
+pthread_t gameLogicThread;
 std::chrono::duration<float> cpuTimePerUpdate;
 uint8_t pressedKeys = IC_KEY_NONE;
 bool running = true;
@@ -23,7 +23,7 @@ int gameLogicFrequency = 16; // 16 milliseconds ≈ 60 ticks per second
 int framesPerSecond = 60;
 bool paused = false;
 
-static void* gameLogicMainThreadFunc(void* v)
+static void* gameLogicThreadFunc(void* v)
 {
         while(running) {
                 if (!paused) {
@@ -34,7 +34,7 @@ static void* gameLogicMainThreadFunc(void* v)
                 }
                 std::this_thread::sleep_for(std::chrono::milliseconds(gameLogicFrequency) - cpuTimePerUpdate);
         }
-        return 0;
+        return nullptr;
 }
 
 int main()
@@ -58,7 +58,7 @@ int main()
 
         sceneObjectManager->Update(pressedKeys);
 
-        pthread_create(&gameLogicMainThreadId, NULL, gameLogicMainThreadFunc, 0);
+        pthread_create(&gameLogicThread, nullptr, gameLogicThreadFunc, nullptr);
 
         while (!WindowShouldClose())
         {
@@ -96,6 +96,10 @@ int main()
         }
 
         running = false;
+
+        // Wait for the gameLogicThread to finish
+        pthread_join(gameLogicThread, nullptr);
+
         delete objectTextureManager;
         delete sceneObjectManager;
         delete spriteRectDoubleBuffer;
