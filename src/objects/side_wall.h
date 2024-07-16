@@ -178,4 +178,26 @@ public:
   static ISceneObject* Create();
 };
 
+/* SideWallIceModelAUnbreakable */
+
+class SideWallIceModelAUnbreakable : public SideWall
+{
+public:
+  SideWallIceModelAUnbreakable();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
+/* SideWallIceModelBUnbreakable */
+
+class SideWallIceModelBUnbreakable : public SideWall
+{
+public:
+  SideWallIceModelBUnbreakable();
+  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void PrintName();
+  static ISceneObject* Create();
+};
+
 #endif

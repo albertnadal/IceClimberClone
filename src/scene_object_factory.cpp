@@ -46,6 +46,8 @@ void SceneObjectFactory::RegisterSceneObjects() {
 	Register(SceneObjectIdentificator::CLOUD_SMALL, &CloudSmall::Create);
 	Register(SceneObjectIdentificator::CLOUD_BIG, &CloudBig::Create);
 	Register(SceneObjectIdentificator::CLOUD_TINY, &CloudTiny::Create);
+	Register(SceneObjectIdentificator::SIDE_WALL_ICE_MODEL_A_UNBREAKABLE, &SideWallIceModelAUnbreakable::Create);
+	Register(SceneObjectIdentificator::SIDE_WALL_ICE_MODEL_B_UNBREAKABLE, &SideWallIceModelBUnbreakable::Create);
 }
 
 SceneObjectFactory &SceneObjectFactory::operator=(const SceneObjectFactory &) {

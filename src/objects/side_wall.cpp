@@ -331,3 +331,41 @@ void SideWallGreenColumnsRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSh
 ISceneObject* SideWallGreenColumnsRight::Create() {
         return new SideWallGreenColumnsRight();
 }
+
+/* SideWallIceModelAUnbreakable */
+
+SideWallIceModelAUnbreakable::SideWallIceModelAUnbreakable() :
+        SideWall(SceneObjectIdentificator::SIDE_WALL_ICE_MODEL_A_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, false) {
+}
+
+void SideWallIceModelAUnbreakable::PrintName() {
+        std::cout << "SideWallIceModelAUnbreakable." << std::endl;
+}
+
+void SideWallIceModelAUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(SideWallIceModelAUnbreakableAnimation::SIDE_WALL_ICE_MODEL_A_UNBREAKABLE_STICKY);
+}
+
+ISceneObject* SideWallIceModelAUnbreakable::Create() {
+        return new SideWallIceModelAUnbreakable();
+}
+
+/* SideWallIceModelBUnbreakable */
+
+SideWallIceModelBUnbreakable::SideWallIceModelBUnbreakable() :
+        SideWall(SceneObjectIdentificator::SIDE_WALL_ICE_MODEL_B_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, false) {
+}
+
+void SideWallIceModelBUnbreakable::PrintName() {
+        std::cout << "SideWallIceModelBUnbreakable." << std::endl;
+}
+
+void SideWallIceModelBUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+        spriteSheet = _spriteSheet;
+        LoadAnimationWithId(SideWallIceModelBUnbreakableAnimation::SIDE_WALL_ICE_MODEL_B_UNBREAKABLE_STICKY);
+}
+
+ISceneObject* SideWallIceModelBUnbreakable::Create() {
+        return new SideWallIceModelBUnbreakable();
+}
