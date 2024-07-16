@@ -24,6 +24,10 @@ make all
 ./main
 ```
 
-# Devlog #1
+# Devlog #1 - Introducing the project
 
 [![Making a Nintendo Classic: Building "Ice Climber" from Scratch - Devlog #1](https://img.youtube.com/vi/Tqkr4bJNXWg/0.jpg)](https://www.youtube.com/watch?v=Tqkr4bJNXWg)
+
+# Devlog #2 - About the Game Loop
+
+[![Building "Ice Climber" from Scratch - Implementing the Game Loop - Devlog #2](https://img.youtube.com/vi/hnqatUKSv_g/0.jpg)](https://www.youtube.com/watch?v=hnqatUKSv_g)
