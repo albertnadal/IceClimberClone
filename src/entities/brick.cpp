@@ -2,11 +2,11 @@
 #include <chrono>
 
 Brick::Brick() :
-        ISceneObject(SceneObjectIdentificator::BRICK, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
+        IEntity(EntityIdentificator::BRICK, EntityType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
-Brick::Brick(SceneObjectIdentificator _id, SceneObjectType _type, SurfaceType surface_type, unsigned char max_states, bool is_breakable, bool is_traversable) :
-        ISceneObject(_id, _type, surface_type, max_states, is_breakable, is_traversable) {
+Brick::Brick(EntityIdentificator _id, EntityType _type, SurfaceType surface_type, unsigned char max_states, bool is_breakable, bool is_traversable) :
+        IEntity(_id, _type, surface_type, max_states, is_breakable, is_traversable) {
 }
 
 uint16_t Brick::Width() {
@@ -91,13 +91,13 @@ void Brick::Hit(bool propelToRight) {
         Propel(24.0f, propelToRight ? 10.0f : -10.0f);
 }
 
-void Brick::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void Brick::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickAnimation::BRICK_GREEN_STICKY);
 }
 
 void Brick::LoadAnimationWithId(uint16_t animationId) {
-        std::optional<ObjectSpriteSheetAnimation *> currentAnimation = spriteSheet->GetAnimationWithId(animationId);
+        std::optional<EntitySpriteSheetAnimation *> currentAnimation = spriteSheet->GetAnimationWithId(animationId);
         assert(currentAnimation != std::nullopt);
         currentAnimationSprites = (*currentAnimation)->GetSprites();
         animationHasOnlyOneSprite = (currentAnimationSprites.size() <= 1);
@@ -142,7 +142,7 @@ SpriteData Brick::NextSpriteData()
         return *currentAnimationSpriteIterator++;
 }
 
-ISceneObject* Brick::Create() {
+IEntity* Brick::Create() {
         return new Brick();
 }
 
@@ -176,19 +176,19 @@ void Brick::STATE_Falling()
 /* BrickBlue */
 
 BrickBlue::BrickBlue() :
-        Brick(SceneObjectIdentificator::BRICK_BLUE, SceneObjectType::TERRAIN, SurfaceType::SLIDING, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
+        Brick(EntityIdentificator::BRICK_BLUE, EntityType::TERRAIN, SurfaceType::SLIDING, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
 void BrickBlue::PrintName() {
         std::cout << "BrickBlue." << std::endl;
 }
 
-void BrickBlue::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickBlue::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickBlueAnimation::BRICK_BLUE_STICKY);
 }
 
-ISceneObject* BrickBlue::Create() {
+IEntity* BrickBlue::Create() {
         return new BrickBlue();
 }
 
@@ -205,19 +205,19 @@ void BrickBlue::STATE_Falling()
 /* BrickBlueHalf */
 
 BrickBlueHalf::BrickBlueHalf() :
-        Brick(SceneObjectIdentificator::BRICK_BLUE_HALF, SceneObjectType::TERRAIN, SurfaceType::SLIDING, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
+        Brick(EntityIdentificator::BRICK_BLUE_HALF, EntityType::TERRAIN, SurfaceType::SLIDING, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
 void BrickBlueHalf::PrintName() {
         std::cout << "BrickBlueHalf." << std::endl;
 }
 
-void BrickBlueHalf::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickBlueHalf::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickBlueHalfAnimation::BRICK_BLUE_HALF_STICKY);
 }
 
-ISceneObject* BrickBlueHalf::Create() {
+IEntity* BrickBlueHalf::Create() {
         return new BrickBlueHalf();
 }
 
@@ -234,19 +234,19 @@ void BrickBlueHalf::STATE_Falling()
 /* BrickBrown */
 
 BrickBrown::BrickBrown() :
-        Brick(SceneObjectIdentificator::BRICK_BROWN, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
+        Brick(EntityIdentificator::BRICK_BROWN, EntityType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
 void BrickBrown::PrintName() {
         std::cout << "BrickBrown." << std::endl;
 }
 
-void BrickBrown::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickBrown::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickBrownAnimation::BRICK_BROWN_STICKY);
 }
 
-ISceneObject* BrickBrown::Create() {
+IEntity* BrickBrown::Create() {
         return new BrickBrown();
 }
 
@@ -263,19 +263,19 @@ void BrickBrown::STATE_Falling()
 /* BrickBrownHalf */
 
 BrickBrownHalf::BrickBrownHalf() :
-        Brick(SceneObjectIdentificator::BRICK_BROWN_HALF, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
+        Brick(EntityIdentificator::BRICK_BROWN_HALF, EntityType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
 void BrickBrownHalf::PrintName() {
         std::cout << "BrickBrownHalf." << std::endl;
 }
 
-void BrickBrownHalf::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickBrownHalf::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickBrownHalfAnimation::BRICK_BROWN_HALF_STICKY);
 }
 
-ISceneObject* BrickBrownHalf::Create() {
+IEntity* BrickBrownHalf::Create() {
         return new BrickBrownHalf();
 }
 
@@ -292,19 +292,19 @@ void BrickBrownHalf::STATE_Falling()
 /* BrickGreenHalf */
 
 BrickGreenHalf::BrickGreenHalf() :
-        Brick(SceneObjectIdentificator::BRICK_GREEN_HALF, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
+        Brick(EntityIdentificator::BRICK_GREEN_HALF, EntityType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
 void BrickGreenHalf::PrintName() {
         std::cout << "BrickGreenHalf." << std::endl;
 }
 
-void BrickGreenHalf::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickGreenHalf::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickGreenHalfAnimation::BRICK_GREEN_HALF_STICKY);
 }
 
-ISceneObject* BrickGreenHalf::Create() {
+IEntity* BrickGreenHalf::Create() {
         return new BrickGreenHalf();
 }
 
@@ -321,19 +321,19 @@ void BrickGreenHalf::STATE_Falling()
 /* BrickBlueConveyorBeltRight */
 
 BrickBlueConveyorBeltRight::BrickBlueConveyorBeltRight() :
-        Brick(SceneObjectIdentificator::BRICK_BLUE_CONVEYOR_BELT_RIGHT, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
+        Brick(EntityIdentificator::BRICK_BLUE_CONVEYOR_BELT_RIGHT, EntityType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
 void BrickBlueConveyorBeltRight::PrintName() {
         std::cout << "BrickBlueConveyorBeltRight." << std::endl;
 }
 
-void BrickBlueConveyorBeltRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickBlueConveyorBeltRight::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickBlueConveyorBeltRightAnimation::BRICK_BLUE_CONVEYOR_BELT_RIGHT_STICKY);
 }
 
-ISceneObject* BrickBlueConveyorBeltRight::Create() {
+IEntity* BrickBlueConveyorBeltRight::Create() {
         return new BrickBlueConveyorBeltRight();
 }
 
@@ -350,19 +350,19 @@ void BrickBlueConveyorBeltRight::STATE_Falling()
 /* BrickBlueConveyorBeltLeft */
 
 BrickBlueConveyorBeltLeft::BrickBlueConveyorBeltLeft() :
-        Brick(SceneObjectIdentificator::BRICK_BLUE_CONVEYOR_BELT_LEFT, SceneObjectType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
+        Brick(EntityIdentificator::BRICK_BLUE_CONVEYOR_BELT_LEFT, EntityType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
 void BrickBlueConveyorBeltLeft::PrintName() {
         std::cout << "BrickBlueConveyorBeltLeft." << std::endl;
 }
 
-void BrickBlueConveyorBeltLeft::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickBlueConveyorBeltLeft::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickBlueConveyorBeltLeftAnimation::BRICK_BLUE_CONVEYOR_BELT_LEFT_STICKY);
 }
 
-ISceneObject* BrickBlueConveyorBeltLeft::Create() {
+IEntity* BrickBlueConveyorBeltLeft::Create() {
         return new BrickBlueConveyorBeltLeft();
 }
 
@@ -379,19 +379,19 @@ void BrickBlueConveyorBeltLeft::STATE_Falling()
 /* BrickBrownConveyorBeltRight */
 
 BrickBrownConveyorBeltRight::BrickBrownConveyorBeltRight() :
-        Brick(SceneObjectIdentificator::BRICK_BROWN_CONVEYOR_BELT_RIGHT, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
+        Brick(EntityIdentificator::BRICK_BROWN_CONVEYOR_BELT_RIGHT, EntityType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
 void BrickBrownConveyorBeltRight::PrintName() {
         std::cout << "BrickBrownConveyorBeltRight." << std::endl;
 }
 
-void BrickBrownConveyorBeltRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickBrownConveyorBeltRight::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickBrownConveyorBeltRightAnimation::BRICK_BROWN_CONVEYOR_BELT_RIGHT_STICKY);
 }
 
-ISceneObject* BrickBrownConveyorBeltRight::Create() {
+IEntity* BrickBrownConveyorBeltRight::Create() {
         return new BrickBrownConveyorBeltRight();
 }
 
@@ -408,19 +408,19 @@ void BrickBrownConveyorBeltRight::STATE_Falling()
 /* BrickBrownConveyorBeltLeft */
 
 BrickBrownConveyorBeltLeft::BrickBrownConveyorBeltLeft() :
-        Brick(SceneObjectIdentificator::BRICK_BROWN_CONVEYOR_BELT_LEFT, SceneObjectType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
+        Brick(EntityIdentificator::BRICK_BROWN_CONVEYOR_BELT_LEFT, EntityType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
 void BrickBrownConveyorBeltLeft::PrintName() {
         std::cout << "BrickBrownConveyorBeltLeft." << std::endl;
 }
 
-void BrickBrownConveyorBeltLeft::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickBrownConveyorBeltLeft::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickBrownConveyorBeltLeftAnimation::BRICK_BROWN_CONVEYOR_BELT_LEFT_STICKY);
 }
 
-ISceneObject* BrickBrownConveyorBeltLeft::Create() {
+IEntity* BrickBrownConveyorBeltLeft::Create() {
         return new BrickBrownConveyorBeltLeft();
 }
 
@@ -437,19 +437,19 @@ void BrickBrownConveyorBeltLeft::STATE_Falling()
 /* BrickGreenConveyorBeltRight */
 
 BrickGreenConveyorBeltRight::BrickGreenConveyorBeltRight() :
-        Brick(SceneObjectIdentificator::BRICK_GREEN_CONVEYOR_BELT_RIGHT, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
+        Brick(EntityIdentificator::BRICK_GREEN_CONVEYOR_BELT_RIGHT, EntityType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
 void BrickGreenConveyorBeltRight::PrintName() {
         std::cout << "BrickGreenConveyorBeltRight." << std::endl;
 }
 
-void BrickGreenConveyorBeltRight::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickGreenConveyorBeltRight::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickGreenConveyorBeltRightAnimation::BRICK_GREEN_CONVEYOR_BELT_RIGHT_STICKY);
 }
 
-ISceneObject* BrickGreenConveyorBeltRight::Create() {
+IEntity* BrickGreenConveyorBeltRight::Create() {
         return new BrickGreenConveyorBeltRight();
 }
 
@@ -466,19 +466,19 @@ void BrickGreenConveyorBeltRight::STATE_Falling()
 /* BrickGreenConveyorBeltLeft */
 
 BrickGreenConveyorBeltLeft::BrickGreenConveyorBeltLeft() :
-        Brick(SceneObjectIdentificator::BRICK_GREEN_CONVEYOR_BELT_LEFT, SceneObjectType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
+        Brick(EntityIdentificator::BRICK_GREEN_CONVEYOR_BELT_LEFT, EntityType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
 void BrickGreenConveyorBeltLeft::PrintName() {
         std::cout << "BrickGreenConveyorBeltLeft." << std::endl;
 }
 
-void BrickGreenConveyorBeltLeft::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickGreenConveyorBeltLeft::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickGreenConveyorBeltLeftAnimation::BRICK_GREEN_CONVEYOR_BELT_LEFT_STICKY);
 }
 
-ISceneObject* BrickGreenConveyorBeltLeft::Create() {
+IEntity* BrickGreenConveyorBeltLeft::Create() {
         return new BrickGreenConveyorBeltLeft();
 }
 
@@ -495,19 +495,19 @@ void BrickGreenConveyorBeltLeft::STATE_Falling()
 /* BrickGreenUnbreakable */
 
 BrickGreenUnbreakable::BrickGreenUnbreakable() :
-        Brick(SceneObjectIdentificator::BRICK_GREEN_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
+        Brick(EntityIdentificator::BRICK_GREEN_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
 }
 
 void BrickGreenUnbreakable::PrintName() {
         std::cout << "BrickGreenUnbreakable." << std::endl;
 }
 
-void BrickGreenUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickGreenUnbreakable::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickGreenUnbreakableAnimation::BRICK_GREEN_UNBREAKABLE_STICKY);
 }
 
-ISceneObject* BrickGreenUnbreakable::Create() {
+IEntity* BrickGreenUnbreakable::Create() {
         return new BrickGreenUnbreakable();
 }
 
@@ -519,19 +519,19 @@ void BrickGreenUnbreakable::STATE_Sticky()
 /* BrickBrownUnbreakable */
 
 BrickBrownUnbreakable::BrickBrownUnbreakable() :
-        Brick(SceneObjectIdentificator::BRICK_BROWN_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
+        Brick(EntityIdentificator::BRICK_BROWN_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
 }
 
 void BrickBrownUnbreakable::PrintName() {
         std::cout << "BrickBrownUnbreakable." << std::endl;
 }
 
-void BrickBrownUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickBrownUnbreakable::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickBrownUnbreakableAnimation::BRICK_BROWN_UNBREAKABLE_STICKY);
 }
 
-ISceneObject* BrickBrownUnbreakable::Create() {
+IEntity* BrickBrownUnbreakable::Create() {
         return new BrickBrownUnbreakable();
 }
 
@@ -543,19 +543,19 @@ void BrickBrownUnbreakable::STATE_Sticky()
 /* BrickBlueUnbreakable */
 
 BrickBlueUnbreakable::BrickBlueUnbreakable() :
-        Brick(SceneObjectIdentificator::BRICK_BLUE_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::SLIDING, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
+        Brick(EntityIdentificator::BRICK_BLUE_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::SLIDING, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
 }
 
 void BrickBlueUnbreakable::PrintName() {
         std::cout << "BrickBlueUnbreakable." << std::endl;
 }
 
-void BrickBlueUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickBlueUnbreakable::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickBlueUnbreakableAnimation::BRICK_BLUE_UNBREAKABLE_STICKY);
 }
 
-ISceneObject* BrickBlueUnbreakable::Create() {
+IEntity* BrickBlueUnbreakable::Create() {
         return new BrickBlueUnbreakable();
 }
 
@@ -567,19 +567,19 @@ void BrickBlueUnbreakable::STATE_Sticky()
 /* BrickBlueConveyorBeltRightUnbreakable */
 
 BrickBlueConveyorBeltRightUnbreakable::BrickBlueConveyorBeltRightUnbreakable() :
-        Brick(SceneObjectIdentificator::BRICK_BLUE_CONVEYOR_BELT_RIGHT_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
+        Brick(EntityIdentificator::BRICK_BLUE_CONVEYOR_BELT_RIGHT_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
 }
 
 void BrickBlueConveyorBeltRightUnbreakable::PrintName() {
         std::cout << "BrickBlueConveyorBeltRightUnbreakable." << std::endl;
 }
 
-void BrickBlueConveyorBeltRightUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickBlueConveyorBeltRightUnbreakable::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickBlueConveyorBeltRightUnbreakableAnimation::BRICK_BLUE_CONVEYOR_BELT_RIGHT_UNBREAKABLE_STICKY);
 }
 
-ISceneObject* BrickBlueConveyorBeltRightUnbreakable::Create() {
+IEntity* BrickBlueConveyorBeltRightUnbreakable::Create() {
         return new BrickBlueConveyorBeltRightUnbreakable();
 }
 
@@ -591,19 +591,19 @@ void BrickBlueConveyorBeltRightUnbreakable::STATE_Sticky()
 /* BrickBlueConveyorBeltLeftUnbreakable */
 
 BrickBlueConveyorBeltLeftUnbreakable::BrickBlueConveyorBeltLeftUnbreakable() :
-        Brick(SceneObjectIdentificator::BRICK_BLUE_CONVEYOR_BELT_LEFT_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
+        Brick(EntityIdentificator::BRICK_BLUE_CONVEYOR_BELT_LEFT_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
 }
 
 void BrickBlueConveyorBeltLeftUnbreakable::PrintName() {
         std::cout << "BrickBlueConveyorBeltLeftUnbreakable." << std::endl;
 }
 
-void BrickBlueConveyorBeltLeftUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickBlueConveyorBeltLeftUnbreakable::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickBlueConveyorBeltLeftUnbreakableAnimation::BRICK_BLUE_CONVEYOR_BELT_LEFT_UNBREAKABLE_STICKY);
 }
 
-ISceneObject* BrickBlueConveyorBeltLeftUnbreakable::Create() {
+IEntity* BrickBlueConveyorBeltLeftUnbreakable::Create() {
         return new BrickBlueConveyorBeltLeftUnbreakable();
 }
 
@@ -615,19 +615,19 @@ void BrickBlueConveyorBeltLeftUnbreakable::STATE_Sticky()
 /* BrickGreenConveyorBeltRightUnbreakable */
 
 BrickGreenConveyorBeltRightUnbreakable::BrickGreenConveyorBeltRightUnbreakable() :
-        Brick(SceneObjectIdentificator::BRICK_GREEN_CONVEYOR_BELT_RIGHT_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
+        Brick(EntityIdentificator::BRICK_GREEN_CONVEYOR_BELT_RIGHT_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
 }
 
 void BrickGreenConveyorBeltRightUnbreakable::PrintName() {
         std::cout << "BrickGreenConveyorBeltRightUnbreakable." << std::endl;
 }
 
-void BrickGreenConveyorBeltRightUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickGreenConveyorBeltRightUnbreakable::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickGreenConveyorBeltRightUnbreakableAnimation::BRICK_GREEN_CONVEYOR_BELT_RIGHT_UNBREAKABLE_STICKY);
 }
 
-ISceneObject* BrickGreenConveyorBeltRightUnbreakable::Create() {
+IEntity* BrickGreenConveyorBeltRightUnbreakable::Create() {
         return new BrickGreenConveyorBeltRightUnbreakable();
 }
 
@@ -639,19 +639,19 @@ void BrickGreenConveyorBeltRightUnbreakable::STATE_Sticky()
 /* BrickGreenConveyorBeltLeftUnbreakable */
 
 BrickGreenConveyorBeltLeftUnbreakable::BrickGreenConveyorBeltLeftUnbreakable() :
-        Brick(SceneObjectIdentificator::BRICK_GREEN_CONVEYOR_BELT_LEFT_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
+        Brick(EntityIdentificator::BRICK_GREEN_CONVEYOR_BELT_LEFT_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
 }
 
 void BrickGreenConveyorBeltLeftUnbreakable::PrintName() {
         std::cout << "BrickGreenConveyorBeltLeftUnbreakable." << std::endl;
 }
 
-void BrickGreenConveyorBeltLeftUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickGreenConveyorBeltLeftUnbreakable::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickGreenConveyorBeltLeftUnbreakableAnimation::BRICK_GREEN_CONVEYOR_BELT_LEFT_UNBREAKABLE_STICKY);
 }
 
-ISceneObject* BrickGreenConveyorBeltLeftUnbreakable::Create() {
+IEntity* BrickGreenConveyorBeltLeftUnbreakable::Create() {
         return new BrickGreenConveyorBeltLeftUnbreakable();
 }
 
@@ -663,19 +663,19 @@ void BrickGreenConveyorBeltLeftUnbreakable::STATE_Sticky()
 /* BrickBrownConveyorBeltRightUnbreakable */
 
 BrickBrownConveyorBeltRightUnbreakable::BrickBrownConveyorBeltRightUnbreakable() :
-        Brick(SceneObjectIdentificator::BRICK_BROWN_CONVEYOR_BELT_RIGHT_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
+        Brick(EntityIdentificator::BRICK_BROWN_CONVEYOR_BELT_RIGHT_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
 }
 
 void BrickBrownConveyorBeltRightUnbreakable::PrintName() {
         std::cout << "BrickBrownConveyorBeltRightUnbreakable." << std::endl;
 }
 
-void BrickBrownConveyorBeltRightUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickBrownConveyorBeltRightUnbreakable::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickBrownConveyorBeltRightUnbreakableAnimation::BRICK_BROWN_CONVEYOR_BELT_RIGHT_UNBREAKABLE_STICKY);
 }
 
-ISceneObject* BrickBrownConveyorBeltRightUnbreakable::Create() {
+IEntity* BrickBrownConveyorBeltRightUnbreakable::Create() {
         return new BrickBrownConveyorBeltRightUnbreakable();
 }
 
@@ -687,19 +687,19 @@ void BrickBrownConveyorBeltRightUnbreakable::STATE_Sticky()
 /* BrickBrownConveyorBeltLeftUnbreakable */
 
 BrickBrownConveyorBeltLeftUnbreakable::BrickBrownConveyorBeltLeftUnbreakable() :
-        Brick(SceneObjectIdentificator::BRICK_BROWN_CONVEYOR_BELT_LEFT_UNBREAKABLE, SceneObjectType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
+        Brick(EntityIdentificator::BRICK_BROWN_CONVEYOR_BELT_LEFT_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
 }
 
 void BrickBrownConveyorBeltLeftUnbreakable::PrintName() {
         std::cout << "BrickBrownConveyorBeltLeftUnbreakable." << std::endl;
 }
 
-void BrickBrownConveyorBeltLeftUnbreakable::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void BrickBrownConveyorBeltLeftUnbreakable::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(BrickBrownConveyorBeltLeftUnbreakableAnimation::BRICK_BROWN_CONVEYOR_BELT_LEFT_UNBREAKABLE_STICKY);
 }
 
-ISceneObject* BrickBrownConveyorBeltLeftUnbreakable::Create() {
+IEntity* BrickBrownConveyorBeltLeftUnbreakable::Create() {
         return new BrickBrownConveyorBeltLeftUnbreakable();
 }
 

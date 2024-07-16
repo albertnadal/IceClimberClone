@@ -1,9 +1,9 @@
-#include "scene_object.h"
+#include <entity.h>
 #include <collision/collision.h>
 #include <MersenneTwister/MersenneTwister.h>
 
-ISceneObject::ISceneObject() {
-  id = SceneObjectIdentificator::NONE;
+IEntity::IEntity() {
+  id = EntityIdentificator::NONE;
   MersenneTwister rng;
   uniqueId = rng.integer(0, UINT_MAX);
   boundingBox = solidBoundingBox = {0, 0, 0, 0};
@@ -13,7 +13,7 @@ ISceneObject::ISceneObject() {
   isMarkedToDelete = false;
 }
 
-ISceneObject::ISceneObject(SceneObjectIdentificator _id, SceneObjectType _type, SurfaceType surface_type, unsigned char _maxStates, bool _isBreakable, bool _isTraversable) :
+IEntity::IEntity(EntityIdentificator _id, EntityType _type, SurfaceType surface_type, unsigned char _maxStates, bool _isBreakable, bool _isTraversable) :
   StateMachine(_maxStates),
   id(_id),
   type(_type),
@@ -26,12 +26,12 @@ ISceneObject::ISceneObject(SceneObjectIdentificator _id, SceneObjectType _type, 
   recalculateAreasDataIsNeeded = true;
 }
 
-void ISceneObject::SetSpacePartitionObjectsTree(aabb::Tree<ISceneObject*> *_spacePartitionObjectsTree) {
+void IEntity::SetSpacePartitionObjectsTree(aabb::Tree<IEntity*> *_spacePartitionObjectsTree) {
   spacePartitionObjectsTree = _spacePartitionObjectsTree;
 }
 
 /*
-std::vector<Area>& ISceneObject::GetSolidAreas() {
+std::vector<Area>& IEntity::GetSolidAreas() {
   if(recalculateAreasDataIsNeeded) {
     // Updates the object solid areas values according to the current object position and current sprite areas
     solidAreas.clear();
@@ -53,129 +53,129 @@ std::vector<Area>& ISceneObject::GetSolidAreas() {
 }
 */
 /*
-std::vector<Area>& ISceneObject::GetSimpleAreas() {
+std::vector<Area>& IEntity::GetSimpleAreas() {
 
 }
 */
 
-void ISceneObject::PositionSetXY(float x, float y) {
+void IEntity::PositionSetXY(float x, float y) {
     position.setXY(x, y);
     recalculateAreasDataIsNeeded = true;
 }
 
-void ISceneObject::PositionSetX(float x) {
+void IEntity::PositionSetX(float x) {
   position.setX(x);
   recalculateAreasDataIsNeeded = true;
 }
 
-void ISceneObject::PositionSetY(float y) {
+void IEntity::PositionSetY(float y) {
   position.setY(y);
   recalculateAreasDataIsNeeded = true;
 }
 
-void ISceneObject::PositionAddX(float x) {
+void IEntity::PositionAddX(float x) {
   position.addX(x);
   recalculateAreasDataIsNeeded = true;
 }
 
-void ISceneObject::PositionAddY(float y) {
+void IEntity::PositionAddY(float y) {
   position.addY(y);
   recalculateAreasDataIsNeeded = true;
 }
 
-void ISceneObject::PositionSetOffset(int16_t x, int16_t y) {
+void IEntity::PositionSetOffset(int16_t x, int16_t y) {
   position.setOffset(x, y);
   recalculateAreasDataIsNeeded = true;
 }
 
-void ISceneObject::RecoverPreviousPosition() {
+void IEntity::RecoverPreviousPosition() {
   position.recoverPreviousPosition();
   recalculateAreasDataIsNeeded = true;
 }
 
-void ISceneObject::RemoveFromSpacePartitionObjectsTree() {
+void IEntity::RemoveFromSpacePartitionObjectsTree() {
   spacePartitionObjectsTree->removeParticle(this);
 }
 
-std::vector<int> ISceneObject::GetLowerBound() {
+std::vector<int> IEntity::GetLowerBound() {
   std::vector<int> lowerBound{position.GetIntX() + boundingBox.lowerBoundX, position.GetIntY() + boundingBox.lowerBoundY};
   return lowerBound;
 }
 
-std::vector<int> ISceneObject::GetUpperBound() {
+std::vector<int> IEntity::GetUpperBound() {
   std::vector<int> upperBound{position.GetIntX() + boundingBox.upperBoundX, position.GetIntY() + boundingBox.upperBoundY};
   return upperBound;
 }
 
-std::vector<int> ISceneObject::GetSolidLowerBound() {
+std::vector<int> IEntity::GetSolidLowerBound() {
   std::vector<int> lowerBound{position.GetIntX() + solidBoundingBox.lowerBoundX, position.GetIntY() + solidBoundingBox.lowerBoundY};
   return lowerBound;
 }
 
-std::vector<int> ISceneObject::GetSolidUpperBound() {
+std::vector<int> IEntity::GetSolidUpperBound() {
   std::vector<int> upperBound{position.GetIntX() + solidBoundingBox.upperBoundX, position.GetIntY() + solidBoundingBox.upperBoundY};
   return upperBound;
 }
 
-Boundaries ISceneObject::GetAbsoluteBoundaries() {
+Boundaries IEntity::GetAbsoluteBoundaries() {
   return {position.GetIntX() + boundingBox.upperBoundX,
           position.GetIntY() + boundingBox.upperBoundY,
           position.GetIntX() + boundingBox.lowerBoundX,
           position.GetIntY() + boundingBox.lowerBoundY};
 }
 
-Boundaries ISceneObject::GetAbsoluteSolidBoundaries() {
+Boundaries IEntity::GetAbsoluteSolidBoundaries() {
   return {position.GetIntX() + boundingBox.upperBoundX,
           position.GetIntY() + boundingBox.upperBoundY,
           position.GetIntX() + boundingBox.lowerBoundX,
           position.GetIntY() + boundingBox.lowerBoundY};
 }
 
-SceneObjectIdentificator ISceneObject::Id() {
+EntityIdentificator IEntity::Id() {
   return id;
 }
 
-SceneObjectType ISceneObject::Type() {
+EntityType IEntity::Type() {
   return type;
 }
 
-uint16_t ISceneObject::Width() {
+uint16_t IEntity::Width() {
   return currentSprite.width;
 }
 
-uint16_t ISceneObject::Height() {
+uint16_t IEntity::Height() {
   return currentSprite.height;
 }
 
-void ISceneObject::PrintName() {
+void IEntity::PrintName() {
   std::cout << "PrintName not overloaded for object." << std::endl;
 }
 
-bool ISceneObject::IsCloud() {
+bool IEntity::IsCloud() {
   return false;
 }
 
-void ISceneObject::PrintBoundaries() {
+void IEntity::PrintBoundaries() {
   std::vector<int> lowerBound = GetLowerBound();
   std::vector<int> upperBound = GetUpperBound();
   std:cout << "Lowerbound X: " << lowerBound[0] << " Y: " << lowerBound[1] << " | Upperbound X: " << upperBound[0] << " Y: " << upperBound[1] << endl;
 }
 
-bool ISceneObject::Update() {
+bool IEntity::Update() {
   return Update(KeyboardKeyCode::IC_KEY_NONE);
 }
 
-bool ISceneObject::Update(const uint8_t pressedKeys) {
+bool IEntity::Update(const uint8_t pressedKeys) {
   return false;
 }
 
-bool ISceneObject::Update(const uint8_t pressedKeys, aabb::Tree<ISceneObject*>& spacePartitionObjectsTree) {
+bool IEntity::Update(const uint8_t pressedKeys, aabb::Tree<IEntity*>& spacePartitionObjectsTree) {
   return false;
 }
 
-void ISceneObject::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void IEntity::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
   spriteSheet = _spriteSheet;
 }
 
-void ISceneObject::Hit(bool) {
+void IEntity::Hit(bool) {
 }

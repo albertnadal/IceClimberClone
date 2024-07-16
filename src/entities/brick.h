@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <vector>
-#include <scene_object.h>
+#include <entity.h>
 #include <state_machine.h>
 #include <sprite.h>
 #include <position.h>
@@ -11,7 +11,7 @@
 
 using namespace std;
 
-class Brick: public ISceneObject
+class Brick: public IEntity
 {
   std::vector<SpriteData>::iterator currentAnimationSpriteIterator;
   std::vector<SpriteData> currentAnimationSprites;
@@ -36,17 +36,17 @@ class Brick: public ISceneObject
 protected:
   void LoadAnimationWithId(uint16_t);
 public:
-  Brick(SceneObjectIdentificator, SceneObjectType, SurfaceType, unsigned char, bool, bool);
+  Brick(EntityIdentificator, EntityType, SurfaceType, unsigned char, bool, bool);
   Brick();
   ~Brick();
-  virtual void InitWithSpriteSheet(ObjectSpriteSheet*);
+  virtual void InitWithSpriteSheet(EntitySpriteSheet*);
   uint16_t Width();
   uint16_t Height();
   virtual void PrintName();
   bool IsCloud() override;
   bool Update(uint8_t);
   void Hit(bool) override;
-  static ISceneObject* Create();
+  static IEntity* Create();
 
   // state machine triggers
   void Break();
@@ -78,9 +78,9 @@ class BrickBlue : public Brick
 {
 public:
   BrickBlue();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -93,9 +93,9 @@ class BrickBlueHalf : public Brick
 {
 public:
   BrickBlueHalf();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -108,9 +108,9 @@ class BrickBrown : public Brick
 {
 public:
   BrickBrown();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -123,9 +123,9 @@ class BrickBrownHalf : public Brick
 {
 public:
   BrickBrownHalf();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -138,9 +138,9 @@ class BrickGreenHalf : public Brick
 {
 public:
   BrickGreenHalf();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -153,9 +153,9 @@ class BrickBlueConveyorBeltRight : public Brick
 {
 public:
   BrickBlueConveyorBeltRight();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -168,9 +168,9 @@ class BrickBlueConveyorBeltLeft : public Brick
 {
 public:
   BrickBlueConveyorBeltLeft();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -183,9 +183,9 @@ class BrickBrownConveyorBeltRight : public Brick
 {
 public:
   BrickBrownConveyorBeltRight();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -198,9 +198,9 @@ class BrickBrownConveyorBeltLeft : public Brick
 {
 public:
   BrickBrownConveyorBeltLeft();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -213,9 +213,9 @@ class BrickGreenConveyorBeltRight : public Brick
 {
 public:
   BrickGreenConveyorBeltRight();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -228,9 +228,9 @@ class BrickGreenConveyorBeltLeft : public Brick
 {
 public:
   BrickGreenConveyorBeltLeft();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -243,9 +243,9 @@ class BrickGreenUnbreakable : public Brick
 {
 public:
   BrickGreenUnbreakable();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -257,9 +257,9 @@ class BrickBrownUnbreakable : public Brick
 {
 public:
   BrickBrownUnbreakable();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -271,9 +271,9 @@ class BrickBlueUnbreakable : public Brick
 {
 public:
   BrickBlueUnbreakable();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -285,9 +285,9 @@ class BrickBlueConveyorBeltRightUnbreakable : public Brick
 {
 public:
   BrickBlueConveyorBeltRightUnbreakable();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -299,9 +299,9 @@ class BrickBlueConveyorBeltLeftUnbreakable : public Brick
 {
 public:
   BrickBlueConveyorBeltLeftUnbreakable();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -313,9 +313,9 @@ class BrickBrownConveyorBeltRightUnbreakable : public Brick
 {
 public:
   BrickBrownConveyorBeltRightUnbreakable();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -327,9 +327,9 @@ class BrickBrownConveyorBeltLeftUnbreakable : public Brick
 {
 public:
   BrickBrownConveyorBeltLeftUnbreakable();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -341,9 +341,9 @@ class BrickGreenConveyorBeltRightUnbreakable : public Brick
 {
 public:
   BrickGreenConveyorBeltRightUnbreakable();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;
@@ -355,9 +355,9 @@ class BrickGreenConveyorBeltLeftUnbreakable : public Brick
 {
 public:
   BrickGreenConveyorBeltLeftUnbreakable();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 
 private:
   void STATE_Sticky() override;

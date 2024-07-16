@@ -1,45 +1,45 @@
-#include "scene_object_data_manager.h"
+#include "entity_data_manager.h"
 #include <fstream>
 #include <sstream>
 #include <collision/collision.h>
 
 using namespace collision;
 
-SceneObjectDataManager::SceneObjectDataManager()
+EntityDataManager::EntityDataManager()
 {
-        cout << "SceneObjectDataManager created!" << endl;
-        LoadObjectsDataFromFile(OBJECT_TYPES_FILENAME);
+        cout << "EntityDataManager created!" << endl;
+        LoadObjectsDataFromFile(ENTITY_TYPES_FILENAME);
         Print();
 }
 
-SceneObjectDataManager::~SceneObjectDataManager() {
-        for (auto& kv : objectSpriteSheetsMap) {
-                ObjectSpriteSheet* objectSpriteSheet = kv.second;
-                delete objectSpriteSheet;
+EntityDataManager::~EntityDataManager() {
+        for (auto& kv : entitySpriteSheetsMap) {
+                EntitySpriteSheet* entitySpriteSheet = kv.second;
+                delete entitySpriteSheet;
         }
 
-        objectSpriteSheetsMap.clear();
+        entitySpriteSheetsMap.clear();
 }
 
-void SceneObjectDataManager::Print()
+void EntityDataManager::Print()
 {
         printf("Texture filename: %s\n", textureFilename.c_str());
-        printf("Total object sprite sheets: %lu\n", objectSpriteSheetsMap.size());
-        for (auto& kv : objectSpriteSheetsMap) {
-                ObjectSpriteSheet* objectSpriteSheet = kv.second;
-                objectSpriteSheet->Print();
+        printf("Total object sprite sheets: %lu\n", entitySpriteSheetsMap.size());
+        for (auto& kv : entitySpriteSheetsMap) {
+                EntitySpriteSheet* entitySpriteSheet = kv.second;
+                entitySpriteSheet->Print();
         }
 }
 
-void SceneObjectDataManager::LoadObjectsDataFromFile(std::string filename)
+void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
 {
         enum LineType { OBJ_TEX_FILENAME, OBJ_ID, OBJ_ANIMATION_ID, OBJ_SPRITE, OBJ_SPRITE_COLLISION_AREA };
 
         std::ifstream infile(filename);
         std::string line;
-        ObjectSpriteSheet *currentObjectSpriteSheet;
-        ObjectSpriteSheetAnimation *currentObjectSpriteSheetAnimation;
-        uint16_t currentObjectSpriteSheetAnimationId;
+        EntitySpriteSheet *currentEntitySpriteSheet;
+        EntitySpriteSheetAnimation *currentEntitySpriteSheetAnimation;
+        uint16_t currentEntitySpriteSheetAnimationId;
         SpriteAreas *currentAreas;
 
         while (std::getline(infile, line))
@@ -58,14 +58,14 @@ void SceneObjectDataManager::LoadObjectsDataFromFile(std::string filename)
                                 textureFilename = token.substr(3);
                         } else if(startsWith(token, "##")) {
                                 currentLineType = OBJ_ID;
-                                SceneObjectIdentificator objectId = (SceneObjectIdentificator)std::stoi(token.substr(2));
-                                currentObjectSpriteSheet = new ObjectSpriteSheet(objectId);
-                                objectSpriteSheetsMap[objectId] = currentObjectSpriteSheet;
+                                EntityIdentificator entityId = (EntityIdentificator)std::stoi(token.substr(2));
+                                currentEntitySpriteSheet = new EntitySpriteSheet(entityId);
+                                entitySpriteSheetsMap[entityId] = currentEntitySpriteSheet;
                         } else if(startsWith(token, "#")) {
                                 currentLineType = OBJ_ANIMATION_ID;
-                                uint16_t objectSpriteSheetAnimationId = std::stoi(token.substr(1));
-                                currentObjectSpriteSheetAnimation = new ObjectSpriteSheetAnimation(objectSpriteSheetAnimationId);
-                                currentObjectSpriteSheet->AddAnimation(currentObjectSpriteSheetAnimation);
+                                uint16_t entitySpriteSheetAnimationId = std::stoi(token.substr(1));
+                                currentEntitySpriteSheetAnimation = new EntitySpriteSheetAnimation(entitySpriteSheetAnimationId);
+                                currentEntitySpriteSheet->AddAnimation(currentEntitySpriteSheetAnimation);
                         } else if(startsWith(token, "_")) {
                                 currentLineType = OBJ_SPRITE_COLLISION_AREA;
                                 uint16_t collisionAreaId = std::stoi(token.substr(1));
@@ -120,7 +120,7 @@ void SceneObjectDataManager::LoadObjectsDataFromFile(std::string filename)
 
                                 // An sprite may contain some areas defined by polygons in order to check possible collisions with other objects during the gameplay
                                 currentAreas = new SpriteAreas();
-                                currentObjectSpriteSheetAnimation->AddSprite({ width, height, xOffset, yOffset, u1, v1, u2, v2, duration, false, lowerBoundX, lowerBoundY, upperBoundX, upperBoundY, currentAreas });
+                                currentEntitySpriteSheetAnimation->AddSprite({ width, height, xOffset, yOffset, u1, v1, u2, v2, duration, false, lowerBoundX, lowerBoundY, upperBoundX, upperBoundY, currentAreas });
                         }
                 }
 
@@ -128,13 +128,13 @@ void SceneObjectDataManager::LoadObjectsDataFromFile(std::string filename)
         }
 }
 
-Texture2D SceneObjectDataManager::LoadTextureAtlas() {
+Texture2D EntityDataManager::LoadTextureAtlas() {
         return LoadTexture(FileSystem::getPath(textureFilename).c_str());
 }
 
-std::optional<ObjectSpriteSheet*> SceneObjectDataManager::GetSpriteSheetBySceneObjectIdentificator(SceneObjectIdentificator sceneObjectIdentificator) {
-        auto searchIterator = objectSpriteSheetsMap.find(sceneObjectIdentificator);
-        if (searchIterator != objectSpriteSheetsMap.end()) {
+std::optional<EntitySpriteSheet*> EntityDataManager::GetSpriteSheetByEntityIdentificator(EntityIdentificator sceneObjectIdentificator) {
+        auto searchIterator = entitySpriteSheetsMap.find(sceneObjectIdentificator);
+        if (searchIterator != entitySpriteSheetsMap.end()) {
                 return searchIterator->second;
         }
 

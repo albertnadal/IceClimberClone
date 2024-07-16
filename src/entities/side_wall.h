@@ -3,14 +3,14 @@
 
 #include <iostream>
 #include <vector>
-#include <scene_object.h>
+#include <entity.h>
 #include <state_machine.h>
 #include <sprite.h>
 #include <position.h>
 
 using namespace std;
 
-class SideWall: public ISceneObject
+class SideWall: public IEntity
 {
   std::vector<SpriteData>::iterator currentAnimationSpriteIterator;
   std::vector<SpriteData> currentAnimationSprites;
@@ -22,16 +22,16 @@ class SideWall: public ISceneObject
 protected:
   void LoadAnimationWithId(uint16_t);
 public:
-  SideWall(SceneObjectIdentificator, SceneObjectType, SurfaceType, unsigned char, bool, bool);
+  SideWall(EntityIdentificator, EntityType, SurfaceType, unsigned char, bool, bool);
   SideWall();
   ~SideWall();
-  virtual void InitWithSpriteSheet(ObjectSpriteSheet*);
+  virtual void InitWithSpriteSheet(EntitySpriteSheet*);
   uint16_t Width();
   uint16_t Height();
   virtual void PrintName();
   bool IsCloud() override;
   bool Update(uint8_t);
-  static ISceneObject* Create();
+  static IEntity* Create();
   bool BeginAnimationLoopAgain();
 private:
 
@@ -52,9 +52,9 @@ class SideWallBlueLeft : public SideWall
 {
 public:
   SideWallBlueLeft();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 };
 
 /* SideWallBlueRight */
@@ -63,9 +63,9 @@ class SideWallBlueRight : public SideWall
 {
 public:
   SideWallBlueRight();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 };
 
 /* SideWallBlueColumnsLeft */
@@ -74,9 +74,9 @@ class SideWallBlueColumnsLeft : public SideWall
 {
 public:
   SideWallBlueColumnsLeft();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 };
 
 /* SideWallBlueColumnsRight */
@@ -85,9 +85,9 @@ class SideWallBlueColumnsRight : public SideWall
 {
 public:
   SideWallBlueColumnsRight();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 };
 
 /* SideWallBrownLeft */
@@ -96,9 +96,9 @@ class SideWallBrownLeft : public SideWall
 {
 public:
   SideWallBrownLeft();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 };
 
 /* SideWallBrownRight */
@@ -107,9 +107,9 @@ class SideWallBrownRight : public SideWall
 {
 public:
   SideWallBrownRight();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 };
 
 /* SideWallBrownColumnsLeft */
@@ -118,9 +118,9 @@ class SideWallBrownColumnsLeft : public SideWall
 {
 public:
   SideWallBrownColumnsLeft();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 };
 
 /* SideWallBrownColumnsRight */
@@ -129,9 +129,9 @@ class SideWallBrownColumnsRight : public SideWall
 {
 public:
   SideWallBrownColumnsRight();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 };
 
 /* SideWallGreenLeft */
@@ -140,9 +140,9 @@ class SideWallGreenLeft : public SideWall
 {
 public:
   SideWallGreenLeft();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 };
 
 /* SideWallGreenRight */
@@ -151,9 +151,9 @@ class SideWallGreenRight : public SideWall
 {
 public:
   SideWallGreenRight();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 };
 
 /* SideWallGreenColumnsLeft */
@@ -162,9 +162,9 @@ class SideWallGreenColumnsLeft : public SideWall
 {
 public:
   SideWallGreenColumnsLeft();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 };
 
 /* SideWallGreenColumnsRight */
@@ -173,9 +173,9 @@ class SideWallGreenColumnsRight : public SideWall
 {
 public:
   SideWallGreenColumnsRight();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 };
 
 /* SideWallIceModelAUnbreakable */
@@ -184,9 +184,9 @@ class SideWallIceModelAUnbreakable : public SideWall
 {
 public:
   SideWallIceModelAUnbreakable();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 };
 
 /* SideWallIceModelBUnbreakable */
@@ -195,9 +195,9 @@ class SideWallIceModelBUnbreakable : public SideWall
 {
 public:
   SideWallIceModelBUnbreakable();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 };
 
 #endif

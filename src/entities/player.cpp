@@ -1,8 +1,8 @@
-#include "objects/player.h"
+#include "entities/player.h"
 #include <chrono>
 
 Player::Player() :
-        ISceneObject(SceneObjectIdentificator::MAIN_CHARACTER, SceneObjectType::PLAYER, SurfaceType::SIMPLE, PlayerStateIdentificator::MAIN_CHARACTER_MAX_STATES, false, true) {
+        IEntity(EntityIdentificator::MAIN_CHARACTER, EntityType::PLAYER, SurfaceType::SIMPLE, PlayerStateIdentificator::MAIN_CHARACTER_MAX_STATES, false, true) {
     vectorDirection.x = 0;
     vectorDirection.y = 0;
     prevVectorDirection.x = 0;
@@ -110,9 +110,9 @@ bool Player::Update(const uint8_t pressedKeys_) {
 
 void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& playerIsSuspendedInTheAir) {
     // Check for collisions with other objects present in the scene.
-    std::vector<aabb::AABBIntersection<ISceneObject*>> objectIntersections = spacePartitionObjectsTree->query(GetSolidLowerBound(), GetSolidUpperBound());
+    std::vector<aabb::AABBIntersection<IEntity*>> objectIntersections = spacePartitionObjectsTree->query(GetSolidLowerBound(), GetSolidUpperBound());
     playerIsSuspendedInTheAir = true;
-    ISceneObject* underlyingObjectCandidate = nullptr;
+    IEntity* underlyingObjectCandidate = nullptr;
     prevUnderlyingCloud = currentUnderlyingCloud;
     currentUnderlyingCloud = nullptr;
     int minBottomIntersectionYUnderlyingObjectCandidate = 9999;
@@ -518,13 +518,13 @@ void Player::ProcessReleasedKeys() {
     prevPressedKeys = KeyboardKeyCode::IC_KEY_NONE;
 }
 
-void Player::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void Player::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
     spriteSheet = _spriteSheet;
     LoadAnimationWithId(PlayerAnimation::STAND_BY_RIGHT);
 }
 
 void Player::LoadAnimationWithId(uint16_t animationId) {
-    std::optional<ObjectSpriteSheetAnimation *> currentAnimation = spriteSheet->GetAnimationWithId(animationId);
+    std::optional<EntitySpriteSheetAnimation *> currentAnimation = spriteSheet->GetAnimationWithId(animationId);
     assert(currentAnimation != std::nullopt);
     currentAnimationSprites = (*currentAnimation)->GetSprites();
     animationHasOnlyOneSprite = (currentAnimationSprites.size() <= 1);
@@ -573,7 +573,7 @@ SpriteData Player::NextSpriteData() {
     return *currentAnimationSpriteIterator++;
 }
 
-ISceneObject *Player::Create() {
+IEntity *Player::Create() {
     return new Player();
 }
 

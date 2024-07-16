@@ -24,33 +24,33 @@ add_executable(rocket
         src/collision/structures/mat2x2.hpp
         src/collision/structures/vec2.hpp
         src/collision/collision.h
-        src/objects/brick.cpp
-        src/objects/brick.h
-        src/objects/cloud.cpp
-        src/objects/cloud.h
-        src/objects/player_state_transitions.cpp
-        src/objects/player.cpp
-        src/objects/player.h
-        src/objects/side_wall.cpp
-        src/objects/side_wall.h
+        src/entities/brick.cpp
+        src/entities/brick.h
+        src/entities/cloud.cpp
+        src/entities/cloud.h
+        src/entities/player_state_transitions.cpp
+        src/entities/player.cpp
+        src/entities/player.h
+        src/entities/side_wall.cpp
+        src/entities/side_wall.h
         src/defines.h
         src/filesystem.h
         src/float_double_buffer.cpp
         src/float_double_buffer.h
-        src/object_sprite_sheet.cpp
-        src/object_sprite_sheet.h
-        src/object_sprite_sheet_animation.cpp
-        src/object_sprite_sheet_animation.h
+        src/entity_sprite_sheet.cpp
+        src/entity_sprite_sheet.h
+        src/entity_sprite_sheet_animation.cpp
+        src/entity_sprite_sheet_animation.h
         src/position.cpp
         src/position.h
-        src/scene_object.cpp
-        src/scene_object.h
-        src/scene_object_data_manager.cpp
-        src/scene_object_data_manager.h
-        src/scene_object_factory.cpp
-        src/scene_object_factory.h
-        src/scene_object_manager.cpp
-        src/scene_object_manager.h
+        src/entity.cpp
+        src/entity.h
+        src/entity_data_manager.cpp
+        src/entity_data_manager.h
+        src/entity_factory.cpp
+        src/entity_factory.h
+        src/entity_manager.cpp
+        src/entity_manager.h
         src/shader.h
         src/shader_m.h
         src/shader_s.h

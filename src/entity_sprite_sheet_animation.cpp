@@ -1,17 +1,17 @@
 #include <iostream>
-#include "object_sprite_sheet_animation.h"
+#include "entity_sprite_sheet_animation.h"
 
-ObjectSpriteSheetAnimation::ObjectSpriteSheetAnimation(uint16_t _id)
+EntitySpriteSheetAnimation::EntitySpriteSheetAnimation(uint16_t _id)
         : Id(_id)
 {
 
 }
 
-ObjectSpriteSheetAnimation::~ObjectSpriteSheetAnimation() {
+EntitySpriteSheetAnimation::~EntitySpriteSheetAnimation() {
   sprites.clear();
 }
 
-void ObjectSpriteSheetAnimation::Print()
+void EntitySpriteSheetAnimation::Print()
 {
   printf("Sprite sheet animation Id: %d\n", Id);
   printf("Total animation frames: %lu\n", sprites.size());
@@ -21,12 +21,12 @@ void ObjectSpriteSheetAnimation::Print()
   }
 }
 
-void ObjectSpriteSheetAnimation::AddSprite(SpriteData sprite)
+void EntitySpriteSheetAnimation::AddSprite(SpriteData sprite)
 {
   sprites.push_back(sprite);
 }
 
-const std::vector<SpriteData>& ObjectSpriteSheetAnimation::GetSprites() const
+const std::vector<SpriteData>& EntitySpriteSheetAnimation::GetSprites() const
 {
   return sprites;
 }

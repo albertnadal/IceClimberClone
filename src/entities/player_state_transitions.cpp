@@ -1,4 +1,4 @@
-#include "objects/player.h"
+#include "entities/player.h"
 
 void Player::RightKeyPressed() {
     BEGIN_TRANSITION_MAP                    // - Current State -

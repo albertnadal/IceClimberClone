@@ -4,44 +4,44 @@ CFLAGS=-std=c++17 -stdlib=libc++ -Ofast -march=native -flto -fno-signed-zeros -f
 LDFLAGS=-Wl,-search_paths_first -Wl,-headerpad_max_install_names -framework OpenGL -framework Cocoa -framework IOKit -framework CoreAudio -framework CoreVideo -framework CoreFoundation -lraylib -Lthird_party/raylib/
 EXEC=main
 
-all: Rectangle.o sprite_rect_double_buffer.o position.o scene_object.o scene_object_factory.o player.o player_state_transitions.o brick.o cloud.o side_wall.o state_machine.o scene_object_manager.o sprite.o object_sprite_sheet_animation.o object_sprite_sheet.o scene_object_data_manager.o
-	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp scene_object.o scene_object_factory.o player.o player_state_transitions.o brick.o cloud.o side_wall.o state_machine.o scene_object_manager.o sprite.o scene_object_data_manager.o object_sprite_sheet.o object_sprite_sheet_animation.o position.o sprite_rect_double_buffer.o Rectangle.o -o $(EXEC)
+all: Rectangle.o sprite_rect_double_buffer.o position.o entity.o entity_factory.o player.o player_state_transitions.o brick.o cloud.o side_wall.o state_machine.o entity_manager.o sprite.o entity_sprite_sheet_animation.o entity_sprite_sheet.o entity_data_manager.o
+	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp entity.o entity_factory.o player.o player_state_transitions.o brick.o cloud.o side_wall.o state_machine.o entity_manager.o sprite.o entity_data_manager.o entity_sprite_sheet.o entity_sprite_sheet_animation.o position.o sprite_rect_double_buffer.o Rectangle.o -o $(EXEC)
 
-player.o: src/objects/player.cpp
-	$(CXX) -c $(CFLAGS) src/objects/player.cpp
+player.o: src/entities/player.cpp
+	$(CXX) -c $(CFLAGS) src/entities/player.cpp
 
-player_state_transitions.o: src/objects/player_state_transitions.cpp
-	$(CXX) -c $(CFLAGS) src/objects/player_state_transitions.cpp
+player_state_transitions.o: src/entities/player_state_transitions.cpp
+	$(CXX) -c $(CFLAGS) src/entities/player_state_transitions.cpp
 
-brick.o: src/objects/brick.cpp
-	$(CXX) -c $(CFLAGS) src/objects/brick.cpp
+brick.o: src/entities/brick.cpp
+	$(CXX) -c $(CFLAGS) src/entities/brick.cpp
 
-cloud.o: src/objects/cloud.cpp
-	$(CXX) -c $(CFLAGS) src/objects/cloud.cpp
+cloud.o: src/entities/cloud.cpp
+	$(CXX) -c $(CFLAGS) src/entities/cloud.cpp
 
-side_wall.o: src/objects/side_wall.cpp
-	$(CXX) -c $(CFLAGS) src/objects/side_wall.cpp
+side_wall.o: src/entities/side_wall.cpp
+	$(CXX) -c $(CFLAGS) src/entities/side_wall.cpp
 
 state_machine.o: src/state_machine.cpp
 	$(CXX) -c $(CFLAGS) src/state_machine.cpp
 
-scene_object_factory.o: src/scene_object_factory.cpp
-	$(CXX) -c $(CFLAGS) src/scene_object_factory.cpp
+entity_factory.o: src/entity_factory.cpp
+	$(CXX) -c $(CFLAGS) src/entity_factory.cpp
 
-scene_object_data_manager.o: src/scene_object_data_manager.cpp
-	$(CXX) -c $(CFLAGS) src/scene_object_data_manager.cpp
+entity_data_manager.o: src/entity_data_manager.cpp
+	$(CXX) -c $(CFLAGS) src/entity_data_manager.cpp
 
-scene_object_manager.o: src/scene_object_manager.cpp
-	$(CXX) -c $(CFLAGS) src/scene_object_manager.cpp
+entity_manager.o: src/entity_manager.cpp
+	$(CXX) -c $(CFLAGS) src/entity_manager.cpp
 
-scene_object.o: src/scene_object.cpp
-	$(CXX) -c $(CFLAGS) src/scene_object.cpp
+entity.o: src/entity.cpp
+	$(CXX) -c $(CFLAGS) src/entity.cpp
 
-object_sprite_sheet.o: src/object_sprite_sheet.cpp
-	$(CXX) -c $(CFLAGS) src/object_sprite_sheet.cpp
+entity_sprite_sheet.o: src/entity_sprite_sheet.cpp
+	$(CXX) -c $(CFLAGS) src/entity_sprite_sheet.cpp
 
-object_sprite_sheet_animation.o: src/object_sprite_sheet_animation.cpp
-	$(CXX) -c $(CFLAGS) src/object_sprite_sheet_animation.cpp
+entity_sprite_sheet_animation.o: src/entity_sprite_sheet_animation.cpp
+	$(CXX) -c $(CFLAGS) src/entity_sprite_sheet_animation.cpp
 
 sprite.o: src/sprite.cpp
 	$(CXX) -c $(CFLAGS) src/sprite.cpp

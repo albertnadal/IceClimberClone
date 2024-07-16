@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <vector>
-#include <scene_object.h>
+#include <entity.h>
 #include <state_machine.h>
 #include <sprite.h>
 #include <position.h>
@@ -11,7 +11,7 @@
 
 using namespace std;
 
-class Cloud: public ISceneObject
+class Cloud: public IEntity
 {
   std::vector<SpriteData>::iterator currentAnimationSpriteIterator;
   std::vector<SpriteData> currentAnimationSprites;
@@ -25,16 +25,16 @@ protected:
   void UpdateFlight();
   bool flyToRight = true;
 public:
-  Cloud(SceneObjectIdentificator, SceneObjectType, SurfaceType, unsigned char, bool, bool);
+  Cloud(EntityIdentificator, EntityType, SurfaceType, unsigned char, bool, bool);
   Cloud();
   ~Cloud();
-  virtual void InitWithSpriteSheet(ObjectSpriteSheet*);
+  virtual void InitWithSpriteSheet(EntitySpriteSheet*);
   uint16_t Width();
   uint16_t Height();
   virtual void PrintName();
   bool IsCloud() override;
   bool Update(uint8_t);
-  static ISceneObject* Create();
+  static IEntity* Create();
   bool BeginAnimationLoopAgain();
 
 private:
@@ -55,9 +55,9 @@ class CloudSmall : public Cloud
 {
 public:
   CloudSmall();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 };
 
 /* CloudBig */
@@ -66,9 +66,9 @@ class CloudBig : public Cloud
 {
 public:
   CloudBig();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 };
 
 /* CloudTiny */
@@ -77,9 +77,9 @@ class CloudTiny : public Cloud
 {
 public:
   CloudTiny();
-  void InitWithSpriteSheet(ObjectSpriteSheet*);
+  void InitWithSpriteSheet(EntitySpriteSheet*);
   void PrintName();
-  static ISceneObject* Create();
+  static IEntity* Create();
 };
 
 #endif

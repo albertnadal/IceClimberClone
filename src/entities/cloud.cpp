@@ -2,11 +2,11 @@
 #include <chrono>
 
 Cloud::Cloud() :
-        ISceneObject(SceneObjectIdentificator::CLOUD_SMALL, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, CloudStateIdentificator::CLOUD_MAX_STATES, false, false) {
+        IEntity(EntityIdentificator::CLOUD_SMALL, EntityType::TERRAIN, SurfaceType::SIMPLE, CloudStateIdentificator::CLOUD_MAX_STATES, false, false) {
 }
 
-Cloud::Cloud(SceneObjectIdentificator _id, SceneObjectType _type, SurfaceType surface_type, unsigned char max_states, bool is_breakable, bool is_traversable) :
-        ISceneObject(_id, _type, surface_type, max_states, is_breakable, is_traversable) {
+Cloud::Cloud(EntityIdentificator _id, EntityType _type, SurfaceType surface_type, unsigned char max_states, bool is_breakable, bool is_traversable) :
+        IEntity(_id, _type, surface_type, max_states, is_breakable, is_traversable) {
 }
 
 uint16_t Cloud::Width() {
@@ -68,13 +68,13 @@ bool Cloud::Update(uint8_t pressedKeys_) {
         return needRedraw;
 }
 
-void Cloud::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void Cloud::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(CloudSmallAnimation::CLOUD_SMALL_FLYING);
 }
 
 void Cloud::LoadAnimationWithId(uint16_t animationId) {
-        std::optional<ObjectSpriteSheetAnimation *> currentAnimation = spriteSheet->GetAnimationWithId(animationId);
+        std::optional<EntitySpriteSheetAnimation *> currentAnimation = spriteSheet->GetAnimationWithId(animationId);
         assert(currentAnimation != std::nullopt);
         currentAnimationSprites = (*currentAnimation)->GetSprites();
         animationHasOnlyOneSprite = (currentAnimationSprites.size() <= 1);
@@ -119,7 +119,7 @@ SpriteData Cloud::NextSpriteData()
         return *currentAnimationSpriteIterator++;
 }
 
-ISceneObject* Cloud::Create() {
+IEntity* Cloud::Create() {
         return new Cloud();
 }
 
@@ -135,56 +135,56 @@ bool Cloud::BeginAnimationLoopAgain()
 /* CloudSmall */
 
 CloudSmall::CloudSmall() :
-        Cloud(SceneObjectIdentificator::CLOUD_SMALL, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, CloudStateIdentificator::CLOUD_MAX_STATES, false, false) {
+        Cloud(EntityIdentificator::CLOUD_SMALL, EntityType::TERRAIN, SurfaceType::MOBILE_RIGHT, CloudStateIdentificator::CLOUD_MAX_STATES, false, false) {
 }
 
 void CloudSmall::PrintName() {
         std::cout << "CloudSmall." << std::endl;
 }
 
-void CloudSmall::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void CloudSmall::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(CloudSmallAnimation::CLOUD_SMALL_FLYING);
 }
 
-ISceneObject* CloudSmall::Create() {
+IEntity* CloudSmall::Create() {
         return new CloudSmall();
 }
 
 /* CloudBig */
 
 CloudBig::CloudBig() :
-        Cloud(SceneObjectIdentificator::CLOUD_BIG, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, CloudStateIdentificator::CLOUD_MAX_STATES, false, false) {
+        Cloud(EntityIdentificator::CLOUD_BIG, EntityType::TERRAIN, SurfaceType::MOBILE_RIGHT, CloudStateIdentificator::CLOUD_MAX_STATES, false, false) {
 }
 
 void CloudBig::PrintName() {
         std::cout << "CloudBig." << std::endl;
 }
 
-void CloudBig::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void CloudBig::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(CloudBigAnimation::CLOUD_BIG_FLYING);
 }
 
-ISceneObject* CloudBig::Create() {
+IEntity* CloudBig::Create() {
         return new CloudBig();
 }
 
 /* CloudTiny */
 
 CloudTiny::CloudTiny() :
-        Cloud(SceneObjectIdentificator::CLOUD_TINY, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, CloudStateIdentificator::CLOUD_MAX_STATES, false, false) {
+        Cloud(EntityIdentificator::CLOUD_TINY, EntityType::TERRAIN, SurfaceType::MOBILE_RIGHT, CloudStateIdentificator::CLOUD_MAX_STATES, false, false) {
 }
 
 void CloudTiny::PrintName() {
         std::cout << "CloudTiny." << std::endl;
 }
 
-void CloudTiny::InitWithSpriteSheet(ObjectSpriteSheet *_spriteSheet) {
+void CloudTiny::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
         LoadAnimationWithId(CloudTinyAnimation::CLOUD_TINY_FLYING);
 }
 
-ISceneObject* CloudTiny::Create() {
+IEntity* CloudTiny::Create() {
         return new CloudTiny();
 }

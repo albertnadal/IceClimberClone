@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <optional>
-#include <scene_object.h>
+#include <entity.h>
 #include <state_machine.h>
 #include <sprite.h>
 #include "collision/collision.h"
@@ -16,7 +16,7 @@ using namespace std;
 
 enum PlayerDirection: uint8_t { RIGHT = 0, LEFT = 1 };
 
-class Player: public ISceneObject
+class Player: public IEntity
 {
   std::vector<SpriteData>::iterator currentAnimationSpriteIterator;
   std::vector<SpriteData> currentAnimationSprites;
@@ -61,9 +61,9 @@ class Player: public ISceneObject
   collision::vec2<int16_t> vectorDirection;
   collision::vec2<int16_t> prevVectorDirection;
   std::optional<SurfaceType> underlyingObjectSurfaceType;
-  ISceneObject* prevUnderlyingCloud = nullptr;
-  ISceneObject* currentUnderlyingCloud = nullptr;
-  std::vector<ISceneObject*> objectsToIgnoreDuringFall;
+  IEntity* prevUnderlyingCloud = nullptr;
+  IEntity* currentUnderlyingCloud = nullptr;
+  std::vector<IEntity*> objectsToIgnoreDuringFall;
 
   // Player action states
   bool isRunning = false;          // Player is running on a floor
@@ -93,13 +93,13 @@ class Player: public ISceneObject
 public:
   Player();
   ~Player() override;
-  void InitWithSpriteSheet(ObjectSpriteSheet*) override;
+  void InitWithSpriteSheet(EntitySpriteSheet*) override;
   uint16_t Width() override;
   uint16_t Height() override;
   void PrintName() override;
   bool IsCloud() override;
   bool Update(uint8_t) override;
-  static ISceneObject* Create();
+  static IEntity* Create();
 
   // state machine triggers
   void RightKeyPressed();

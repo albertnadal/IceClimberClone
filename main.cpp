@@ -6,8 +6,8 @@
 #include <bitset>
 #include <raylib/raylib.h>
 #include <defines.h>
-#include <scene_object_data_manager.h>
-#include <scene_object_manager.h>
+#include <entity_data_manager.h>
+#include <entity_manager.h>
 
 const uint32_t SCR_WIDTH = 1280;
 const uint32_t SCR_HEIGHT = 750;
@@ -17,8 +17,8 @@ pthread_t gameLogicThread;
 std::chrono::duration<float> cpuTimePerUpdate;
 uint8_t pressedKeys = IC_KEY_NONE;
 bool running = true;
-SceneObjectDataManager *objectTextureManager;
-SceneObjectManager *sceneObjectManager;
+EntityDataManager *entityTextureManager;
+EntityManager *entityManager;
 int gameLogicFrequency = 16; // 16 milliseconds ≈ 60 ticks per second
 int framesPerSecond = 60;
 bool paused = false;
@@ -28,7 +28,7 @@ static void* gameLogicThreadFunc(void* v)
         while(running) {
                 if (!paused) {
                         auto t0 = std::chrono::high_resolution_clock::now();
-                        sceneObjectManager->Update(pressedKeys);
+                        entityManager->Update(pressedKeys);
                         auto t1 = std::chrono::high_resolution_clock::now();
                         cpuTimePerUpdate = t1 - t0;
                 }
@@ -49,14 +49,14 @@ int main()
 
         SetTargetFPS(framesPerSecond);
 
-        objectTextureManager = new SceneObjectDataManager();
+        entityTextureManager = new EntityDataManager();
         SpriteRectDoubleBuffer *spriteRectDoubleBuffer = new SpriteRectDoubleBuffer(MAX_OBJECTS);
-        sceneObjectManager = new SceneObjectManager(objectTextureManager, spriteRectDoubleBuffer, MAX_OBJECTS);
+        entityManager = new EntityManager(entityTextureManager, spriteRectDoubleBuffer, MAX_OBJECTS);
 
         // Load texture atlas into GPU memory
-        Texture2D textureAtlas = objectTextureManager->LoadTextureAtlas();
+        Texture2D textureAtlas = entityTextureManager->LoadTextureAtlas();
 
-        sceneObjectManager->Update(pressedKeys);
+        entityManager->Update(pressedKeys);
 
         pthread_create(&gameLogicThread, nullptr, gameLogicThreadFunc, nullptr);
 
@@ -100,8 +100,8 @@ int main()
         // Wait for the gameLogicThread to finish
         pthread_join(gameLogicThread, nullptr);
 
-        delete objectTextureManager;
-        delete sceneObjectManager;
+        delete entityTextureManager;
+        delete entityManager;
         delete spriteRectDoubleBuffer;
         UnloadTexture(textureAtlas);
         CloseWindow();

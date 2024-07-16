@@ -1,24 +1,24 @@
-#ifndef SCENE_OBJECT_MANAGER_H
-#define SCENE_OBJECT_MANAGER_H
+#ifndef SCENE_ENTITY_MANAGER_H
+#define SCENE_ENTITY_MANAGER_H
 
 #include <vector>
 #include <optional>
-#include "scene_object_factory.h"
-#include "scene_object_data_manager.h"
+#include "entity_factory.h"
+#include "entity_data_manager.h"
 #include "sprite_rect_double_buffer.h"
 #include <AABB/AABB.h>
 
-class SceneObjectManager
+class EntityManager
 {
-  aabb::Tree<ISceneObject*> *spacePartitionObjectsTree = nullptr; // Used for of object collision detection
-  std::map<uint32_t, ISceneObject*> mobileObjects;
-  std::map<uint32_t, ISceneObject*> staticObjects;
-  std::vector<ISceneObject*> objectsToDelete;
-  ISceneObject* player = nullptr;
+  aabb::Tree<IEntity*> *spacePartitionObjectsTree = nullptr; // Used for of object collision detection
+  std::map<uint32_t, IEntity*> mobileObjects;
+  std::map<uint32_t, IEntity*> staticObjects;
+  std::vector<IEntity*> objectsToDelete;
+  IEntity* player = nullptr;
   uint32_t currentRow;
   uint32_t visibleRows;
 
-  SceneObjectDataManager *textureManager;
+  EntityDataManager *textureManager;
   SpriteRectDoubleBuffer *spriteRectDoubleBuffer;
   uint32_t maxObjects;
   uint32_t currentEscalatedHeight;
@@ -274,13 +274,13 @@ class SceneObjectManager
 
   void deleteUneededObjects();
   void updateVerticalScroll(uint8_t);
-  void updateObjects(std::map<uint32_t, ISceneObject*>&, std::optional<uint8_t>);
+  void updateEntities(std::map<uint32_t, IEntity*>&, std::optional<uint8_t>);
   void updateMobileObjects(uint8_t);
   void updateStaticObjects();
   void updateSpriteRectBuffers();
 public:
-  SceneObjectManager(SceneObjectDataManager*, SpriteRectDoubleBuffer*, uint32_t);
-  ~SceneObjectManager();
+  EntityManager(EntityDataManager*, SpriteRectDoubleBuffer*, uint32_t);
+  ~EntityManager();
   void Update(uint8_t);
 };
 

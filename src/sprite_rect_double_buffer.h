@@ -3,7 +3,7 @@
 
 #include <mutex>
 #include <defines.h>
-#include <scene_object.h>
+#include <entity.h>
 #include <raylib/raylib.h>
 
 struct SpriteRect {
