@@ -9,15 +9,17 @@ ISceneObject::ISceneObject() {
   boundingBox = solidBoundingBox = {0, 0, 0, 0};
   recalculateAreasDataIsNeeded = true;
   isBreakable = false;
+  isTraversable = false;
   isMarkedToDelete = false;
 }
 
-ISceneObject::ISceneObject(SceneObjectIdentificator _id, SceneObjectType _type, SurfaceType surface_type, unsigned char _maxStates, bool _isBreakable) :
+ISceneObject::ISceneObject(SceneObjectIdentificator _id, SceneObjectType _type, SurfaceType surface_type, unsigned char _maxStates, bool _isBreakable, bool _isTraversable) :
   StateMachine(_maxStates),
   id(_id),
   type(_type),
   surfaceType(surface_type),
-  isBreakable(_isBreakable) {
+  isBreakable(_isBreakable),
+  isTraversable(_isTraversable) {
   MersenneTwister rng;
   uniqueId = rng.integer(0, UINT_MAX);
   boundingBox = solidBoundingBox = {0, 0, 0, 0};

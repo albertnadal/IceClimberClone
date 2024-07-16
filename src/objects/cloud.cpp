@@ -2,11 +2,11 @@
 #include <chrono>
 
 Cloud::Cloud() :
-        ISceneObject(SceneObjectIdentificator::CLOUD_SMALL, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, CloudStateIdentificator::CLOUD_MAX_STATES, false) {
+        ISceneObject(SceneObjectIdentificator::CLOUD_SMALL, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, CloudStateIdentificator::CLOUD_MAX_STATES, false, false) {
 }
 
-Cloud::Cloud(SceneObjectIdentificator _id, SceneObjectType _type, SurfaceType surface_type, unsigned char max_states, bool is_breakable) :
-        ISceneObject(_id, _type, surface_type, max_states, is_breakable) {
+Cloud::Cloud(SceneObjectIdentificator _id, SceneObjectType _type, SurfaceType surface_type, unsigned char max_states, bool is_breakable, bool is_traversable) :
+        ISceneObject(_id, _type, surface_type, max_states, is_breakable, is_traversable) {
 }
 
 uint16_t Cloud::Width() {
@@ -135,7 +135,7 @@ bool Cloud::BeginAnimationLoopAgain()
 /* CloudSmall */
 
 CloudSmall::CloudSmall() :
-        Cloud(SceneObjectIdentificator::CLOUD_SMALL, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, CloudStateIdentificator::CLOUD_MAX_STATES, false) {
+        Cloud(SceneObjectIdentificator::CLOUD_SMALL, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, CloudStateIdentificator::CLOUD_MAX_STATES, false, false) {
 }
 
 void CloudSmall::PrintName() {
@@ -154,7 +154,7 @@ ISceneObject* CloudSmall::Create() {
 /* CloudBig */
 
 CloudBig::CloudBig() :
-        Cloud(SceneObjectIdentificator::CLOUD_BIG, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, CloudStateIdentificator::CLOUD_MAX_STATES, false) {
+        Cloud(SceneObjectIdentificator::CLOUD_BIG, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, CloudStateIdentificator::CLOUD_MAX_STATES, false, false) {
 }
 
 void CloudBig::PrintName() {
@@ -173,7 +173,7 @@ ISceneObject* CloudBig::Create() {
 /* CloudTiny */
 
 CloudTiny::CloudTiny() :
-        Cloud(SceneObjectIdentificator::CLOUD_TINY, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, CloudStateIdentificator::CLOUD_MAX_STATES, false) {
+        Cloud(SceneObjectIdentificator::CLOUD_TINY, SceneObjectType::TERRAIN, SurfaceType::MOBILE_RIGHT, CloudStateIdentificator::CLOUD_MAX_STATES, false, false) {
 }
 
 void CloudTiny::PrintName() {

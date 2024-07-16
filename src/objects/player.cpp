@@ -2,7 +2,7 @@
 #include <chrono>
 
 Player::Player() :
-        ISceneObject(SceneObjectIdentificator::MAIN_CHARACTER, SceneObjectType::PLAYER, SurfaceType::SIMPLE, PlayerStateIdentificator::MAIN_CHARACTER_MAX_STATES, false) {
+        ISceneObject(SceneObjectIdentificator::MAIN_CHARACTER, SceneObjectType::PLAYER, SurfaceType::SIMPLE, PlayerStateIdentificator::MAIN_CHARACTER_MAX_STATES, false, true) {
     vectorDirection.x = 0;
     vectorDirection.y = 0;
     prevVectorDirection.x = 0;
@@ -45,6 +45,15 @@ void Player::DisplacePlayerIfUnderlyingSurfaceIsMobile() {
     PositionAddX(displacement);
 }
 
+inline void Player::CorrectPlayerPositionOnReachScreenEdge() {
+    if (position.GetRealX() < 0.0f) {
+        PositionSetX(LEVEL_WIDTH_FLOAT - 9.0f);
+    }
+    else if (position.GetRealX() >= LEVEL_WIDTH_FLOAT - 8.0f) {
+        PositionSetX(0.0f);
+    }
+}
+
 bool Player::Update(const uint8_t pressedKeys_) {
 
     bool needRedraw = false;
@@ -71,6 +80,9 @@ bool Player::Update(const uint8_t pressedKeys_) {
         }
 
     }
+
+    // Correct the player's position if they go beyond the screen edges
+    CorrectPlayerPositionOnReachScreenEdge();
 
     // Check for collisions
     UpdateCollisions();
@@ -107,7 +119,7 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
     int minIntersectionXDiffUnderlyingObjectCandidate = 9999;
 
     for (auto intersection : objectIntersections) {
-        if ((intersection.particle == this) || (std::find(objectsToIgnoreDuringFall.begin(), objectsToIgnoreDuringFall.end(), intersection.particle) != objectsToIgnoreDuringFall.end())) {
+        if ((intersection.particle == this) || intersection.particle->isTraversable || (std::find(objectsToIgnoreDuringFall.begin(), objectsToIgnoreDuringFall.end(), intersection.particle) != objectsToIgnoreDuringFall.end())) {
             continue;
         }
 

@@ -36,7 +36,7 @@ class Brick: public ISceneObject
 protected:
   void LoadAnimationWithId(uint16_t);
 public:
-  Brick(SceneObjectIdentificator, SceneObjectType, SurfaceType, unsigned char, bool);
+  Brick(SceneObjectIdentificator, SceneObjectType, SurfaceType, unsigned char, bool, bool);
   Brick();
   ~Brick();
   virtual void InitWithSpriteSheet(ObjectSpriteSheet*);

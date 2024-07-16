@@ -32,7 +32,7 @@ protected:
   void RemoveFromSpacePartitionObjectsTree();
 public:
   ISceneObject();
-  ISceneObject(SceneObjectIdentificator, SceneObjectType, SurfaceType, unsigned char, bool);
+  ISceneObject(SceneObjectIdentificator, SceneObjectType, SurfaceType, unsigned char, bool, bool);
   SurfaceType surfaceType;
   Sprite currentSprite;
   Position position;
@@ -40,6 +40,7 @@ public:
   Boundaries solidBoundingBox;
   uint32_t uniqueId;
   bool isBreakable = false;
+  bool isTraversable = false;
   bool isMarkedToDelete = false;
   void SetSpacePartitionObjectsTree(aabb::Tree<ISceneObject*>*);
   //std::vector<Area>& GetSolidAreas(); DEPRECATED Now this is GetAbsoluteSolidBoundaries

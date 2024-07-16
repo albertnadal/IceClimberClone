@@ -2,11 +2,11 @@
 #include <chrono>
 
 SideWall::SideWall() :
-        ISceneObject(SceneObjectIdentificator::SIDE_WALL, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false) {
+        ISceneObject(SceneObjectIdentificator::SIDE_WALL, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
-SideWall::SideWall(SceneObjectIdentificator _id, SceneObjectType _type, SurfaceType surface_type, unsigned char max_states, bool is_breakable) :
-        ISceneObject(_id, _type, surface_type, max_states, is_breakable) {
+SideWall::SideWall(SceneObjectIdentificator _id, SceneObjectType _type, SurfaceType surface_type, unsigned char max_states, bool is_breakable, bool is_traversable) :
+        ISceneObject(_id, _type, surface_type, max_states, is_breakable, is_traversable) {
 }
 
 uint16_t SideWall::Width() {
@@ -107,7 +107,7 @@ bool SideWall::BeginAnimationLoopAgain()
 /* SideWallBlueLeft */
 
 SideWallBlueLeft::SideWallBlueLeft() :
-        SideWall(SceneObjectIdentificator::SIDE_WALL_BLUE_LEFT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false) {
+        SideWall(SceneObjectIdentificator::SIDE_WALL_BLUE_LEFT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
 void SideWallBlueLeft::PrintName() {
@@ -126,7 +126,7 @@ ISceneObject* SideWallBlueLeft::Create() {
 /* SideWallBlueRight */
 
 SideWallBlueRight::SideWallBlueRight() :
-        SideWall(SceneObjectIdentificator::SIDE_WALL_BLUE_RIGHT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false) {
+        SideWall(SceneObjectIdentificator::SIDE_WALL_BLUE_RIGHT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
 void SideWallBlueRight::PrintName() {
@@ -145,7 +145,7 @@ ISceneObject* SideWallBlueRight::Create() {
 /* SideWallBlueColumnsLeft */
 
 SideWallBlueColumnsLeft::SideWallBlueColumnsLeft() :
-        SideWall(SceneObjectIdentificator::SIDE_WALL_BLUE_COLUMNS_LEFT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false) {
+        SideWall(SceneObjectIdentificator::SIDE_WALL_BLUE_COLUMNS_LEFT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
 void SideWallBlueColumnsLeft::PrintName() {
@@ -164,7 +164,7 @@ ISceneObject* SideWallBlueColumnsLeft::Create() {
 /* SideWallBlueColumnsRight */
 
 SideWallBlueColumnsRight::SideWallBlueColumnsRight() :
-        SideWall(SceneObjectIdentificator::SIDE_WALL_BLUE_COLUMNS_RIGHT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false) {
+        SideWall(SceneObjectIdentificator::SIDE_WALL_BLUE_COLUMNS_RIGHT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
 void SideWallBlueColumnsRight::PrintName() {
@@ -183,7 +183,7 @@ ISceneObject* SideWallBlueColumnsRight::Create() {
 /* SideWallBrownLeft */
 
 SideWallBrownLeft::SideWallBrownLeft() :
-        SideWall(SceneObjectIdentificator::SIDE_WALL_BROWN_LEFT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false) {
+        SideWall(SceneObjectIdentificator::SIDE_WALL_BROWN_LEFT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
 void SideWallBrownLeft::PrintName() {
@@ -202,7 +202,7 @@ ISceneObject* SideWallBrownLeft::Create() {
 /* SideWallBrownRight */
 
 SideWallBrownRight::SideWallBrownRight() :
-        SideWall(SceneObjectIdentificator::SIDE_WALL_BROWN_RIGHT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false) {
+        SideWall(SceneObjectIdentificator::SIDE_WALL_BROWN_RIGHT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
 void SideWallBrownRight::PrintName() {
@@ -221,7 +221,7 @@ ISceneObject* SideWallBrownRight::Create() {
 /* SideWallBrownColumnsLeft */
 
 SideWallBrownColumnsLeft::SideWallBrownColumnsLeft() :
-        SideWall(SceneObjectIdentificator::SIDE_WALL_BROWN_COLUMNS_LEFT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false) {
+        SideWall(SceneObjectIdentificator::SIDE_WALL_BROWN_COLUMNS_LEFT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
 void SideWallBrownColumnsLeft::PrintName() {
@@ -240,7 +240,7 @@ ISceneObject* SideWallBrownColumnsLeft::Create() {
 /* SideWallBrownColumnsRight */
 
 SideWallBrownColumnsRight::SideWallBrownColumnsRight() :
-        SideWall(SceneObjectIdentificator::SIDE_WALL_BROWN_COLUMNS_RIGHT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false) {
+        SideWall(SceneObjectIdentificator::SIDE_WALL_BROWN_COLUMNS_RIGHT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
 void SideWallBrownColumnsRight::PrintName() {
@@ -259,7 +259,7 @@ ISceneObject* SideWallBrownColumnsRight::Create() {
 /* SideWallGreenLeft */
 
 SideWallGreenLeft::SideWallGreenLeft() :
-        SideWall(SceneObjectIdentificator::SIDE_WALL_GREEN_LEFT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false) {
+        SideWall(SceneObjectIdentificator::SIDE_WALL_GREEN_LEFT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
 void SideWallGreenLeft::PrintName() {
@@ -278,7 +278,7 @@ ISceneObject* SideWallGreenLeft::Create() {
 /* SideWallGreenRight */
 
 SideWallGreenRight::SideWallGreenRight() :
-        SideWall(SceneObjectIdentificator::SIDE_WALL_GREEN_RIGHT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false) {
+        SideWall(SceneObjectIdentificator::SIDE_WALL_GREEN_RIGHT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
 void SideWallGreenRight::PrintName() {
@@ -297,7 +297,7 @@ ISceneObject* SideWallGreenRight::Create() {
 /* SideWallGreenColumnsLeft */
 
 SideWallGreenColumnsLeft::SideWallGreenColumnsLeft() :
-        SideWall(SceneObjectIdentificator::SIDE_WALL_GREEN_COLUMNS_LEFT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false) {
+        SideWall(SceneObjectIdentificator::SIDE_WALL_GREEN_COLUMNS_LEFT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
 void SideWallGreenColumnsLeft::PrintName() {
@@ -316,7 +316,7 @@ ISceneObject* SideWallGreenColumnsLeft::Create() {
 /* SideWallGreenColumnsRight */
 
 SideWallGreenColumnsRight::SideWallGreenColumnsRight() :
-        SideWall(SceneObjectIdentificator::SIDE_WALL_GREEN_COLUMNS_RIGHT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false) {
+        SideWall(SceneObjectIdentificator::SIDE_WALL_GREEN_COLUMNS_RIGHT, SceneObjectType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
 void SideWallGreenColumnsRight::PrintName() {

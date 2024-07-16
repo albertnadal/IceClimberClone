@@ -25,7 +25,7 @@ protected:
   void UpdateFlight();
   bool flyToRight = true;
 public:
-  Cloud(SceneObjectIdentificator, SceneObjectType, SurfaceType, unsigned char, bool);
+  Cloud(SceneObjectIdentificator, SceneObjectType, SurfaceType, unsigned char, bool, bool);
   Cloud();
   ~Cloud();
   virtual void InitWithSpriteSheet(ObjectSpriteSheet*);
