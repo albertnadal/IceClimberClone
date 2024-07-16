@@ -1,5 +1,5 @@
-#ifndef SCENE_ENTITY_FACTORY_H
-#define SCENE_ENTITY_FACTORY_H
+#ifndef ENTITY_FACTORY_H
+#define ENTITY_FACTORY_H
 
 #include <map>
 #include <optional>

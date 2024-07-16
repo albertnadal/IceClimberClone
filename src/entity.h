@@ -1,5 +1,5 @@
-#ifndef SCENE_ENTITY_H
-#define SCENE_ENTITY_H
+#ifndef ENTITY_H
+#define ENTITY_H
 
 #include <iostream>
 #include <chrono>

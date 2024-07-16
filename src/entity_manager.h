@@ -1,5 +1,5 @@
-#ifndef SCENE_ENTITY_MANAGER_H
-#define SCENE_ENTITY_MANAGER_H
+#ifndef ENTITY_MANAGER_H
+#define ENTITY_MANAGER_H
 
 #include <vector>
 #include <optional>

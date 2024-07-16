@@ -1,5 +1,5 @@
-#ifndef SCENE_ENTITY_DATA_MANAGER_H
-#define SCENE_ENTITY_DATA_MANAGER_H
+#ifndef ENTITY_DATA_MANAGER_H
+#define ENTITY_DATA_MANAGER_H
 
 #include <iostream>
 #include <string>
