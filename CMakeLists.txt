@@ -64,10 +64,8 @@ add_executable(rocket
         src/uint16_double_buffer.cpp
         src/uint16_double_buffer.h
         third_party/AABB/AABB.h
-        third_party/glad/glad.cpp
-        third_party/glad/glad.h
-        third_party/KHR/khrplatform.h
         third_party/MersenneTwister/MersenneTwister.h
+        third_party/raylib/raylib.h
         main.cpp)
 
 target_link_libraries(rocket glfw)
