@@ -1,4 +1,4 @@
-#include "entity_sprite_sheet.h"
+#include <entity_sprite_sheet.h>
 
 EntitySpriteSheet::EntitySpriteSheet(EntityIdentificator _id)
         : Id(_id)

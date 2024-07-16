@@ -3,9 +3,9 @@
 
 #include <vector>
 #include <optional>
-#include "entity_factory.h"
-#include "entity_data_manager.h"
-#include "sprite_rect_double_buffer.h"
+#include <entity_factory.h>
+#include <entity_data_manager.h>
+#include <sprite_rect_double_buffer.h>
 #include <AABB/AABB.h>
 
 class EntityManager

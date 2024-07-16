@@ -1,6 +1,6 @@
-#include "entity_manager.h"
-#include "entity_factory.h"
-#include "entity.h"
+#include <entity_manager.h>
+#include <entity_factory.h>
+#include <entity.h>
 
 EntityManager::EntityManager(EntityDataManager* _textureManager, SpriteRectDoubleBuffer* _spriteRectDoubleBuffer, uint32_t _maxObjects) {
         textureManager = _textureManager;

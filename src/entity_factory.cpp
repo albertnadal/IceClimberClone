@@ -1,5 +1,5 @@
-#include "entity_factory.h"
-#include "entity_sprite_sheet.h"
+#include <entity_factory.h>
+#include <entity_sprite_sheet.h>
 #include <map>
 
 EntityFactory::EntityFactory(EntityDataManager* _textureManager, aabb::Tree<IEntity*>* _spacePartitionObjectsTree) {

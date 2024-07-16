@@ -1,5 +1,5 @@
 #include <iostream>
-#include "entity_sprite_sheet_animation.h"
+#include <entity_sprite_sheet_animation.h>
 
 EntitySpriteSheetAnimation::EntitySpriteSheetAnimation(uint16_t _id)
         : Id(_id)

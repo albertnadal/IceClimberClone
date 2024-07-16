@@ -1,4 +1,4 @@
-#include "brick.h"
+#include <entities/brick.h>
 #include <chrono>
 
 Brick::Brick() :

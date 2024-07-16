@@ -1,6 +1,6 @@
 #include <assert.h>
 #include <iostream>
-#include "state_machine.h"
+#include <state_machine.h>
 
 using namespace std;
 

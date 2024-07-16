@@ -1,4 +1,4 @@
-#include "sprite_rect_double_buffer.h"
+#include <sprite_rect_double_buffer.h>
 
 SpriteRectDoubleBuffer::SpriteRectDoubleBuffer(uint32_t _max_length) {
         max_length = _max_length;

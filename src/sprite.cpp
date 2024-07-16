@@ -1,4 +1,4 @@
-#include "sprite.h"
+#include <sprite.h>
 
 Sprite::Sprite() {
         areas = nullptr;

@@ -4,12 +4,12 @@
 #include <map>
 #include <optional>
 #include <AABB/AABB.h>
-#include "entity.h"
-#include "entity_data_manager.h"
-#include "entities/player.h"
-#include "entities/brick.h"
-#include "entities/side_wall.h"
-#include "entities/cloud.h"
+#include <entity.h>
+#include <entity_data_manager.h>
+#include <entities/player.h>
+#include <entities/brick.h>
+#include <entities/side_wall.h>
+#include <entities/cloud.h>
 
 class EntityFactory
 {

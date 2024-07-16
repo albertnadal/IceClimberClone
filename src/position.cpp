@@ -1,7 +1,7 @@
-#include "position.h"
 #include <cmath>
 #include <limits>
 #include <iostream>
+#include <position.h>
 
 Position::Position() {
     prev_x = prev_y = x = y = 0.0f;

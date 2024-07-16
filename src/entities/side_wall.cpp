@@ -1,4 +1,4 @@
-#include "side_wall.h"
+#include <entities/side_wall.h>
 #include <chrono>
 
 SideWall::SideWall() :

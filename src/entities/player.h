@@ -7,7 +7,7 @@
 #include <entity.h>
 #include <state_machine.h>
 #include <sprite.h>
-#include "collision/collision.h"
+#include <collision/collision.h>
 #include <AABB/AABB.h>
 #include <algorithm>
 #include <defines.h>
