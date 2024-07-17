@@ -26,7 +26,6 @@ class Topi: public IEntity
   void CorrectTopiPositionOnReachScreenEdge();
 
   collision::vec2<int16_t> vectorDirection;
-  collision::vec2<int16_t> prevVectorDirection;
   std::optional<SurfaceType> underlyingObjectSurfaceType;
   IEntity* prevUnderlyingCloud = nullptr;
   IEntity* currentUnderlyingCloud = nullptr;

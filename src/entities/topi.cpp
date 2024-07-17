@@ -5,8 +5,6 @@ Topi::Topi() :
         IEntity(EntityIdentificator::TOPI, EntityType::ENEMY, SurfaceType::SIMPLE, TopiStateIdentificator::TOPI_MAX_STATES, false, true) {
     vectorDirection.x = 0;
     vectorDirection.y = 0;
-    prevVectorDirection.x = 0;
-    prevVectorDirection.y = 0;
     underlyingObjectSurfaceType = SurfaceType::SIMPLE;
     direction = (rand() % 2 == 0) ? Direction::RIGHT : Direction::LEFT; // Random initial direction.
 }
