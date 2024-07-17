@@ -12,15 +12,6 @@ using namespace std;
 
 class SideWall: public IEntity
 {
-  std::vector<SpriteData>::iterator currentAnimationSpriteIterator;
-  std::vector<SpriteData> currentAnimationSprites;
-  bool firstSpriteOfCurrentAnimationIsLoaded = false;
-  bool animationHasOnlyOneSprite = false;
-  bool animationLoaded = false;
-  SpriteData NextSpriteData();
-  void LoadNextSprite();
-protected:
-  void LoadAnimationWithId(uint16_t);
 public:
   SideWall(EntityIdentificator, EntityType, SurfaceType, unsigned char, bool, bool);
   SideWall();
@@ -32,9 +23,8 @@ public:
   bool IsCloud() override;
   bool Update(uint8_t);
   static IEntity* Create();
-  bool BeginAnimationLoopAgain();
-private:
 
+private:
   // state map to define state function order
   BEGIN_STATE_MAP
   END_STATE_MAP

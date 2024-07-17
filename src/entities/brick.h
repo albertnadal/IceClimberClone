@@ -13,14 +13,7 @@ using namespace std;
 
 class Brick: public IEntity
 {
-  std::vector<SpriteData>::iterator currentAnimationSpriteIterator;
-  std::vector<SpriteData> currentAnimationSprites;
-  bool firstSpriteOfCurrentAnimationIsLoaded = false;
-  bool animationHasOnlyOneSprite = false;
-  bool animationLoaded = false;
   bool isPropelled = false;
-  SpriteData NextSpriteData();
-  void LoadNextSprite();
   void Propel(float vSpeed, float hSpeed);
   void UpdatePropel();
   void FinishPropel();
@@ -33,8 +26,6 @@ class Brick: public IEntity
   float vInitialPropelPosition = 0.0f;
   float previous_vOffset = 0.0f;
 
-protected:
-  void LoadAnimationWithId(uint16_t);
 public:
   Brick(EntityIdentificator, EntityType, SurfaceType, unsigned char, bool, bool);
   Brick();
@@ -50,7 +41,6 @@ public:
 
   // state machine triggers
   void Break();
-  bool BeginAnimationLoopAgain();
 
 private:
   // state machine state functions

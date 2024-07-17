@@ -523,17 +523,6 @@ void Player::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
     LoadAnimationWithId(PlayerAnimation::STAND_BY_RIGHT);
 }
 
-void Player::LoadAnimationWithId(uint16_t animationId) {
-    std::optional<EntitySpriteSheetAnimation *> currentAnimation = spriteSheet->GetAnimationWithId(animationId);
-    assert(currentAnimation != std::nullopt);
-    currentAnimationSprites = (*currentAnimation)->GetSprites();
-    animationHasOnlyOneSprite = (currentAnimationSprites.size() <= 1);
-    currentAnimationSpriteIterator = std::begin(currentAnimationSprites);
-    animationLoaded = true;
-    firstSpriteOfCurrentAnimationIsLoaded = false;
-    nextSpriteTime = std::chrono::system_clock::now();
-}
-
 void Player::LoadNextSprite() {
     SpriteData spriteData = NextSpriteData();
 
@@ -553,7 +542,6 @@ void Player::LoadNextSprite() {
     currentSprite.v1 = spriteData.v1;
     currentSprite.u2 = spriteData.u2;
     currentSprite.v2 = spriteData.v2;
-    //currentSprite.areas = spriteData.areas; DEPRECATED
 
     // Adjusts object position according to the sprite offset
     PositionSetOffset(spriteData.xOffset, spriteData.yOffset);
@@ -562,15 +550,6 @@ void Player::LoadNextSprite() {
     boundingBox = {spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY};
     solidBoundingBox = {spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY};
     firstSpriteOfCurrentAnimationIsLoaded = true;
-}
-
-SpriteData Player::NextSpriteData() {
-    if (currentAnimationSpriteIterator == std::end(currentAnimationSprites)) {
-        currentAnimationSpriteIterator = std::begin(currentAnimationSprites);
-        (*currentAnimationSpriteIterator).beginNewLoop = true;
-    }
-
-    return *currentAnimationSpriteIterator++;
 }
 
 IEntity *Player::Create() {

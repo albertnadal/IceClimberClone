@@ -49,59 +49,12 @@ void SideWall::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
 }
 
-void SideWall::LoadAnimationWithId(uint16_t animationId) {
-        std::optional<EntitySpriteSheetAnimation *> currentAnimation = spriteSheet->GetAnimationWithId(animationId);
-        assert(currentAnimation != std::nullopt);
-        currentAnimationSprites = (*currentAnimation)->GetSprites();
-        animationHasOnlyOneSprite = (currentAnimationSprites.size() <= 1);
-        currentAnimationSpriteIterator = std::begin(currentAnimationSprites);
-        animationLoaded = true;
-        firstSpriteOfCurrentAnimationIsLoaded = false;
-        nextSpriteTime = std::chrono::system_clock::now();
-}
-
-void SideWall::LoadNextSprite()
-{
-  SpriteData spriteData = NextSpriteData();
-  if(spriteData.beginNewLoop) {
-          if(BeginAnimationLoopAgain()) {
-            spriteData = NextSpriteData();
-          }
-  }
-
-  nextSpriteTime = (chrono::system_clock::now() + std::chrono::milliseconds(spriteData.duration));
-
-  currentSprite.width = spriteData.width;
-  currentSprite.height = spriteData.height;
-  currentSprite.u1 = spriteData.u1;
-  currentSprite.v1 = spriteData.v1;
-  currentSprite.u2 = spriteData.u2;
-  currentSprite.v2 = spriteData.v2;
-  boundingBox = { spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY };
-  firstSpriteOfCurrentAnimationIsLoaded = true;
-}
-
-SpriteData SideWall::NextSpriteData()
-{
-        if(currentAnimationSpriteIterator == std::end(currentAnimationSprites)) {
-                currentAnimationSpriteIterator = std::begin(currentAnimationSprites);
-                (*currentAnimationSpriteIterator).beginNewLoop = true;
-        }
-
-        return *currentAnimationSpriteIterator++;
-}
-
 IEntity* SideWall::Create() {
           return new SideWall();
 }
 
 SideWall::~SideWall() {
 
-}
-
-bool SideWall::BeginAnimationLoopAgain()
-{
-        return false;
 }
 
 /* SideWallBlueLeft */

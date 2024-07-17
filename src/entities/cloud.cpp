@@ -73,63 +73,12 @@ void Cloud::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         LoadAnimationWithId(CloudSmallAnimation::CLOUD_SMALL_FLYING);
 }
 
-void Cloud::LoadAnimationWithId(uint16_t animationId) {
-        std::optional<EntitySpriteSheetAnimation *> currentAnimation = spriteSheet->GetAnimationWithId(animationId);
-        assert(currentAnimation != std::nullopt);
-        currentAnimationSprites = (*currentAnimation)->GetSprites();
-        animationHasOnlyOneSprite = (currentAnimationSprites.size() <= 1);
-        currentAnimationSpriteIterator = std::begin(currentAnimationSprites);
-        animationLoaded = true;
-        firstSpriteOfCurrentAnimationIsLoaded = false;
-        nextSpriteTime = std::chrono::system_clock::now();
-}
-
-void Cloud::LoadNextSprite()
-{
-  SpriteData spriteData = NextSpriteData();
-  if(spriteData.beginNewLoop) {
-          if(BeginAnimationLoopAgain()) {
-            spriteData = NextSpriteData();
-          }
-  }
-
-  nextSpriteTime = (chrono::system_clock::now() + std::chrono::milliseconds(spriteData.duration));
-
-  currentSprite.width = spriteData.width;
-  currentSprite.height = spriteData.height;
-  currentSprite.xOffset = spriteData.xOffset;
-  currentSprite.yOffset = spriteData.yOffset;
-  currentSprite.u1 = spriteData.u1;
-  currentSprite.v1 = spriteData.v1;
-  currentSprite.u2 = spriteData.u2;
-  currentSprite.v2 = spriteData.v2;
-  currentSprite.areas = spriteData.areas;
-  recalculateAreasDataIsNeeded = true; // Is necessary because the current sprite may have different areas
-  boundingBox = { spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY };
-  firstSpriteOfCurrentAnimationIsLoaded = true;
-}
-
-SpriteData Cloud::NextSpriteData()
-{
-        if(currentAnimationSpriteIterator == std::end(currentAnimationSprites)) {
-                currentAnimationSpriteIterator = std::begin(currentAnimationSprites);
-                (*currentAnimationSpriteIterator).beginNewLoop = true;
-        }
-
-        return *currentAnimationSpriteIterator++;
-}
-
 IEntity* Cloud::Create() {
         return new Cloud();
 }
 
 Cloud::~Cloud() {
 
-}
-
-bool Cloud::BeginAnimationLoopAgain()
-{
-        return false;
 }
 
 /* CloudSmall */

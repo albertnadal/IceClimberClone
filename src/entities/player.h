@@ -18,18 +18,11 @@ enum PlayerDirection: uint8_t { RIGHT = 0, LEFT = 1 };
 
 class Player: public IEntity
 {
-  std::vector<SpriteData>::iterator currentAnimationSpriteIterator;
-  std::vector<SpriteData> currentAnimationSprites;
-  bool firstSpriteOfCurrentAnimationIsLoaded = false;
-  bool animationHasOnlyOneSprite = false;
-  bool animationLoaded = false;
   bool headedToRight = true;
   uint8_t prevPressedKeys = KeyboardKeyCode::IC_KEY_NONE;
   uint8_t pressedKeys = KeyboardKeyCode::IC_KEY_NONE;
   void ProcessPressedKeys(bool = true);
   void ProcessReleasedKeys();
-  void LoadAnimationWithId(uint16_t);
-  SpriteData NextSpriteData();
   void LoadNextSprite();
   bool PlayerIsQuiet();
   void UpdatePreviousDirection();

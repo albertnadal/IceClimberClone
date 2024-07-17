@@ -24,12 +24,21 @@ private:
   std::vector<Boundaries> simpleAreas;
 protected:
   aabb::Tree<IEntity*> *spacePartitionObjectsTree = nullptr;
+  std::vector<SpriteData> currentAnimationSprites;
+  std::vector<SpriteData>::iterator currentAnimationSpriteIterator;
   EntitySpriteSheet *spriteSheet = nullptr;
   EntityIdentificator id;
   EntityType type;
   chrono::system_clock::time_point nextSpriteTime;
+  bool animationLoaded = false;
+  bool firstSpriteOfCurrentAnimationIsLoaded = false;
+  bool animationHasOnlyOneSprite = false;
   bool recalculateAreasDataIsNeeded = true;
   void RemoveFromSpacePartitionObjectsTree();
+  void LoadAnimationWithId(uint16_t);
+  void LoadNextSprite();
+  SpriteData NextSpriteData();
+  bool ShouldBeginAnimationLoopAgain();
 public:
   IEntity();
   IEntity(EntityIdentificator, EntityType, SurfaceType, unsigned char, bool, bool);

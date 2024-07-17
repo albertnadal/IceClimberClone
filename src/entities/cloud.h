@@ -13,15 +13,7 @@ using namespace std;
 
 class Cloud: public IEntity
 {
-  std::vector<SpriteData>::iterator currentAnimationSpriteIterator;
-  std::vector<SpriteData> currentAnimationSprites;
-  bool firstSpriteOfCurrentAnimationIsLoaded = false;
-  bool animationHasOnlyOneSprite = false;
-  bool animationLoaded = false;
-  SpriteData NextSpriteData();
-  void LoadNextSprite();
 protected:
-  void LoadAnimationWithId(uint16_t);
   void UpdateFlight();
   bool flyToRight = true;
 public:
@@ -35,7 +27,6 @@ public:
   bool IsCloud() override;
   bool Update(uint8_t);
   static IEntity* Create();
-  bool BeginAnimationLoopAgain();
 
 private:
   // state map to define state function order
