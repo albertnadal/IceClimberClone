@@ -8,6 +8,7 @@ Topi::Topi() :
     prevVectorDirection.x = 0;
     prevVectorDirection.y = 0;
     underlyingObjectSurfaceType = SurfaceType::SIMPLE;
+    direction = (rand() % 2 == 0) ? Direction::RIGHT : Direction::LEFT; // Random initial direction.
 }
 
 uint16_t Topi::Width() {
@@ -61,15 +62,12 @@ inline void Topi::CorrectTopiPositionOnReachScreenEdge() {
 }
 
 bool Topi::Update(const uint8_t pressedKeys_) {
-
     bool needRedraw = false;
-
-    // TODO
-    /*
-    if (isFalling) {
-        UpdateFall();
+ 
+    if (isWalking) {
+        MoveTo(direction);
         needRedraw = true;
-    } else {
+    } /* else {
 
         // Displace the player if the underlying surface is mobile
         DisplaceTopiIfUnderlyingSurfaceIsMobile();
@@ -401,10 +399,10 @@ void Topi::UpdateCollisions() {
     */
 }
 
-void Topi::UpdatePreviousDirection() {
-    if ((vectorDirection.x != 0) || (vectorDirection.y != 0)) {
-        prevVectorDirection.x = vectorDirection.x;
-        prevVectorDirection.y = vectorDirection.y;
+void Topi::MoveTo(Direction direction) {
+    if (!isFalling && !isDazed) {
+        PositionAddX(direction == Direction::RIGHT ? 0.5f : -0.5f);
+        vectorDirection.x = (direction == Direction::RIGHT ? 1 : -1);
     }
 }
 
@@ -414,7 +412,10 @@ bool Topi::TopiIsQuiet() {
 
 void Topi::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
     spriteSheet = _spriteSheet;
-    LoadAnimationWithId(TopiAnimation::TOPI_WALK_TO_RIGHT);
+    LoadAnimationWithId((direction == Direction::RIGHT) ? TopiAnimation::TOPI_WALK_TO_RIGHT : TopiAnimation::TOPI_WALK_TO_LEFT);
+
+    // Set the initial state according to the direction
+    ExternalEvent((direction == Direction::RIGHT) ? TopiStateIdentificator::STATE_WALK_RIGHT : TopiStateIdentificator::STATE_WALK_LEFT, nullptr);
 }
 
 IEntity *Topi::Create() {
@@ -426,4 +427,16 @@ Topi::~Topi() = default;
 bool Topi::ShouldBeginAnimationLoopAgain() {
     // TODO
     return false;
+}
+
+void Topi::STATE_Walk_Right() {
+    isWalking = true;
+    direction = Direction::RIGHT;
+    LoadAnimationWithId(TopiAnimation::TOPI_WALK_TO_RIGHT);
+}
+
+void Topi::STATE_Walk_Left() {
+    isWalking = true;
+    direction = Direction::LEFT;
+    LoadAnimationWithId(TopiAnimation::TOPI_WALK_TO_LEFT);
 }

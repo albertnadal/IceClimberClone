@@ -17,10 +17,10 @@ using namespace std;
 
 class Topi: public IEntity
 {
+  Direction direction;
   bool headedToRight = true;
   void ProcessReleasedKeys();
   bool TopiIsQuiet();
-  void UpdatePreviousDirection();
   void GetSolidCollisions(std::vector<ObjectCollision>&, bool&);
   void DisplaceTopiIfUnderlyingSurfaceIsMobile();
   void CorrectTopiPositionOnReachScreenEdge();
@@ -33,12 +33,15 @@ class Topi: public IEntity
   std::vector<IEntity*> objectsToIgnoreDuringFall;
 
   // Topi action states
-  bool isRunning = false;          // Topi is running on a floor
+  bool isWalking = false;          // Topi is walking on a floor
+  bool isRunning = false;          // Topi is running
   bool isFalling = false;          // Topi is falling
+  bool isDazed = false;            // Topi is dazed
   bool isOnMobileSurface = false;  // Topi underlying surface is mobile
 
   // TODO: Topi action update functions
   void UpdateCollisions();
+  void MoveTo(Direction);
 
 public:
   Topi();
@@ -55,15 +58,21 @@ public:
   bool ShouldBeginAnimationLoopAgain();
 
 private:
-  // TODO: state machine state functions
+  // state machine state functions
+  void STATE_Walk_Right();
+  void STATE_Walk_Left();
 
   // state map to define state function order
   BEGIN_STATE_MAP
+      STATE_MAP_ENTRY(&Topi::STATE_Walk_Right)
+      STATE_MAP_ENTRY(&Topi::STATE_Walk_Left)
   END_STATE_MAP
 
   // state enumeration order must match the order of state
   // method entries in the state map
   enum TopiStateIdentificator {
+      STATE_WALK_RIGHT = 0, // Initial state
+      STATE_WALK_LEFT,
       TOPI_MAX_STATES
   };
 };

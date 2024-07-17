@@ -39,6 +39,8 @@ static void* gameLogicThreadFunc(void* v)
 
 int main()
 {
+        srand(static_cast<unsigned>(time(0))); // Initialize the random seed to avoid deterministic behaviours. Just for debug purposes.
+
         InitWindow(SCR_WIDTH, SCR_HEIGHT, "Ice Climber");
 
         Camera2D camera = { 0 };
