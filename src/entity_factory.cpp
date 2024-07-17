@@ -9,7 +9,7 @@ EntityFactory::EntityFactory(EntityDataManager* _textureManager, aabb::Tree<IEnt
 }
 
 void EntityFactory::RegisterEntitys() {
-	Register(EntityIdentificator::MAIN_CHARACTER, &Player::Create);
+	Register(EntityIdentificator::POPO, &Player::Create);
 	Register(EntityIdentificator::BRICK, &Brick::Create);
 	Register(EntityIdentificator::BRICK_BROWN, &BrickBrown::Create);
 	Register(EntityIdentificator::BRICK_BLUE, &BrickBlue::Create);
@@ -48,6 +48,7 @@ void EntityFactory::RegisterEntitys() {
 	Register(EntityIdentificator::CLOUD_TINY, &CloudTiny::Create);
 	Register(EntityIdentificator::SIDE_WALL_ICE_MODEL_A_UNBREAKABLE, &SideWallIceModelAUnbreakable::Create);
 	Register(EntityIdentificator::SIDE_WALL_ICE_MODEL_B_UNBREAKABLE, &SideWallIceModelBUnbreakable::Create);
+	Register(EntityIdentificator::TOPI, &Topi::Create);
 }
 
 EntityFactory &EntityFactory::operator=(const EntityFactory &) {

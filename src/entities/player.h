@@ -14,8 +14,6 @@
 
 using namespace std;
 
-enum PlayerDirection: uint8_t { RIGHT = 0, LEFT = 1 };
-
 class Player: public IEntity
 {
   bool headedToRight = true;
@@ -71,7 +69,7 @@ class Player: public IEntity
 
   // Player action update functions
   void UpdateCollisions();
-  void MoveTo(PlayerDirection);
+  void MoveTo(Direction);
   void Jump(float vSpeed, float hSpeed);
   void UpdateJump();
   void FinishJump();
@@ -177,7 +175,7 @@ private:
       STATE_HIT_LEFT,
       STATE_SLIP_RIGHT,
       STATE_SLIP_LEFT,
-      MAIN_CHARACTER_MAX_STATES
+      POPO_MAX_STATES
   };
 };
 

@@ -10,6 +10,7 @@
 #include <entities/brick.h>
 #include <entities/side_wall.h>
 #include <entities/cloud.h>
+#include <entities/topi.h>
 
 class EntityFactory
 {

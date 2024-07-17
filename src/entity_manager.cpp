@@ -24,7 +24,7 @@ void EntityManager::BuildWorld() {
         std::optional<IEntity *> entityPtr = EntityFactory::Get(textureManager, spacePartitionObjectsTree)->CreateEntity(obj_id);
 
         if(entityPtr.has_value()) {
-          if (obj_id == EntityIdentificator::MAIN_CHARACTER) {
+          if (obj_id == EntityIdentificator::POPO) {
             player = *entityPtr;
           }
 

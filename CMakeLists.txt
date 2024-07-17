@@ -33,6 +33,8 @@ add_executable(rocket
         src/entities/player.h
         src/entities/side_wall.cpp
         src/entities/side_wall.h
+        src/entities/topi.cpp
+        src/entities/topi.h
         src/defines.h
         src/filesystem.h
         src/float_double_buffer.cpp
