@@ -102,11 +102,11 @@ bool Topi::Update(const uint8_t pressedKeys_) {
     return needRedraw;
 }
 
-void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& topiIsSuspendedInTheAir, bool& topiDetectedMissingBrickOnTheFloor) {
+void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& topiIsSuspendedInTheAir, bool& topiFoundAHoleOnTheFloor) {
     // Check for collisions with other objects present in the scene.
     std::vector<aabb::AABBIntersection<IEntity*>> objectIntersections = spacePartitionObjectsTree->query(GetSolidLowerBound(), GetSolidUpperBound());
     topiIsSuspendedInTheAir = true;
-    topiDetectedMissingBrickOnTheFloor = false;
+    topiFoundAHoleOnTheFloor = false;
     IEntity* underlyingObjectCandidate = nullptr;
     prevUnderlyingCloud = currentUnderlyingCloud;
     currentUnderlyingCloud = nullptr;
@@ -200,8 +200,8 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
     // Check if a brick is missing in the ground based on an heuristic way.
     // If the number of pixels of the underlying surface is 3 pixels (or more) lower than the width of
     // the Topi then there is a hole under Topi.
-    if ((underlyingObjectCandidate != nullptr) && (numPixelsUnderlyingObjectsSurface <= currentSprite.width - 3)) {
-        topiDetectedMissingBrickOnTheFloor = true;
+    if ((underlyingObjectCandidate != nullptr) && !((position.GetRealX() < 0.0f) || (position.GetRealX() >= LEVEL_WIDTH_FLOAT - currentSprite.width)) && (numPixelsUnderlyingObjectsSurface <= currentSprite.width - 3)) {
+        topiFoundAHoleOnTheFloor = true;
         objectToCarryId = underlyingObjectCandidate->id;
         cout << " >>>>>>> TOPI NEED TO CARRY AN OBJECT OF TYPE: ";
         underlyingObjectCandidate->PrintName();
@@ -212,10 +212,10 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
 void Topi::UpdateCollisions() {
     std::vector<ObjectCollision> collisions;
     bool topiIsSuspendedInTheAir = false;
-    bool topiDetectedMissingBrickOnTheFloor = false;
+    bool topiFoundAHoleOnTheFloor = false;
 
     // Search for collisions with solid objects
-    this->GetSolidCollisions(collisions, topiIsSuspendedInTheAir, topiDetectedMissingBrickOnTheFloor);
+    this->GetSolidCollisions(collisions, topiIsSuspendedInTheAir, topiFoundAHoleOnTheFloor);
 
     // Check if the player is floating in the air (no ground under his feet)
     if (topiIsSuspendedInTheAir && isWalking) {
