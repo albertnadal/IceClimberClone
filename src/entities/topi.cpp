@@ -6,7 +6,6 @@ Topi::Topi() :
     vectorDirection.x = 0;
     vectorDirection.y = 0;
     underlyingObjectSurfaceType = SurfaceType::SIMPLE;
-    direction = (rand() % 2 == 0) ? Direction::RIGHT : Direction::LEFT; // Random initial direction.
 }
 
 uint16_t Topi::Width() {
@@ -25,7 +24,7 @@ bool Topi::IsCloud() {
   return false;
 }
 
-void Topi::DisplaceTopiIfUnderlyingSurfaceIsMobile() {
+void Topi::DisplaceIfUnderlyingSurfaceIsMobile() {
     // TODO
     /*
     if (!underlyingObjectSurfaceType.has_value()) {
@@ -47,7 +46,7 @@ void Topi::DisplaceTopiIfUnderlyingSurfaceIsMobile() {
     */
 }
 
-inline void Topi::CorrectTopiPositionOnReachScreenEdge() {
+inline void Topi::CorrectPositionOnReachScreenEdge() {
     // TODO
     /*
     if (position.GetRealX() < 0.0f) {
@@ -59,20 +58,38 @@ inline void Topi::CorrectTopiPositionOnReachScreenEdge() {
     */
 }
 
+inline bool Topi::ReachedScreenEdge() {
+    return (position.GetRealX() < 0.0f) || (position.GetRealX() >= LEVEL_WIDTH_FLOAT - 8.0f);
+}
+
+void Topi::SetRandomWalkStartPosition() {
+    direction = (rand() % 2 == 0) ? Direction::RIGHT : Direction::LEFT; // Random initial direction.
+    if (direction == Direction::RIGHT) {
+        PositionSetX(0.0f);
+        ExternalEvent(TopiStateIdentificator::STATE_WALK_RIGHT, nullptr);
+    } else {
+        PositionSetX(LEVEL_WIDTH_FLOAT - 9.0f);
+        ExternalEvent(TopiStateIdentificator::STATE_WALK_LEFT, nullptr);
+    }
+}
+
 bool Topi::Update(const uint8_t pressedKeys_) {
     bool needRedraw = false;
  
     if (isWalking) {
         MoveTo(direction);
+        if (ReachedScreenEdge()) {
+            SetRandomWalkStartPosition();
+        }
         needRedraw = true;
     } /* else {
 
         // Displace the player if the underlying surface is mobile
-        DisplaceTopiIfUnderlyingSurfaceIsMobile();
+        DisplaceIfUnderlyingSurfaceIsMobile();
     }
     */
     // Correct the player's position if they go beyond the screen edges
-    CorrectTopiPositionOnReachScreenEdge();
+    CorrectPositionOnReachScreenEdge();
 
     // Check for collisions
     UpdateCollisions();
@@ -410,10 +427,7 @@ bool Topi::TopiIsQuiet() {
 
 void Topi::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
     spriteSheet = _spriteSheet;
-    LoadAnimationWithId((direction == Direction::RIGHT) ? TopiAnimation::TOPI_WALK_TO_RIGHT : TopiAnimation::TOPI_WALK_TO_LEFT);
-
-    // Set the initial state according to the direction
-    ExternalEvent((direction == Direction::RIGHT) ? TopiStateIdentificator::STATE_WALK_RIGHT : TopiStateIdentificator::STATE_WALK_LEFT, nullptr);
+    SetRandomWalkStartPosition(); // Set random initial position, direction and state
 }
 
 IEntity *Topi::Create() {

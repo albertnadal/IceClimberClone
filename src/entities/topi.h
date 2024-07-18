@@ -22,8 +22,10 @@ class Topi: public IEntity
   void ProcessReleasedKeys();
   bool TopiIsQuiet();
   void GetSolidCollisions(std::vector<ObjectCollision>&, bool&);
-  void DisplaceTopiIfUnderlyingSurfaceIsMobile();
-  void CorrectTopiPositionOnReachScreenEdge();
+  void DisplaceIfUnderlyingSurfaceIsMobile();
+  void CorrectPositionOnReachScreenEdge();
+  bool ReachedScreenEdge();
+  void SetRandomWalkStartPosition();
 
   collision::vec2<int16_t> vectorDirection;
   std::optional<SurfaceType> underlyingObjectSurfaceType;
