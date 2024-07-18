@@ -21,8 +21,8 @@ public:
   Cloud();
   ~Cloud();
   virtual void InitWithSpriteSheet(EntitySpriteSheet*);
-  uint16_t Width();
-  uint16_t Height();
+  int Width();
+  int Height();
   virtual void PrintName();
   bool IsCloud() override;
   bool Update(uint8_t);

@@ -9,11 +9,11 @@ SideWall::SideWall(EntityIdentificator _id, EntityType _type, SurfaceType surfac
         IEntity(_id, _type, surface_type, max_states, is_breakable, is_traversable) {
 }
 
-uint16_t SideWall::Width() {
+int SideWall::Width() {
         return currentSprite.width;
 }
 
-uint16_t SideWall::Height() {
+int SideWall::Height() {
         return currentSprite.height;
 }
 

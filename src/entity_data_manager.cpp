@@ -104,15 +104,15 @@ void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
 
                 if(currentLineType == OBJ_SPRITE) {
                         if(currentFrameValues->size() == 13) {
-                                uint16_t width = stoi(currentFrameValues->at(0));
-                                uint16_t height = stoi(currentFrameValues->at(1));
-                                int16_t xOffset = stoi(currentFrameValues->at(2));
-                                int16_t yOffset = stoi(currentFrameValues->at(3));
+                                int width = stoi(currentFrameValues->at(0));
+                                int height = stoi(currentFrameValues->at(1));
+                                int xOffset = stoi(currentFrameValues->at(2));
+                                int yOffset = stoi(currentFrameValues->at(3));
                                 float u1 = stof(currentFrameValues->at(4));
                                 float v1 = stof(currentFrameValues->at(5));
                                 float u2 = stof(currentFrameValues->at(6));
                                 float v2 = stof(currentFrameValues->at(7));
-                                uint16_t duration = stoi(currentFrameValues->at(8));
+                                int duration = stoi(currentFrameValues->at(8));
                                 int lowerBoundX = stoi(currentFrameValues->at(9));
                                 int lowerBoundY = stoi(currentFrameValues->at(10));
                                 int upperBoundX = stoi(currentFrameValues->at(11));

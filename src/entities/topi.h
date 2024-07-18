@@ -19,16 +19,16 @@ class Topi: public IEntity
 {
   Direction direction;
   bool headedToRight = true;
-  void ProcessReleasedKeys();
+  void LoadNextSprite();
   bool TopiIsQuiet();
-  void GetSolidCollisions(std::vector<ObjectCollision>&, bool&);
+  void GetSolidCollisions(std::vector<ObjectCollision>&, bool&, bool&);
   void DisplaceIfUnderlyingSurfaceIsMobile();
-  void CorrectPositionOnReachScreenEdge();
   bool ReachedScreenEdge();
   void SetRandomWalkStartPosition();
 
   collision::vec2<int16_t> vectorDirection;
-  std::optional<SurfaceType> underlyingObjectSurfaceType;
+  std::optional<SurfaceType> underlyingObjectSurfaceType; // REVISIT: Provably this info is not necessary for Topi
+  std::optional<EntityIdentificator> objectToCarryId;
   IEntity* prevUnderlyingCloud = nullptr;
   IEntity* currentUnderlyingCloud = nullptr;
   std::vector<IEntity*> objectsToIgnoreDuringFall;
@@ -43,13 +43,14 @@ class Topi: public IEntity
   // TODO: Topi action update functions
   void UpdateCollisions();
   void MoveTo(Direction);
+  void FallDueToSuspendedInTheAir();
 
 public:
   Topi();
   ~Topi() override;
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  uint16_t Width() override;
-  uint16_t Height() override;
+  int Width() override;
+  int Height() override;
   void PrintName() override;
   bool IsCloud() override;
   bool Update(uint8_t) override;

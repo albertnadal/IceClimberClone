@@ -27,7 +27,6 @@ protected:
   std::vector<SpriteData> currentAnimationSprites;
   std::vector<SpriteData>::iterator currentAnimationSpriteIterator;
   EntitySpriteSheet *spriteSheet = nullptr;
-  EntityIdentificator id;
   EntityType type;
   chrono::system_clock::time_point nextSpriteTime;
   bool animationLoaded = false;
@@ -42,6 +41,7 @@ protected:
 public:
   IEntity();
   IEntity(EntityIdentificator, EntityType, SurfaceType, unsigned char, bool, bool);
+  EntityIdentificator id;
   SurfaceType surfaceType;
   Sprite currentSprite;
   Position position;
@@ -70,8 +70,8 @@ public:
   virtual EntityIdentificator Id();
   virtual EntityType Type();
   virtual void InitWithSpriteSheet(EntitySpriteSheet*);
-  virtual uint16_t Width();
-  virtual uint16_t Height();
+  virtual int Width();
+  virtual int Height();
   virtual void PrintName();
   virtual void PrintBoundaries();
   virtual bool Update();

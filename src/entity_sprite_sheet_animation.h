@@ -5,7 +5,7 @@
 #include <defines.h>
 #include <sprite.h>
 
-struct SpriteData { uint16_t width, height; int16_t xOffset, yOffset; float u1, v1, u2, v2; uint16_t duration; bool beginNewLoop; int lowerBoundX, lowerBoundY, upperBoundX, upperBoundY; SpriteAreas *areas; };
+struct SpriteData { int width, height, xOffset, yOffset; float u1, v1, u2, v2; int duration; bool beginNewLoop; int lowerBoundX, lowerBoundY, upperBoundX, upperBoundY; SpriteAreas *areas; };
 
 class EntitySpriteSheetAnimation
 {

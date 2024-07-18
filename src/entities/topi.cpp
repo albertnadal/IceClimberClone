@@ -6,13 +6,14 @@ Topi::Topi() :
     vectorDirection.x = 0;
     vectorDirection.y = 0;
     underlyingObjectSurfaceType = SurfaceType::SIMPLE;
+    objectToCarryId = std::nullopt;
 }
 
-uint16_t Topi::Width() {
+int Topi::Width() {
     return currentSprite.width;
 }
 
-uint16_t Topi::Height() {
+int Topi::Height() {
     return currentSprite.height;
 }
 
@@ -46,18 +47,6 @@ void Topi::DisplaceIfUnderlyingSurfaceIsMobile() {
     */
 }
 
-inline void Topi::CorrectPositionOnReachScreenEdge() {
-    // TODO
-    /*
-    if (position.GetRealX() < 0.0f) {
-        PositionSetX(LEVEL_WIDTH_FLOAT - 9.0f);
-    }
-    else if (position.GetRealX() >= LEVEL_WIDTH_FLOAT - 8.0f) {
-        PositionSetX(0.0f);
-    }
-    */
-}
-
 inline bool Topi::ReachedScreenEdge() {
     return (position.GetRealX() < 0.0f) || (position.GetRealX() >= LEVEL_WIDTH_FLOAT - 8.0f);
 }
@@ -88,8 +77,6 @@ bool Topi::Update(const uint8_t pressedKeys_) {
         DisplaceIfUnderlyingSurfaceIsMobile();
     }
     */
-    // Correct the player's position if they go beyond the screen edges
-    CorrectPositionOnReachScreenEdge();
 
     // Check for collisions
     UpdateCollisions();
@@ -115,17 +102,17 @@ bool Topi::Update(const uint8_t pressedKeys_) {
     return needRedraw;
 }
 
-void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& topiIsSuspendedInTheAir) {
-    // TODO
-    /*
+void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& topiIsSuspendedInTheAir, bool& topiDetectedMissingBrickOnTheFloor) {
     // Check for collisions with other objects present in the scene.
     std::vector<aabb::AABBIntersection<IEntity*>> objectIntersections = spacePartitionObjectsTree->query(GetSolidLowerBound(), GetSolidUpperBound());
     topiIsSuspendedInTheAir = true;
+    topiDetectedMissingBrickOnTheFloor = false;
     IEntity* underlyingObjectCandidate = nullptr;
     prevUnderlyingCloud = currentUnderlyingCloud;
     currentUnderlyingCloud = nullptr;
     int minBottomIntersectionYUnderlyingObjectCandidate = 9999;
     int minIntersectionXDiffUnderlyingObjectCandidate = 9999;
+    int numPixelsUnderlyingObjectsSurface = 0;
 
     for (auto intersection : objectIntersections) {
         if ((intersection.particle == this) || intersection.particle->isTraversable || (std::find(objectsToIgnoreDuringFall.begin(), objectsToIgnoreDuringFall.end(), intersection.particle) != objectsToIgnoreDuringFall.end())) {
@@ -150,47 +137,6 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
             std::cout << " [ CASE A ] intersection.topIntersectionY: " << intersection.bottomIntersectionY + currentSprite.yOffset + 1 << "\n";
             verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
         }
-        // Compute position correction when player head collides during the ascending of a 90 degree or parabolic jump
-        else if ((vectorDirection.y > 0) && (intersection.topIntersectionY > 0) && (intersection.bottomIntersectionY < 0) && (intersection.rightIntersectionX != 0) && (intersection.leftIntersectionX != 0)) {
-            std::cout << " [ CASE B ] intersection.topIntersectionY: " << intersection.topIntersectionY << " | intersection.bottomIntersectionY: " << intersection.bottomIntersectionY << " | intersection.rightIntersectionX: " << intersection.rightIntersectionX << " | intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
-            verticalCorrection = intersection.topIntersectionY; // - currentSprite.yOffset + 1;
-
-            if ((vectorDirection.x > 0) && (intersection.rightIntersectionX < 0)) {
-                horizontalCorrection = intersection.rightIntersectionX;
-                std::cout << " [ CASE B-0 ] horizontalCorrection: " << horizontalCorrection << "\n";
-            } else if ((vectorDirection.x < 0) && (intersection.leftIntersectionX > 0)) {
-                horizontalCorrection = intersection.leftIntersectionX;
-                std::cout << " [ CASE B-1 ] horizontalCorrection: " << horizontalCorrection << "\n";
-            }
-        }
-        // Compute position correction when player collides horizontaly (on the right side of a brick) jumping to the left during falling
-        else if ((vectorDirection.y < 0) && (vectorDirection.x < 0) && (intersection.leftIntersectionX >= 0) && (std::abs(intersection.rightIntersectionX) >= std::abs(intersection.leftIntersectionX)) && (intersection.bottomIntersectionY <= 0)) {
-            std::cout << " [ CASE C1 ]\n";
-            std::cout << " [ C1 ] &&&&&& intersection.rightIntersectionX: " << intersection.rightIntersectionX << " intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
-            horizontalCorrection = intersection.leftIntersectionX;
-            verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
-        }
-        // Compute position correction when player collides horizontaly (on the left side of a brick) jumping to the left during falling
-        else if ((vectorDirection.y < 0) && (vectorDirection.x < 0) && (intersection.rightIntersectionX <= 0) && (std::abs(intersection.rightIntersectionX) < std::abs(intersection.leftIntersectionX)) && (intersection.bottomIntersectionY <= 0)) {
-            std::cout << " [ CASE C2 ]\n";
-            std::cout << " [ C2 ] &&&&&& intersection.rightIntersectionX: " << intersection.rightIntersectionX << " intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
-            horizontalCorrection = intersection.rightIntersectionX;
-            verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
-        }
-        // Compute position correction when player collides horizontaly (on the left side of a brick) jumping to the right during falling
-        else if ((vectorDirection.y < 0) && (vectorDirection.x > 0) && (intersection.rightIntersectionX <= 0) && (std::abs(intersection.rightIntersectionX) <= std::abs(intersection.leftIntersectionX)) && (intersection.bottomIntersectionY <= 0)) {
-            std::cout << " [ CASE D1 ]\n";
-            std::cout << " [ D1 ] &&&&&& intersection.rightIntersectionX: " << intersection.rightIntersectionX << " intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
-            horizontalCorrection = intersection.rightIntersectionX;
-            verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
-        }
-        // Compute position correction when player collides horizontaly (on the right side of a brick) jumping to the right during falling
-        else if ((vectorDirection.y < 0) && (vectorDirection.x > 0) && (intersection.leftIntersectionX >= 0) && (std::abs(intersection.rightIntersectionX) > std::abs(intersection.leftIntersectionX)) && (intersection.bottomIntersectionY <= 0)) {
-            std::cout << " [ CASE D2 ]\n";
-            std::cout << " [ D2 ] &&&&&& intersection.rightIntersectionX: " << intersection.rightIntersectionX << " intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
-            horizontalCorrection = intersection.leftIntersectionX;
-            verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
-        }
         else {
             continue;
         }
@@ -209,9 +155,9 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
         }
     }
 
-    std::cout << " > PLAYER COLLIDES WITH " << objectIntersections.size() << " OBJECTS. " << collisions.size() << " CORRECTIONS NEEDED.\n";
+    std::cout << " > TOPI COLLIDES WITH " << objectIntersections.size() << " OBJECTS. " << collisions.size() << " CORRECTIONS NEEDED.\n";
 
-    // Check if the player is suspended in the air or get the underlying surface type
+    // Check if Topi is suspended in the air or get the underlying surface type
     for (auto intersection : objectIntersections) {
         if (intersection.particle == this) {
             continue;
@@ -225,6 +171,10 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
                 minIntersectionXDiffUnderlyingObjectCandidate = intersectionXDiff;
                 underlyingObjectCandidate = intersection.particle;
             }
+
+            int leftIntersection = std::min(std::abs(intersection.rightIntersectionX), currentSprite.width);
+            int rightIntersection = std::min(std::abs(intersection.leftIntersectionX), currentSprite.width);
+            numPixelsUnderlyingObjectsSurface += leftIntersection + rightIntersection - currentSprite.width;
         }
     }
 
@@ -238,27 +188,38 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
         underlyingObjectSurfaceType = underlyingObjectCandidate->surfaceType;
         isOnMobileSurface = (underlyingObjectSurfaceType == SurfaceType::MOBILE_RIGHT) || (underlyingObjectSurfaceType == SurfaceType::MOBILE_LEFT);
 
-        std::cout << " ------ Underlying object: ";
+        std::cout << " ------ Topi underlying object: ";
         underlyingObjectCandidate->PrintName();
     }
     else {
         underlyingObjectSurfaceType = std::nullopt;
         isOnMobileSurface = false;
     }
-    */
+
+    cout << "\n >>>>>>> TOPI UNDERLYING SURFACE: " << numPixelsUnderlyingObjectsSurface << " currentSprite.width: " << currentSprite.width << "\n";
+    // Check if a brick is missing in the ground based on an heuristic way.
+    // If the number of pixels of the underlying surface is 3 pixels (or more) lower than the width of
+    // the Topi then there is a hole under Topi.
+    if ((underlyingObjectCandidate != nullptr) && (numPixelsUnderlyingObjectsSurface <= currentSprite.width - 3)) {
+        topiDetectedMissingBrickOnTheFloor = true;
+        objectToCarryId = underlyingObjectCandidate->id;
+        cout << " >>>>>>> TOPI NEED TO CARRY AN OBJECT OF TYPE: ";
+        underlyingObjectCandidate->PrintName();
+        cout << "\n\n";
+    }
 }
 
 void Topi::UpdateCollisions() {
-    // TODO
-    /*
     std::vector<ObjectCollision> collisions;
     bool topiIsSuspendedInTheAir = false;
+    bool topiDetectedMissingBrickOnTheFloor = false;
 
     // Search for collisions with solid objects
-    this->GetSolidCollisions(collisions, topiIsSuspendedInTheAir);
+    this->GetSolidCollisions(collisions, topiIsSuspendedInTheAir, topiDetectedMissingBrickOnTheFloor);
 
     // Check if the player is floating in the air (no ground under his feet)
-    if (topiIsSuspendedInTheAir && !isJumping && !isFalling && !isHitting && !isSlipping) {
+    if (topiIsSuspendedInTheAir && isWalking) {
+        cout << "\n\n ===================> TOPI is suspended in the air <====================\n\n";
         FallDueToSuspendedInTheAir();
         return;
     }
@@ -266,7 +227,7 @@ void Topi::UpdateCollisions() {
     if (collisions.empty()) {
         return;
     }
-
+    /*
     // Get the major position correction of all collisions
     int minHorizontalCorrection = 0, maxHorizontalCorrection = 0, minVerticalCorrection = 0, maxVerticalCorrection = 0;
     for (auto collision : collisions) {
@@ -421,6 +382,22 @@ void Topi::MoveTo(Direction direction) {
     }
 }
 
+void Topi::FallDueToSuspendedInTheAir() {
+    // TODO
+    /*
+    // Ignore collisions with the previous underlying cloud when player falls.
+    if (prevUnderlyingCloud != nullptr && (std::find(objectsToIgnoreDuringFall.begin(), objectsToIgnoreDuringFall.end(), prevUnderlyingCloud) == objectsToIgnoreDuringFall.end())) {
+        objectsToIgnoreDuringFall.push_back(prevUnderlyingCloud);
+    }
+
+    hMomentum = 0;
+    UpdatePreviousDirection();
+    vectorDirection.x = 0;
+    vectorDirection.y = -1;
+    SuspendedInTheAir();
+    */
+}
+
 bool Topi::TopiIsQuiet() {
     return (vectorDirection.x == 0) && (vectorDirection.x == vectorDirection.y);
 }
@@ -428,6 +405,35 @@ bool Topi::TopiIsQuiet() {
 void Topi::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
     spriteSheet = _spriteSheet;
     SetRandomWalkStartPosition(); // Set random initial position, direction and state
+}
+
+void Topi::LoadNextSprite() {
+    SpriteData spriteData = NextSpriteData();
+
+    if (spriteData.beginNewLoop) {
+        if (ShouldBeginAnimationLoopAgain()) {
+            spriteData = NextSpriteData();
+        }
+    }
+
+    nextSpriteTime = (chrono::system_clock::now() + chrono::milliseconds(spriteData.duration));
+
+    currentSprite.width = spriteData.width;
+    currentSprite.height = spriteData.height;
+    currentSprite.xOffset = spriteData.xOffset;
+    currentSprite.yOffset = spriteData.yOffset;
+    currentSprite.u1 = spriteData.u1;
+    currentSprite.v1 = spriteData.v1;
+    currentSprite.u2 = spriteData.u2;
+    currentSprite.v2 = spriteData.v2;
+
+    // Adjusts object position according to the sprite offset
+    PositionSetOffset(spriteData.xOffset, spriteData.yOffset);
+
+    recalculateAreasDataIsNeeded = true; // Is necessary because the current sprite may have different areas
+    boundingBox = {spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY};
+    solidBoundingBox = {spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY};
+    firstSpriteOfCurrentAnimationIsLoaded = true;
 }
 
 IEntity *Topi::Create() {
