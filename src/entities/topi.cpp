@@ -66,12 +66,19 @@ bool Topi::Update(const uint8_t pressedKeys_) {
     bool needRedraw = false;
  
     if (isWalking) {
-        MoveTo(direction);
+        MoveTo(direction, 0.5f);
         if (ReachedScreenEdge()) {
             SetRandomWalkStartPosition();
         }
         needRedraw = true;
-    } /* else {
+    }
+    else if (isGoingToPickUpIce) {
+        MoveTo(direction, 1.5f);
+        if (ReachedScreenEdge()) {
+            SetRandomWalkStartPosition(); // TODO: Use the proper function here
+        }
+        needRedraw = true;
+    }/* else {
 
         // Displace the player if the underlying surface is mobile
         DisplaceIfUnderlyingSurfaceIsMobile();
@@ -217,7 +224,14 @@ void Topi::UpdateCollisions() {
     // Search for collisions with solid objects
     this->GetSolidCollisions(collisions, topiIsSuspendedInTheAir, topiFoundAHoleOnTheFloor);
 
-    // Check if the player is floating in the air (no ground under his feet)
+    // Change state when Topi detected a hole on the floor (run to pick up ice)
+    if (topiFoundAHoleOnTheFloor && isWalking) {
+        cout << "\n\n ===================> TOPI detected a hole on the floor <====================\n\n";
+        HoleDetectedWhenWalking();
+        return;
+    }
+
+    // Change stage when Topi is floating in the air (no ground under his feet)
     if (topiIsSuspendedInTheAir && isWalking) {
         cout << "\n\n ===================> TOPI is suspended in the air <====================\n\n";
         FallDueToSuspendedInTheAir();
@@ -375,9 +389,9 @@ void Topi::UpdateCollisions() {
     */
 }
 
-void Topi::MoveTo(Direction direction) {
+void Topi::MoveTo(Direction direction, float distance) {
     if (!isFalling && !isDazed) {
-        PositionAddX(direction == Direction::RIGHT ? 0.5f : -0.5f);
+        PositionAddX(direction == Direction::RIGHT ? distance : -(distance));
         vectorDirection.x = (direction == Direction::RIGHT ? 1 : -1);
     }
 }
@@ -449,12 +463,37 @@ bool Topi::ShouldBeginAnimationLoopAgain() {
 
 void Topi::STATE_Walk_Right() {
     isWalking = true;
+    isGoingToPickUpIce = false;
     direction = Direction::RIGHT;
     LoadAnimationWithId(TopiAnimation::TOPI_WALK_TO_RIGHT);
 }
 
 void Topi::STATE_Walk_Left() {
     isWalking = true;
+    isGoingToPickUpIce = false;
     direction = Direction::LEFT;
     LoadAnimationWithId(TopiAnimation::TOPI_WALK_TO_LEFT);
+}
+
+void Topi::STATE_Run_To_Pick_Up_Ice_Right() {
+    isWalking = false;
+    isGoingToPickUpIce = true;
+    direction = Direction::RIGHT;
+    LoadAnimationWithId(TopiAnimation::TOPI_RUN_TO_RIGHT);
+}
+
+void Topi::STATE_Run_To_Pick_Up_Ice_Left() {
+    isWalking = false;
+    isGoingToPickUpIce = true;
+    direction = Direction::LEFT;
+    LoadAnimationWithId(TopiAnimation::TOPI_RUN_TO_LEFT);
+}
+
+void Topi::HoleDetectedWhenWalking() {
+    BEGIN_TRANSITION_MAP                                           // - Current State -
+            TRANSITION_MAP_ENTRY (STATE_RUN_TO_PICK_UP_ICE_LEFT)   // STATE_Walk_Right
+            TRANSITION_MAP_ENTRY (STATE_RUN_TO_PICK_UP_ICE_RIGHT)  // STATE_Walk_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_To_Pick_Up_Ice_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_To_Pick_Up_Ice_Left
+    END_TRANSITION_MAP(nullptr)
 }

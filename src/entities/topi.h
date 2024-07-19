@@ -38,11 +38,12 @@ class Topi: public IEntity
   bool isRunning = false;          // Topi is running
   bool isFalling = false;          // Topi is falling
   bool isDazed = false;            // Topi is dazed
+  bool isGoingToPickUpIce = false; // Topi is running to pick up ice on the floor edge
   bool isOnMobileSurface = false;  // Topi underlying surface is mobile
 
   // TODO: Topi action update functions
   void UpdateCollisions();
-  void MoveTo(Direction);
+  void MoveTo(Direction, float);
   void FallDueToSuspendedInTheAir();
 
 public:
@@ -57,17 +58,22 @@ public:
   static IEntity* Create();
 
   // state machine triggers
+  void HoleDetectedWhenWalking();
   bool ShouldBeginAnimationLoopAgain();
 
 private:
   // state machine state functions
   void STATE_Walk_Right();
   void STATE_Walk_Left();
+  void STATE_Run_To_Pick_Up_Ice_Right();
+  void STATE_Run_To_Pick_Up_Ice_Left();
 
   // state map to define state function order
   BEGIN_STATE_MAP
       STATE_MAP_ENTRY(&Topi::STATE_Walk_Right)
       STATE_MAP_ENTRY(&Topi::STATE_Walk_Left)
+      STATE_MAP_ENTRY(&Topi::STATE_Run_To_Pick_Up_Ice_Right)
+      STATE_MAP_ENTRY(&Topi::STATE_Run_To_Pick_Up_Ice_Left)
   END_STATE_MAP
 
   // state enumeration order must match the order of state
@@ -75,6 +81,8 @@ private:
   enum TopiStateIdentificator {
       STATE_WALK_RIGHT = 0, // Initial state
       STATE_WALK_LEFT,
+      STATE_RUN_TO_PICK_UP_ICE_RIGHT,
+      STATE_RUN_TO_PICK_UP_ICE_LEFT,
       TOPI_MAX_STATES
   };
 };
