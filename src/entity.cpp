@@ -88,11 +88,6 @@ void IEntity::PositionSetOffset(int16_t x, int16_t y) {
   recalculateAreasDataIsNeeded = true;
 }
 
-void IEntity::RecoverPreviousPosition() {
-  position.recoverPreviousPosition();
-  recalculateAreasDataIsNeeded = true;
-}
-
 void IEntity::RemoveFromSpacePartitionObjectsTree() {
   spacePartitionObjectsTree->removeParticle(this);
 }

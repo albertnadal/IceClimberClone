@@ -17,6 +17,8 @@ using namespace std;
 
 class Topi: public IEntity
 {
+  float initialXPos;
+  float initialYPos;
   Direction direction;
   bool headedToRight = true;
   void LoadNextSprite();
@@ -37,7 +39,6 @@ class Topi: public IEntity
   bool isDazed = false;            // Topi is dazed
   bool isGoingToPickUpIce = false; // Topi is running to pick up ice on the floor edge
   bool isGoingToRecover = false;   // Topi is running to recover due to a hammer hit or fall
-  bool isOnMobileSurface = false;  // Topi underlying surface is mobile
 
   // TODO: Topi action update functions
   void UpdateCollisions();

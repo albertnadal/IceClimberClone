@@ -60,7 +60,6 @@ public:
   void PositionSetY(float);
   void PositionAddX(float);
   void PositionAddY(float);
-  void RecoverPreviousPosition();
   virtual std::vector<int> GetLowerBound();
   virtual std::vector<int> GetUpperBound();
   virtual std::vector<int> GetSolidLowerBound();

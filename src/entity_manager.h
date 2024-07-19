@@ -25,10 +25,10 @@ class EntityManager
   void BuildWorld();
   bool cameraIsMoving;
   float totalPixelDisplacement;
-  const uint16_t cell_w = 16, cell_h = 16; // pixels
-  const uint16_t map_viewport_width = 32; // cells
-  const uint16_t map_viewport_height = 30*6; // cells
-  const uint16_t levelRowOffset = 6;
+  const int cellWidth = 16, cellHeight = 16; // pixels
+  const int map_viewport_width = 32; // cells
+  const int map_viewport_height = 30*6; // cells
+  const int levelRowOffset = 6;
 
   const uint16_t worldMap[7*6][32] =
   {

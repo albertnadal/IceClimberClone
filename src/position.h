@@ -6,21 +6,19 @@
 class Position
 {
 private:
-  float prev_x, prev_y, x, y;
-  int prev_int_x, prev_int_y, int_x, int_y;
-  int prev_int_x_offset, prev_int_y_offset, int_x_offset, int_y_offset;
+  float initial_x, initial_y, x, y;
+  int initial_int_x, initial_int_y, int_x, int_y, int_x_offset, int_y_offset;
+
 public:
   Position();
   ~Position();
-
   float GetX();
   float GetRealX();
   float GetY();
   float GetRealY();
-  float GetPrevX();
-  float GetPrevY();
   int GetIntX();
   int GetIntY();
+  void setInitialXY(float x, float y);
   void setOffset(int x, int y);
   void setXY(float, float);
   void setX(float);
@@ -29,7 +27,7 @@ public:
   void addY(int);
   void addX(float);
   void addY(float);
-  void recoverPreviousPosition();
+  void recoverInitialPosition();
 };
 
 #endif

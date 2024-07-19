@@ -85,7 +85,9 @@ bool Topi::Update(const uint8_t pressedKeys_) {
     else if (isGoingToRecover) {
         MoveTo(direction, 1.5f);
         if (ReachedScreenEdge()) {
-            SetRandomWalkStartPosition(); // TODO: Use the proper function here
+            // Place Topi at its original position
+            position.recoverInitialPosition();
+            SetRandomWalkStartPosition();
         }
         needRedraw = true;
 
@@ -138,9 +140,9 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
 
         int horizontalCorrection = 0, verticalCorrection = 0;
 
-        std::cout << " ==== intersection.topIntersectionY: " << intersection.topIntersectionY << "\n";
+        //std::cout << " ==== intersection.topIntersectionY: " << intersection.topIntersectionY << "\n";
 
-        std::cout << " [ START ] intersection.topIntersectionY: " << intersection.topIntersectionY << " | intersection.bottomIntersectionY: " << intersection.bottomIntersectionY << " | intersection.rightIntersectionX: " << intersection.rightIntersectionX << " | intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
+        //std::cout << " [ START ] intersection.topIntersectionY: " << intersection.topIntersectionY << " | intersection.bottomIntersectionY: " << intersection.bottomIntersectionY << " | intersection.rightIntersectionX: " << intersection.rightIntersectionX << " | intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
         // Compute position correction when player collides walking to the right
         if ((vectorDirection.x > 0) && (vectorDirection.y == 0) && (intersection.rightIntersectionX < 0) && (intersection.bottomIntersectionY != 0)) {
             horizontalCorrection = intersection.rightIntersectionX;
@@ -151,19 +153,21 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
         }
         // Compute position correction when player collides with the ground during the descending of a 90 degrees jump
         else if ((vectorDirection.y < 0) && (vectorDirection.x == 0) && (intersection.bottomIntersectionY < 0)) {
-            std::cout << " [ CASE A ] intersection.topIntersectionY: " << intersection.bottomIntersectionY + currentSprite.yOffset + 1 << "\n";
+            //std::cout << " [ CASE A ] intersection.topIntersectionY: " << intersection.bottomIntersectionY + currentSprite.yOffset + 1 << "\n";
             verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
         }
         else {
             continue;
         }
 
+        /*
         std::cout << " ---- vectorDirection.x: " << vectorDirection.x << "\n";
         std::cout << " ---- vectorDirection.y: " << vectorDirection.y << "\n";
         std::cout << " ---- intersection.rightIntersectionX: " << intersection.rightIntersectionX << "\n";
         std::cout << " ---- intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
         std::cout << " >>>> horizontalCorrection: " << horizontalCorrection << "\n";
         std::cout << " >>>> verticalCorrection: " << verticalCorrection << "\n";
+        */
         collisions.push_back({intersection.particle, horizontalCorrection, verticalCorrection});
 
         if (intersection.bottomIntersectionY < minBottomIntersectionYUnderlyingObjectCandidate) {
@@ -199,7 +203,6 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
     // covers less o equal the half width of the Topi.
     if ((underlyingObjectCandidate == nullptr) || ((underlyingObjectCandidate != nullptr) && (numPixelsUnderlyingObjectsSurface <= (currentSprite.width >> 1)))) {
         topiIsSuspendedInTheAir = true;
-        isOnMobileSurface = false;
         std::cout << "\n\n >>>>>>>>>> TOPI is suspended in the air <<<<<<<<<<<\n\n";
 
         if (underlyingObjectCandidate != nullptr) {
@@ -214,9 +217,9 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
     if ((underlyingObjectCandidate != nullptr) && !((position.GetRealX() < 0.0f) || (position.GetRealX() >= LEVEL_WIDTH_FLOAT - currentSprite.width)) && (numPixelsUnderlyingObjectsSurface <= currentSprite.width - 3)) {
         topiFoundAHoleOnTheFloor = true;
         objectToCarryId = underlyingObjectCandidate->id;
-        cout << " >>>>>>> TOPI NEED TO CARRY AN OBJECT OF TYPE: ";
-        underlyingObjectCandidate->PrintName();
-        cout << "\n\n";
+        //cout << " >>>>>>> TOPI NEED TO CARRY AN OBJECT OF TYPE: ";
+        //underlyingObjectCandidate->PrintName();
+        //cout << "\n\n";
     }
 }
 
@@ -472,6 +475,7 @@ bool Topi::ShouldBeginAnimationLoopAgain() {
 }
 
 void Topi::STATE_Walk_Right() {
+    cout << "\n >>>>>> TOPI::STATE_Walk_Right <<<<<<\n";
     isWalking = true;
     isGoingToPickUpIce = false;
     isGoingToRecover = false;
@@ -482,6 +486,7 @@ void Topi::STATE_Walk_Right() {
 }
 
 void Topi::STATE_Walk_Left() {
+    cout << "\n >>>>>> TOPI::STATE_Walk_Left <<<<<<\n";
     isWalking = true;
     isGoingToPickUpIce = false;
     isGoingToRecover = false;
@@ -492,6 +497,7 @@ void Topi::STATE_Walk_Left() {
 }
 
 void Topi::STATE_Run_To_Pick_Up_Ice_Right() {
+    cout << "\n >>>>>> TOPI::STATE_Run_To_Pick_Up_Ice_Right <<<<<<\n";
     isWalking = false;
     isGoingToPickUpIce = true;
     isGoingToRecover = false;
@@ -502,6 +508,7 @@ void Topi::STATE_Run_To_Pick_Up_Ice_Right() {
 }
 
 void Topi::STATE_Run_To_Pick_Up_Ice_Left() {
+    cout << "\n >>>>>> TOPI::STATE_Run_To_Pick_Up_Ice_Left <<<<<<\n";
     isWalking = false;
     isGoingToPickUpIce = true;
     isGoingToRecover = false;
@@ -512,6 +519,7 @@ void Topi::STATE_Run_To_Pick_Up_Ice_Left() {
 }
 
 void Topi::STATE_Fall_Dazed_Right() {
+    cout << "\n >>>>>> TOPI::STATE_Fall_Dazed_Right <<<<<<\n";
     isWalking = false;
     isGoingToPickUpIce = false;
     isGoingToRecover = false;
@@ -524,6 +532,7 @@ void Topi::STATE_Fall_Dazed_Right() {
 }
 
 void Topi::STATE_Fall_Dazed_Left() {
+    cout << "\n >>>>>> TOPI::STATE_Fall_Dazed_Left <<<<<<\n";
     isWalking = false;
     isGoingToPickUpIce = false;
     isGoingToRecover = false;
@@ -536,6 +545,7 @@ void Topi::STATE_Fall_Dazed_Left() {
 }
 
 void Topi::STATE_Run_Dazed_Right() {
+    cout << "\n >>>>>> TOPI::STATE_Run_Dazed_Right <<<<<<\n";
     isWalking = false;
     isGoingToPickUpIce = false;
     isGoingToRecover = true;
@@ -546,6 +556,7 @@ void Topi::STATE_Run_Dazed_Right() {
 }
 
 void Topi::STATE_Run_Dazed_Left() {
+    cout << "\n >>>>>> TOPI::STATE_Run_Dazed_Left <<<<<<\n";
     isWalking = false;
     isGoingToPickUpIce = false;
     isGoingToRecover = true;
