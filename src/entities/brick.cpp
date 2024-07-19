@@ -9,14 +9,6 @@ Brick::Brick(EntityIdentificator _id, EntityType _type, SurfaceType surface_type
         IEntity(_id, _type, surface_type, max_states, is_breakable, is_traversable) {
 }
 
-int Brick::Width() {
-        return currentSprite.width;
-}
-
-int Brick::Height() {
-        return currentSprite.height;
-}
-
 void Brick::PrintName() {
         std::cout << "Brick." << std::endl;
 }

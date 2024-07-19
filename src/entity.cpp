@@ -184,11 +184,11 @@ EntityType IEntity::Type() {
   return type;
 }
 
-int IEntity::Width() {
+inline int IEntity::Width() {
   return currentSprite.width;
 }
 
-int IEntity::Height() {
+inline int IEntity::Height() {
   return currentSprite.height;
 }
 

@@ -85,8 +85,6 @@ public:
   Player();
   ~Player() override;
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  int Width() override;
-  int Height() override;
   void PrintName() override;
   bool IsCloud() override;
   bool Update(uint8_t) override;

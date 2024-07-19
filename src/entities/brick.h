@@ -31,8 +31,6 @@ public:
   Brick();
   ~Brick();
   virtual void InitWithSpriteSheet(EntitySpriteSheet*);
-  int Width();
-  int Height();
   virtual void PrintName();
   bool IsCloud() override;
   bool Update(uint8_t);

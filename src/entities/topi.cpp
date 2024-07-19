@@ -8,14 +8,6 @@ Topi::Topi() :
     objectToCarryId = std::nullopt;
 }
 
-int Topi::Width() {
-    return currentSprite.width;
-}
-
-int Topi::Height() {
-    return currentSprite.height;
-}
-
 void Topi::PrintName() {
     std::cout << "Topi." << std::endl;
 }

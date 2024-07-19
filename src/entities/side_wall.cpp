@@ -9,14 +9,6 @@ SideWall::SideWall(EntityIdentificator _id, EntityType _type, SurfaceType surfac
         IEntity(_id, _type, surface_type, max_states, is_breakable, is_traversable) {
 }
 
-int SideWall::Width() {
-        return currentSprite.width;
-}
-
-int SideWall::Height() {
-        return currentSprite.height;
-}
-
 void SideWall::PrintName() {
         std::cout << "SideWall." << std::endl;
 }

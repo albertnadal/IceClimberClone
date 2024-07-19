@@ -10,14 +10,6 @@ Player::Player() :
     underlyingObjectSurfaceType = SurfaceType::SIMPLE;
 }
 
-int Player::Width() {
-    return currentSprite.width;
-}
-
-int Player::Height() {
-    return currentSprite.height;
-}
-
 void Player::PrintName() {
     std::cout << "Main character." << std::endl;
 }
