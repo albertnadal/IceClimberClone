@@ -35,7 +35,6 @@ class Topi: public IEntity
 
   // Topi action states
   bool isWalking = false;          // Topi is walking on a floor
-  bool isRunning = false;          // Topi is running
   bool isFalling = false;          // Topi is falling
   bool isDazed = false;            // Topi is dazed
   bool isGoingToPickUpIce = false; // Topi is running to pick up ice on the floor edge
@@ -59,6 +58,7 @@ public:
 
   // state machine triggers
   void HoleDetectedWhenWalking();
+  void SuspendedInTheAir();
   bool ShouldBeginAnimationLoopAgain();
 
 private:
@@ -67,6 +67,8 @@ private:
   void STATE_Walk_Left();
   void STATE_Run_To_Pick_Up_Ice_Right();
   void STATE_Run_To_Pick_Up_Ice_Left();
+  void STATE_Fall_Right();
+  void STATE_Fall_Left();
 
   // state map to define state function order
   BEGIN_STATE_MAP
@@ -74,6 +76,8 @@ private:
       STATE_MAP_ENTRY(&Topi::STATE_Walk_Left)
       STATE_MAP_ENTRY(&Topi::STATE_Run_To_Pick_Up_Ice_Right)
       STATE_MAP_ENTRY(&Topi::STATE_Run_To_Pick_Up_Ice_Left)
+      STATE_MAP_ENTRY(&Topi::STATE_Fall_Right)
+      STATE_MAP_ENTRY(&Topi::STATE_Fall_Left)
   END_STATE_MAP
 
   // state enumeration order must match the order of state
@@ -83,6 +87,8 @@ private:
       STATE_WALK_LEFT,
       STATE_RUN_TO_PICK_UP_ICE_RIGHT,
       STATE_RUN_TO_PICK_UP_ICE_LEFT,
+      STATE_FALL_RIGHT,
+      STATE_FALL_LEFT,
       TOPI_MAX_STATES
   };
 };
