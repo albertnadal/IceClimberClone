@@ -27,10 +27,8 @@ class Topi: public IEntity
   void SetRandomWalkStartPosition();
 
   collision::vec2<int16_t> vectorDirection;
-  std::optional<SurfaceType> underlyingObjectSurfaceType; // REVISIT: Provably this info is not necessary for Topi
   std::optional<EntityIdentificator> objectToCarryId;
-  IEntity* prevUnderlyingCloud = nullptr;
-  IEntity* currentUnderlyingCloud = nullptr;
+  IEntity* currentUnderlyingObject = nullptr;
   std::vector<IEntity*> objectsToIgnoreDuringFall;
 
   // Topi action states
@@ -67,8 +65,10 @@ private:
   void STATE_Walk_Left();
   void STATE_Run_To_Pick_Up_Ice_Right();
   void STATE_Run_To_Pick_Up_Ice_Left();
-  void STATE_Fall_Right();
-  void STATE_Fall_Left();
+  void STATE_Fall_Dazed_Right();
+  void STATE_Fall_Dazed_Left();
+  void STATE_Run_Dazed_Right();
+  void STATE_Run_Dazed_Left();
 
   // state map to define state function order
   BEGIN_STATE_MAP
@@ -76,8 +76,8 @@ private:
       STATE_MAP_ENTRY(&Topi::STATE_Walk_Left)
       STATE_MAP_ENTRY(&Topi::STATE_Run_To_Pick_Up_Ice_Right)
       STATE_MAP_ENTRY(&Topi::STATE_Run_To_Pick_Up_Ice_Left)
-      STATE_MAP_ENTRY(&Topi::STATE_Fall_Right)
-      STATE_MAP_ENTRY(&Topi::STATE_Fall_Left)
+      STATE_MAP_ENTRY(&Topi::STATE_Fall_Dazed_Right)
+      STATE_MAP_ENTRY(&Topi::STATE_Fall_Dazed_Left)
   END_STATE_MAP
 
   // state enumeration order must match the order of state
@@ -87,8 +87,10 @@ private:
       STATE_WALK_LEFT,
       STATE_RUN_TO_PICK_UP_ICE_RIGHT,
       STATE_RUN_TO_PICK_UP_ICE_LEFT,
-      STATE_FALL_RIGHT,
-      STATE_FALL_LEFT,
+      STATE_FALL_DAZED_RIGHT,
+      STATE_FALL_DAZED_LEFT,
+      STATE_RUN_DAZED_RIGHT,
+      STATE_RUN_DAZED_LEFT,
       TOPI_MAX_STATES
   };
 };

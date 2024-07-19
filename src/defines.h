@@ -57,7 +57,7 @@ enum CloudBigAnimation: uint16_t { CLOUD_BIG_FLYING = 56 };
 enum CloudTinyAnimation: uint16_t { CLOUD_TINY_FLYING = 57 };
 enum SideWallIceModelAUnbreakableAnimation: uint16_t { SIDE_WALL_ICE_MODEL_A_UNBREAKABLE_STICKY = 58 };
 enum SideWallIceModelBUnbreakableAnimation: uint16_t { SIDE_WALL_ICE_MODEL_B_UNBREAKABLE_STICKY = 59 };
-enum TopiAnimation: uint16_t { TOPI_WALK_TO_RIGHT = 60, TOPI_WALK_TO_LEFT = 61, TOPI_RUN_TO_RIGHT = 62, TOPI_RUN_TO_LEFT = 63, TOPI_FALL_RIGHT = 64, TOPI_FALL_LEFT = 65 };
+enum TopiAnimation: uint16_t { TOPI_WALK_TO_RIGHT = 60, TOPI_WALK_TO_LEFT = 61, TOPI_RUN_TO_RIGHT = 62, TOPI_RUN_TO_LEFT = 63, TOPI_FALL_DAZED_RIGHT = 64, TOPI_FALL_DAZED_LEFT = 65 };
 
 // Others
 const float GRAVITY = 9.81;

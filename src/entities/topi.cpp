@@ -5,7 +5,6 @@ Topi::Topi() :
         IEntity(EntityIdentificator::TOPI, EntityType::ENEMY, SurfaceType::SIMPLE, TopiStateIdentificator::TOPI_MAX_STATES, false, true) {
     vectorDirection.x = 0;
     vectorDirection.y = 0;
-    underlyingObjectSurfaceType = SurfaceType::SIMPLE;
     objectToCarryId = std::nullopt;
 }
 
@@ -119,8 +118,7 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
     topiIsSuspendedInTheAir = false;
     topiFoundAHoleOnTheFloor = false;
     IEntity* underlyingObjectCandidate = nullptr;
-    prevUnderlyingCloud = currentUnderlyingCloud;
-    currentUnderlyingCloud = nullptr;
+    currentUnderlyingObject = nullptr;
     int minBottomIntersectionYUnderlyingObjectCandidate = 9999;
     int minIntersectionXDiffUnderlyingObjectCandidate = 9999;
     int numPixelsUnderlyingObjectsSurface = 0;
@@ -193,20 +191,12 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
     // covers less o equal the half width of the Topi.
     if ((underlyingObjectCandidate == nullptr) || ((underlyingObjectCandidate != nullptr) && (numPixelsUnderlyingObjectsSurface <= (currentSprite.width >> 1)))) {
         topiIsSuspendedInTheAir = true;
-        underlyingObjectSurfaceType = std::nullopt;
         isOnMobileSurface = false;
         std::cout << "\n\n >>>>>>>>>> TOPI is suspended in the air <<<<<<<<<<<\n\n";
-        /*
-        if (underlyingObjectCandidate->IsCloud()) {
-            currentUnderlyingCloud = underlyingObjectCandidate;
+
+        if (underlyingObjectCandidate != nullptr) {
+            currentUnderlyingObject = underlyingObjectCandidate;
         }
-
-        underlyingObjectSurfaceType = underlyingObjectCandidate->surfaceType;
-        isOnMobileSurface = (underlyingObjectSurfaceType == SurfaceType::MOBILE_RIGHT) || (underlyingObjectSurfaceType == SurfaceType::MOBILE_LEFT);
-
-        std::cout << " ------ Topi underlying object: ";
-        underlyingObjectCandidate->PrintName();
-        */
     }
 
     cout << "\n >>>>>>> TOPI UNDERLYING SURFACE: " << numPixelsUnderlyingObjectsSurface << " currentSprite.width: " << currentSprite.width << "\n";
@@ -230,9 +220,14 @@ void Topi::UpdateCollisions() {
     // Search for collisions with solid objects
     this->GetSolidCollisions(collisions, topiIsSuspendedInTheAir, topiFoundAHoleOnTheFloor);
 
-    // Change stage when Topi is suspended in the air (no ground under his feet)
+    // Change state when Topi is suspended in the air (almost no ground under his feet).
     if (topiIsSuspendedInTheAir && isGoingToPickUpIce) {
         cout << "\n\n ===================> TOPI is suspended in the air <====================\n\n";
+
+        // Ignore collision with current underlying object during Topi fall.
+        if (currentUnderlyingObject != nullptr && (std::find(objectsToIgnoreDuringFall.begin(), objectsToIgnoreDuringFall.end(), currentUnderlyingObject) == objectsToIgnoreDuringFall.end())) {
+            objectsToIgnoreDuringFall.push_back(currentUnderlyingObject);
+        }
         SuspendedInTheAir();
         return;
     }
@@ -406,8 +401,8 @@ void Topi::FallDueToSuspendedInTheAir() {
     // TODO
     /*
     // Ignore collisions with the previous underlying cloud when player falls.
-    if (prevUnderlyingCloud != nullptr && (std::find(objectsToIgnoreDuringFall.begin(), objectsToIgnoreDuringFall.end(), prevUnderlyingCloud) == objectsToIgnoreDuringFall.end())) {
-        objectsToIgnoreDuringFall.push_back(prevUnderlyingCloud);
+    if (prevUnderlyingObject != nullptr && (std::find(objectsToIgnoreDuringFall.begin(), objectsToIgnoreDuringFall.end(), prevUnderlyingObject) == objectsToIgnoreDuringFall.end())) {
+        objectsToIgnoreDuringFall.push_back(prevUnderlyingObject);
     }
 
     hMomentum = 0;
@@ -503,7 +498,7 @@ void Topi::STATE_Run_To_Pick_Up_Ice_Left() {
     LoadAnimationWithId(TopiAnimation::TOPI_RUN_TO_LEFT);
 }
 
-void Topi::STATE_Fall_Right() {
+void Topi::STATE_Fall_Dazed_Right() {
     isWalking = false;
     isGoingToPickUpIce = false;
     isFalling = true;
@@ -511,10 +506,10 @@ void Topi::STATE_Fall_Right() {
     direction = Direction::LEFT;
     vectorDirection.x = 0;
     vectorDirection.y = -1;
-    LoadAnimationWithId(TopiAnimation::TOPI_FALL_RIGHT);
+    LoadAnimationWithId(TopiAnimation::TOPI_FALL_DAZED_RIGHT);
 }
 
-void Topi::STATE_Fall_Left() {
+void Topi::STATE_Fall_Dazed_Left() {
     isWalking = false;
     isGoingToPickUpIce = false;
     isFalling = true;
@@ -522,7 +517,15 @@ void Topi::STATE_Fall_Left() {
     direction = Direction::RIGHT;
     vectorDirection.x = 0;
     vectorDirection.y = -1;
-    LoadAnimationWithId(TopiAnimation::TOPI_FALL_LEFT);
+    LoadAnimationWithId(TopiAnimation::TOPI_FALL_DAZED_LEFT);
+}
+
+void Topi::STATE_Run_Dazed_Right() {
+
+}
+
+void Topi::STATE_Run_Dazed_Left() {
+
 }
 
 void Topi::HoleDetectedWhenWalking() {
@@ -531,8 +534,10 @@ void Topi::HoleDetectedWhenWalking() {
             TRANSITION_MAP_ENTRY (STATE_RUN_TO_PICK_UP_ICE_RIGHT)  // STATE_Walk_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_To_Pick_Up_Ice_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_To_Pick_Up_Ice_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Dazed_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Dazed_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_Dazed_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_Dazed_Left
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -540,9 +545,11 @@ void Topi::SuspendedInTheAir() {
     BEGIN_TRANSITION_MAP                                           // - Current State -
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Walk_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Walk_Left
-            TRANSITION_MAP_ENTRY (STATE_FALL_RIGHT)                // STATE_Run_To_Pick_Up_Ice_Right
-            TRANSITION_MAP_ENTRY (STATE_FALL_LEFT)                 // STATE_Run_To_Pick_Up_Ice_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Left
+            TRANSITION_MAP_ENTRY (STATE_FALL_DAZED_RIGHT)          // STATE_Run_To_Pick_Up_Ice_Right
+            TRANSITION_MAP_ENTRY (STATE_FALL_DAZED_LEFT)           // STATE_Run_To_Pick_Up_Ice_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Dazed_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Dazed_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_Dazed_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_Dazed_Left
     END_TRANSITION_MAP(nullptr)
 }
