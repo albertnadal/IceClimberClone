@@ -36,12 +36,13 @@ class Topi: public IEntity
   bool isFalling = false;          // Topi is falling
   bool isDazed = false;            // Topi is dazed
   bool isGoingToPickUpIce = false; // Topi is running to pick up ice on the floor edge
+  bool isGoingToRecover = false;   // Topi is running to recover due to a hammer hit or fall
   bool isOnMobileSurface = false;  // Topi underlying surface is mobile
 
   // TODO: Topi action update functions
   void UpdateCollisions();
   void MoveTo(Direction, float);
-  void FallDueToSuspendedInTheAir();
+  void FinishFall();
 
 public:
   Topi();
@@ -57,6 +58,7 @@ public:
   // state machine triggers
   void HoleDetectedWhenWalking();
   void SuspendedInTheAir();
+  void FallLanding();
   bool ShouldBeginAnimationLoopAgain();
 
 private:
@@ -78,6 +80,8 @@ private:
       STATE_MAP_ENTRY(&Topi::STATE_Run_To_Pick_Up_Ice_Left)
       STATE_MAP_ENTRY(&Topi::STATE_Fall_Dazed_Right)
       STATE_MAP_ENTRY(&Topi::STATE_Fall_Dazed_Left)
+      STATE_MAP_ENTRY(&Topi::STATE_Run_Dazed_Right)
+      STATE_MAP_ENTRY(&Topi::STATE_Run_Dazed_Left)
   END_STATE_MAP
 
   // state enumeration order must match the order of state

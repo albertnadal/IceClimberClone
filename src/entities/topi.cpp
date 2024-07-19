@@ -81,6 +81,14 @@ bool Topi::Update(const uint8_t pressedKeys_) {
     else if (isFalling) {
         PositionAddY(3.5f);  // Simple linear fall instead of parabolic
         needRedraw = true;
+    }
+    else if (isGoingToRecover) {
+        MoveTo(direction, 1.5f);
+        if (ReachedScreenEdge()) {
+            SetRandomWalkStartPosition(); // TODO: Use the proper function here
+        }
+        needRedraw = true;
+
     }/* else {
 
         // Displace the player if the underlying surface is mobile
@@ -228,6 +236,7 @@ void Topi::UpdateCollisions() {
         if (currentUnderlyingObject != nullptr && (std::find(objectsToIgnoreDuringFall.begin(), objectsToIgnoreDuringFall.end(), currentUnderlyingObject) == objectsToIgnoreDuringFall.end())) {
             objectsToIgnoreDuringFall.push_back(currentUnderlyingObject);
         }
+
         SuspendedInTheAir();
         return;
     }
@@ -242,7 +251,7 @@ void Topi::UpdateCollisions() {
     if (collisions.empty()) {
         return;
     }
-    /*
+
     // Get the major position correction of all collisions
     int minHorizontalCorrection = 0, maxHorizontalCorrection = 0, minVerticalCorrection = 0, maxVerticalCorrection = 0;
     for (auto collision : collisions) {
@@ -252,6 +261,14 @@ void Topi::UpdateCollisions() {
         maxVerticalCorrection = std::max(maxVerticalCorrection, collision.verticalCorrection);
     }
 
+    if (isFalling && minVerticalCorrection < 0) {
+        // Topi collided with the ground (during a fall)
+        std::cout << " ))))) COLLIDING WITH THE GROUND DURING FALL minVerticalCorrection: " << minVerticalCorrection << "\n";
+        PositionAddY(int16_t(minVerticalCorrection));
+        FinishFall();
+    }
+
+    /*
     // Check for horizontal collision when player is walking
     if (!isJumping && !isFalling) {
         if (minHorizontalCorrection < 0) {
@@ -391,26 +408,18 @@ void Topi::UpdateCollisions() {
 }
 
 void Topi::MoveTo(Direction direction, float distance) {
-    if (!isFalling && !isDazed) {
+    if (!isFalling) {
         PositionAddX(direction == Direction::RIGHT ? distance : -(distance));
         vectorDirection.x = (direction == Direction::RIGHT ? 1 : -1);
     }
 }
 
-void Topi::FallDueToSuspendedInTheAir() {
-    // TODO
-    /*
-    // Ignore collisions with the previous underlying cloud when player falls.
-    if (prevUnderlyingObject != nullptr && (std::find(objectsToIgnoreDuringFall.begin(), objectsToIgnoreDuringFall.end(), prevUnderlyingObject) == objectsToIgnoreDuringFall.end())) {
-        objectsToIgnoreDuringFall.push_back(prevUnderlyingObject);
-    }
-
-    hMomentum = 0;
-    UpdatePreviousDirection();
+void Topi::FinishFall() {
+    isFalling = false;
+    objectsToIgnoreDuringFall.clear();
     vectorDirection.x = 0;
-    vectorDirection.y = -1;
-    SuspendedInTheAir();
-    */
+    vectorDirection.y = 0;
+    FallLanding();
 }
 
 bool Topi::TopiIsQuiet() {
@@ -465,6 +474,7 @@ bool Topi::ShouldBeginAnimationLoopAgain() {
 void Topi::STATE_Walk_Right() {
     isWalking = true;
     isGoingToPickUpIce = false;
+    isGoingToRecover = false;
     isFalling = false;
     isDazed = false;
     direction = Direction::RIGHT;
@@ -474,6 +484,7 @@ void Topi::STATE_Walk_Right() {
 void Topi::STATE_Walk_Left() {
     isWalking = true;
     isGoingToPickUpIce = false;
+    isGoingToRecover = false;
     isFalling = false;
     isDazed = false;
     direction = Direction::LEFT;
@@ -483,6 +494,7 @@ void Topi::STATE_Walk_Left() {
 void Topi::STATE_Run_To_Pick_Up_Ice_Right() {
     isWalking = false;
     isGoingToPickUpIce = true;
+    isGoingToRecover = false;
     isFalling = false;
     isDazed = false;
     direction = Direction::RIGHT;
@@ -492,6 +504,7 @@ void Topi::STATE_Run_To_Pick_Up_Ice_Right() {
 void Topi::STATE_Run_To_Pick_Up_Ice_Left() {
     isWalking = false;
     isGoingToPickUpIce = true;
+    isGoingToRecover = false;
     isFalling = false;
     isDazed = false;
     direction = Direction::LEFT;
@@ -501,6 +514,7 @@ void Topi::STATE_Run_To_Pick_Up_Ice_Left() {
 void Topi::STATE_Fall_Dazed_Right() {
     isWalking = false;
     isGoingToPickUpIce = false;
+    isGoingToRecover = false;
     isFalling = true;
     isDazed = true;
     direction = Direction::LEFT;
@@ -512,6 +526,7 @@ void Topi::STATE_Fall_Dazed_Right() {
 void Topi::STATE_Fall_Dazed_Left() {
     isWalking = false;
     isGoingToPickUpIce = false;
+    isGoingToRecover = false;
     isFalling = true;
     isDazed = true;
     direction = Direction::RIGHT;
@@ -521,11 +536,23 @@ void Topi::STATE_Fall_Dazed_Left() {
 }
 
 void Topi::STATE_Run_Dazed_Right() {
-
+    isWalking = false;
+    isGoingToPickUpIce = false;
+    isGoingToRecover = true;
+    isFalling = false;
+    isDazed = true;
+    direction = Direction::RIGHT;
+    LoadAnimationWithId(TopiAnimation::RUN_DAZED_RIGHT);
 }
 
 void Topi::STATE_Run_Dazed_Left() {
-
+    isWalking = false;
+    isGoingToPickUpIce = false;
+    isGoingToRecover = true;
+    isFalling = false;
+    isDazed = true;
+    direction = Direction::LEFT;
+    LoadAnimationWithId(TopiAnimation::RUN_DAZED_LEFT);
 }
 
 void Topi::HoleDetectedWhenWalking() {
@@ -549,6 +576,19 @@ void Topi::SuspendedInTheAir() {
             TRANSITION_MAP_ENTRY (STATE_FALL_DAZED_LEFT)           // STATE_Run_To_Pick_Up_Ice_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Dazed_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Dazed_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_Dazed_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_Dazed_Left
+    END_TRANSITION_MAP(nullptr)
+}
+
+void Topi::FallLanding() {
+    BEGIN_TRANSITION_MAP                                           // - Current State -
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Walk_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Walk_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_To_Pick_Up_Ice_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_To_Pick_Up_Ice_Left
+            TRANSITION_MAP_ENTRY (STATE_RUN_DAZED_LEFT)            // STATE_Fall_Dazed_Right
+            TRANSITION_MAP_ENTRY (STATE_RUN_DAZED_RIGHT)           // STATE_Fall_Dazed_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_Dazed_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_Dazed_Left
     END_TRANSITION_MAP(nullptr)
