@@ -45,7 +45,7 @@ int main()
 
         Camera2D camera = { 0 };
         camera.target = (Vector2){ 0, 0 };
-        camera.offset = (Vector2){ 0, -150 };//-450 };
+        camera.offset = (Vector2){ 0, -250 };//-450 };
         camera.rotation = 0.0f;
         camera.zoom = 2.0f;  // 2x zoom just for debug purposes
 

@@ -90,7 +90,6 @@ bool Topi::Update(const uint8_t pressedKeys_) {
             SetRandomWalkStartPosition();
         }
         needRedraw = true;
-
     }/* else {
 
         // Displace the player if the underlying surface is mobile
@@ -144,6 +143,7 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
 
         //std::cout << " [ START ] intersection.topIntersectionY: " << intersection.topIntersectionY << " | intersection.bottomIntersectionY: " << intersection.bottomIntersectionY << " | intersection.rightIntersectionX: " << intersection.rightIntersectionX << " | intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
         // Compute position correction when player collides walking to the right
+        /*
         if ((vectorDirection.x > 0) && (vectorDirection.y == 0) && (intersection.rightIntersectionX < 0) && (intersection.bottomIntersectionY != 0)) {
             horizontalCorrection = intersection.rightIntersectionX;
         }
@@ -152,9 +152,9 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
             horizontalCorrection = intersection.leftIntersectionX;
         }
         // Compute position correction when player collides with the ground during the descending of a 90 degrees jump
-        else if ((vectorDirection.y < 0) && (vectorDirection.x == 0) && (intersection.bottomIntersectionY < 0)) {
+        else */if ((vectorDirection.y < 0) && (vectorDirection.x == 0) && (intersection.bottomIntersectionY < 0)) {
             //std::cout << " [ CASE A ] intersection.topIntersectionY: " << intersection.bottomIntersectionY + currentSprite.yOffset + 1 << "\n";
-            verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset + 1;
+            verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset;
         }
         else {
             continue;
@@ -178,7 +178,7 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
 
     std::cout << " > TOPI COLLIDES WITH " << objectIntersections.size() << " OBJECTS. " << collisions.size() << " CORRECTIONS NEEDED.\n";
 
-    // Check if Topi is suspended in the air or get the underlying surface type
+    // Check if Topi is suspended in the air
     for (auto intersection : objectIntersections) {
         if (intersection.particle == this) {
             continue;
@@ -232,9 +232,7 @@ void Topi::UpdateCollisions() {
     this->GetSolidCollisions(collisions, topiIsSuspendedInTheAir, topiFoundAHoleOnTheFloor);
 
     // Change state when Topi is suspended in the air (almost no ground under his feet).
-    if (topiIsSuspendedInTheAir && isGoingToPickUpIce) {
-        cout << "\n\n ===================> TOPI is suspended in the air <====================\n\n";
-
+    if (topiIsSuspendedInTheAir && (isGoingToPickUpIce || isGoingToRecover)) {
         // Ignore collision with current underlying object during Topi fall.
         if (currentUnderlyingObject != nullptr && (std::find(objectsToIgnoreDuringFall.begin(), objectsToIgnoreDuringFall.end(), currentUnderlyingObject) == objectsToIgnoreDuringFall.end())) {
             objectsToIgnoreDuringFall.push_back(currentUnderlyingObject);
@@ -267,7 +265,7 @@ void Topi::UpdateCollisions() {
     if (isFalling && minVerticalCorrection < 0) {
         // Topi collided with the ground (during a fall)
         std::cout << " ))))) COLLIDING WITH THE GROUND DURING FALL minVerticalCorrection: " << minVerticalCorrection << "\n";
-        PositionAddY(int16_t(minVerticalCorrection));
+        PositionAddY(static_cast<float>(minVerticalCorrection));
         FinishFall();
     }
 
@@ -587,8 +585,8 @@ void Topi::SuspendedInTheAir() {
             TRANSITION_MAP_ENTRY (STATE_FALL_DAZED_LEFT)           // STATE_Run_To_Pick_Up_Ice_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Dazed_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Dazed_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_Dazed_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_Dazed_Left
+            TRANSITION_MAP_ENTRY (STATE_FALL_DAZED_RIGHT)          // STATE_Run_Dazed_Right
+            TRANSITION_MAP_ENTRY (STATE_FALL_DAZED_LEFT)           // STATE_Run_Dazed_Left
     END_TRANSITION_MAP(nullptr)
 }
 
