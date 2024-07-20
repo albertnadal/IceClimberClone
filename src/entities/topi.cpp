@@ -245,13 +245,18 @@ void Topi::UpdateCollisions() {
         return;
     }
 
-    // Get the major position correction of all collisions
+    // Get the major position correction of all collisions. Do not allow corrections higher than 10.
     int minHorizontalCorrection = 0, maxHorizontalCorrection = 0, minVerticalCorrection = 0, maxVerticalCorrection = 0;
     for (auto collision : collisions) {
-        minHorizontalCorrection = std::min(minHorizontalCorrection, collision.horizontalCorrection);
-        maxHorizontalCorrection = std::max(maxHorizontalCorrection, collision.horizontalCorrection);
-        minVerticalCorrection = std::min(minVerticalCorrection, collision.verticalCorrection);
-        maxVerticalCorrection = std::max(maxVerticalCorrection, collision.verticalCorrection);
+        if (std::abs(collision.horizontalCorrection) <= 10) {
+            minHorizontalCorrection = std::min(minHorizontalCorrection, collision.horizontalCorrection);
+            maxHorizontalCorrection = std::max(maxHorizontalCorrection, collision.horizontalCorrection);
+        }
+
+        if (std::abs(collision.verticalCorrection) <= 10) {
+            minVerticalCorrection = std::min(minVerticalCorrection, collision.verticalCorrection);
+            maxVerticalCorrection = std::max(maxVerticalCorrection, collision.verticalCorrection);
+        }
     }
 
     if (isFalling && minVerticalCorrection < 0) {
