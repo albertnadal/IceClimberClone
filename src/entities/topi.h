@@ -58,6 +58,7 @@ public:
   void HoleDetectedWhenWalking();
   void SuspendedInTheAir();
   void FallLanding();
+  void ChangeDirection();
   bool ShouldBeginAnimationLoopAgain();
 
 private:

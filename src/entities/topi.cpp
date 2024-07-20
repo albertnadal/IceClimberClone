@@ -134,18 +134,16 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
         //std::cout << " ==== intersection.topIntersectionY: " << intersection.topIntersectionY << "\n";
 
         //std::cout << " [ START ] intersection.topIntersectionY: " << intersection.topIntersectionY << " | intersection.bottomIntersectionY: " << intersection.bottomIntersectionY << " | intersection.rightIntersectionX: " << intersection.rightIntersectionX << " | intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
-        // Compute position correction when player collides walking to the right
-        /*
+        // Compute position correction when Topi collides when moving to the right
         if ((vectorDirection.x > 0) && (vectorDirection.y == 0) && (intersection.rightIntersectionX < 0) && (intersection.bottomIntersectionY != 0)) {
             horizontalCorrection = intersection.rightIntersectionX;
         }
-        // Compute position correction when player collides walking to the left
+        // Compute position correction when Topi collides when moving to the left
         else if ((vectorDirection.x < 0) && (vectorDirection.y == 0) && (intersection.leftIntersectionX > 0) && (intersection.bottomIntersectionY != 0)) {
             horizontalCorrection = intersection.leftIntersectionX;
         }
-        // Compute position correction when player collides with the ground during the descending of a 90 degrees jump
-        else */if ((vectorDirection.y < 0) && (vectorDirection.x == 0) && (intersection.bottomIntersectionY < 0)) {
-            //std::cout << " [ CASE A ] intersection.topIntersectionY: " << intersection.bottomIntersectionY + currentSprite.yOffset + 1 << "\n";
+        // Compute position correction when Topi collides with the ground during a fall
+        else if ((vectorDirection.y < 0) && (vectorDirection.x == 0) && (intersection.bottomIntersectionY < 0)) {
             verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset;
         }
         else {
@@ -266,24 +264,16 @@ void Topi::UpdateCollisions() {
         FinishFall();
     }
 
-    /*
-    // Check for horizontal collision when player is walking
-    if (!isJumping && !isFalling) {
-        if (minHorizontalCorrection < 0) {
-            // Topi collided walking to right direction
-            std::cout << " ))))) COLLISION WHEN MOVING TO RIGHT <<<<<<<\n";
-            PositionAddX(int16_t(minHorizontalCorrection));
-            isBlockedRight = true;
-            return;
-        } else if (maxHorizontalCorrection > 0) {
-            // Topi collided walking to left direction
-            std::cout << " ))))) COLLISION WHEN MOVING TO LEFT <<<<<<<\n";
-            PositionAddX(int16_t(maxHorizontalCorrection));
-            isBlockedLeft = true;
+    // Check for horizontal collisions
+    if (isWalking || isGoingToRecover || isGoingToPickUpIce) {
+        if (minHorizontalCorrection < 0 || maxHorizontalCorrection > 0) {
+            float correction = (minHorizontalCorrection < 0) ? static_cast<float>(minHorizontalCorrection) : static_cast<float>(maxHorizontalCorrection);
+            PositionAddX(correction);
+            ChangeDirection();
             return;
         }
     }
-
+    /*
     if (isJumping && vectorDirection.y > 0 && vectorDirection.x > 0 && minHorizontalCorrection < 0 && std::abs(minHorizontalCorrection) <= 4) {
         // Topi collided horizontally when during the ascension to the right side of a jump
         std::cout << " ))))) COLLISION ON THE RIGHT SIDE DURING JUMP ASCENSION <<<<<<<\n";
@@ -597,5 +587,18 @@ void Topi::FallLanding() {
             TRANSITION_MAP_ENTRY (STATE_RUN_DAZED_RIGHT)           // STATE_Fall_Dazed_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_Dazed_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_Dazed_Left
+    END_TRANSITION_MAP(nullptr)
+}
+
+void Topi::ChangeDirection() {
+    BEGIN_TRANSITION_MAP                                           // - Current State -
+            TRANSITION_MAP_ENTRY (STATE_WALK_LEFT)                 // STATE_Walk_Right
+            TRANSITION_MAP_ENTRY (STATE_WALK_RIGHT)                // STATE_Walk_Left
+            TRANSITION_MAP_ENTRY (STATE_RUN_TO_PICK_UP_ICE_LEFT)   // STATE_Run_To_Pick_Up_Ice_Right
+            TRANSITION_MAP_ENTRY (STATE_RUN_TO_PICK_UP_ICE_RIGHT)  // STATE_Run_To_Pick_Up_Ice_Left
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Dazed_Right
+            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Dazed_Left
+            TRANSITION_MAP_ENTRY (STATE_RUN_DAZED_LEFT)            // STATE_Run_Dazed_Right
+            TRANSITION_MAP_ENTRY (STATE_RUN_DAZED_RIGHT)           // STATE_Run_Dazed_Left
     END_TRANSITION_MAP(nullptr)
 }
