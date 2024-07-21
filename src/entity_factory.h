@@ -11,6 +11,7 @@
 #include <entities/side_wall.h>
 #include <entities/cloud.h>
 #include <entities/topi.h>
+#include <entities/ice.h>
 
 class EntityFactory
 {

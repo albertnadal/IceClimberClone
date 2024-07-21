@@ -4,8 +4,8 @@ CFLAGS=-std=c++17 -stdlib=libc++ -Ofast -march=native -flto -fno-signed-zeros -f
 LDFLAGS=-Wl,-search_paths_first -Wl,-headerpad_max_install_names -framework OpenGL -framework Cocoa -framework IOKit -framework CoreAudio -framework CoreVideo -framework CoreFoundation -lraylib -Lthird_party/raylib/
 EXEC=main
 
-all: Rectangle.o sprite_rect_double_buffer.o position.o entity.o entity_factory.o player.o player_state_transitions.o topi.o brick.o cloud.o side_wall.o state_machine.o entity_manager.o sprite.o entity_sprite_sheet_animation.o entity_sprite_sheet.o entity_data_manager.o
-	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp entity.o entity_factory.o player.o player_state_transitions.o topi.o brick.o cloud.o side_wall.o state_machine.o entity_manager.o sprite.o entity_data_manager.o entity_sprite_sheet.o entity_sprite_sheet_animation.o position.o sprite_rect_double_buffer.o Rectangle.o -o $(EXEC)
+all: Rectangle.o sprite_rect_double_buffer.o position.o entity.o entity_factory.o player.o player_state_transitions.o topi.o ice.o brick.o cloud.o side_wall.o state_machine.o entity_manager.o sprite.o entity_sprite_sheet_animation.o entity_sprite_sheet.o entity_data_manager.o
+	$(CXX) $(CFLAGS) $(LDFLAGS) main.cpp entity.o entity_factory.o player.o player_state_transitions.o topi.o ice.o brick.o cloud.o side_wall.o state_machine.o entity_manager.o sprite.o entity_data_manager.o entity_sprite_sheet.o entity_sprite_sheet_animation.o position.o sprite_rect_double_buffer.o Rectangle.o -o $(EXEC)
 
 player.o: src/entities/player.cpp
 	$(CXX) -c $(CFLAGS) src/entities/player.cpp
@@ -15,6 +15,9 @@ player_state_transitions.o: src/entities/player_state_transitions.cpp
 
 topi.o: src/entities/topi.cpp
 	$(CXX) -c $(CFLAGS) src/entities/topi.cpp
+
+ice.o: src/entities/ice.cpp
+	$(CXX) -c $(CFLAGS) src/entities/ice.cpp
 
 brick.o: src/entities/brick.cpp
 	$(CXX) -c $(CFLAGS) src/entities/brick.cpp

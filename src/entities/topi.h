@@ -17,14 +17,9 @@ using namespace std;
 
 class Topi: public IEntity
 {
-  float initialXPos;
-  float initialYPos;
   Direction direction;
-  bool headedToRight = true;
   void LoadNextSprite();
-  bool TopiIsQuiet();
   void GetSolidCollisions(std::vector<ObjectCollision>&, bool&, bool&);
-  void DisplaceIfUnderlyingSurfaceIsMobile();
   bool ReachedScreenEdge();
   void SetRandomWalkStartPosition();
 

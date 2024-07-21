@@ -16,28 +16,6 @@ bool Topi::IsCloud() {
   return false;
 }
 
-void Topi::DisplaceIfUnderlyingSurfaceIsMobile() {
-    // TODO
-    /*
-    if (!underlyingObjectSurfaceType.has_value()) {
-        return;
-    }
-
-    float displacement = 0.0f;
-    if ((*underlyingObjectSurfaceType == SurfaceType::MOBILE_RIGHT) && !isBlockedRight) {
-        displacement = 1.0f;
-        vectorDirection.x = 1;
-    }
-    else if ((*underlyingObjectSurfaceType == SurfaceType::MOBILE_LEFT) && !isBlockedLeft) {
-        displacement = -1.0f;
-        vectorDirection.x = -1;
-    }
-    else return;
-
-    PositionAddX(displacement);
-    */
-}
-
 inline bool Topi::ReachedScreenEdge() {
     return (position.GetRealX() < 0.0f) || (position.GetRealX() >= LEVEL_WIDTH_FLOAT - 8.0f);
 }
@@ -82,12 +60,7 @@ bool Topi::Update(const uint8_t pressedKeys_) {
             SetRandomWalkStartPosition();
         }
         needRedraw = true;
-    }/* else {
-
-        // Displace the player if the underlying surface is mobile
-        DisplaceIfUnderlyingSurfaceIsMobile();
     }
-    */
 
     // Check for collisions
     UpdateCollisions();
@@ -273,126 +246,6 @@ void Topi::UpdateCollisions() {
             return;
         }
     }
-    /*
-    if (isJumping && vectorDirection.y > 0 && vectorDirection.x > 0 && minHorizontalCorrection < 0 && std::abs(minHorizontalCorrection) <= 4) {
-        // Topi collided horizontally when during the ascension to the right side of a jump
-        std::cout << " ))))) COLLISION ON THE RIGHT SIDE DURING JUMP ASCENSION <<<<<<<\n";
-        PositionAddX(int16_t(minHorizontalCorrection));
-        FallDueToLateralCollisionJump();
-    } else if (isJumping && vectorDirection.y > 0 && vectorDirection.x < 0 && maxHorizontalCorrection > 0 && std::abs(maxHorizontalCorrection) <= 4) {
-        // Topi collided horizontally when during the ascension to the left side of a jump
-        std::cout << " ))))) COLLISION ON THE LEFT SIDE DURING JUMP ASCENSION <<<<<<<\n";
-        PositionAddX(int16_t(maxHorizontalCorrection));
-        FallDueToLateralCollisionJump();
-    } else if (isJumping && vectorDirection.y > 0 && vectorDirection.x != 0 && maxVerticalCorrection > 0) {
-        // Topi head collided with an object (during a parabolic jump)
-        std::cout << " ))))) COLLIDING ON TOP DURING PARABOLIC JUMP <<<<<<<\n";
-        PositionAddY(int16_t(maxVerticalCorrection));
-        isJumping = false;
-        isJumpApex = false;
-
-        ObjectCollision collision = collisions.front();
-        collision.object->Hit(headedToRight);
-
-        TopCollisionDuringJump();
-    } else if (isJumping && vectorDirection.x != 0 && collisions.size() >= 1 && maxHorizontalCorrection >= 0 && minHorizontalCorrection == 0 && minVerticalCorrection < 0) {
-        // Check for single brick collision when player is falling to the left during a jump
-        if ((std::abs(maxHorizontalCorrection) > MIN_PIXELS_ON_UNDERLYING_SURFACE) && (collisions.size() == 1)) {
-            // Topi collided vertically when jumping to left direction
-            std::cout << " ))))) SINGLE COLLISION ON THE TOP SIDE DURING JUMP FALLING <<<<<<<\n";
-            PositionAddY(int16_t(minVerticalCorrection));
-            FinishJump();
-        } else {
-            // Topi collided horizontally when jumping to left direction
-            std::cout << " ))))) SINGLE COLLISION ON THE LEFT SIDE DURING JUMP FALLING <<<<<<<\n";
-            PositionAddX(int16_t(maxHorizontalCorrection));
-            FallDueToLateralCollisionJump();
-        }
-    } else if (isJumping && vectorDirection.x != 0 && collisions.size() >= 1 && minHorizontalCorrection <= 0 && maxHorizontalCorrection == 0 && minVerticalCorrection < 0) {
-        // Check for single brick collision when player is falling to the right during a jump
-        if ((std::abs(minHorizontalCorrection) > MIN_PIXELS_ON_UNDERLYING_SURFACE) && (collisions.size() == 1)) {
-            // Topi collided vertically when jumping to right direction
-            std::cout << " ))))) SINGLE COLLISION ON THE TOP RIGHT SIDE DURING JUMP FALLING <<<<<<<\n";
-            PositionAddY(int16_t(minVerticalCorrection));
-            FinishJump();
-        } else {
-            // Topi collided horizontally when jumping to right direction
-            std::cout << " ))))) SINGLE COLLISION ON THE RIGHT SIDE DURING JUMP FALLING <<<<<<<\n";
-            PositionAddX(int16_t(minHorizontalCorrection));
-            FallDueToLateralCollisionJump();
-        }
-    } else if (isFalling && vectorDirection.x < 0 && collisions.size() >= 1 && maxHorizontalCorrection >= 0 && minHorizontalCorrection == 0 && minVerticalCorrection < 0) {
-        // Check for single brick collision when player is falling to the left from the apex
-        if ((std::abs(maxHorizontalCorrection) > MIN_PIXELS_ON_UNDERLYING_SURFACE) && (collisions.size() == 1)) {
-            // Topi collided vertically when jumping to left direction
-            std::cout << " ))))) SINGLE COLLISION ON THE TOP SIDE DURING FALL TO THE LEFT <<<<<<<\n";
-            PositionAddY(int16_t(minVerticalCorrection));
-            FinishFall();
-        } else {
-            // Topi collided horizontally when jumping to left direction
-            std::cout << " ))))) SINGLE COLLISION ON THE LEFT SIDE DURING FALL TO THE LEFT <<<<<<<\n";
-            PositionAddX(int16_t(maxHorizontalCorrection) + 1);
-            FallDueToLateralCollisionJump();
-        }
-    } else if (isFalling && vectorDirection.x > 0 && collisions.size() >= 1 && minHorizontalCorrection <= 0 && maxHorizontalCorrection == 0 && minVerticalCorrection < 0) {
-        // Check for single brick collision when player is falling to the right from the apex
-        if ((std::abs(minHorizontalCorrection) > MIN_PIXELS_ON_UNDERLYING_SURFACE) && (collisions.size() == 1)) {
-            // Topi collided vertically when jumping to right direction
-            std::cout << " ))))) SINGLE COLLISION ON THE TOP RIGHT SIDE DURING FALL TO THE RIGHT <<<<<<<\n";
-            PositionAddY(int16_t(minVerticalCorrection));
-            FinishFall();
-        } else {
-            // Topi collided horizontally when jumping to right direction
-            std::cout << " ))))) SINGLE COLLISION ON THE RIGHT SIDE DURING FALL TO THE RIGHT <<<<<<<\n";
-            PositionAddX(int16_t(minHorizontalCorrection) - 1);
-            FallDueToLateralCollisionJump();
-        }
-    } else if (isJumping && vectorDirection.x == 0 && collisions.size() == 1 && maxHorizontalCorrection > 0 && minHorizontalCorrection == 0 && minVerticalCorrection < 0) {
-        // Check for single brick collision on the left side when player is falling during a 90 degree jump
-        if (std::abs(maxHorizontalCorrection) > MIN_PIXELS_ON_UNDERLYING_SURFACE) {
-            std::cout << " ))))) SINGLE COLLISION ON THE TOP SIDE DURING 90 DEGREE JUMP FALLING <<<<<<<\n";
-            PositionAddY(int16_t(minVerticalCorrection));
-            FinishJump();
-        } else {
-            std::cout << " ))))) SINGLE COLLISION ON THE LEFT SIDE DURING 90 DEGREE JUMP FALLING <<<<<<<\n";
-            PositionAddX(int16_t(maxHorizontalCorrection));
-            FallDueToLateralCollisionJump();
-        }
-    } else if (isJumping && vectorDirection.x == 0 && collisions.size() == 1 && minHorizontalCorrection < 0 && maxHorizontalCorrection == 0 && minVerticalCorrection < 0) {
-        // Check for single brick collision on the right side when player is falling during a 90 degree jump
-        if (std::abs(minHorizontalCorrection) > MIN_PIXELS_ON_UNDERLYING_SURFACE) {
-            // Topi collided vertically when jumping looking to right direction
-            std::cout << " ))))) SINGLE COLLISION ON THE TOP SIDE DURING 90 DEGREE JUMP FALLING <<<<<<<\n";
-            PositionAddY(int16_t(minVerticalCorrection));
-            FinishJump();
-        } else {
-            std::cout << " ))))) SINGLE COLLISION ON THE RIGHT SIDE DURING 90 DEGREE JUMP FALLING <<<<<<<\n";
-            PositionAddX(int16_t(minHorizontalCorrection));
-            FallDueToLateralCollisionJump();
-        }
-    } else if (isJumping && minVerticalCorrection < 0) {
-        // Topi collided with the ground (during a jump landing)
-        std::cout << " ))))) COLLIDING WITH THE GROUND DURING JUMP <<<<<<<\n";
-        PositionAddY(int16_t(minVerticalCorrection));
-        FinishJump();
-    } else if (isJumping && maxVerticalCorrection > 0) {
-        // Topi collided on his head (during a jump)
-        std::cout << " ))))) COLLIDING ON TOP DURING JUMP <<<<<<<\n";
-        PositionAddY(int16_t(maxVerticalCorrection));
-        isJumping = false;
-        isJumpApex = false;
-
-        ObjectCollision collision = collisions.front();
-        collision.object->Hit(headedToRight);
-
-        TopCollisionDuringJump();
-    } else if (isFalling && minVerticalCorrection < 0) {
-        // Topi collided with the ground (during a fall)
-        std::cout << " ))))) COLLIDING WITH THE GROUND DURING FALL minVerticalCorrection: " << minVerticalCorrection << "\n";
-        PositionAddY(int16_t(minVerticalCorrection));
-        FinishFall();
-    }
-    */
 }
 
 void Topi::MoveTo(Direction direction, float distance) {
@@ -408,10 +261,6 @@ void Topi::FinishFall() {
     vectorDirection.x = 0;
     vectorDirection.y = 0;
     FallLanding();
-}
-
-bool Topi::TopiIsQuiet() {
-    return (vectorDirection.x == 0) && (vectorDirection.x == vectorDirection.y);
 }
 
 void Topi::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {

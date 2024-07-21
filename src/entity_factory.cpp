@@ -49,6 +49,7 @@ void EntityFactory::RegisterEntitys() {
 	Register(EntityIdentificator::SIDE_WALL_ICE_MODEL_A_UNBREAKABLE, &SideWallIceModelAUnbreakable::Create);
 	Register(EntityIdentificator::SIDE_WALL_ICE_MODEL_B_UNBREAKABLE, &SideWallIceModelBUnbreakable::Create);
 	Register(EntityIdentificator::TOPI, &Topi::Create);
+	Register(EntityIdentificator::ICE, &Ice::Create);
 }
 
 EntityFactory &EntityFactory::operator=(const EntityFactory &) {
