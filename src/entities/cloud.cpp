@@ -29,9 +29,7 @@ void Cloud::UpdateFlight() {
         }
 
         // Update the position of the cloud in the space partition tree
-        std::vector<int> lowerBound = GetLowerBound();
-        std::vector<int> upperBound = GetUpperBound();
-        spacePartitionObjectsTree->updateParticle(this, lowerBound, upperBound);
+        UpdatePositionInSpacePartitionTree();
 }
 
 bool Cloud::Update(uint8_t pressedKeys_) {

@@ -76,8 +76,10 @@ public:
   virtual bool Update();
   virtual bool Update(const uint8_t);
   virtual bool Update(const uint8_t, aabb::Tree<IEntity*>&);
+  virtual void UpdatePositionInSpacePartitionTree();
   virtual void Hit(bool);
   virtual bool IsCloud();
+  virtual bool IsTopi();
 };
 
 typedef IEntity* (*CreateEntityFn)(void);

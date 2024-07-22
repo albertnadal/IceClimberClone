@@ -12,6 +12,10 @@ void Topi::PrintName() {
     std::cout << "Topi." << std::endl;
 }
 
+bool Topi::IsTopi() {
+  return true;
+}
+
 inline bool Topi::ReachedScreenEdge() {
     return (position.GetRealX() < 0.0f) || (position.GetRealX() >= LEVEL_WIDTH_FLOAT - 8.0f);
 }
@@ -46,6 +50,7 @@ bool Topi::Update(const uint8_t pressedKeys_) {
     }
     else if (isFalling) {
         PositionAddY(3.5f);  // Simple linear fall instead of parabolic
+        UpdatePositionInSpacePartitionTree();
         needRedraw = true;
     }
     else if (isGoingToRecover) {
@@ -84,7 +89,7 @@ bool Topi::Update(const uint8_t pressedKeys_) {
 
 void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& topiIsSuspendedInTheAir, bool& topiFoundAHoleOnTheFloor) {
     // Check for collisions with other objects present in the scene.
-    std::vector<aabb::AABBIntersection<IEntity*>> objectIntersections = spacePartitionObjectsTree->query(GetSolidLowerBound(), GetSolidUpperBound());
+    std::vector<aabb::AABBIntersection<IEntity*>> objectIntersections = spacePartitionObjectsTree->query(GetLowerBound(), GetUpperBound());
     topiIsSuspendedInTheAir = false;
     topiFoundAHoleOnTheFloor = false;
     IEntity* underlyingObjectCandidate = nullptr;
@@ -230,6 +235,7 @@ void Topi::UpdateCollisions() {
         // Topi collided with the ground (during a fall)
         std::cout << " ))))) COLLIDING WITH THE GROUND DURING FALL minVerticalCorrection: " << minVerticalCorrection << "\n";
         PositionAddY(static_cast<float>(minVerticalCorrection));
+        UpdatePositionInSpacePartitionTree();
         FinishFall();
     }
 
@@ -239,6 +245,7 @@ void Topi::UpdateCollisions() {
             float correction = (minHorizontalCorrection < 0) ? static_cast<float>(minHorizontalCorrection) : static_cast<float>(maxHorizontalCorrection);
             PositionAddX(correction);
             ChangeDirection();
+            UpdatePositionInSpacePartitionTree();
             return;
         }
     }
@@ -248,6 +255,7 @@ void Topi::MoveTo(Direction direction, float distance) {
     if (!isFalling) {
         PositionAddX(direction == Direction::RIGHT ? distance : -(distance));
         vectorDirection.x = (direction == Direction::RIGHT ? 1 : -1);
+        UpdatePositionInSpacePartitionTree();
     }
 }
 

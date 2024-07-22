@@ -45,6 +45,7 @@ public:
   ~Topi() override;
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
   void PrintName() override;
+  bool IsTopi() override;
   bool Update(uint8_t) override;
   static IEntity* Create();
 

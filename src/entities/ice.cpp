@@ -41,7 +41,7 @@ bool Ice::Update(const uint8_t pressedKeys_) {
 
 void Ice::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& iceIsSuspendedInTheAir, bool& iceFoundAHoleOnTheFloor) {
     // Check for collisions with other objects present in the scene.
-    std::vector<aabb::AABBIntersection<IEntity*>> objectIntersections = spacePartitionObjectsTree->query(GetSolidLowerBound(), GetSolidUpperBound());
+    std::vector<aabb::AABBIntersection<IEntity*>> objectIntersections = spacePartitionObjectsTree->query(GetLowerBound(), GetUpperBound());
     iceIsSuspendedInTheAir = false;
     iceFoundAHoleOnTheFloor = false;
     IEntity* underlyingObjectCandidate = nullptr;
@@ -51,7 +51,7 @@ void Ice::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& ice
     int numPixelsUnderlyingObjectsSurface = 0;
 
     for (auto intersection : objectIntersections) {
-        if ((intersection.particle == this) || intersection.particle->isTraversable || (std::find(objectsToIgnoreDuringFall.begin(), objectsToIgnoreDuringFall.end(), intersection.particle) != objectsToIgnoreDuringFall.end())) {
+        if (intersection.particle == this) {
             continue;
         }
 
@@ -61,16 +61,12 @@ void Ice::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& ice
 
         //std::cout << " [ START ] intersection.topIntersectionY: " << intersection.topIntersectionY << " | intersection.bottomIntersectionY: " << intersection.bottomIntersectionY << " | intersection.rightIntersectionX: " << intersection.rightIntersectionX << " | intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
         // Compute position correction when Ice collides when moving to the right
-        if ((vectorDirection.x > 0) && (vectorDirection.y == 0) && (intersection.rightIntersectionX < 0) && (intersection.bottomIntersectionY != 0)) {
+        if (intersection.particle->IsTopi() && (intersection.rightIntersectionX < 0)) {
             horizontalCorrection = intersection.rightIntersectionX;
         }
         // Compute position correction when Ice collides when moving to the left
-        else if ((vectorDirection.x < 0) && (vectorDirection.y == 0) && (intersection.leftIntersectionX > 0) && (intersection.bottomIntersectionY != 0)) {
+        else if (intersection.particle->IsTopi() && (intersection.leftIntersectionX > 0)) {
             horizontalCorrection = intersection.leftIntersectionX;
-        }
-        // Compute position correction when Ice collides with the ground during a fall
-        else if ((vectorDirection.y < 0) && (vectorDirection.x == 0) && (intersection.bottomIntersectionY < 0)) {
-            verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset;
         }
         else {
             continue;
@@ -85,15 +81,15 @@ void Ice::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& ice
         std::cout << " >>>> verticalCorrection: " << verticalCorrection << "\n";
         */
         collisions.push_back({intersection.particle, horizontalCorrection, verticalCorrection});
-
+        /*
         if (intersection.bottomIntersectionY < minBottomIntersectionYUnderlyingObjectCandidate) {
             minBottomIntersectionYUnderlyingObjectCandidate = intersection.bottomIntersectionY;
             underlyingObjectCandidate = intersection.particle;
-        }
+        }*/
     }
 
     std::cout << " > ICE COLLIDES WITH " << objectIntersections.size() << " OBJECTS. " << collisions.size() << " CORRECTIONS NEEDED.\n";
-
+    /*
     // Check if Ice is suspended in the air
     for (auto intersection : objectIntersections) {
         if (intersection.particle == this) {
@@ -136,7 +132,7 @@ void Ice::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& ice
         //cout << " >>>>>>> ICE NEED TO CARRY AN OBJECT OF TYPE: ";
         //underlyingObjectCandidate->PrintName();
         //cout << "\n\n";
-    }
+    }*/
 }
 
 void Ice::UpdateCollisions() {
@@ -163,6 +159,14 @@ void Ice::UpdateCollisions() {
             minVerticalCorrection = std::min(minVerticalCorrection, collision.verticalCorrection);
             maxVerticalCorrection = std::max(maxVerticalCorrection, collision.verticalCorrection);
         }
+    }
+
+    // Check for horizontal collisions
+    if (minHorizontalCorrection < 0 || maxHorizontalCorrection > 0) {
+        cout << "::::: minHorizontalCorrection: " << minHorizontalCorrection << " maxHorizontalCorrection: " << maxHorizontalCorrection << "\n";
+        float correction = (minHorizontalCorrection < 0) ? static_cast<float>(minHorizontalCorrection) : static_cast<float>(maxHorizontalCorrection);
+        PositionAddX(correction);
+        return;
     }
 }
 

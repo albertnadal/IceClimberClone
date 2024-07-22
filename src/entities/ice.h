@@ -23,7 +23,6 @@ class Ice: public IEntity
   collision::vec2<int16_t> vectorDirection;
   std::optional<EntityIdentificator> objectToCarryId;
   IEntity* currentUnderlyingObject = nullptr;
-  std::vector<IEntity*> objectsToIgnoreDuringFall;
 
   // Ice action states
   bool isBeingPushed = false;          // The ice block is pushed by a Topi
