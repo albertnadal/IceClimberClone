@@ -5,6 +5,7 @@
 #include <optional>
 #include <AABB/AABB.h>
 #include <entity.h>
+#include <entity_manager.h>
 #include <entity_data_manager.h>
 #include <entities/player.h>
 #include <entities/brick.h>
@@ -13,19 +14,22 @@
 #include <entities/topi.h>
 #include <entities/ice.h>
 
+class EntityManager;
+
 class EntityFactory
 {
 private:
-  EntityFactory(EntityDataManager*, aabb::Tree<IEntity*>*);
+  EntityFactory(EntityManager*, EntityDataManager*, aabb::Tree<IEntity*>*);
   EntityFactory &operator=(const EntityFactory &);
-  void RegisterEntitys();
+  void RegisterEntities();
   typedef map<EntityIdentificator, CreateEntityFn> FactoryMap;
   FactoryMap m_FactoryMap;
+  EntityManager *entityManager = nullptr;
   EntityDataManager *textureManager = nullptr;
   aabb::Tree<IEntity*> *spacePartitionObjectsTree = nullptr;
 public:
 	~EntityFactory();
-	static EntityFactory *Get(EntityDataManager*, aabb::Tree<IEntity*>*);
+	static EntityFactory *Get(EntityManager*, EntityDataManager*, aabb::Tree<IEntity*>*);
 	void Register(const EntityIdentificator, CreateEntityFn);
 	std::optional<IEntity*> CreateEntity(const EntityIdentificator);
 };

@@ -2,13 +2,14 @@
 #include <entity_sprite_sheet.h>
 #include <map>
 
-EntityFactory::EntityFactory(EntityDataManager* _textureManager, aabb::Tree<IEntity*>* _spacePartitionObjectsTree) {
+EntityFactory::EntityFactory(EntityManager* _entityManager, EntityDataManager* _textureManager, aabb::Tree<IEntity*>* _spacePartitionObjectsTree) {
+	entityManager = _entityManager;
 	textureManager = _textureManager;
 	spacePartitionObjectsTree = _spacePartitionObjectsTree;
-	RegisterEntitys();
+	RegisterEntities();
 }
 
-void EntityFactory::RegisterEntitys() {
+void EntityFactory::RegisterEntities() {
 	Register(EntityIdentificator::POPO, &Player::Create);
 	Register(EntityIdentificator::BRICK, &Brick::Create);
 	Register(EntityIdentificator::BRICK_BROWN, &BrickBrown::Create);
@@ -72,6 +73,7 @@ std::optional<IEntity*> EntityFactory::CreateEntity(const EntityIdentificator sc
 		IEntity *sceneObject = it->second();
 		std::optional<EntitySpriteSheet *> entitySpriteSheet = textureManager->GetSpriteSheetByEntityIdentificator(sceneObject->Id());
 		assert(entitySpriteSheet != std::nullopt);
+		sceneObject->SetEntityManager(entityManager);
 		sceneObject->SetSpacePartitionObjectsTree(spacePartitionObjectsTree);
 		sceneObject->InitWithSpriteSheet(*entitySpriteSheet);
 		return sceneObject;
@@ -80,8 +82,8 @@ std::optional<IEntity*> EntityFactory::CreateEntity(const EntityIdentificator sc
 	return std::nullopt;
 }
 
-EntityFactory *EntityFactory::Get(EntityDataManager* _textureManager, aabb::Tree<IEntity*>* _spacePartitionObjectsTree)
+EntityFactory *EntityFactory::Get(EntityManager* _entityManager, EntityDataManager* _textureManager, aabb::Tree<IEntity*>* _spacePartitionObjectsTree)
 {
-	static EntityFactory instance(_textureManager, _spacePartitionObjectsTree);
+	static EntityFactory instance(_entityManager, _textureManager, _spacePartitionObjectsTree);
 	return &instance;
 }

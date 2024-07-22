@@ -34,6 +34,10 @@ void IEntity::SetSpacePartitionObjectsTree(aabb::Tree<IEntity*> *_spacePartition
   spacePartitionObjectsTree = _spacePartitionObjectsTree;
 }
 
+void IEntity::SetEntityManager(EntityManager *_entityManager) {
+  entityManager = _entityManager;
+}
+
 /*
 std::vector<Area>& IEntity::GetSolidAreas() {
   if(recalculateAreasDataIsNeeded) {

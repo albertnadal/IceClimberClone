@@ -18,6 +18,8 @@ public:
   float GetRealY();
   int GetIntX();
   int GetIntY();
+  int GetCellX();
+  int GetCellY();
   void setInitialXY(float x, float y);
   void setOffset(int x, int y);
   void setXY(float, float);

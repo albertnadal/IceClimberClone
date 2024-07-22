@@ -17,35 +17,40 @@ EntityManager::EntityManager(EntityDataManager* _textureManager, SpriteRectDoubl
 
 void EntityManager::BuildWorld() {
   for(int row=0; row<7*6; row++) {
-    //uint16_t y = (map_viewport_height - 1) - row - currentRow;
     for(int col=0; col<map_viewport_width; col++) {
-
-      if(EntityIdentificator obj_id = (EntityIdentificator)worldMap[row][col]) {
-        std::optional<IEntity *> entityPtr = EntityFactory::Get(textureManager, spacePartitionObjectsTree)->CreateEntity(obj_id);
-
-        if(entityPtr.has_value()) {
-          if (obj_id == EntityIdentificator::POPO) {
-            player = *entityPtr;
-          }
-
-          // Set the initial position of the object in the screen
-          (*entityPtr)->position.setInitialXY(static_cast<float>(col*cellWidth), static_cast<float>(row*cellHeight));
-
-          // Initial update to load the sprites and boundary box
-          (*entityPtr)->Update();
-
-          // Insert the object into the space partition tree used for object collision detection
-          std::vector<int> lowerBound = (*entityPtr)->GetLowerBound();
-          std::vector<int> upperBound = (*entityPtr)->GetUpperBound();
-          spacePartitionObjectsTree->insertParticle(*entityPtr, lowerBound, upperBound);
-
-          // Save pointers to proper arrays for static objects and mobile objects
-          if((*entityPtr)->Type() == EntityType::TERRAIN) staticObjects[(*entityPtr)->uniqueId] = *entityPtr;
-          else mobileObjects[(*entityPtr)->uniqueId] = *entityPtr;
-        }
+      if(EntityIdentificator entity_id = (EntityIdentificator)worldMap[row][col]) {
+        std::optional<IEntity *> entity_ptr = CreateEntityWithId(entity_id, col, row);
       }
     }
   }
+}
+
+std::optional<IEntity *> EntityManager::CreateEntityWithId(EntityIdentificator entity_id, int x, int y) {
+  std::optional<IEntity *> entity_ptr = EntityFactory::Get(this, textureManager, spacePartitionObjectsTree)->CreateEntity(entity_id);
+
+  if(entity_ptr.has_value()) {
+    if (entity_id == EntityIdentificator::POPO) {
+      player = *entity_ptr;
+    }
+
+    // Set the initial position of the object in the screen
+    cout << " >>>> CREATING OBJECT AT POSITION X: (" << x*CELL_WIDTH_FLOAT << ") Y: (" << y*CELL_HEIGHT_FLOAT << ")\n";
+    (*entity_ptr)->position.setInitialXY(x*CELL_WIDTH_FLOAT, y*CELL_HEIGHT_FLOAT);
+
+    // Initial update to load the sprites and boundary box
+    (*entity_ptr)->Update();
+
+    // Insert the object into the space partition tree used for object collision detection
+    std::vector<int> lowerBound = (*entity_ptr)->GetLowerBound();
+    std::vector<int> upperBound = (*entity_ptr)->GetUpperBound();
+    spacePartitionObjectsTree->insertParticle(*entity_ptr, lowerBound, upperBound);
+
+    // Save pointers to proper arrays for static objects and mobile objects
+    if((*entity_ptr)->Type() == EntityType::TERRAIN) staticObjects[(*entity_ptr)->uniqueId] = *entity_ptr;
+    else mobileObjects[(*entity_ptr)->uniqueId] = *entity_ptr;
+  }
+
+  return entity_ptr;
 }
 
 void EntityManager::Update(uint8_t pressedKeys) {
@@ -61,17 +66,17 @@ void EntityManager::updateSpriteRectBuffers() {
   std::vector<aabb::AABBIntersection<IEntity*>> objectIntersections = spacePartitionObjectsTree->query(player->GetLowerBound(), player->GetUpperBound());
 
   for (auto const& x : staticObjects) {
-    IEntity* entityPtr = x.second;
-    Rectangle src = { entityPtr->currentSprite.u1, entityPtr->currentSprite.v1, entityPtr->currentSprite.u2, entityPtr->currentSprite.v2 };
-    Vector2 pos = { entityPtr->position.GetX(), entityPtr->position.GetY() };
-    Boundaries boundaries = entityPtr->GetAbsoluteBoundaries();
-    Boundaries solidBoundaries = entityPtr->GetAbsoluteSolidBoundaries();
+    IEntity* entity_ptr = x.second;
+    Rectangle src = { entity_ptr->currentSprite.u1, entity_ptr->currentSprite.v1, entity_ptr->currentSprite.u2, entity_ptr->currentSprite.v2 };
+    Vector2 pos = { entity_ptr->position.GetX(), entity_ptr->position.GetY() };
+    Boundaries boundaries = entity_ptr->GetAbsoluteBoundaries();
+    Boundaries solidBoundaries = entity_ptr->GetAbsoluteSolidBoundaries();
     Color tint = WHITE;
 
     // Tint in RED those objects that are candidates to collide with the player object.
     auto it = std::find_if(objectIntersections.begin(), objectIntersections.end(),
-                           [entityPtr](const aabb::AABBIntersection<IEntity*>& intersection) {
-                               return intersection.particle == entityPtr;
+                           [entity_ptr](const aabb::AABBIntersection<IEntity*>& intersection) {
+                               return intersection.particle == entity_ptr;
                            });
 
     if (it != objectIntersections.end()) {
@@ -82,11 +87,11 @@ void EntityManager::updateSpriteRectBuffers() {
   }
 
   for (auto const& x : mobileObjects) {
-    IEntity* entityPtr = x.second;
-    Rectangle src = { entityPtr->currentSprite.u1, entityPtr->currentSprite.v1, entityPtr->currentSprite.u2, entityPtr->currentSprite.v2 };
-    Vector2 pos = { entityPtr->position.GetX(), entityPtr->position.GetY() };
-    Boundaries boundaries = entityPtr->GetAbsoluteBoundaries();
-    Boundaries solidBoundaries = entityPtr->GetAbsoluteSolidBoundaries();
+    IEntity* entity_ptr = x.second;
+    Rectangle src = { entity_ptr->currentSprite.u1, entity_ptr->currentSprite.v1, entity_ptr->currentSprite.u2, entity_ptr->currentSprite.v2 };
+    Vector2 pos = { entity_ptr->position.GetX(), entity_ptr->position.GetY() };
+    Boundaries boundaries = entity_ptr->GetAbsoluteBoundaries();
+    Boundaries solidBoundaries = entity_ptr->GetAbsoluteSolidBoundaries();
     spriteRectDoubleBuffer->producer_buffer[i] = SpriteRect(src, pos, boundaries, WHITE);
     i++;
   }
@@ -97,17 +102,17 @@ void EntityManager::updateSpriteRectBuffers() {
 
 void EntityManager::updateEntities(std::map<uint32_t, IEntity*>& objects, std::optional<uint8_t> pressedKeys = std::nullopt) {
     for (auto const& x : objects) {
-        IEntity* entityPtr = x.second;
+        IEntity* entity_ptr = x.second;
 
-        if (entityPtr->isMarkedToDelete) {
-            objectsToDelete.push_back(entityPtr);
+        if (entity_ptr->isMarkedToDelete) {
+            objectsToDelete.push_back(entity_ptr);
             continue;
         }
 
         if (pressedKeys.has_value()) {
-            entityPtr->Update(pressedKeys.value());
+            entity_ptr->Update(pressedKeys.value());
         } else {
-            entityPtr->Update();
+            entity_ptr->Update();
         }
     }
 }
@@ -121,15 +126,15 @@ void EntityManager::updateStaticObjects() {
 }
 
 void EntityManager::deleteUneededObjects() {
-  for (auto entityPtr : objectsToDelete) {
-    staticObjects.erase(entityPtr->uniqueId);
-    mobileObjects.erase(entityPtr->uniqueId);
+  for (auto entity_ptr : objectsToDelete) {
+    staticObjects.erase(entity_ptr->uniqueId);
+    mobileObjects.erase(entity_ptr->uniqueId);
 
     // Objects are responsible for removing themselves from the space partition tree, so the
     // following code is just for safety.
-    spacePartitionObjectsTree->removeParticle(entityPtr);
+    spacePartitionObjectsTree->removeParticle(entity_ptr);
 
-    delete entityPtr;
+    delete entity_ptr;
   }
 
   objectsToDelete.clear();
@@ -148,18 +153,18 @@ void EntityManager::updateVerticalScroll(uint8_t pressedKeys) {
         auto objects = rowsBuffer.front();
         for(int o=0; o<objects.size(); o++) {
               // Remove the object refefence from all data structures
-              IEntity *entityPtr = objects[o];
+              IEntity *entity_ptr = objects[o];
 
               // Remove the object from the spacet partitioning tree
-              spacePartitionObjectsTree->removeParticle(entityPtr);
+              spacePartitionObjectsTree->removeParticle(entity_ptr);
 
-              if(entityPtr->Type() == EntityType::TERRAIN) {
-                staticObjects.erase(entityPtr->uniqueId);
+              if(entity_ptr->Type() == EntityType::TERRAIN) {
+                staticObjects.erase(entity_ptr->uniqueId);
               } else {
-                mobileObjects.erase(entityPtr->uniqueId);
+                mobileObjects.erase(entity_ptr->uniqueId);
               }
 
-              delete entityPtr;
+              delete entity_ptr;
         }
         rowsBuffer.pop_front();
       }
@@ -182,14 +187,14 @@ void EntityManager::updateVerticalScroll(uint8_t pressedKeys) {
         uint16_t y = (map_viewport_height - 1) - row - currentRow - visibleRows;
         std::vector<IEntity*> rowObjects;
         for(uint16_t x=0;x<map_viewport_width;x++) {
-          if(EntityIdentificator obj_id = (EntityIdentificator)worldMap[y][x]) {
-            if(IEntity *entityPtr = EntityFactory::Get(textureManager, spacePartitionObjectsTree)->CreateEntity(obj_id)) {
-              entityPtr->position.setX(int16_t(x*cell_w));
-              entityPtr->position.setY(int16_t((visibleRows+row)*cell_h));
-              rowObjects.push_back(entityPtr);
+          if(EntityIdentificator entity_id = (EntityIdentificator)worldMap[y][x]) {
+            if(IEntity *entity_ptr = EntityFactory::Get(textureManager, spacePartitionObjectsTree)->CreateEntity(entity_id)) {
+              entity_ptr->position.setX(int16_t(x*cell_w));
+              entity_ptr->position.setY(int16_t((visibleRows+row)*cell_h));
+              rowObjects.push_back(entity_ptr);
 
-              if(entityPtr->Type() == EntityType::TERRAIN) staticObjects[entityPtr->uniqueId] = entityPtr;
-              else mobileObjects[entityPtr->uniqueId] = entityPtr;
+              if(entity_ptr->Type() == EntityType::TERRAIN) staticObjects[entity_ptr->uniqueId] = entity_ptr;
+              else mobileObjects[entity_ptr->uniqueId] = entity_ptr;
             }
           }
         }

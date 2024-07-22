@@ -5,6 +5,7 @@
 #include <vector>
 #include <optional>
 #include <entity.h>
+#include <entity_manager.h>
 #include <state_machine.h>
 #include <sprite.h>
 #include <collision/collision.h>
@@ -20,7 +21,7 @@ class Ice: public IEntity
   Direction direction;
   void GetSolidCollisions(std::vector<ObjectCollision>&, bool&, bool&);
 
-  std::optional<EntityIdentificator> fillNextHoleWithObjectWithId;
+  std::optional<EntityIdentificator> fillHoleEntityId;
   IEntity* currentUnderlyingObject = nullptr;
 
   // Ice action states

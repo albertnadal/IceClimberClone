@@ -5,7 +5,7 @@ Ice::Ice() :
         IEntity(EntityIdentificator::ICE, EntityType::ENEMY, SurfaceType::SIMPLE, IceStateIdentificator::ICE_MAX_STATES, false, true) {
     vectorDirection.x = 0;
     vectorDirection.y = 0;
-    fillNextHoleWithObjectWithId = std::nullopt;
+    fillHoleEntityId = std::nullopt;
 }
 
 void Ice::PrintName() {
@@ -106,7 +106,7 @@ void Ice::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& ice
         iceIsSuspendedInTheAir = true;
     } else {
         currentUnderlyingObject = underlyingObjectCandidate;
-        fillNextHoleWithObjectWithId = currentUnderlyingObject->id;
+        fillHoleEntityId = currentUnderlyingObject->id;
     }
 }
 
@@ -118,10 +118,31 @@ void Ice::UpdateCollisions() {
     // Search for collisions with solid objects
     this->GetSolidCollisions(collisions, iceIsSuspendedInTheAir, iceFoundAHoleOnTheFloor);
 
-    // Change state when Topi is suspended in the air (almost no ground under his feet).
+    // Change state when the ice is suspended in the air (almost no underlying surface).
     if (iceIsSuspendedInTheAir && hasBeenPushedByTopi) {
-        // TODO: Create one (or two) underlying block/s and destroy the ice.
-        //SuspendedInTheAir();
+        if (fillHoleEntityId.has_value()) {
+            for (int i=-1; i<2; i++) {
+                int cell_x = position.GetCellX() + i;
+                int cell_y = position.GetCellY() + (Height() / CELL_HEIGHT);
+                std::vector<int> lowerBound{(cell_x * CELL_WIDTH) + 1, (cell_y * CELL_HEIGHT) + 1};
+                std::vector<int> upperBound{(cell_x * (CELL_WIDTH + 1)) - 1, (cell_y * (CELL_HEIGHT + 1)) - 2};
+
+                std::vector<aabb::AABBIntersection<IEntity*>> objectIntersections = spacePartitionObjectsTree->query(lowerBound, upperBound);
+                bool object_collides = false;
+
+                for (auto intersection : objectIntersections) {
+                    intersection.particle->PrintName();
+                    if (!intersection.particle->isTraversable && !intersection.particle->isMarkedToDelete && !intersection.particle->IsCloud() && !intersection.particle->IsTopi()) {
+                        object_collides = true;
+                        break;
+                    }
+                }
+
+                if (!object_collides) {
+                    entityManager->CreateEntityWithId(*fillHoleEntityId, cell_x, cell_y);
+                }
+            }
+        }
         isMarkedToDelete = true;
         return;
     }
@@ -172,7 +193,6 @@ IEntity *Ice::Create() {
 Ice::~Ice() = default;
 
 bool Ice::ShouldBeginAnimationLoopAgain() {
-    // TODO
     return false;
 }
 

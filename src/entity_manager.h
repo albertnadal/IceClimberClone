@@ -25,7 +25,6 @@ class EntityManager
   void BuildWorld();
   bool cameraIsMoving;
   float totalPixelDisplacement;
-  const int cellWidth = 16, cellHeight = 16; // pixels
   const int map_viewport_width = 32; // cells
   const int map_viewport_height = 30*6; // cells
   const int levelRowOffset = 6;
@@ -51,9 +50,9 @@ class EntityManager
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     { 41, 0, 0, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    { 2, 2, 2, 2, 0, 0, 0, 2, 0, 2, 0, 2, 2, 2, 2, 24, 24, 4, 3, 30, 31, 32, 33, 34, 35, 3, 3, 4, 4, 4, 4, 4 },
+    { 2, 2, 4, 4, 0, 0, 0, 2, 0, 0, 0, 2, 2, 2, 2, 24, 24, 4, 3, 30, 31, 32, 33, 34, 35, 3, 3, 4, 4, 4, 4, 4 },
 
-    { 17, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 6, 6, 3, 3, 0, 3, 6, 0, 18, 0, 0, 0, 0, 0 },
+    { 17, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 3, 6, 6, 3, 3, 0, 3, 6, 0, 18, 0, 0, 0, 0, 0 },
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     { 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 29, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0 },
     { 3, 4, 3, 0, 0, 0, 3, 0, 0, 0, 0, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0 },
@@ -282,6 +281,7 @@ public:
   EntityManager(EntityDataManager*, SpriteRectDoubleBuffer*, uint32_t);
   ~EntityManager();
   void Update(uint8_t);
+  std::optional<IEntity *> CreateEntityWithId(EntityIdentificator, int , int);
 };
 
 #endif

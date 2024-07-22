@@ -13,6 +13,7 @@
 using namespace std;
 
 class IEntity;
+class EntityManager;
 
 struct Boundaries { int lowerBoundX, lowerBoundY, upperBoundX, upperBoundY; };
 struct ObjectCollision { IEntity* object; int horizontalCorrection; int verticalCorrection; };
@@ -23,6 +24,7 @@ private:
   std::vector<Boundaries> solidAreas;
   std::vector<Boundaries> simpleAreas;
 protected:
+  EntityManager *entityManager = nullptr;
   aabb::Tree<IEntity*> *spacePartitionObjectsTree = nullptr;
   std::vector<SpriteData> currentAnimationSprites;
   std::vector<SpriteData>::iterator currentAnimationSpriteIterator;
@@ -53,6 +55,7 @@ public:
   bool isTraversable = false;
   bool isMarkedToDelete = false;
   void SetSpacePartitionObjectsTree(aabb::Tree<IEntity*>*);
+  void SetEntityManager(EntityManager*);
   //std::vector<Area>& GetSolidAreas(); DEPRECATED Now this is GetAbsoluteSolidBoundaries
   //std::vector<Area>& GetSimpleAreas(); DEPRECATED Now this is GetAbsoluteSimpleBoundaries
   void PositionSetOffset(int16_t x, int16_t y);
