@@ -7,6 +7,8 @@ IEntity::IEntity() {
   MersenneTwister rng;
   uniqueId = rng.integer(0, UINT_MAX);
   boundingBox = solidBoundingBox = {0, 0, 0, 0};
+  vectorDirection.x = 0;
+  vectorDirection.y = 0;
   recalculateAreasDataIsNeeded = true;
   isBreakable = false;
   isTraversable = false;
@@ -23,6 +25,8 @@ IEntity::IEntity(EntityIdentificator _id, EntityType _type, SurfaceType surface_
   MersenneTwister rng;
   uniqueId = rng.integer(0, UINT_MAX);
   boundingBox = solidBoundingBox = {0, 0, 0, 0};
+  vectorDirection.x = 0;
+  vectorDirection.y = 0;
   recalculateAreasDataIsNeeded = true;
 }
 

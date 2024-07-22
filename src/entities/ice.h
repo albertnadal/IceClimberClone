@@ -20,11 +20,11 @@ class Ice: public IEntity
   Direction direction;
   void GetSolidCollisions(std::vector<ObjectCollision>&, bool&, bool&);
 
-  collision::vec2<int16_t> vectorDirection;
-  std::optional<EntityIdentificator> objectToCarryId;
+  std::optional<EntityIdentificator> fillNextHoleWithObjectWithId;
   IEntity* currentUnderlyingObject = nullptr;
 
   // Ice action states
+  bool hasBeenPushedByTopi = false;    // The ice block has been pushed by a Topi
   bool isBeingPushed = false;          // The ice block is pushed by a Topi
 
   // TODO: Ice action update functions

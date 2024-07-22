@@ -49,7 +49,6 @@ class Player: public IEntity
   // Player global physics values
   uint16_t hMomentum = 0;
   const uint16_t maxMomentum = 15;
-  collision::vec2<int16_t> vectorDirection;
   collision::vec2<int16_t> prevVectorDirection;
   std::optional<SurfaceType> underlyingObjectSurfaceType;
   IEntity* prevUnderlyingCloud = nullptr;

@@ -5,7 +5,7 @@ Ice::Ice() :
         IEntity(EntityIdentificator::ICE, EntityType::ENEMY, SurfaceType::SIMPLE, IceStateIdentificator::ICE_MAX_STATES, false, true) {
     vectorDirection.x = 0;
     vectorDirection.y = 0;
-    objectToCarryId = std::nullopt;
+    fillNextHoleWithObjectWithId = std::nullopt;
 }
 
 void Ice::PrintName() {
@@ -57,39 +57,28 @@ void Ice::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& ice
 
         int horizontalCorrection = 0, verticalCorrection = 0;
 
-        //std::cout << " ==== intersection.topIntersectionY: " << intersection.topIntersectionY << "\n";
+        if (intersection.bottomIntersectionY < minBottomIntersectionYUnderlyingObjectCandidate) {
+            minBottomIntersectionYUnderlyingObjectCandidate = intersection.bottomIntersectionY;
+            underlyingObjectCandidate = intersection.particle;
+        }
 
-        //std::cout << " [ START ] intersection.topIntersectionY: " << intersection.topIntersectionY << " | intersection.bottomIntersectionY: " << intersection.bottomIntersectionY << " | intersection.rightIntersectionX: " << intersection.rightIntersectionX << " | intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
         // Compute position correction when Ice collides when moving to the right
-        if (intersection.particle->IsTopi() && (intersection.rightIntersectionX < 0)) {
+        if (intersection.particle->IsTopi() && (intersection.particle->vectorDirection.x < 0) && (intersection.particle->vectorDirection.y == 0) && (intersection.rightIntersectionX < 0)) {
             horizontalCorrection = intersection.rightIntersectionX;
         }
         // Compute position correction when Ice collides when moving to the left
-        else if (intersection.particle->IsTopi() && (intersection.leftIntersectionX > 0)) {
+        else if (intersection.particle->IsTopi() && (intersection.particle->vectorDirection.x > 0) && (intersection.particle->vectorDirection.y == 0) && (intersection.leftIntersectionX > 0)) {
             horizontalCorrection = intersection.leftIntersectionX;
         }
         else {
             continue;
         }
 
-        /*
-        std::cout << " ---- vectorDirection.x: " << vectorDirection.x << "\n";
-        std::cout << " ---- vectorDirection.y: " << vectorDirection.y << "\n";
-        std::cout << " ---- intersection.rightIntersectionX: " << intersection.rightIntersectionX << "\n";
-        std::cout << " ---- intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
-        std::cout << " >>>> horizontalCorrection: " << horizontalCorrection << "\n";
-        std::cout << " >>>> verticalCorrection: " << verticalCorrection << "\n";
-        */
         collisions.push_back({intersection.particle, horizontalCorrection, verticalCorrection});
-        /*
-        if (intersection.bottomIntersectionY < minBottomIntersectionYUnderlyingObjectCandidate) {
-            minBottomIntersectionYUnderlyingObjectCandidate = intersection.bottomIntersectionY;
-            underlyingObjectCandidate = intersection.particle;
-        }*/
     }
 
     std::cout << " > ICE COLLIDES WITH " << objectIntersections.size() << " OBJECTS. " << collisions.size() << " CORRECTIONS NEEDED.\n";
-    /*
+
     // Check if Ice is suspended in the air
     for (auto intersection : objectIntersections) {
         if (intersection.particle == this) {
@@ -113,26 +102,12 @@ void Ice::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& ice
 
     // Ice is considered to be suspended in the air when there are no underlying object or the underlying object surface
     // covers less o equal the half width of the Ice.
-    if ((underlyingObjectCandidate == nullptr) || ((underlyingObjectCandidate != nullptr) && (numPixelsUnderlyingObjectsSurface <= (currentSprite.width >> 1)))) {
+    if ((underlyingObjectCandidate == nullptr) || (numPixelsUnderlyingObjectsSurface <= (currentSprite.width >> 1))) {
         iceIsSuspendedInTheAir = true;
-        std::cout << "\n\n >>>>>>>>>> ICE is suspended in the air <<<<<<<<<<<\n\n";
-
-        if (underlyingObjectCandidate != nullptr) {
-            currentUnderlyingObject = underlyingObjectCandidate;
-        }
+    } else {
+        currentUnderlyingObject = underlyingObjectCandidate;
+        fillNextHoleWithObjectWithId = currentUnderlyingObject->id;
     }
-
-    cout << "\n >>>>>>> ICE UNDERLYING SURFACE: " << numPixelsUnderlyingObjectsSurface << " currentSprite.width: " << currentSprite.width << "\n";
-    // Check if a hole is present on the ground based on an heuristic way.
-    // If the number of pixels of the underlying surface is 3 pixels (or more) lower than the width of
-    // the Ice then there is a hole under Ice. Note that screen edges are not taken in consideration.
-    if ((underlyingObjectCandidate != nullptr) && !((position.GetRealX() < 0.0f) || (position.GetRealX() >= LEVEL_WIDTH_FLOAT - currentSprite.width)) && (numPixelsUnderlyingObjectsSurface <= currentSprite.width - 3)) {
-        iceFoundAHoleOnTheFloor = true;
-        objectToCarryId = underlyingObjectCandidate->id;
-        //cout << " >>>>>>> ICE NEED TO CARRY AN OBJECT OF TYPE: ";
-        //underlyingObjectCandidate->PrintName();
-        //cout << "\n\n";
-    }*/
 }
 
 void Ice::UpdateCollisions() {
@@ -142,6 +117,14 @@ void Ice::UpdateCollisions() {
 
     // Search for collisions with solid objects
     this->GetSolidCollisions(collisions, iceIsSuspendedInTheAir, iceFoundAHoleOnTheFloor);
+
+    // Change state when Topi is suspended in the air (almost no ground under his feet).
+    if (iceIsSuspendedInTheAir && hasBeenPushedByTopi) {
+        // TODO: Create one (or two) underlying block/s and destroy the ice.
+        //SuspendedInTheAir();
+        isMarkedToDelete = true;
+        return;
+    }
 
     if (collisions.empty()) {
         return;
@@ -163,9 +146,9 @@ void Ice::UpdateCollisions() {
 
     // Check for horizontal collisions
     if (minHorizontalCorrection < 0 || maxHorizontalCorrection > 0) {
-        cout << "::::: minHorizontalCorrection: " << minHorizontalCorrection << " maxHorizontalCorrection: " << maxHorizontalCorrection << "\n";
         float correction = (minHorizontalCorrection < 0) ? static_cast<float>(minHorizontalCorrection) : static_cast<float>(maxHorizontalCorrection);
         PositionAddX(correction);
+        hasBeenPushedByTopi = true;
         return;
     }
 }

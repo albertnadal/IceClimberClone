@@ -208,7 +208,6 @@ void Topi::UpdateCollisions() {
 
     // Change state when Topi detected a hole on the floor (run to pick up ice)
     if (topiFoundAHoleOnTheFloor && isWalking) {
-        cout << "\n\n ===================> TOPI detected a hole on the floor <====================\n\n";
         HoleDetectedWhenWalking();
         return;
     }

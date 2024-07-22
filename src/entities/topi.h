@@ -23,7 +23,6 @@ class Topi: public IEntity
   bool ReachedScreenEdge();
   void SetRandomWalkStartPosition();
 
-  collision::vec2<int16_t> vectorDirection;
   std::optional<EntityIdentificator> objectToCarryId;
   IEntity* currentUnderlyingObject = nullptr;
   std::vector<IEntity*> objectsToIgnoreDuringFall;
