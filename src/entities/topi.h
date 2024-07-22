@@ -45,7 +45,6 @@ public:
   ~Topi() override;
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
   void PrintName() override;
-  bool IsCloud() override;
   bool Update(uint8_t) override;
   static IEntity* Create();
 

@@ -13,10 +13,6 @@ void Brick::PrintName() {
         std::cout << "Brick." << std::endl;
 }
 
-bool Brick::IsCloud() {
-  return false;
-}
-
 void Brick::Propel(float vSpeed, float hSpeed) {
     vInitialPropelSpeed = vSpeed;
     hInitialPropelSpeed = hSpeed;

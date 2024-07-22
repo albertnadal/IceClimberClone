@@ -12,10 +12,6 @@ void Ice::PrintName() {
     std::cout << "Ice." << std::endl;
 }
 
-bool Ice::IsCloud() {
-  return false;
-}
-
 bool Ice::Update(const uint8_t pressedKeys_) {
     bool needRedraw = false;
 

@@ -12,10 +12,6 @@ void Topi::PrintName() {
     std::cout << "Topi." << std::endl;
 }
 
-bool Topi::IsCloud() {
-  return false;
-}
-
 inline bool Topi::ReachedScreenEdge() {
     return (position.GetRealX() < 0.0f) || (position.GetRealX() >= LEVEL_WIDTH_FLOAT - 8.0f);
 }

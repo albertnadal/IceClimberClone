@@ -14,10 +14,6 @@ void Player::PrintName() {
     std::cout << "Main character." << std::endl;
 }
 
-bool Player::IsCloud() {
-  return false;
-}
-
 void Player::DisplacePlayerIfUnderlyingSurfaceIsMobile() {
     if (!underlyingObjectSurfaceType.has_value()) {
         return;

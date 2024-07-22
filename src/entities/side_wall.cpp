@@ -13,10 +13,6 @@ void SideWall::PrintName() {
         std::cout << "SideWall." << std::endl;
 }
 
-bool SideWall::IsCloud() {
-  return false;
-}
-
 bool SideWall::Update(uint8_t pressedKeys_) {
         bool needRedraw = false;
 
