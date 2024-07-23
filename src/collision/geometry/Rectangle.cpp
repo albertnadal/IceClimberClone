@@ -11,14 +11,6 @@ namespace collision {
         SearchTopLeftAndBottomRightVertices();
     }
 
-    Rectangle* Rectangle::cloneWithOffset(float x, float y) {
-        std::vector<vec2<float>> _points;
-        for(auto & vertice : vertices) {
-            _points.emplace_back(vertice.x + x, vertice.y + y);
-        }
-        return new Rectangle(_points);
-    }
-
     void Rectangle::SearchTopLeftAndBottomRightVertices() {
         if (vertices.empty()) {
             return;
@@ -36,12 +28,6 @@ namespace collision {
             if (v.y > y1) { y1 = v.y; }
             if (v.y < y2) { y2 = v.y; }
         }
-
-        //std::cout << "CREAT RECTANGLE (" << x1 << "," << y1 << ") (" << x2 << "," << y2 << ")\n";
-    }
-
-    void Rectangle::Print() {
-        std::cout << "RECTANGLE (" << x1 << "," << y1 << ") (" << x2 << "," << y2 << ")";
     }
 
 } // namespace collision
