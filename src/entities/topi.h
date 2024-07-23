@@ -5,6 +5,7 @@
 #include <vector>
 #include <optional>
 #include <entity.h>
+#include <entity_manager.h>
 #include <state_machine.h>
 #include <sprite.h>
 #include <collision/collision.h>
@@ -34,7 +35,7 @@ class Topi: public IEntity
   bool isGoingToPickUpIce = false; // Topi is running to pick up ice on the floor edge
   bool isGoingToRecover = false;   // Topi is running to recover due to a hammer hit or fall
 
-  // TODO: Topi action update functions
+  // Topi action update functions
   void UpdateCollisions();
   void MoveTo(Direction, float);
   void FinishFall();
@@ -53,6 +54,7 @@ public:
   void SuspendedInTheAir();
   void FallLanding();
   void ChangeDirection();
+  void BringIceToFillHole();
   bool ShouldBeginAnimationLoopAgain();
 
 private:
@@ -65,6 +67,8 @@ private:
   void STATE_Fall_Dazed_Left();
   void STATE_Run_Dazed_Right();
   void STATE_Run_Dazed_Left();
+  void STATE_Bring_Ice_Right();
+  void STATE_Bring_Ice_Left();
 
   // state map to define state function order
   BEGIN_STATE_MAP
@@ -76,6 +80,8 @@ private:
       STATE_MAP_ENTRY(&Topi::STATE_Fall_Dazed_Left)
       STATE_MAP_ENTRY(&Topi::STATE_Run_Dazed_Right)
       STATE_MAP_ENTRY(&Topi::STATE_Run_Dazed_Left)
+      STATE_MAP_ENTRY(&Topi::STATE_Bring_Ice_Right)
+      STATE_MAP_ENTRY(&Topi::STATE_Bring_Ice_Left)
   END_STATE_MAP
 
   // state enumeration order must match the order of state
@@ -89,6 +95,8 @@ private:
       STATE_FALL_DAZED_LEFT,
       STATE_RUN_DAZED_RIGHT,
       STATE_RUN_DAZED_LEFT,
+      STATE_BRING_ICE_RIGHT,
+      STATE_BRING_ICE_LEFT,
       TOPI_MAX_STATES
   };
 };

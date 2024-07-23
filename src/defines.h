@@ -70,3 +70,4 @@ const int CELL_WIDTH_FLOAT = 16.0f;
 const int CELL_HEIGHT_FLOAT = 16.0f;
 const int LEVEL_WIDTH = 32 * CELL_WIDTH;         // The integer width in pixels of a level. 32cells x 16px
 const float LEVEL_WIDTH_FLOAT = 32.0f * 16.0f;   // The float width in pixels of a level. 32cells x 16px
+const float TOPI_LEVEL_RIGHT_EDGE_MARGIN = 5.0f;
