@@ -61,13 +61,14 @@ enum TopiAnimation: uint16_t { TOPI_WALK_TO_RIGHT = 60, TOPI_WALK_TO_LEFT = 61, 
 enum IceAnimation: uint16_t { ICE_STICKY = 68 };
 
 // Others
-const float GRAVITY = 9.81;
-const int MIN_PIXELS_ON_UNDERLYING_SURFACE = 4;  // Min number of pixels on the edge of an underlying surface to do not fall.
-const int SLIPPING_DISTANCE = 30;                // The distance, in pixels, the player slips when suddenly stopping on an ice floor.
-const int CELL_WIDTH = 16;
-const int CELL_HEIGHT = 16;
-const int CELL_WIDTH_FLOAT = 16.0f;
-const int CELL_HEIGHT_FLOAT = 16.0f;
-const int LEVEL_WIDTH = 32 * CELL_WIDTH;         // The integer width in pixels of a level. 32cells x 16px
-const float LEVEL_WIDTH_FLOAT = 32.0f * 16.0f;   // The float width in pixels of a level. 32cells x 16px
-const float TOPI_LEVEL_RIGHT_EDGE_MARGIN = 5.0f;
+constexpr const char* ENTITY_TYPES_FILENAME = "objtypes.dat"; // Data file where entity animations and collision areas are defined.
+constexpr float GRAVITY = 9.81f;                              // Gravity value used for physics calculations.
+constexpr int MIN_PIXELS_ON_UNDERLYING_SURFACE = 4;           // Min number of pixels on the edge of an underlying surface to do not fall.
+constexpr int SLIPPING_DISTANCE = 30;                         // The distance, in pixels, the player slips when suddenly stopping on an ice floor.
+constexpr int CELL_WIDTH = 16;                                // The width, in pixels, of a map cell.
+constexpr int CELL_HEIGHT = 16;                               // The height, in pixels, of a map cell.
+constexpr float CELL_WIDTH_FLOAT = 16.0f;
+constexpr float CELL_HEIGHT_FLOAT = 16.0f;
+constexpr int LEVEL_WIDTH = 32 * CELL_WIDTH;                  // The integer width in pixels of a level. 32cells x 16px
+constexpr float LEVEL_WIDTH_FLOAT = 32.0f * 16.0f;            // The float width in pixels of a level. 32cells x 16px
+constexpr float TOPI_LEVEL_RIGHT_EDGE_MARGIN = 5.0f;

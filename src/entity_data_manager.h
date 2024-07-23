@@ -9,8 +9,6 @@
 #include <raylib/raylib.h>
 #include <filesystem.h>
 
-#define ENTITY_TYPES_FILENAME "objtypes.dat"
-
 using namespace std;
 
 class EntityDataManager
