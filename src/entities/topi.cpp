@@ -198,6 +198,22 @@ void Topi::UpdateCollisions() {
         // Ignore collision with current underlying object during Topi fall.
         if (currentUnderlyingObject != nullptr && (std::find(objectsToIgnoreDuringFall.begin(), objectsToIgnoreDuringFall.end(), currentUnderlyingObject) == objectsToIgnoreDuringFall.end())) {
             objectsToIgnoreDuringFall.push_back(currentUnderlyingObject);
+
+            // Also ignore collisions with nearby objects around the currentUnderlyingObject
+            std::array<int, 2> index = {-1, 1};
+            for (size_t i = 0; i < index.size(); ++i) {
+                int x = (currentUnderlyingObject->position.GetCellX() + index[i]) * CELL_WIDTH;
+                int y = currentUnderlyingObject->position.GetCellY() * CELL_HEIGHT;
+                std::vector<int> lowerBound{x, y};
+                std::vector<int> upperBound{x + CELL_WIDTH, y + CELL_HEIGHT};
+                std::vector<aabb::AABBIntersection<IEntity*>> objectIntersections = spacePartitionObjectsTree->query(lowerBound, upperBound);
+
+                for (auto intersection : objectIntersections) {
+                    if (intersection.particle != currentUnderlyingObject) {
+                        objectsToIgnoreDuringFall.push_back(intersection.particle);
+                    }
+                }
+            }
         }
 
         SuspendedInTheAir();
