@@ -28,9 +28,10 @@ class Ice: public IEntity
   bool hasBeenPushedByTopi = false;    // The ice block has been pushed by a Topi
   bool isBeingPushed = false;          // The ice block is pushed by a Topi
 
-  // TODO: Ice action update functions
+  // Ice action update functions
   void UpdateCollisions();
   void MoveTo(Direction, float);
+  bool ReachedScreenEdge();
 
 public:
   Ice();

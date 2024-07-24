@@ -12,8 +12,17 @@ void Ice::PrintName() {
     std::cout << "Ice." << std::endl;
 }
 
+inline bool Ice::ReachedScreenEdge() {
+    return (position.GetRealX() < (Width() >> 1)) || (position.GetRealX() >= LEVEL_WIDTH_FLOAT - Width());
+}
+
 bool Ice::Update(const uint8_t pressedKeys_) {
     bool needRedraw = false;
+
+    // Delete the block of ice if reached screen edges
+    if (firstSpriteOfCurrentAnimationIsLoaded && ReachedScreenEdge()) {
+        isMarkedToDelete = true;
+    }
 
     // Check for collisions
     UpdateCollisions();
@@ -121,11 +130,20 @@ void Ice::UpdateCollisions() {
     // Change state when the ice is suspended in the air (almost no underlying surface).
     if (iceIsSuspendedInTheAir && hasBeenPushedByTopi) {
         if (fillHoleEntityId.has_value()) {
+            // Try to fill the three potential underlying holes of the block of ice
             for (int i=-1; i<2; i++) {
                 int cell_x = position.GetCellX() + i;
+
+                // Do not fill holes out of the level boundaries
+                if ((cell_x < 0) || (cell_x >= LEVEL_WIDTH_CELLS)) {
+                    continue;
+                }
+
                 int cell_y = position.GetCellY() + (Height() / CELL_HEIGHT);
-                std::vector<int> lowerBound{(cell_x * CELL_WIDTH) + 1, (cell_y * CELL_HEIGHT) + 1};
-                std::vector<int> upperBound{(cell_x * (CELL_WIDTH + 1)) - 1, (cell_y * (CELL_HEIGHT + 1)) - 2};
+                int x = cell_x * CELL_WIDTH;
+                int y = cell_y * CELL_HEIGHT;
+                std::vector<int> lowerBound{x + 1, y + 1};
+                std::vector<int> upperBound{x + CELL_WIDTH - 1, y + CELL_HEIGHT - 2};
 
                 std::vector<aabb::AABBIntersection<IEntity*>> objectIntersections = spacePartitionObjectsTree->query(lowerBound, upperBound);
                 bool object_collides = false;
