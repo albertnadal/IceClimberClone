@@ -42,6 +42,19 @@ inline void Player::CorrectPlayerPositionOnReachScreenEdge() {
     }
 }
 
+void Player::NotifyNewAltitudeHasBeenReached() {
+    if (isJumping || isFalling) {
+        return;
+    }
+
+    // Level floors are configured to be present in vertical positions multiple of six.
+    int currentCellY = position.GetCellY();
+    if((currentCellY % 6 == 0) && (currentCellY < lowestCellYReached)) {
+        lowestCellYReached = currentCellY;
+        entityManager->PlayerReachedNewAltitude(currentCellY);
+    }
+}
+
 bool Player::Update(const uint8_t pressedKeys_) {
 
     bool needRedraw = false;
@@ -74,6 +87,9 @@ bool Player::Update(const uint8_t pressedKeys_) {
 
     // Check for collisions
     UpdateCollisions();
+
+    // Notify the current altitude achieved (to move the camera up if a new vertical level is reached)
+    NotifyNewAltitudeHasBeenReached();
 
     if (!animationLoaded) {
         return false;

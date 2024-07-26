@@ -74,3 +74,6 @@ constexpr int LEVEL_WIDTH_CELLS = 32;                                      // Th
 constexpr int LEVEL_WIDTH = LEVEL_WIDTH_CELLS * CELL_WIDTH;                // The integer width in pixels of a level. 32cells x 16px
 constexpr float LEVEL_WIDTH_FLOAT = LEVEL_WIDTH_CELLS * CELL_WIDTH_FLOAT;  // The float width in pixels of a level. 32cells x 16px
 constexpr float TOPI_LEVEL_RIGHT_EDGE_MARGIN = 5.0f;
+constexpr float INITIAL_CAMERA_POSITION = 156 * CELL_HEIGHT_FLOAT;         // Initial camera vertical position when player is at level 1
+constexpr float CAMERA_PADDING_TOP = 13 * CELL_HEIGHT_FLOAT;               // Camera viewport top padding space
+constexpr float CAMERA_SPEED = 3.0f;                                       // Camera speed in vertical píxels per tick

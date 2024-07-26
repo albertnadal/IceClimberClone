@@ -149,7 +149,6 @@ void Ice::UpdateCollisions() {
                 bool object_collides = false;
 
                 for (auto intersection : objectIntersections) {
-                    intersection.particle->PrintName();
                     if (!intersection.particle->isTraversable && !intersection.particle->isMarkedToDelete && !intersection.particle->IsCloud() && !intersection.particle->IsTopi()) {
                         object_collides = true;
                         break;

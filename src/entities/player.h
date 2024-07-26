@@ -5,6 +5,7 @@
 #include <vector>
 #include <optional>
 #include <entity.h>
+#include <entity_manager.h>
 #include <state_machine.h>
 #include <sprite.h>
 #include <collision/collision.h>
@@ -17,6 +18,7 @@ using namespace std;
 class Player: public IEntity
 {
   bool headedToRight = true;
+  int lowestCellYReached = 9999;
   uint8_t prevPressedKeys = KeyboardKeyCode::IC_KEY_NONE;
   uint8_t pressedKeys = KeyboardKeyCode::IC_KEY_NONE;
   void ProcessPressedKeys(bool = true);
@@ -86,6 +88,7 @@ public:
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
   void PrintName() override;
   bool Update(uint8_t) override;
+  void NotifyNewAltitudeHasBeenReached();
   static IEntity* Create();
 
   // state machine triggers

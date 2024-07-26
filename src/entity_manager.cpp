@@ -12,13 +12,16 @@ EntityManager::EntityManager(EntityDataManager* _textureManager, SpriteRectDoubl
         cameraIsMoving = false;
         currentRow = 0;
         visibleRows = 56;
-        BuildWorld();
+        currentCameraPosition = newCameraPosition = 0.0f;
+        BuildMountain();
 }
 
-void EntityManager::BuildWorld() {
-  for(int row=0; row<30*6 + 1; row++) {
+void EntityManager::BuildMountain() {
+  // Each level is six cells height. The entire mountain have 4 extra rows on top to enforce level floors to be
+  // located in vertical position multiple of six. One additional row is appended to show the water.
+  for(int row=0; row<4 + 30*6 + 1; row++) {
     for(int col=0; col<map_viewport_width; col++) {
-      if(EntityIdentificator entity_id = (EntityIdentificator)worldMap[row][col]) {
+      if(EntityIdentificator entity_id = (EntityIdentificator)mountainMap[row][col]) {
         std::optional<IEntity *> entity_ptr = CreateEntityWithId(entity_id, col, row);
       }
     }
@@ -31,6 +34,7 @@ std::optional<IEntity *> EntityManager::CreateEntityWithId(EntityIdentificator e
   if(entity_ptr.has_value()) {
     if (entity_id == EntityIdentificator::POPO) {
       player = *entity_ptr;
+      currentCameraPosition = newCameraPosition = INITIAL_CAMERA_POSITION;
     }
 
     // Set the initial position of the object in the screen
@@ -52,12 +56,25 @@ std::optional<IEntity *> EntityManager::CreateEntityWithId(EntityIdentificator e
   return entity_ptr;
 }
 
-void EntityManager::Update(uint8_t pressedKeys) {
+void EntityManager::PlayerReachedNewAltitude(int cellY) {
+  if (std::find(validHeights.begin(), validHeights.end(), cellY) != validHeights.end()) {
+    newCameraPosition = cellY*CELL_HEIGHT_FLOAT - CAMERA_PADDING_TOP;
+  }
+}
+
+std::optional<float> EntityManager::Update(uint8_t pressedKeys) {
   updateMobileObjects(pressedKeys);
   updateStaticObjects();
-  updateVerticalScroll(pressedKeys);
   updateSpriteRectBuffers();
   deleteUneededObjects();
+
+  // Update vertical camera position when player reaches new level height
+  if (newCameraPosition < currentCameraPosition) {
+    currentCameraPosition -= CAMERA_SPEED; // Progressive update to get an smooth transition
+    return currentCameraPosition;
+  }
+
+  return std::nullopt;
 }
 
 void EntityManager::updateSpriteRectBuffers() {
@@ -137,72 +154,6 @@ void EntityManager::deleteUneededObjects() {
   }
 
   objectsToDelete.clear();
-}
-
-void EntityManager::updateVerticalScroll(uint8_t pressedKeys) {
-/*
-  if(cameraIsMoving) {
-    float pixelDisplacement = 2.5f;
-    if((totalPixelDisplacement + pixelDisplacement) >= levelRowOffset*cell_h) {
-      pixelDisplacement = levelRowOffset*cell_h - totalPixelDisplacement;
-      cameraIsMoving = false;
-
-      // Remove bottom hidden rows
-      for(int r=0; r<levelRowOffset && r<rowsBuffer.size(); r++) {
-        auto objects = rowsBuffer.front();
-        for(int o=0; o<objects.size(); o++) {
-              // Remove the object refefence from all data structures
-              IEntity *entity_ptr = objects[o];
-
-              // Remove the object from the spacet partitioning tree
-              spacePartitionObjectsTree->removeParticle(entity_ptr);
-
-              if(entity_ptr->Type() == EntityType::TERRAIN) {
-                staticObjects.erase(entity_ptr->uniqueId);
-              } else {
-                mobileObjects.erase(entity_ptr->uniqueId);
-              }
-
-              delete entity_ptr;
-        }
-        rowsBuffer.pop_front();
-      }
-    }
-
-    for(int r=0; r<rowsBuffer.size(); r++) {
-      auto objects = rowsBuffer[r];
-      for(int o=0; o<objects.size(); o++) {
-        objects[o]->PositionAddY(-pixelDisplacement);
-      }
-    }
-    totalPixelDisplacement+=pixelDisplacement;
-  }
-
-  if((pressedKeys & KeyboardKeyCode::IC_KEY_W) == KeyboardKeyCode::IC_KEY_W) {
-    if(!cameraIsMoving) {
-      cameraIsMoving = true;
-      totalPixelDisplacement = 0.0f;
-      for(uint16_t row=0; row<levelRowOffset; row++) {
-        uint16_t y = (map_viewport_height - 1) - row - currentRow - visibleRows;
-        std::vector<IEntity*> rowObjects;
-        for(uint16_t x=0;x<map_viewport_width;x++) {
-          if(EntityIdentificator entity_id = (EntityIdentificator)worldMap[y][x]) {
-            if(IEntity *entity_ptr = EntityFactory::Get(textureManager, spacePartitionObjectsTree)->CreateEntity(entity_id)) {
-              entity_ptr->position.setX(int16_t(x*cell_w));
-              entity_ptr->position.setY(int16_t((visibleRows+row)*cell_h));
-              rowObjects.push_back(entity_ptr);
-
-              if(entity_ptr->Type() == EntityType::TERRAIN) staticObjects[entity_ptr->uniqueId] = entity_ptr;
-              else mobileObjects[entity_ptr->uniqueId] = entity_ptr;
-            }
-          }
-        }
-        rowsBuffer.push_back(rowObjects);
-      }
-      currentRow+=levelRowOffset;
-    }
-  }
-*/
 }
 
 EntityManager::~EntityManager() {
