@@ -37,6 +37,8 @@ add_executable(rocket
         src/entities/topi.h
         src/entities/ice.cpp
         src/entities/ice.h
+        src/entities/water.cpp
+        src/entities/water.h
         src/defines.h
         src/filesystem.h
         src/float_double_buffer.cpp

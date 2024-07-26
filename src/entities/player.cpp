@@ -220,7 +220,7 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
         isOnMobileSurface = (underlyingObjectSurfaceType == SurfaceType::MOBILE_RIGHT) || (underlyingObjectSurfaceType == SurfaceType::MOBILE_LEFT);
 
         //std::cout << " ------ Underlying object: ";
-        underlyingObjectCandidate->PrintName();
+        //underlyingObjectCandidate->PrintName();
     }
     else {
         underlyingObjectSurfaceType = std::nullopt;

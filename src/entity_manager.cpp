@@ -16,7 +16,7 @@ EntityManager::EntityManager(EntityDataManager* _textureManager, SpriteRectDoubl
 }
 
 void EntityManager::BuildWorld() {
-  for(int row=0; row<7*6; row++) {
+  for(int row=0; row<30*6 + 1; row++) {
     for(int col=0; col<map_viewport_width; col++) {
       if(EntityIdentificator entity_id = (EntityIdentificator)worldMap[row][col]) {
         std::optional<IEntity *> entity_ptr = CreateEntityWithId(entity_id, col, row);
@@ -34,7 +34,6 @@ std::optional<IEntity *> EntityManager::CreateEntityWithId(EntityIdentificator e
     }
 
     // Set the initial position of the object in the screen
-    cout << " >>>> CREATING OBJECT AT POSITION X: (" << x*CELL_WIDTH_FLOAT << ") Y: (" << y*CELL_HEIGHT_FLOAT << ")\n";
     (*entity_ptr)->position.setInitialXY(x*CELL_WIDTH_FLOAT, y*CELL_HEIGHT_FLOAT);
 
     // Initial update to load the sprites and boundary box

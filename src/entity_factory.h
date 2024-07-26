@@ -13,6 +13,7 @@
 #include <entities/cloud.h>
 #include <entities/topi.h>
 #include <entities/ice.h>
+#include <entities/water.h>
 
 class EntityManager;
 
