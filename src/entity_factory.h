@@ -14,6 +14,7 @@
 #include <entities/topi.h>
 #include <entities/ice.h>
 #include <entities/water.h>
+#include <entities/bonus_stage_text.h>
 
 class EntityManager;
 

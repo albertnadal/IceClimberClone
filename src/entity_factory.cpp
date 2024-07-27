@@ -52,6 +52,7 @@ void EntityFactory::RegisterEntities() {
 	Register(EntityIdentificator::TOPI, &Topi::Create);
 	Register(EntityIdentificator::ICE, &Ice::Create);
 	Register(EntityIdentificator::WATER, &Water::Create);
+	Register(EntityIdentificator::BONUS_STAGE_TEXT, &BonusStageText::Create);
 }
 
 EntityFactory &EntityFactory::operator=(const EntityFactory &) {
