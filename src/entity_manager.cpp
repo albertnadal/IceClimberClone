@@ -57,8 +57,8 @@ std::optional<IEntity *> EntityManager::CreateEntityWithId(EntityIdentificator e
 }
 
 void EntityManager::PlayerReachedNewAltitude(int cellY) {
-  if (std::find(validAltitudes.begin(), validAltitudes.end(), cellY) != validAltitudes.end()) {
-    float padding_top = (cellY > BONUS_STAGE_CELL_Y) ? CAMERA_PADDING_TOP : CAMERA_BONUS_STAGE_PADDING_TOP;
+  if ((std::find(validAltitudes.begin(), validAltitudes.end(), cellY) != validAltitudes.end()) || (cellY <= BONUS_STAGE_CELL_Y)) {
+    float padding_top = (cellY != BONUS_STAGE_CELL_Y) ? CAMERA_PADDING_TOP : CAMERA_BONUS_STAGE_PADDING_TOP;
     newCameraPosition = cellY*CELL_HEIGHT_FLOAT - padding_top;
   }
 }

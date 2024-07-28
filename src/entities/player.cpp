@@ -49,7 +49,7 @@ void Player::NotifyNewAltitudeHasBeenReached() {
 
     // Level floors are configured to be present in vertical positions multiple of six.
     int currentCellY = position.GetCellY();
-    if(((currentCellY % 6 == 0) || (currentCellY == BONUS_STAGE_CELL_Y)) && (currentCellY < lowestCellYReached)) {
+    if((((currentCellY % 6 == 0) && (currentCellY > BONUS_STAGE_CELL_Y)) || (currentCellY == BONUS_STAGE_CELL_Y) || (currentCellY < BONUS_STAGE_CELL_Y)) && (currentCellY < lowestCellYReached)) {
         lowestCellYReached = currentCellY;
         entityManager->PlayerReachedNewAltitude(currentCellY);
 
