@@ -17,6 +17,7 @@
 #include <entities/bonus_stage_text.h>
 #include <entities/bonus_stage_tile.h>
 #include <entities/vegetable.h>
+#include <entities/number.h>
 
 class EntityManager;
 

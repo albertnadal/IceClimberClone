@@ -66,6 +66,14 @@ void EntityFactory::RegisterEntities() {
 	Register(EntityIdentificator::ROMAINE_LETTUCE, &RomaineLettuce::Create);
 	Register(EntityIdentificator::POTATO, &Potato::Create);
 	Register(EntityIdentificator::MUSHROOM, &Mushroom::Create);
+	Register(EntityIdentificator::ONE, &One::Create);
+	Register(EntityIdentificator::TWO, &Two::Create);
+	Register(EntityIdentificator::THREE, &Three::Create);
+	Register(EntityIdentificator::FOUR, &Four::Create);
+	Register(EntityIdentificator::FIVE, &Five::Create);
+	Register(EntityIdentificator::SIX, &Six::Create);
+	Register(EntityIdentificator::SEVEN, &Seven::Create);
+	Register(EntityIdentificator::EIGHT, &Eight::Create);
 }
 
 EntityFactory &EntityFactory::operator=(const EntityFactory &) {

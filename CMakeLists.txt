@@ -45,6 +45,8 @@ add_executable(rocket
         src/entities/bonus_stage_tile.h
         src/entities/vegetable.cpp
         src/entities/vegetable.h
+        src/entities/number.cpp
+        src/entities/number.h
         src/defines.h
         src/filesystem.h
         src/float_double_buffer.cpp

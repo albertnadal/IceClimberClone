@@ -304,3 +304,27 @@ _0 solid 1 9 14 9 14 16 1 16
 ##57 //EntityIdentificator::MUSHROOM
 #83 //MUSHROOM_STICKY
 32 32 0 0 400 352 32 32 0 0 0 32 32
+##58 //EntityIdentificator::ONE
+#84 //ONE_STICKY
+16 32 0 0 32 312 16 32 0 0 0 16 32
+##59 //EntityIdentificator::TWO
+#85 //TWO_STICKY
+16 32 0 0 48 312 16 32 0 0 0 16 32
+##60 //EntityIdentificator::THREE
+#86 //THREE_STICKY
+16 32 0 0 64 312 16 32 0 0 0 16 32
+##61 //EntityIdentificator::FOUR
+#87 //FOUR_STICKY
+16 32 0 0 80 312 16 32 0 0 0 16 32
+##62 //EntityIdentificator::FIVE
+#88 //FIVE_STICKY
+16 32 0 0 96 312 16 32 0 0 0 16 32
+##63 //EntityIdentificator::SIX
+#89 //SIX_STICKY
+16 32 0 0 32 344 16 32 0 0 0 16 32
+##64 //EntityIdentificator::SEVEN
+#90 //SEVEN_STICKY
+16 32 0 0 48 344 16 32 0 0 0 16 32
+##65 //EntityIdentificator::EIGHT
+#91 //EIGHT_STICKY
+16 32 0 0 64 344 16 32 0 0 0 16 32
