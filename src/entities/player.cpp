@@ -214,7 +214,7 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
 
     // Check if the player is suspended in the air or get the underlying surface type
     for (auto intersection : objectIntersections) {
-        if (intersection.particle == this) {
+        if ((intersection.particle == this) || intersection.particle->isTraversable) {
             continue;
         }
 
@@ -229,7 +229,7 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
         }
     }
 
-    if (underlyingObjectCandidate != nullptr) {
+    if ((underlyingObjectCandidate != nullptr) && !underlyingObjectCandidate->isTraversable) {
         playerIsSuspendedInTheAir = false;
 
         if (underlyingObjectCandidate->IsCloud()) {
