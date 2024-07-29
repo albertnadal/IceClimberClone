@@ -35,9 +35,9 @@ void Player::DisplacePlayerIfUnderlyingSurfaceIsMobile() {
 
 inline void Player::CorrectPlayerPositionOnReachScreenEdge() {
     if (position.GetRealX() < 0.0f) {
-        PositionSetX(LEVEL_WIDTH_FLOAT - 9.0f);
+        PositionSetX(MOUNTAIN_WIDTH_FLOAT - 9.0f);
     }
-    else if (position.GetRealX() >= LEVEL_WIDTH_FLOAT - 8.0f) {
+    else if (position.GetRealX() >= MOUNTAIN_WIDTH_FLOAT - 8.0f) {
         PositionSetX(0.0f);
     }
 }

@@ -17,7 +17,7 @@ bool Topi::IsTopi() {
 }
 
 inline bool Topi::ReachedScreenEdge() {
-    return (position.GetRealX() < 0.0f) || (position.GetRealX() >= LEVEL_WIDTH_FLOAT - (Width() >> 1));
+    return (position.GetRealX() < 0.0f) || (position.GetRealX() >= MOUNTAIN_WIDTH_FLOAT - (Width() >> 1));
 }
 
 void Topi::SetRandomWalkStartPosition() {
@@ -26,7 +26,7 @@ void Topi::SetRandomWalkStartPosition() {
         PositionSetX(0.0f);
         ExternalEvent(TopiStateIdentificator::STATE_WALK_RIGHT, nullptr);
     } else {
-        PositionSetX(LEVEL_WIDTH_FLOAT - (Width() >> 1) - TOPI_LEVEL_RIGHT_EDGE_MARGIN);
+        PositionSetX(MOUNTAIN_WIDTH_FLOAT - (Width() >> 1) - TOPI_MOUNTAIN_RIGHT_EDGE_MARGIN);
         ExternalEvent(TopiStateIdentificator::STATE_WALK_LEFT, nullptr);
     }
 }
@@ -163,7 +163,7 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
     // Check if a hole is present on the ground based on an heuristic way.
     // If the number of pixels of the underlying surface is 3 pixels (or more) lower than the width of
     // the Topi then there is a hole under Topi. Note that screen edges are not taken in consideration.
-    if ((underlyingObjectCandidate != nullptr) && !((position.GetRealX() < 0.0f) || (position.GetRealX() >= LEVEL_WIDTH_FLOAT - currentSprite.width)) && (numPixelsUnderlyingObjectsSurface <= currentSprite.width - 3)) {
+    if ((underlyingObjectCandidate != nullptr) && !((position.GetRealX() < 0.0f) || (position.GetRealX() >= MOUNTAIN_WIDTH_FLOAT - currentSprite.width)) && (numPixelsUnderlyingObjectsSurface <= currentSprite.width - 3)) {
         topiFoundAHoleOnTheFloor = true;
         objectToCarryId = underlyingObjectCandidate->id;
     }
@@ -414,7 +414,7 @@ void Topi::STATE_Bring_Ice_Left() {
     isFalling = false;
     isDazed = false;
     direction = Direction::LEFT;
-    PositionSetX(LEVEL_WIDTH_FLOAT - (Width() >> 1) - TOPI_LEVEL_RIGHT_EDGE_MARGIN);
+    PositionSetX(MOUNTAIN_WIDTH_FLOAT - (Width() >> 1) - TOPI_MOUNTAIN_RIGHT_EDGE_MARGIN);
     LoadAnimationWithId(TopiAnimation::TOPI_WALK_TO_LEFT);
 
     // Create a block of ice on the left side of the Topi

@@ -21,11 +21,11 @@ void Cloud::UpdateFlight() {
         PositionAddX(flyToRight ? 1.0f : -1.0f);
 
         // Respawn the cloud when it disappears from the margins
-        if (flyToRight && (position.GetIntX() >= LEVEL_WIDTH)) {
+        if (flyToRight && (position.GetIntX() >= MOUNTAIN_WIDTH)) {
                 PositionSetX(0.0f - static_cast<float>(Width()));
         }
         else if (!flyToRight && (position.GetIntX() <= 0.0f - static_cast<float>(Width()))) {
-                PositionSetX(static_cast<float>(LEVEL_WIDTH));
+                PositionSetX(static_cast<float>(MOUNTAIN_WIDTH));
         }
 
         // Update the position of the cloud in the space partition tree

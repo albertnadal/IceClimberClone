@@ -13,7 +13,7 @@ void Ice::PrintName() {
 }
 
 inline bool Ice::ReachedScreenEdge() {
-    return (position.GetRealX() < (Width() >> 1)) || (position.GetRealX() >= LEVEL_WIDTH_FLOAT - Width());
+    return (position.GetRealX() < (Width() >> 1)) || (position.GetRealX() >= MOUNTAIN_WIDTH_FLOAT - Width());
 }
 
 bool Ice::Update(const uint8_t pressedKeys_) {
@@ -133,7 +133,7 @@ void Ice::UpdateCollisions() {
                 int cell_x = position.GetCellX() + i;
 
                 // Do not fill holes out of the level boundaries
-                if ((cell_x < 0) || (cell_x >= LEVEL_WIDTH_CELLS)) {
+                if ((cell_x < 0) || (cell_x >= MOUNTAIN_WIDTH_CELLS)) {
                     continue;
                 }
 
