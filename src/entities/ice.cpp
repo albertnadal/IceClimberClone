@@ -86,8 +86,6 @@ void Ice::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& ice
         collisions.push_back({intersection.particle, horizontalCorrection, verticalCorrection});
     }
 
-    std::cout << " > ICE COLLIDES WITH " << objectIntersections.size() << " OBJECTS. " << collisions.size() << " CORRECTIONS NEEDED.\n";
-
     // Check if Ice is suspended in the air
     for (auto intersection : objectIntersections) {
         if (intersection.particle == this) {
@@ -214,14 +212,12 @@ bool Ice::ShouldBeginAnimationLoopAgain() {
 }
 
 void Ice::STATE_Move_Right() {
-    cout << "\n >>>>>> ICE::STATE_Move_Right <<<<<<\n";
     isBeingPushed = true;
     direction = Direction::RIGHT;
     LoadAnimationWithId(IceAnimation::ICE_STICKY);
 }
 
 void Ice::STATE_Move_Left() {
-    cout << "\n >>>>>> ICE::STATE_Move_Left <<<<<<\n";
     isBeingPushed = true;
     direction = Direction::LEFT;
     LoadAnimationWithId(IceAnimation::ICE_STICKY);

@@ -19,8 +19,8 @@ EntityManager::EntityManager(EntityDataManager* _textureManager, SpriteRectDoubl
 void EntityManager::BuildMountain() {
   // Each level is six cells height. The entire mountain have 4 extra rows on top to enforce level floors to be
   // located in vertical position multiple of six. One additional row is appended to show the water.
-  for(int row=0; row<4 + 30*6 + 1; row++) {
-    for(int col=0; col<map_viewport_width; col++) {
+  for(int row=0; row<4 + 17*6 + 1; row++) {
+    for(int col=0; col<LEVEL_WIDTH_CELLS; col++) {
       if(EntityIdentificator entity_id = (EntityIdentificator)mountainMap[row][col]) {
         std::optional<IEntity *> entity_ptr = CreateEntityWithId(entity_id, col, row);
       }
