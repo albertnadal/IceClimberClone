@@ -15,6 +15,7 @@
 #include <entities/ice.h>
 #include <entities/water.h>
 #include <entities/bonus_stage_text.h>
+#include <entities/bonus_stage_tile.h>
 
 class EntityManager;
 

@@ -41,6 +41,8 @@ add_executable(rocket
         src/entities/water.h
         src/entities/bonus_stage_text.cpp
         src/entities/bonus_stage_text.h
+        src/entities/bonus_stage_tile.cpp
+        src/entities/bonus_stage_tile.h
         src/defines.h
         src/filesystem.h
         src/float_double_buffer.cpp
