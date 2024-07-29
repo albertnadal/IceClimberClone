@@ -33,6 +33,7 @@ add_executable(rocket
         src/entities/player.h
         src/entities/side_wall.cpp
         src/entities/side_wall.h
+        src/entities/topi_state_transitions.cpp
         src/entities/topi.cpp
         src/entities/topi.h
         src/entities/ice.cpp

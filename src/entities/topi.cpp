@@ -105,7 +105,6 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
 
         int horizontalCorrection = 0, verticalCorrection = 0;
 
-        //std::cout << " [ START ] intersection.topIntersectionY: " << intersection.topIntersectionY << " | intersection.bottomIntersectionY: " << intersection.bottomIntersectionY << " | intersection.rightIntersectionX: " << intersection.rightIntersectionX << " | intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
         // Compute position correction when Topi collides when moving to the right
         if ((vectorDirection.x > 0) && (vectorDirection.y == 0) && (intersection.rightIntersectionX < 0) && (intersection.bottomIntersectionY != 0)) {
             horizontalCorrection = intersection.rightIntersectionX;
@@ -122,14 +121,6 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
             continue;
         }
 
-        /*
-        std::cout << " ---- vectorDirection.x: " << vectorDirection.x << "\n";
-        std::cout << " ---- vectorDirection.y: " << vectorDirection.y << "\n";
-        std::cout << " ---- intersection.rightIntersectionX: " << intersection.rightIntersectionX << "\n";
-        std::cout << " ---- intersection.leftIntersectionX: " << intersection.leftIntersectionX << "\n";
-        std::cout << " >>>> horizontalCorrection: " << horizontalCorrection << "\n";
-        std::cout << " >>>> verticalCorrection: " << verticalCorrection << "\n";
-        */
         collisions.push_back({intersection.particle, horizontalCorrection, verticalCorrection});
 
         if (intersection.bottomIntersectionY < minBottomIntersectionYUnderlyingObjectCandidate) {
@@ -137,8 +128,6 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
             underlyingObjectCandidate = intersection.particle;
         }
     }
-
-    std::cout << " > TOPI COLLIDES WITH " << objectIntersections.size() << " OBJECTS. " << collisions.size() << " CORRECTIONS NEEDED.\n";
 
     // Check if Topi is suspended in the air
     for (auto intersection : objectIntersections) {
@@ -165,23 +154,18 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
     // covers less o equal the half width of the Topi.
     if ((underlyingObjectCandidate == nullptr) || ((underlyingObjectCandidate != nullptr) && (numPixelsUnderlyingObjectsSurface <= (currentSprite.width >> 1)))) {
         topiIsSuspendedInTheAir = true;
-        std::cout << "\n\n >>>>>>>>>> TOPI is suspended in the air <<<<<<<<<<<\n\n";
 
         if (underlyingObjectCandidate != nullptr) {
             currentUnderlyingObject = underlyingObjectCandidate;
         }
     }
 
-    cout << "\n >>>>>>> TOPI UNDERLYING SURFACE: " << numPixelsUnderlyingObjectsSurface << " currentSprite.width: " << currentSprite.width << "\n";
     // Check if a hole is present on the ground based on an heuristic way.
     // If the number of pixels of the underlying surface is 3 pixels (or more) lower than the width of
     // the Topi then there is a hole under Topi. Note that screen edges are not taken in consideration.
     if ((underlyingObjectCandidate != nullptr) && !((position.GetRealX() < 0.0f) || (position.GetRealX() >= LEVEL_WIDTH_FLOAT - currentSprite.width)) && (numPixelsUnderlyingObjectsSurface <= currentSprite.width - 3)) {
         topiFoundAHoleOnTheFloor = true;
         objectToCarryId = underlyingObjectCandidate->id;
-        //cout << " >>>>>>> TOPI NEED TO CARRY AN OBJECT OF TYPE: ";
-        //underlyingObjectCandidate->PrintName();
-        //cout << "\n\n";
     }
 }
 
@@ -246,7 +230,6 @@ void Topi::UpdateCollisions() {
 
     if (isFalling && minVerticalCorrection < 0) {
         // Topi collided with the ground (during a fall)
-        std::cout << " ))))) COLLIDING WITH THE GROUND DURING FALL minVerticalCorrection: " << minVerticalCorrection << "\n";
         PositionAddY(static_cast<float>(minVerticalCorrection));
         UpdatePositionInSpacePartitionTree();
         FinishFall();
@@ -325,7 +308,6 @@ bool Topi::ShouldBeginAnimationLoopAgain() {
 }
 
 void Topi::STATE_Walk_Right() {
-    cout << "\n >>>>>> TOPI::STATE_Walk_Right <<<<<<\n";
     isWalking = true;
     isGoingToPickUpIce = false;
     isGoingToRecover = false;
@@ -336,7 +318,6 @@ void Topi::STATE_Walk_Right() {
 }
 
 void Topi::STATE_Walk_Left() {
-    cout << "\n >>>>>> TOPI::STATE_Walk_Left <<<<<<\n";
     isWalking = true;
     isGoingToPickUpIce = false;
     isGoingToRecover = false;
@@ -347,7 +328,6 @@ void Topi::STATE_Walk_Left() {
 }
 
 void Topi::STATE_Run_To_Pick_Up_Ice_Right() {
-    cout << "\n >>>>>> TOPI::STATE_Run_To_Pick_Up_Ice_Right <<<<<<\n";
     isWalking = false;
     isGoingToPickUpIce = true;
     isGoingToRecover = false;
@@ -358,7 +338,6 @@ void Topi::STATE_Run_To_Pick_Up_Ice_Right() {
 }
 
 void Topi::STATE_Run_To_Pick_Up_Ice_Left() {
-    cout << "\n >>>>>> TOPI::STATE_Run_To_Pick_Up_Ice_Left <<<<<<\n";
     isWalking = false;
     isGoingToPickUpIce = true;
     isGoingToRecover = false;
@@ -369,7 +348,6 @@ void Topi::STATE_Run_To_Pick_Up_Ice_Left() {
 }
 
 void Topi::STATE_Fall_Dazed_Right() {
-    cout << "\n >>>>>> TOPI::STATE_Fall_Dazed_Right <<<<<<\n";
     isWalking = false;
     isGoingToPickUpIce = false;
     isGoingToRecover = false;
@@ -382,7 +360,6 @@ void Topi::STATE_Fall_Dazed_Right() {
 }
 
 void Topi::STATE_Fall_Dazed_Left() {
-    cout << "\n >>>>>> TOPI::STATE_Fall_Dazed_Left <<<<<<\n";
     isWalking = false;
     isGoingToPickUpIce = false;
     isGoingToRecover = false;
@@ -395,7 +372,6 @@ void Topi::STATE_Fall_Dazed_Left() {
 }
 
 void Topi::STATE_Run_Dazed_Right() {
-    cout << "\n >>>>>> TOPI::STATE_Run_Dazed_Right <<<<<<\n";
     isWalking = false;
     isGoingToPickUpIce = false;
     isGoingToRecover = true;
@@ -406,7 +382,6 @@ void Topi::STATE_Run_Dazed_Right() {
 }
 
 void Topi::STATE_Run_Dazed_Left() {
-    cout << "\n >>>>>> TOPI::STATE_Run_Dazed_Left <<<<<<\n";
     isWalking = false;
     isGoingToPickUpIce = false;
     isGoingToRecover = true;
@@ -417,7 +392,6 @@ void Topi::STATE_Run_Dazed_Left() {
 }
 
 void Topi::STATE_Bring_Ice_Right() {
-    cout << "\n >>>>>> TOPI::STATE_Bring_Ice_Right <<<<<<\n";
     isWalking = true;
     isGoingToPickUpIce = false;
     isGoingToRecover = false;
@@ -434,7 +408,6 @@ void Topi::STATE_Bring_Ice_Right() {
 }
 
 void Topi::STATE_Bring_Ice_Left() {
-    cout << "\n >>>>>> TOPI::STATE_Bring_Ice_Left <<<<<<\n";
     isWalking = true;
     isGoingToPickUpIce = false;
     isGoingToRecover = false;
@@ -448,79 +421,4 @@ void Topi::STATE_Bring_Ice_Left() {
     int cell_x = position.GetCellX() - 1;
     int cell_y = position.GetCellY();
     entityManager->CreateEntityWithId(EntityIdentificator::ICE, cell_x, cell_y);
-}
-
-void Topi::HoleDetectedWhenWalking() {
-    BEGIN_TRANSITION_MAP                                           // - Current State -
-            TRANSITION_MAP_ENTRY (STATE_RUN_TO_PICK_UP_ICE_LEFT)   // STATE_Walk_Right
-            TRANSITION_MAP_ENTRY (STATE_RUN_TO_PICK_UP_ICE_RIGHT)  // STATE_Walk_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_To_Pick_Up_Ice_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_To_Pick_Up_Ice_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Dazed_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Dazed_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_Dazed_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_Dazed_Left
-            TRANSITION_MAP_ENTRY (STATE_RUN_TO_PICK_UP_ICE_LEFT)   // STATE_Bring_Ice_Right
-            TRANSITION_MAP_ENTRY (STATE_RUN_TO_PICK_UP_ICE_RIGHT)  // STATE_Bring_Ice_Left
-    END_TRANSITION_MAP(nullptr)
-}
-
-void Topi::SuspendedInTheAir() {
-    BEGIN_TRANSITION_MAP                                           // - Current State -
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Walk_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Walk_Left
-            TRANSITION_MAP_ENTRY (STATE_FALL_DAZED_RIGHT)          // STATE_Run_To_Pick_Up_Ice_Right
-            TRANSITION_MAP_ENTRY (STATE_FALL_DAZED_LEFT)           // STATE_Run_To_Pick_Up_Ice_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Dazed_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Dazed_Left
-            TRANSITION_MAP_ENTRY (STATE_FALL_DAZED_RIGHT)          // STATE_Run_Dazed_Right
-            TRANSITION_MAP_ENTRY (STATE_FALL_DAZED_LEFT)           // STATE_Run_Dazed_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Bring_Ice_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Bring_Ice_Left
-    END_TRANSITION_MAP(nullptr)
-}
-
-void Topi::FallLanding() {
-    BEGIN_TRANSITION_MAP                                           // - Current State -
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Walk_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Walk_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_To_Pick_Up_Ice_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_To_Pick_Up_Ice_Left
-            TRANSITION_MAP_ENTRY (STATE_RUN_DAZED_LEFT)            // STATE_Fall_Dazed_Right
-            TRANSITION_MAP_ENTRY (STATE_RUN_DAZED_RIGHT)           // STATE_Fall_Dazed_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_Dazed_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_Dazed_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Bring_Ice_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Bring_Ice_Left
-    END_TRANSITION_MAP(nullptr)
-}
-
-void Topi::ChangeDirection() {
-    BEGIN_TRANSITION_MAP                                           // - Current State -
-            TRANSITION_MAP_ENTRY (STATE_WALK_LEFT)                 // STATE_Walk_Right
-            TRANSITION_MAP_ENTRY (STATE_WALK_RIGHT)                // STATE_Walk_Left
-            TRANSITION_MAP_ENTRY (STATE_RUN_TO_PICK_UP_ICE_LEFT)   // STATE_Run_To_Pick_Up_Ice_Right
-            TRANSITION_MAP_ENTRY (STATE_RUN_TO_PICK_UP_ICE_RIGHT)  // STATE_Run_To_Pick_Up_Ice_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Dazed_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Dazed_Left
-            TRANSITION_MAP_ENTRY (STATE_RUN_DAZED_LEFT)            // STATE_Run_Dazed_Right
-            TRANSITION_MAP_ENTRY (STATE_RUN_DAZED_RIGHT)           // STATE_Run_Dazed_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Bring_Ice_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Bring_Ice_Left
-    END_TRANSITION_MAP(nullptr)
-}
-
-void Topi::BringIceToFillHole() {
-    BEGIN_TRANSITION_MAP                                           // - Current State -
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Walk_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Walk_Left
-            TRANSITION_MAP_ENTRY (STATE_BRING_ICE_LEFT)            // STATE_Run_To_Pick_Up_Ice_Right
-            TRANSITION_MAP_ENTRY (STATE_BRING_ICE_RIGHT)           // STATE_Run_To_Pick_Up_Ice_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Dazed_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Fall_Dazed_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_Dazed_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Run_Dazed_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Bring_Ice_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Bring_Ice_Left
-    END_TRANSITION_MAP(nullptr)
 }
