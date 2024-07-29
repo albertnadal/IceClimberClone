@@ -56,6 +56,16 @@ void EntityFactory::RegisterEntities() {
 	Register(EntityIdentificator::BONUS_STAGE_TILE_A, &BonusStageTileA::Create);
 	Register(EntityIdentificator::BONUS_STAGE_TILE_B, &BonusStageTileB::Create);
 	Register(EntityIdentificator::BONUS_STAGE_TILE_C, &BonusStageTileC::Create);
+	Register(EntityIdentificator::EGGPLANT, &Eggplant::Create);
+	Register(EntityIdentificator::CARROT, &Carrot::Create);
+	Register(EntityIdentificator::CABBAGE, &Cabbage::Create);
+	Register(EntityIdentificator::ZUCCHINI, &Zucchini::Create);
+	Register(EntityIdentificator::CORN, &Corn::Create);
+	Register(EntityIdentificator::TURNIP, &Turnip::Create);
+	Register(EntityIdentificator::PUMPKIN, &Pumpkin::Create);
+	Register(EntityIdentificator::ROMAINE_LETTUCE, &RomaineLettuce::Create);
+	Register(EntityIdentificator::POTATO, &Potato::Create);
+	Register(EntityIdentificator::MUSHROOM, &Mushroom::Create);
 }
 
 EntityFactory &EntityFactory::operator=(const EntityFactory &) {
