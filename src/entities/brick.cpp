@@ -102,12 +102,12 @@ void Brick::Break()
 
 void Brick::STATE_Sticky()
 {
-
+        LoadAnimationWithId(BrickAnimation::BRICK_GREEN_STICKY);
 }
 
 void Brick::STATE_Falling()
 {
-
+        LoadAnimationWithId(BrickAnimation::BRICK_GREEN_FALLING);
 }
 
 /* BrickBlue */
