@@ -14,8 +14,6 @@ void Player::RightKeyPressed() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
@@ -37,8 +35,6 @@ void Player::RightKeyReleased() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
@@ -60,8 +56,6 @@ void Player::LeftKeyPressed() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
@@ -83,8 +77,6 @@ void Player::LeftKeyReleased() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
@@ -106,8 +98,6 @@ void Player::UpKeyPressed() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
@@ -129,8 +119,6 @@ void Player::DownKeyPressed() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
@@ -152,8 +140,6 @@ void Player::TopCollisionDuringJump() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
@@ -175,8 +161,6 @@ void Player::LateralCollisionDuringJump() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_RIGHT)    // STATE_Fall_Run_Right
             TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_LEFT)    // STATE_Fall_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
@@ -198,8 +182,6 @@ void Player::RightKeyPressedAtJumpApex() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
@@ -221,8 +203,6 @@ void Player::LeftKeyPressedAtJumpApex() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
@@ -244,8 +224,6 @@ void Player::SuspendedInTheAir() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
@@ -267,8 +245,6 @@ void Player::StopRunningOnSlidingSurface() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
@@ -290,8 +266,6 @@ void Player::StopSlipping() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
             TRANSITION_MAP_ENTRY (STATE_IDLE_RIGHT) // STATE_Slip_Right
@@ -313,8 +287,6 @@ void Player::SpaceKeyPressed() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
     END_TRANSITION_MAP(nullptr)
@@ -334,8 +306,6 @@ void Player::JumpLanding() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
     END_TRANSITION_MAP(nullptr)
@@ -355,8 +325,6 @@ void Player::FallLanding() {
             TRANSITION_MAP_ENTRY (STATE_IDLE_LEFT)    // STATE_Fall_Idle_Left
             TRANSITION_MAP_ENTRY (STATE_IDLE_RIGHT)    // STATE_Fall_Run_Right
             TRANSITION_MAP_ENTRY (STATE_IDLE_LEFT)    // STATE_Fall_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Fall_Jump_Run_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Hit_Left
     END_TRANSITION_MAP(nullptr)

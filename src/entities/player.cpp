@@ -753,14 +753,6 @@ void Player::STATE_Fall_Run_Left() {
     LoadAnimationWithId(PlayerAnimation::FALL_LEFT);
 }
 
-void Player::STATE_Fall_Jump_Run_Right() {
-    LoadAnimationWithId(PlayerAnimation::FALL_RIGHT);
-}
-
-void Player::STATE_Fall_Jump_Run_Left() {
-    LoadAnimationWithId(PlayerAnimation::FALL_LEFT);
-}
-
 void Player::STATE_Hit_Right() {
     isRunning = false;
     LoadAnimationWithId(PlayerAnimation::HIT_RIGHT);

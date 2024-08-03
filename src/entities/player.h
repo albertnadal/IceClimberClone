@@ -124,8 +124,6 @@ private:
   void STATE_Fall_Idle_Left();
   void STATE_Fall_Run_Right();
   void STATE_Fall_Run_Left();
-  void STATE_Fall_Jump_Run_Right();
-  void STATE_Fall_Jump_Run_Left();
   void STATE_Hit_Right();
   void STATE_Hit_Left();
   void STATE_Slip_Right();
@@ -145,8 +143,6 @@ private:
       STATE_MAP_ENTRY(&Player::STATE_Fall_Idle_Left)
       STATE_MAP_ENTRY(&Player::STATE_Fall_Run_Right)
       STATE_MAP_ENTRY(&Player::STATE_Fall_Run_Left)
-      STATE_MAP_ENTRY(&Player::STATE_Fall_Jump_Run_Right)
-      STATE_MAP_ENTRY(&Player::STATE_Fall_Jump_Run_Left)
       STATE_MAP_ENTRY(&Player::STATE_Hit_Right)
       STATE_MAP_ENTRY(&Player::STATE_Hit_Left)
       STATE_MAP_ENTRY(&Player::STATE_Slip_Right)
@@ -168,8 +164,6 @@ private:
       STATE_FALL_IDLE_LEFT,
       STATE_FALL_RUN_RIGHT,
       STATE_FALL_RUN_LEFT,
-      STATE_FALL_JUMP_RUN_RIGHT,
-      STATE_FALL_JUMP_RUN_LEFT,
       STATE_HIT_RIGHT,
       STATE_HIT_LEFT,
       STATE_SLIP_RIGHT,
