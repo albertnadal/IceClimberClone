@@ -88,10 +88,6 @@ IEntity* Brick::Create() {
         return new Brick();
 }
 
-Brick::~Brick() {
-
-}
-
 void Brick::Break()
 {
         BEGIN_TRANSITION_MAP                  // - Current State -

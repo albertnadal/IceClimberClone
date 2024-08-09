@@ -620,12 +620,6 @@ namespace aabb
          */
         void validateMetrics(unsigned int) const;
 
-        //! Apply periodic boundary conditions.
-        /* \param position
-                The position vector.
-         */
-        void periodicBoundaries(std::vector<double>&);
-
         //! Compute minimum image separation.
         /*! \param separation
                 The separation vector.
@@ -1757,25 +1751,6 @@ namespace aabb
 
         validateMetrics(left);
         validateMetrics(right);
-    }
-
-    template <class T>
-    void Tree<T>::periodicBoundaries(std::vector<double>& position)
-    {
-        for (unsigned int i=0;i<dimension;i++)
-        {
-            if (position[i] < 0)
-            {
-                position[i] += boxSize[i];
-            }
-            else
-            {
-                if (position[i] >= boxSize[i])
-                {
-                    position[i] -= boxSize[i];
-                }
-            }
-        }
     }
 
     template <class T>

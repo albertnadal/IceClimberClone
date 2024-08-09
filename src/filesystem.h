@@ -9,14 +9,6 @@ class FileSystem
 private:
   typedef std::string (*Builder) (const std::string& path);
 
-public:
-  static std::string getPath(const std::string& path)
-  {
-    static std::string(*pathBuilder)(std::string const &) = getPathBuilder();
-    return (*pathBuilder)(path);
-  }
-
-private:
   static std::string const & getRoot()
   {
     static char const * envRoot = getenv("LOGL_ROOT_PATH");
@@ -25,7 +17,6 @@ private:
     return root;
   }
 
-  //static std::string(*foo (std::string const &)) getPathBuilder()
   static Builder getPathBuilder()
   {
     if (getRoot() != "")
@@ -44,7 +35,12 @@ private:
     return "../../../" + path;
   }
 
-
+public:
+  static std::string getPath(const std::string& path)
+  {
+    static std::string(*pathBuilder)(std::string const &) = getPathBuilder();
+    return (*pathBuilder)(path);
+  }
 };
 
 // FILESYSTEM_H
