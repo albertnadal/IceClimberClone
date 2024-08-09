@@ -31,3 +31,7 @@ make all
 # Devlog #2 - About the Game Loop
 
 [![Building "Ice Climber" from Scratch - Implementing the Game Loop - Devlog #2](https://img.youtube.com/vi/hnqatUKSv_g/0.jpg)](https://www.youtube.com/watch?v=hnqatUKSv_g)
+
+# Devlog #3 - Using the State pattern
+
+[![Building "Ice Climber" from Scratch - Using the State Pattern - Devlog #3](https://img.youtube.com/vi/vrBrN6ftyIs/0.jpg)](https://www.youtube.com/watch?v=vrBrN6ftyIs)
