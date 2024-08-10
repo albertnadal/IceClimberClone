@@ -48,6 +48,9 @@ add_executable(rocket
         src/entities/vegetable.h
         src/entities/number.cpp
         src/entities/number.h
+        src/entities/nitpicker_state_transitions.cpp
+        src/entities/nitpicker.cpp
+        src/entities/nitpicker.h
         src/defines.h
         src/filesystem.h
         src/float_double_buffer.cpp
