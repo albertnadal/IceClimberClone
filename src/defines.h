@@ -82,7 +82,7 @@ enum FiveAnimation: uint16_t { FIVE_STICKY = 88 };
 enum SixAnimation: uint16_t { SIX_STICKY = 89 };
 enum SevenAnimation: uint16_t { SEVEN_STICKY = 90 };
 enum EightAnimation: uint16_t { EIGHT_STICKY = 91 };
-enum NitpickerAnimation: uint16_t { NITPICKER_FLY_TO_RIGHT = 93, NITPICKER_FLY_TO_LEFT = 94, NITPICKER_FALL = 95 };
+enum NitpickerAnimation: uint16_t { NITPICKER_FLY_TO_RIGHT = 93, NITPICKER_FLY_TO_LEFT = 94, NITPICKER_FALL_RIGHT = 95, NITPICKER_FALL_LEFT = 96 };
 
 // Others
 constexpr const char* ENTITY_TYPES_FILENAME = "objtypes.dat";                    // Data file where entity animations and collision areas are defined.
