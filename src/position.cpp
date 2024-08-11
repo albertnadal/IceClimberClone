@@ -25,6 +25,10 @@ float Position::GetRealY() {
     return y;
 }
 
+std::pair<float, float> Position::GetCoordinate() {
+    return std::make_pair(x, y);
+}
+
 int Position::GetIntX() {
     return int_x + int_x_offset;
 }
@@ -59,6 +63,13 @@ void Position::setXY(float _x, float _y) {
     x = _x;
     int_y = static_cast<int>(_y);
     y = _y;
+}
+
+void Position::ApplyDelta(float _x, float _y) {
+    x += _x;
+    int_x = static_cast<int>(x);
+    y += _y;
+    int_y = static_cast<int>(y);
 }
 
 void Position::setX(float _x) {

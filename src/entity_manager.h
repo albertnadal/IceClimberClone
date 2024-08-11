@@ -25,8 +25,8 @@ class EntityManager
   void BuildMountain();
   bool cameraIsMoving;
   float totalPixelDisplacement;
-  float newCameraPosition;
-  float currentCameraPosition;
+  float newCameraVerticalPosition;
+  float currentCameraVerticalPosition;
   std::vector<int> validAltitudes = {84, 78, 72, 66, 60}; // Altitudes of levels 4, 5, 6, 7 and 8. Are multiple of six.
 
   // Each level is six cells height. The entire mountain have 4 extra rows on top to enforce level floors to be
@@ -170,6 +170,8 @@ public:
   ~EntityManager();
   std::optional<float> Update(uint8_t);
   std::optional<IEntity *> CreateEntityWithId(EntityIdentificator, int , int);
+  float GetCurrentCameraVerticalPosition() const;
+  std::optional<Position *> GetPlayerPosition() const;
   void PlayerReachedNewAltitude(int);
   void PlayerEnteredBonusStage();
 };

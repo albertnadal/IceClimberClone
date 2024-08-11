@@ -16,6 +16,8 @@ public:
   float GetRealX();
   float GetY();
   float GetRealY();
+  std::pair<float, float> GetCoordinate();
+  void ApplyDelta(float x, float y);
   int GetIntX();
   int GetIntY();
   int GetCellX();

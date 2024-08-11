@@ -12,7 +12,7 @@ EntityManager::EntityManager(EntityDataManager* _textureManager, SpriteRectDoubl
         cameraIsMoving = false;
         currentRow = 0;
         visibleRows = 56;
-        currentCameraPosition = newCameraPosition = 0.0f;
+        currentCameraVerticalPosition = newCameraVerticalPosition = 0.0f;
         BuildMountain();
 }
 
@@ -34,7 +34,7 @@ std::optional<IEntity *> EntityManager::CreateEntityWithId(EntityIdentificator e
   if(entity_ptr.has_value()) {
     if (entity_id == EntityIdentificator::POPO) {
       player = *entity_ptr;
-      currentCameraPosition = newCameraPosition = INITIAL_CAMERA_POSITION;
+      currentCameraVerticalPosition = newCameraVerticalPosition = INITIAL_CAMERA_POSITION;
     }
 
     // Set the initial position of the object in the screen
@@ -59,8 +59,20 @@ std::optional<IEntity *> EntityManager::CreateEntityWithId(EntityIdentificator e
 void EntityManager::PlayerReachedNewAltitude(int cellY) {
   if ((std::find(validAltitudes.begin(), validAltitudes.end(), cellY) != validAltitudes.end()) || (cellY <= BONUS_STAGE_CELL_Y)) {
     float padding_top = (cellY != BONUS_STAGE_CELL_Y) ? CAMERA_PADDING_TOP : CAMERA_BONUS_STAGE_PADDING_TOP;
-    newCameraPosition = cellY*CELL_HEIGHT_FLOAT - padding_top;
+    newCameraVerticalPosition = cellY*CELL_HEIGHT_FLOAT - padding_top;
   }
+}
+
+float EntityManager::GetCurrentCameraVerticalPosition() const {
+  return currentCameraVerticalPosition <= 1.0f ? INITIAL_CAMERA_POSITION : currentCameraVerticalPosition;
+}
+
+std::optional<Position *> EntityManager::GetPlayerPosition() const {
+  if (player == nullptr) {
+    return std::nullopt;
+  }
+
+  return &(player->position);
 }
 
 void EntityManager::PlayerEnteredBonusStage() {
@@ -74,9 +86,9 @@ std::optional<float> EntityManager::Update(uint8_t pressedKeys) {
   deleteUneededObjects();
 
   // Update vertical camera position when player reaches new level height
-  if (newCameraPosition < currentCameraPosition) {
-    currentCameraPosition -= CAMERA_SPEED; // Progressive update to get an smooth transition
-    return currentCameraPosition;
+  if (newCameraVerticalPosition < currentCameraVerticalPosition) {
+    currentCameraVerticalPosition -= CAMERA_SPEED; // Progressive update to get an smooth transition
+    return currentCameraVerticalPosition;
   }
 
   return std::nullopt;
