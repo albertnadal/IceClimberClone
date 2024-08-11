@@ -25,10 +25,12 @@ class Nitpicker: public IEntity
   std::vector<std::pair<float, float>> flyingRoute;
   std::vector<std::pair<float, float>>::iterator flyingRouteIt;
   std::optional<chrono::system_clock::time_point> nextRespawnTime = std::nullopt;
+  int numAttackAttempts;
 
   // Nitpicker action states
   bool isWaitingForRespawn = true; // Nitpicker is hidden and waiting for respawn
   bool isFlying = false;           // Nitpicker is flying
+  bool isRetreating = false;       // Nitpicker is retreating from attacking Popo
   bool isFalling = false;          // Nitpicker is falling
 
   // Nitpicker action update functions

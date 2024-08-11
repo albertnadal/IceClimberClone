@@ -3,8 +3,7 @@
 
 Nitpicker::Nitpicker() :
         IEntity(EntityIdentificator::NITPICKER, EntityType::ENEMY, SurfaceType::SIMPLE, NitpickerStateIdentificator::NITPICKER_MAX_STATES, false, true) {
-    vectorDirection.x = 0;
-    vectorDirection.y = 0;
+    numAttackAttempts = 0;
 }
 
 void Nitpicker::PrintName() {
@@ -18,8 +17,8 @@ inline bool Nitpicker::ReachedScreenEdge() {
 void Nitpicker::UpdateFlight() {
     float horizontalSpeed = speedVector.first;
 
-    speedVector.first += (flyingRouteIt->first < position.GetCoordinate().first) ? -0.01 : 0.01;
-    speedVector.second += (flyingRouteIt->second < position.GetCoordinate().second) ? -0.01 : 0.01;
+    speedVector.first += (flyingRouteIt->first < position.GetCoordinate().first) ? -NITPICKER_ACCELERATION : NITPICKER_ACCELERATION;
+    speedVector.second += (flyingRouteIt->second < position.GetCoordinate().second) ? -NITPICKER_ACCELERATION : NITPICKER_ACCELERATION;
     position.ApplyDelta(speedVector.first, speedVector.second);
 
     UpdatePositionInSpacePartitionTree();
@@ -41,6 +40,15 @@ void Nitpicker::UpdateFlight() {
 
     // Stop flying when arriving at the final route waypoint.
     if (flyingRouteIt == flyingRoute.end()) {
+        if (isRetreating) {
+            EndFlight();
+            return;
+        }
+
+        if (++numAttackAttempts >= NITPICKER_MAX_CONSECUTIVE_ATTACK_ATTEMPS) {
+            isRetreating = true;
+        }
+
         CalculateNewFlyingRoute();
         flyingRouteIt = flyingRoute.begin();
     }
@@ -97,7 +105,16 @@ void Nitpicker::CalculateNewFlyingRoute() {
     flyingRoute.clear();
 
     std::pair<float, float> startCoord = position.GetCoordinate();
-    std::pair<float, float> endCoord = playerPosition.value()->GetCoordinate();
+    std::pair<float, float> endCoord;
+
+    if (isRetreating) {
+        // Create a flight path to put the Nitpicker out of the screen
+        endCoord = startCoord;
+        endCoord.first = (rand() % 2 == 0) ? -Width() : MOUNTAIN_WIDTH_FLOAT;
+    } else {
+        // Create a flight path towards Popo position
+        endCoord = playerPosition.value()->GetCoordinate();
+    }
     std::pair<float, float> lastCoord = startCoord;
 
     for (int i = 0; i < NITPICKER_NUM_WAYPOINTS; ++i) {
@@ -118,7 +135,9 @@ void Nitpicker::CalculateNewFlyingRoute() {
 void Nitpicker::WaitUntilRespawnTime() {
     isWaitingForRespawn = true;
     isFlying = false;
+    isRetreating = false;
     isFalling = false;
+    numAttackAttempts = 0;
     nextRespawnTime = (chrono::system_clock::now() + std::chrono::milliseconds(NITPICKER_RESPAWN_WAIT_TIME_MILLISECONDS));
     PositionSetXY(-100.0f, -100.0f);  // Hide the Nitpicker out of the viewport.
 }
@@ -145,8 +164,8 @@ void Nitpicker::STATE_Waiting_Respawn() {
 void Nitpicker::STATE_Flying() {
     isWaitingForRespawn = false;
     isFlying = true;
+    isRetreating = false;
     isFalling = false;
-
     PositionSetY(entityManager->GetCurrentCameraVerticalPosition() + NITPICKER_RESPAWN_TOP_MARGIN); // Use the viewport vertical position as respawn position.
 
     direction = (rand() % 2 == 0) ? Direction::RIGHT : Direction::LEFT; // Random initial direction.
