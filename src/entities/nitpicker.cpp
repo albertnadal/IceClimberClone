@@ -15,50 +15,46 @@ inline bool Nitpicker::ReachedScreenEdge() {
     return (position.GetRealX() < 0.0f) || (position.GetRealX() >= MOUNTAIN_WIDTH_FLOAT - (Width() >> 1));
 }
 
-void Nitpicker::Respawn() {
-    PositionSetY(entityManager->GetCurrentCameraVerticalPosition() + NITPICKER_RESPAWN_TOP_MARGIN); // Use the viewport vertical position as respawn position.
+void Nitpicker::UpdateFlight() {
+    float horizontalSpeed = speedVector.first;
 
-    direction = (rand() % 2 == 0) ? Direction::RIGHT : Direction::LEFT; // Random initial direction.
-    if (direction == Direction::RIGHT) {
-        PositionSetX(0.0f);
-        ExternalEvent(NitpickerStateIdentificator::STATE_FLY_RIGHT, nullptr);
-    } else {
-        PositionSetX(MOUNTAIN_WIDTH_FLOAT - (Width() >> 1));
-        ExternalEvent(NitpickerStateIdentificator::STATE_FLY_LEFT, nullptr);
+    speedVector.first += (flyingRouteIt->first < position.GetCoordinate().first) ? -0.01 : 0.01;
+    speedVector.second += (flyingRouteIt->second < position.GetCoordinate().second) ? -0.01 : 0.01;
+    position.ApplyDelta(speedVector.first, speedVector.second);
+
+    UpdatePositionInSpacePartitionTree();
+
+    speedVector.second = std::max(-NITPICKER_MAX_SPEED, std::min(NITPICKER_MAX_SPEED, speedVector.second));
+    speedVector.first = std::max(-NITPICKER_MAX_SPEED, std::min(NITPICKER_MAX_SPEED, speedVector.first));
+
+    // Change the animation when changing the horizontal speed direction
+    if ((horizontalSpeed < 0.0f) && (speedVector.first >= 0.0f)) {
+        LoadAnimationWithId(NitpickerAnimation::NITPICKER_FLY_TO_RIGHT);
+    } else if ((horizontalSpeed >= 0.0f) && (speedVector.first < 0.0f)) {
+        LoadAnimationWithId(NitpickerAnimation::NITPICKER_FLY_TO_LEFT);
     }
 
-    CalculateNewFlyingRoute();
-    flyingRouteIt = flyingRoute.begin();
-    isWaitingForRespawn = false;
-    isFlying = true;
+    // Go fly to the next waypoint of the flying route when reached current waypoint.
+    if (calculateDistance(*flyingRouteIt, position.GetCoordinate()) <= 30.0f) {
+        ++flyingRouteIt;
+    }
+
+    // Stop flying when arriving at the final route waypoint.
+    if (flyingRouteIt == flyingRoute.end()) {
+        CalculateNewFlyingRoute();
+        flyingRouteIt = flyingRoute.begin();
+    }
 }
 
 bool Nitpicker::Update(const uint8_t pressedKeys_) {
     bool needRedraw = false;
  
     if (isWaitingForRespawn && nextRespawnTime.has_value() && (chrono::system_clock::now() >= nextRespawnTime.value())) {
-        Respawn();
+        StartFlight();
+        needRedraw = true;
     }
     else if (isFlying) {
-        speedVector.first += (flyingRouteIt->first < position.GetCoordinate().first) ? -0.01 : 0.01;
-        speedVector.second += (flyingRouteIt->second < position.GetCoordinate().second) ? -0.01 : 0.01;
-        position.ApplyDelta(speedVector.first, speedVector.second);
-        UpdatePositionInSpacePartitionTree();
-
-        speedVector.second = std::max(-NITPICKER_MAX_SPEED, std::min(NITPICKER_MAX_SPEED, speedVector.second));
-        speedVector.first = std::max(-NITPICKER_MAX_SPEED, std::min(NITPICKER_MAX_SPEED, speedVector.first));
-
-        // Go fly to the next waypoint of the flying route when reached current waypoint.
-        if (calculateDistance(*flyingRouteIt, position.GetCoordinate()) <= 30.0f) {
-            ++flyingRouteIt;
-        }
-
-        // Stop flying when arriving at the final route waypoint.
-        if (flyingRouteIt == flyingRoute.end()) {
-            CalculateNewFlyingRoute();
-            flyingRouteIt = flyingRoute.begin();
-        }
-
+        UpdateFlight();
         needRedraw = true;
     }
     else if (isFalling) {
@@ -143,23 +139,25 @@ bool Nitpicker::ShouldBeginAnimationLoopAgain() {
 }
 
 void Nitpicker::STATE_Waiting_Respawn() {
-    isWaitingForRespawn = true;
-    isFlying = false;
-    isFalling = false;
+    WaitUntilRespawnTime();
 }
 
-void Nitpicker::STATE_Fly_Right() {
+void Nitpicker::STATE_Flying() {
     isWaitingForRespawn = false;
     isFlying = true;
     isFalling = false;
-    direction = Direction::RIGHT;
-    LoadAnimationWithId(NitpickerAnimation::NITPICKER_FLY_TO_RIGHT);
-}
 
-void Nitpicker::STATE_Fly_Left() {
-    isWaitingForRespawn = false;
-    isFlying = true;
-    isFalling = false;
-    direction = Direction::LEFT;
-    LoadAnimationWithId(NitpickerAnimation::NITPICKER_FLY_TO_LEFT);
+    PositionSetY(entityManager->GetCurrentCameraVerticalPosition() + NITPICKER_RESPAWN_TOP_MARGIN); // Use the viewport vertical position as respawn position.
+
+    direction = (rand() % 2 == 0) ? Direction::RIGHT : Direction::LEFT; // Random initial direction.
+    if (direction == Direction::RIGHT) {
+        PositionSetX(0.0f);
+        LoadAnimationWithId(NitpickerAnimation::NITPICKER_FLY_TO_RIGHT);
+    } else {
+        PositionSetX(MOUNTAIN_WIDTH_FLOAT - (Width() >> 1));
+        LoadAnimationWithId(NitpickerAnimation::NITPICKER_FLY_TO_LEFT);
+    }
+
+    CalculateNewFlyingRoute();
+    flyingRouteIt = flyingRoute.begin();
 }

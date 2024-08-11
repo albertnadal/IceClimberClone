@@ -21,7 +21,6 @@ class Nitpicker: public IEntity
 {
   Direction direction;
   bool ReachedScreenEdge();
-  void Respawn();
   std::pair<float, float> speedVector{0.0f, 0.0f};
   std::vector<std::pair<float, float>> flyingRoute;
   std::vector<std::pair<float, float>>::iterator flyingRouteIt;
@@ -35,6 +34,7 @@ class Nitpicker: public IEntity
   // Nitpicker action update functions
   static float calculateDistance(const std::pair<float, float>&, const std::pair<float, float>&);
   void WaitUntilRespawnTime();
+  void UpdateFlight();
   void CalculateNewFlyingRoute();
   void FinishFall();
 
@@ -47,28 +47,26 @@ public:
   static IEntity* Create();
 
   // state machine triggers
-  void ChangeDirection();
+  void StartFlight();
+  void EndFlight();
   bool ShouldBeginAnimationLoopAgain();
 
 private:
   // state machine state functions
   void STATE_Waiting_Respawn();
-  void STATE_Fly_Right();
-  void STATE_Fly_Left();
+  void STATE_Flying();
 
   // state map to define state function order
   BEGIN_STATE_MAP
       STATE_MAP_ENTRY(&Nitpicker::STATE_Waiting_Respawn)
-      STATE_MAP_ENTRY(&Nitpicker::STATE_Fly_Right)
-      STATE_MAP_ENTRY(&Nitpicker::STATE_Fly_Left)
+      STATE_MAP_ENTRY(&Nitpicker::STATE_Flying)
   END_STATE_MAP
 
   // state enumeration order must match the order of state
   // method entries in the state map
   enum NitpickerStateIdentificator {
       STATE_WAITING_RESPAWN = 0, // Initial state
-      STATE_FLY_RIGHT,
-      STATE_FLY_LEFT,
+      STATE_FLYING,
       NITPICKER_MAX_STATES
   };
 };
