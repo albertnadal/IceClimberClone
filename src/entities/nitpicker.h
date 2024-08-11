@@ -23,10 +23,6 @@ class Nitpicker: public IEntity
   bool ReachedScreenEdge();
   void SetRandomFlyStartPosition();
 
-  std::optional<EntityIdentificator> objectToCarryId;
-  IEntity* currentUnderlyingObject = nullptr;
-  std::vector<IEntity*> objectsToIgnoreDuringFall;
-
   // Nitpicker action states
   bool isFlying = false;           // Nitpicker is flying
   bool isFalling = false;          // Nitpicker is falling

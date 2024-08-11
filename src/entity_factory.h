@@ -18,6 +18,7 @@
 #include <entities/bonus_stage_tile.h>
 #include <entities/vegetable.h>
 #include <entities/number.h>
+#include <entities/nitpicker.h>
 
 class EntityManager;
 
