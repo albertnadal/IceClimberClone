@@ -76,7 +76,7 @@ std::optional<Position *> EntityManager::GetPlayerPosition() const {
 }
 
 void EntityManager::PlayerEnteredBonusStage() {
-  // TODO
+  // TODO: Delete all objects under the bonus stage (except player)
 }
 
 std::optional<float> EntityManager::Update(uint8_t pressedKeys) {

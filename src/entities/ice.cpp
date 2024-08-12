@@ -222,10 +222,3 @@ void Ice::STATE_Move_Left() {
     direction = Direction::LEFT;
     LoadAnimationWithId(IceAnimation::ICE_STICKY);
 }
-
-void Ice::HoleDetectedWhenMoving() {
-    BEGIN_TRANSITION_MAP                                           // - Current State -
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Move_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)                   // STATE_Move_Left
-    END_TRANSITION_MAP(nullptr)
-}

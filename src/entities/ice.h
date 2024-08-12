@@ -42,7 +42,6 @@ public:
   static IEntity* Create();
 
   // state machine triggers
-  void HoleDetectedWhenMoving();
   bool ShouldBeginAnimationLoopAgain();
 
 private:
