@@ -49,8 +49,11 @@ std::optional<IEntity *> EntityManager::CreateEntityWithId(EntityIdentificator e
     spacePartitionObjectsTree->insertParticle(*entity_ptr, lowerBound, upperBound);
 
     // Save pointers to proper arrays for static objects and mobile objects
-    if((*entity_ptr)->Type() == EntityType::TERRAIN) staticObjects[(*entity_ptr)->uniqueId] = *entity_ptr;
-    else mobileObjects[(*entity_ptr)->uniqueId] = *entity_ptr;
+    if(((*entity_ptr)->Type() == EntityType::TERRAIN) || ((*entity_ptr)->Type() == EntityType::NUMBER)) {
+      staticObjects[(*entity_ptr)->uniqueId] = *entity_ptr;
+    } else {
+      mobileObjects[(*entity_ptr)->uniqueId] = *entity_ptr;
+    }
   }
 
   return entity_ptr;
@@ -76,7 +79,13 @@ std::optional<Position *> EntityManager::GetPlayerPosition() const {
 }
 
 void EntityManager::PlayerEnteredBonusStage() {
-  // TODO: Delete all objects under the bonus stage (except player)
+  // Delete all mobile objects below the bonus stage (except the player).
+  for (auto const& x : mobileObjects) {
+    IEntity* entity_ptr = x.second;
+    if ((entity_ptr != player) && (entity_ptr->position.GetInitialCellY() > BONUS_STAGE_CELL_Y)) {
+      entity_ptr->isMarkedToDelete = true;
+    }
+  }
 }
 
 std::optional<float> EntityManager::Update(uint8_t pressedKeys) {

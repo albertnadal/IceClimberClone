@@ -21,7 +21,9 @@ public:
   int GetIntX();
   int GetIntY();
   int GetCellX();
+  int GetInitialCellX();
   int GetCellY();
+  int GetInitialCellY();
   void setInitialXY(float x, float y);
   void setOffset(int x, int y);
   void setXY(float, float);

@@ -41,8 +41,16 @@ int Position::GetCellX() {
     return (int_x + (CELL_WIDTH >> 1)) / CELL_WIDTH;
 }
 
+int Position::GetInitialCellX() {
+    return (initial_int_x + (CELL_WIDTH >> 1)) / CELL_WIDTH;
+}
+
 int Position::GetCellY() {
     return (int_y + (CELL_HEIGHT >> 1)) / CELL_HEIGHT;
+}
+
+int Position::GetInitialCellY() {
+    return (initial_int_y + (CELL_HEIGHT >> 1)) / CELL_HEIGHT;
 }
 
 void Position::setOffset(int _x, int _y) {
