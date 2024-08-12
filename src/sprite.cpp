@@ -1,7 +1,6 @@
 #include <sprite.h>
 
 Sprite::Sprite() {
-        areas = nullptr;
         width = 64;
         height = 64;
         u1 = 0.0f;

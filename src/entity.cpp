@@ -38,34 +38,6 @@ void IEntity::SetEntityManager(EntityManager *_entityManager) {
   entityManager = _entityManager;
 }
 
-/*
-std::vector<Area>& IEntity::GetSolidAreas() {
-  if(recalculateAreasDataIsNeeded) {
-    // Updates the object solid areas values according to the current object position and current sprite areas
-    solidAreas.clear();
-    if(currentSprite.areas!=nullptr) {
-      for(uint16_t i=0; i<currentSprite.areas->solidAreas.size(); i++) {
-        std::vector<collision::vec2<float>> updatedPoints;
-        std::vector<collision::vec2<float>> &currentPoints = currentSprite.areas->solidAreas.at(i).rectangle.vertices;
-        for(uint16_t j=0; j<currentPoints.size(); j++) {
-          // Apply the current position to the current area point
-          updatedPoints.push_back(collision::vec2<float>(currentPoints.at(j).x + position.GetX(), currentPoints.at(j).y + position.GetY()));
-        }
-        collision::Rectangle updatedRectangle(updatedPoints);
-        solidAreas.push_back({currentSprite.areas->solidAreas.at(i).id, updatedRectangle});
-      }
-    }
-    recalculateAreasDataIsNeeded = false;
-  }
-  return solidAreas;
-}
-*/
-/*
-std::vector<Area>& IEntity::GetSimpleAreas() {
-
-}
-*/
-
 void IEntity::PositionSetXY(float x, float y) {
     position.setXY(x, y);
     recalculateAreasDataIsNeeded = true;
@@ -130,7 +102,6 @@ void IEntity::LoadNextSprite()
   currentSprite.v1 = spriteData.v1;
   currentSprite.u2 = spriteData.u2;
   currentSprite.v2 = spriteData.v2;
-  currentSprite.areas = spriteData.areas;
   recalculateAreasDataIsNeeded = true; // Is necessary because the current sprite may have different areas
   boundingBox = { spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY };
   firstSpriteOfCurrentAnimationIsLoaded = true;

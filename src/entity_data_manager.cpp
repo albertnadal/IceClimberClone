@@ -33,14 +33,13 @@ void EntityDataManager::Print()
 
 void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
 {
-        enum LineType { OBJ_TEX_FILENAME, OBJ_ID, OBJ_ANIMATION_ID, OBJ_SPRITE, OBJ_SPRITE_COLLISION_AREA };
+        enum LineType { UNDEFINED_LINE_TYPE, OBJ_TEX_FILENAME, OBJ_ID, OBJ_ANIMATION_ID, OBJ_SPRITE };
 
         std::ifstream infile(filename);
         std::string line;
         EntitySpriteSheet *currentEntitySpriteSheet;
         EntitySpriteSheetAnimation *currentEntitySpriteSheetAnimation;
         uint16_t currentEntitySpriteSheetAnimationId;
-        SpriteAreas *currentAreas;
 
         while (std::getline(infile, line))
         {
@@ -48,7 +47,7 @@ void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
                 string token;
                 bool commentFound = false;
                 std::vector<string> *currentFrameValues = new std::vector<string>;
-                LineType currentLineType;
+                LineType currentLineType = UNDEFINED_LINE_TYPE;
 
                 while((iss >> token) && (!commentFound)) {
                         if(startsWith(token, "//")) {
@@ -66,36 +65,6 @@ void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
                                 uint16_t entitySpriteSheetAnimationId = std::stoi(token.substr(1));
                                 currentEntitySpriteSheetAnimation = new EntitySpriteSheetAnimation(entitySpriteSheetAnimationId);
                                 currentEntitySpriteSheet->AddAnimation(currentEntitySpriteSheetAnimation);
-                        } else if(startsWith(token, "_")) {
-                                currentLineType = OBJ_SPRITE_COLLISION_AREA;
-                                uint16_t collisionAreaId = std::stoi(token.substr(1));
-                                iss >> token;
-                                string collisionAreaType = token; // Type is a string value
-
-                                // Creates a temporal vector of tokens of the current line being processed
-                                std::vector<float> *currentCollisionAreaValues = new std::vector<float>;
-
-                                while(iss >> token) {
-                                  currentCollisionAreaValues->push_back(stof(token));
-                                }
-
-                                // Load polygon points to a vector of points
-                                std::vector<vec2<float>> points;
-                                for(uint16_t i=0; i<currentCollisionAreaValues->size(); i+=2) {
-                                  points.push_back(vec2<float>(currentCollisionAreaValues->at(i), currentCollisionAreaValues->at(i+1)));
-                                }
-
-                                delete currentCollisionAreaValues;
-                                // Initializes a polygon from the array of points
-                                collision::Rectangle rectangle(points);
-
-                                // If the polygon corresponds to a solid area then add the polygon to the solidArea vector, otherwise add the polygon to simpleAreas
-                                if(collisionAreaType=="solid") {
-                                  currentAreas->solidAreas.push_back({ collisionAreaId, rectangle });
-                                } else if(collisionAreaType=="simple") {
-                                  currentAreas->simpleAreas.push_back({ collisionAreaId, rectangle });
-                                }
-
                         } else {
                                 currentLineType = OBJ_SPRITE;
                                 currentFrameValues->push_back(token);
@@ -103,7 +72,7 @@ void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
                 }
 
                 if(currentLineType == OBJ_SPRITE) {
-                        if(currentFrameValues->size() == 13) {
+                        if(currentFrameValues->size() >= 13) {
                                 int width = stoi(currentFrameValues->at(0));
                                 int height = stoi(currentFrameValues->at(1));
                                 int xOffset = stoi(currentFrameValues->at(2));
@@ -117,10 +86,17 @@ void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
                                 int lowerBoundY = stoi(currentFrameValues->at(10));
                                 int upperBoundX = stoi(currentFrameValues->at(11));
                                 int upperBoundY = stoi(currentFrameValues->at(12));
+                                int hitLowerBoundX = 0, hitLowerBoundY = 0, hitUpperBoundX = 0, hitUpperBoundY = 0;
 
-                                // An sprite may contain some areas defined by polygons in order to check possible collisions with other objects during the gameplay
-                                currentAreas = new SpriteAreas();
-                                currentEntitySpriteSheetAnimation->AddSprite({ width, height, xOffset, yOffset, u1, v1, u2, v2, duration, false, lowerBoundX, lowerBoundY, upperBoundX, upperBoundY, currentAreas });
+                                if(currentFrameValues->size() == 17) {
+                                        hitLowerBoundX = stoi(currentFrameValues->at(13));
+                                        hitLowerBoundY = stoi(currentFrameValues->at(14));
+                                        hitUpperBoundX = stoi(currentFrameValues->at(15));
+                                        hitUpperBoundY = stoi(currentFrameValues->at(16));
+                                }
+
+                                // An sprite may contain areas defined by rectangles in order to check for basic and hit collisions with other objects during the gameplay
+                                currentEntitySpriteSheetAnimation->AddSprite({ width, height, xOffset, yOffset, u1, v1, u2, v2, duration, false, lowerBoundX, lowerBoundY, upperBoundX, upperBoundY, hitLowerBoundX, hitLowerBoundY, hitUpperBoundX, hitUpperBoundY });
                         }
                 }
 

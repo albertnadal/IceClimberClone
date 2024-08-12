@@ -116,6 +116,10 @@ bool Player::Update(const uint8_t pressedKeys_) {
     return needRedraw;
 }
 
+void Player::GetHitCollisionsWithEnemies(std::vector<ObjectCollision> &collisions) {
+    // TODO
+}
+
 void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& playerIsSuspendedInTheAir) {
     // Check for collisions with other objects present in the scene.
     std::vector<aabb::AABBIntersection<IEntity*>> objectIntersections = spacePartitionObjectsTree->query(GetSolidLowerBound(), GetSolidUpperBound());
@@ -222,7 +226,11 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
 
 void Player::UpdateCollisions() {
     std::vector<ObjectCollision> collisions;
+    std::vector<ObjectCollision> enemyHitCollisions;
     bool playerIsSuspendedInTheAir = false;
+
+    // Search for hit collisions with enemies
+    this->GetHitCollisionsWithEnemies(enemyHitCollisions);
 
     // Search for collisions with solid objects
     this->GetSolidCollisions(collisions, playerIsSuspendedInTheAir);

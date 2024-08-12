@@ -8,7 +8,6 @@
 using namespace std;
 
 struct Area { uint16_t id; collision::Rectangle rectangle; };
-struct SpriteAreas { std::vector<Area> solidAreas; std::vector<Area> simpleAreas; };
 
 class Sprite
 {
@@ -19,7 +18,6 @@ public:
   int xOffset;
   int yOffset;
   float u1, v1, u2, v2;
-  SpriteAreas *areas; // DEPRECATED
   Sprite();
   ~Sprite();
 };
