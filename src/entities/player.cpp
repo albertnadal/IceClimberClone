@@ -117,7 +117,7 @@ bool Player::Update(const uint8_t pressedKeys_) {
 }
 
 void Player::GetHitCollisionsWithEnemies(std::vector<ObjectCollision> &collisions) {
-    // TODO
+    // TODO: Check for attack collisions using the attackBoundingBox
 }
 
 void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& playerIsSuspendedInTheAir) {
@@ -504,6 +504,7 @@ void Player::LoadNextSprite() {
     recalculateAreasDataIsNeeded = true; // Is necessary because the current sprite may have different areas
     boundingBox = {spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY};
     solidBoundingBox = {spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY};
+    attackBoundingBox = {spriteData.attackLowerBoundX, spriteData.attackLowerBoundY, spriteData.attackUpperBoundX, spriteData.attackUpperBoundY};
     firstSpriteOfCurrentAnimationIsLoaded = true;
 }
 

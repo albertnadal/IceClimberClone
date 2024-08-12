@@ -86,17 +86,17 @@ void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
                                 int lowerBoundY = stoi(currentFrameValues->at(10));
                                 int upperBoundX = stoi(currentFrameValues->at(11));
                                 int upperBoundY = stoi(currentFrameValues->at(12));
-                                int hitLowerBoundX = 0, hitLowerBoundY = 0, hitUpperBoundX = 0, hitUpperBoundY = 0;
+                                int attackLowerBoundX = 0, attackLowerBoundY = 0, attackUpperBoundX = 0, attackUpperBoundY = 0;
 
                                 if(currentFrameValues->size() == 17) {
-                                        hitLowerBoundX = stoi(currentFrameValues->at(13));
-                                        hitLowerBoundY = stoi(currentFrameValues->at(14));
-                                        hitUpperBoundX = stoi(currentFrameValues->at(15));
-                                        hitUpperBoundY = stoi(currentFrameValues->at(16));
+                                        attackLowerBoundX = stoi(currentFrameValues->at(13));
+                                        attackLowerBoundY = stoi(currentFrameValues->at(14));
+                                        attackUpperBoundX = stoi(currentFrameValues->at(15));
+                                        attackUpperBoundY = stoi(currentFrameValues->at(16));
                                 }
 
-                                // An sprite may contain areas defined by rectangles in order to check for basic and hit collisions with other objects during the gameplay
-                                currentEntitySpriteSheetAnimation->AddSprite({ width, height, xOffset, yOffset, u1, v1, u2, v2, duration, false, lowerBoundX, lowerBoundY, upperBoundX, upperBoundY, hitLowerBoundX, hitLowerBoundY, hitUpperBoundX, hitUpperBoundY });
+                                // An sprite may contain areas defined by rectangles in order to check for basic and attack collisions with other objects during the gameplay
+                                currentEntitySpriteSheetAnimation->AddSprite({ width, height, xOffset, yOffset, u1, v1, u2, v2, duration, false, lowerBoundX, lowerBoundY, upperBoundX, upperBoundY, attackLowerBoundX, attackLowerBoundY, attackUpperBoundX, attackUpperBoundY });
                         }
                 }
 

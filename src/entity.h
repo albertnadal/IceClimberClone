@@ -46,6 +46,7 @@ public:
   Position position;
   Boundaries boundingBox;
   Boundaries solidBoundingBox;
+  Boundaries attackBoundingBox;  // REVISIT: This attribute member must be moved to Player class, as the Player is the only object with attack areas
   collision::vec2<int16_t> vectorDirection;
   uint32_t uniqueId;
   bool isBreakable = false;
@@ -65,6 +66,7 @@ public:
   virtual std::vector<int> GetSolidUpperBound();
   virtual Boundaries GetAbsoluteBoundaries();
   virtual Boundaries GetAbsoluteSolidBoundaries();
+  virtual Boundaries GetAbsoluteAttackBoundaries();  // REVISIT: This method must be moved to Player class, as the Player is the only object with attack areas
   virtual EntityIdentificator Id();
   virtual EntityType Type();
   virtual void InitWithSpriteSheet(EntitySpriteSheet*);

@@ -6,7 +6,7 @@ IEntity::IEntity() {
   id = EntityIdentificator::NONE;
   MersenneTwister rng;
   uniqueId = rng.integer(0, UINT_MAX);
-  boundingBox = solidBoundingBox = {0, 0, 0, 0};
+  boundingBox = solidBoundingBox = attackBoundingBox = {0, 0, 0, 0};
   vectorDirection.x = 0;
   vectorDirection.y = 0;
   recalculateAreasDataIsNeeded = true;
@@ -24,7 +24,7 @@ IEntity::IEntity(EntityIdentificator _id, EntityType _type, SurfaceType surface_
   isTraversable(_isTraversable) {
   MersenneTwister rng;
   uniqueId = rng.integer(0, UINT_MAX);
-  boundingBox = solidBoundingBox = {0, 0, 0, 0};
+  boundingBox = solidBoundingBox = attackBoundingBox = {0, 0, 0, 0};
   vectorDirection.x = 0;
   vectorDirection.y = 0;
   recalculateAreasDataIsNeeded = true;
@@ -153,6 +153,13 @@ Boundaries IEntity::GetAbsoluteSolidBoundaries() {
           position.GetIntY() + boundingBox.upperBoundY,
           position.GetIntX() + boundingBox.lowerBoundX,
           position.GetIntY() + boundingBox.lowerBoundY};
+}
+
+Boundaries IEntity::GetAbsoluteAttackBoundaries() {
+  return {position.GetIntX() + attackBoundingBox.upperBoundX,
+          position.GetIntY() + attackBoundingBox.upperBoundY,
+          position.GetIntX() + attackBoundingBox.lowerBoundX,
+          position.GetIntY() + attackBoundingBox.lowerBoundY};
 }
 
 EntityIdentificator IEntity::Id() {

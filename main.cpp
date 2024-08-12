@@ -106,8 +106,13 @@ int main()
                                         auto tint = spriteRectDoubleBuffer->consumer_buffer[i].tint;
                                         DrawTextureRec(textureAtlas, source, position, tint);
 
-                                        //auto box = spriteRectDoubleBuffer->consumer_buffer[i].boundaries;
-                                        //DrawRectangleLinesEx({static_cast<float>(box.upperBoundX), static_cast<float>(box.upperBoundY), static_cast<float>(box.lowerBoundX-box.upperBoundX), static_cast<float>(box.lowerBoundY-box.upperBoundY)}, 1.0f, PINK);
+                                        // Draw solid bondaries only for debug purposes
+                                        auto box = spriteRectDoubleBuffer->consumer_buffer[i].boundaries;
+                                        DrawRectangleLinesEx({static_cast<float>(box.upperBoundX), static_cast<float>(box.upperBoundY), static_cast<float>(box.lowerBoundX-box.upperBoundX), static_cast<float>(box.lowerBoundY-box.upperBoundY)}, 1.0f, PINK);
+
+                                        // Draw attack bondaries only for debug purposes
+                                        box = spriteRectDoubleBuffer->consumer_buffer[i].attackBoundaries;
+                                        DrawRectangleLinesEx({static_cast<float>(box.upperBoundX), static_cast<float>(box.upperBoundY), static_cast<float>(box.lowerBoundX-box.upperBoundX), static_cast<float>(box.lowerBoundY-box.upperBoundY)}, 1.0f, YELLOW);
                                 }
                                 spriteRectDoubleBuffer->unlock();
                                 DrawFPS(535, 110);
