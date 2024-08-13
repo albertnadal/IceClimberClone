@@ -12,10 +12,6 @@ void Topi::PrintName() {
     std::cout << "Topi." << std::endl;
 }
 
-bool Topi::IsTopi() {
-  return true;
-}
-
 inline bool Topi::ReachedScreenEdge() {
     return (position.GetRealX() < 0.0f) || (position.GetRealX() >= MOUNTAIN_WIDTH_FLOAT - (Width() >> 1));
 }

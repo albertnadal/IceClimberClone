@@ -79,11 +79,11 @@ void Ice::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& ice
         }
 
         // Compute position correction when Ice collides when moving to the right
-        if (intersection.particle->IsTopi() && (intersection.particle->vectorDirection.x < 0) && (intersection.particle->vectorDirection.y == 0) && (intersection.rightIntersectionX < 0)) {
+        if ((intersection.particle->id == EntityIdentificator::TOPI) && (intersection.particle->vectorDirection.x < 0) && (intersection.particle->vectorDirection.y == 0) && (intersection.rightIntersectionX < 0)) {
             horizontalCorrection = intersection.rightIntersectionX;
         }
         // Compute position correction when Ice collides when moving to the left
-        else if (intersection.particle->IsTopi() && (intersection.particle->vectorDirection.x > 0) && (intersection.particle->vectorDirection.y == 0) && (intersection.leftIntersectionX > 0)) {
+        else if ((intersection.particle->id == EntityIdentificator::TOPI) && (intersection.particle->vectorDirection.x > 0) && (intersection.particle->vectorDirection.y == 0) && (intersection.leftIntersectionX > 0)) {
             horizontalCorrection = intersection.leftIntersectionX;
         }
         else {
@@ -158,7 +158,7 @@ void Ice::UpdateCollisions() {
                 bool object_collides = false;
 
                 for (auto intersection : objectIntersections) {
-                    if (!intersection.particle->isTraversable && !intersection.particle->isMarkedToDelete && !intersection.particle->IsCloud() && !intersection.particle->IsTopi()) {
+                    if (!intersection.particle->isTraversable && !intersection.particle->isMarkedToDelete && !intersection.particle->IsCloud() && (intersection.particle->id != EntityIdentificator::TOPI)) {
                         object_collides = true;
                         break;
                     }

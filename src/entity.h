@@ -82,7 +82,6 @@ public:
   virtual void Hit(bool);
   virtual bool ShouldBeginAnimationLoopAgain();
   virtual bool IsCloud();
-  virtual bool IsTopi();
 };
 
 typedef IEntity* (*CreateEntityFn)(void);

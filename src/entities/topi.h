@@ -45,7 +45,6 @@ public:
   ~Topi() override;
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
   void PrintName() override;
-  bool IsTopi() override;
   bool Update(uint8_t) override;
   void Hit(bool) override;
   bool ShouldBeginAnimationLoopAgain() override;

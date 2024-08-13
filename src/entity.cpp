@@ -204,10 +204,6 @@ bool IEntity::IsCloud() {
   return false;
 }
 
-bool IEntity::IsTopi() {
-  return false;
-}
-
 void IEntity::UpdatePositionInSpacePartitionTree() {
     std::vector<int> lowerBound = GetLowerBound();
     std::vector<int> upperBound = GetUpperBound();
