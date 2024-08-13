@@ -47,12 +47,14 @@ public:
   void PrintName() override;
   bool IsTopi() override;
   bool Update(uint8_t) override;
+  void Hit(bool) override;
   static IEntity* Create();
 
   // state machine triggers
   void HoleDetectedWhenWalking();
   void SuspendedInTheAir();
   void FallLanding();
+  void HitReceived();
   void ChangeDirection();
   void BringIceToFillHole();
   bool ShouldBeginAnimationLoopAgain();

@@ -59,6 +59,13 @@ bool Topi::Update(const uint8_t pressedKeys_) {
             // Place Topi at its original position
             position.recoverInitialPosition();
             SetRandomWalkStartPosition();
+
+            // Add Topi into the partition objects tree again. When hit by the player then the Topi is removed from the tree.
+            if (!spacePartitionObjectsTree->particleExists(this)) {
+                std::vector<int> lowerBound = GetLowerBound();
+                std::vector<int> upperBound = GetUpperBound();
+                spacePartitionObjectsTree->insertParticle(this, lowerBound, upperBound);
+            }
         }
         needRedraw = true;
     }
@@ -85,6 +92,13 @@ bool Topi::Update(const uint8_t pressedKeys_) {
     }
 
     return needRedraw;
+}
+
+void Topi::Hit(bool hitFromLeft) {
+    if (isWalking || isGoingToPickUpIce) {
+        RemoveFromSpacePartitionObjectsTree();
+        HitReceived();
+    }
 }
 
 void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& topiIsSuspendedInTheAir, bool& topiFoundAHoleOnTheFloor) {
