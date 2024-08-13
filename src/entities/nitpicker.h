@@ -54,7 +54,6 @@ public:
   void EndFlight();
   void StartFall();
   void EndFall();
-  bool ShouldBeginAnimationLoopAgain();
 
 private:
   // state machine state functions

@@ -35,7 +35,6 @@ protected:
   void LoadAnimationWithId(uint16_t);
   void LoadNextSprite();
   SpriteData NextSpriteData();
-  bool ShouldBeginAnimationLoopAgain();
 public:
   IEntity();
   IEntity(EntityIdentificator, EntityType, SurfaceType, unsigned char, bool, bool);
@@ -81,6 +80,7 @@ public:
   virtual bool Update(const uint8_t, aabb::Tree<IEntity*>&);
   virtual void UpdatePositionInSpacePartitionTree();
   virtual void Hit(bool);
+  virtual bool ShouldBeginAnimationLoopAgain();
   virtual bool IsCloud();
   virtual bool IsTopi();
 };

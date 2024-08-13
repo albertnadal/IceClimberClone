@@ -169,10 +169,6 @@ IEntity *Nitpicker::Create() {
 
 Nitpicker::~Nitpicker() = default;
 
-bool Nitpicker::ShouldBeginAnimationLoopAgain() {
-    return false;
-}
-
 void Nitpicker::STATE_Waiting_Respawn() {
     WaitUntilRespawnTime();
 }

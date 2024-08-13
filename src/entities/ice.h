@@ -27,10 +27,10 @@ class Ice: public IEntity
   // Ice action states
   bool hasBeenPushedByTopi = false;    // The ice block has been pushed by a Topi
   bool isBeingPushed = false;          // The ice block is pushed by a Topi
+  bool isBeingDestroyed = false;       // The ice block is currently being destroyed due to a hit received from the player
 
   // Ice action update functions
   void UpdateCollisions();
-  void MoveTo(Direction, float);
   bool ReachedScreenEdge();
 
 public:
@@ -39,28 +39,20 @@ public:
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
   void PrintName() override;
   bool Update(uint8_t) override;
+  void Hit(bool) override;
+  bool ShouldBeginAnimationLoopAgain() override;
   static IEntity* Create();
 
-  // state machine triggers
-  bool ShouldBeginAnimationLoopAgain();
-
 private:
-  // state machine state functions
-  void STATE_Move_Right();
-  void STATE_Move_Left();
 
   // state map to define state function order
   BEGIN_STATE_MAP
-      STATE_MAP_ENTRY(&Ice::STATE_Move_Right)
-      STATE_MAP_ENTRY(&Ice::STATE_Move_Left)
   END_STATE_MAP
 
   // state enumeration order must match the order of state
   // method entries in the state map
   enum IceStateIdentificator {
-      STATE_MOVE_RIGHT = 0, // Initial state
-      STATE_MOVE_LEFT,
-      ICE_MAX_STATES
+      ICE_MAX_STATES = 0, // Initial state
   };
 };
 

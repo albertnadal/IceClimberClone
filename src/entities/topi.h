@@ -48,6 +48,7 @@ public:
   bool IsTopi() override;
   bool Update(uint8_t) override;
   void Hit(bool) override;
+  bool ShouldBeginAnimationLoopAgain() override;
   static IEntity* Create();
 
   // state machine triggers
@@ -57,7 +58,6 @@ public:
   void HitReceived();
   void ChangeDirection();
   void BringIceToFillHole();
-  bool ShouldBeginAnimationLoopAgain();
 
 private:
   // state machine state functions

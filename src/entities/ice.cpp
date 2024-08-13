@@ -48,6 +48,13 @@ bool Ice::Update(const uint8_t pressedKeys_) {
     return needRedraw;
 }
 
+void Ice::Hit(bool hitFromLeft) {
+    RemoveFromSpacePartitionObjectsTree();
+    isBeingPushed = false;
+    isBeingDestroyed = true;
+    LoadAnimationWithId(IceAnimation::ICE_DESTROY);  // The object will be marked to delete once the animation finishes
+}
+
 void Ice::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& iceIsSuspendedInTheAir, bool& iceFoundAHoleOnTheFloor) {
     // Check for collisions with other objects present in the scene.
     std::vector<aabb::AABBIntersection<IEntity*>> objectIntersections = spacePartitionObjectsTree->query(GetLowerBound(), GetUpperBound());
@@ -118,6 +125,10 @@ void Ice::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& ice
 }
 
 void Ice::UpdateCollisions() {
+    if (isBeingDestroyed) {
+        return;
+    }
+
     std::vector<ObjectCollision> collisions;
     bool iceIsSuspendedInTheAir = false;
     bool iceFoundAHoleOnTheFloor = false;
@@ -184,15 +195,9 @@ void Ice::UpdateCollisions() {
     if (minHorizontalCorrection < 0 || maxHorizontalCorrection > 0) {
         float correction = (minHorizontalCorrection < 0) ? static_cast<float>(minHorizontalCorrection) : static_cast<float>(maxHorizontalCorrection);
         PositionAddX(correction);
+        UpdatePositionInSpacePartitionTree();
         hasBeenPushedByTopi = true;
         return;
-    }
-}
-
-void Ice::MoveTo(Direction direction, float distance) {
-    if (isBeingPushed) {
-        PositionAddX(direction == Direction::RIGHT ? distance : -(distance));
-        vectorDirection.x = (direction == Direction::RIGHT ? 1 : -1);
     }
 }
 
@@ -208,17 +213,10 @@ IEntity *Ice::Create() {
 Ice::~Ice() = default;
 
 bool Ice::ShouldBeginAnimationLoopAgain() {
+    // Delete the entity once the destroying animation finishes
+    if (isBeingDestroyed) {
+        isMarkedToDelete = true;
+    }
+
     return false;
-}
-
-void Ice::STATE_Move_Right() {
-    isBeingPushed = true;
-    direction = Direction::RIGHT;
-    LoadAnimationWithId(IceAnimation::ICE_STICKY);
-}
-
-void Ice::STATE_Move_Left() {
-    isBeingPushed = true;
-    direction = Direction::LEFT;
-    LoadAnimationWithId(IceAnimation::ICE_STICKY);
 }

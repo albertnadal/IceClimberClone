@@ -90,6 +90,7 @@ public:
   void PrintName() override;
   bool Update(uint8_t) override;
   void NotifyNewAltitudeHasBeenReached();
+  bool ShouldBeginAnimationLoopAgain() override;
   static IEntity* Create();
 
   // state machine triggers
@@ -109,7 +110,6 @@ public:
   void SuspendedInTheAir();
   void StopRunningOnSlidingSurface();
   void StopSlipping();
-  bool ShouldBeginAnimationLoopAgain();
 
 private:
   // state machine state functions
