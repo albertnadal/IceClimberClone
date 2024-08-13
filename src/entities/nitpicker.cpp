@@ -67,7 +67,16 @@ bool Nitpicker::Update(const uint8_t pressedKeys_) {
     }
     else if (isFalling) {
         PositionAddY(3.5f);  // Simple linear fall instead of parabolic
-        UpdatePositionInSpacePartitionTree();
+
+        if ((position.GetCellY() - position.GetInitialCellY()) >= NITPICKER_MAX_FALL_CELLS) {
+            // Add Nitpicker into the partition objects tree again. When hit by the player then the Nitpicker is removed from the tree.
+            if (!spacePartitionObjectsTree->particleExists(this)) {
+                std::vector<int> lowerBound = GetLowerBound();
+                std::vector<int> upperBound = GetUpperBound();
+                spacePartitionObjectsTree->insertParticle(this, lowerBound, upperBound);
+            }
+            EndFall();
+        }
         needRedraw = true;
     }
 
@@ -86,6 +95,13 @@ bool Nitpicker::Update(const uint8_t pressedKeys_) {
     }
 
     return needRedraw;
+}
+
+void Nitpicker::Hit(bool hitFromLeft) {
+    if (isFlying) {
+        RemoveFromSpacePartitionObjectsTree();
+        StartFall();
+    }
 }
 
 float Nitpicker::calculateDistance(const std::pair<float, float>& a, const std::pair<float, float>& b) {
@@ -179,4 +195,12 @@ void Nitpicker::STATE_Flying() {
 
     CalculateNewFlyingRoute();
     flyingRouteIt = flyingRoute.begin();
+}
+
+void Nitpicker::STATE_Falling() {
+    isWaitingForRespawn = false;
+    isFlying = false;
+    isRetreating = false;
+    isFalling = true;
+    LoadAnimationWithId(speedVector.first < 0.0f ? NitpickerAnimation::NITPICKER_FALL_LEFT : NitpickerAnimation::NITPICKER_FALL_RIGHT);
 }

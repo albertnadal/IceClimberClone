@@ -46,22 +46,27 @@ public:
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
   void PrintName() override;
   bool Update(uint8_t) override;
+  void Hit(bool) override;
   static IEntity* Create();
 
   // state machine triggers
   void StartFlight();
   void EndFlight();
+  void StartFall();
+  void EndFall();
   bool ShouldBeginAnimationLoopAgain();
 
 private:
   // state machine state functions
   void STATE_Waiting_Respawn();
   void STATE_Flying();
+  void STATE_Falling();
 
   // state map to define state function order
   BEGIN_STATE_MAP
       STATE_MAP_ENTRY(&Nitpicker::STATE_Waiting_Respawn)
       STATE_MAP_ENTRY(&Nitpicker::STATE_Flying)
+      STATE_MAP_ENTRY(&Nitpicker::STATE_Falling)
   END_STATE_MAP
 
   // state enumeration order must match the order of state
@@ -69,6 +74,7 @@ private:
   enum NitpickerStateIdentificator {
       STATE_WAITING_RESPAWN = 0, // Initial state
       STATE_FLYING,
+      STATE_FALLING,
       NITPICKER_MAX_STATES
   };
 };

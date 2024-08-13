@@ -440,6 +440,12 @@ namespace aabb
          */
         bool updateParticle(T, std::vector<double>&, std::vector<double>&, bool alwaysReinsert=false);
 
+        //! Specifies if the requested particle is present in the tree.
+        /*! \param particle
+                The particle index (particleMap will be used to map the node).
+         */
+        bool particleExists(T);
+
         //! Query the tree to find candidate interactions for a particle.
         /*! \param particle
                 The particle index.
@@ -1113,6 +1119,12 @@ namespace aabb
         insertLeaf(node);
 
         return true;
+    }
+
+    template <class T>
+    bool Tree<T>::particleExists(T particle)
+    {
+        return (particleMap.count(particle) != 0);
     }
 
     template <class T>

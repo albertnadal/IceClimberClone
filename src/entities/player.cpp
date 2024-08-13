@@ -116,7 +116,7 @@ bool Player::Update(const uint8_t pressedKeys_) {
     return needRedraw;
 }
 
-void Player::GetHitCollisionsWithEnemies(std::vector<ObjectCollision> &collisions) {
+void Player::CheckHitCollisionsWithEnemies() {
     // Check for attack collisions with enemies present in the scene.
     if (!GetAttackLowerBound().has_value() || !GetAttackUpperBound().has_value()) {
         return;
@@ -237,11 +237,10 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
 
 void Player::UpdateCollisions() {
     std::vector<ObjectCollision> collisions;
-    std::vector<ObjectCollision> enemyHitCollisions;
     bool playerIsSuspendedInTheAir = false;
 
-    // Search for hit collisions with enemies
-    this->GetHitCollisionsWithEnemies(enemyHitCollisions);
+    // Check for hit collisions with nearby enemies
+    this->CheckHitCollisionsWithEnemies();
 
     // Search for collisions with solid objects
     this->GetSolidCollisions(collisions, playerIsSuspendedInTheAir);

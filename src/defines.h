@@ -103,6 +103,7 @@ constexpr float NITPICKER_MAX_SPEED = 0.6;                                      
 constexpr float NITPICKER_ACCELERATION = 0.01;                                   // Nitpicker acceleration when flying.
 constexpr int NITPICKER_NUM_WAYPOINTS = 4;                                       // Number of flight path points the Nitpicker should travel.
 constexpr int NITPICKER_MAX_CONSECUTIVE_ATTACK_ATTEMPS = 3;                      // Number of consecutive Nitpicker attack attempts during a flight.
+constexpr int NITPICKER_MAX_FALL_CELLS = 50;                                     // Nitpicker fall distance in number of cells before respawn.
 constexpr float INITIAL_CAMERA_POSITION = 78 * CELL_HEIGHT_FLOAT;                // Initial camera vertical position when player is at level 1.
 constexpr int BONUS_STAGE_CELL_Y = 50;                                           // Vertical cell position where bonus stage starts
 constexpr float CAMERA_PADDING_TOP = 13 * CELL_HEIGHT_FLOAT;                     // Camera viewport top padding space
