@@ -17,7 +17,7 @@ using namespace std;
 
 class Player: public IEntity
 {
-  bool headedToRight = true;
+  bool isHeadedToRight = true;
   int lowestCellYReached = 9999;
   uint8_t prevPressedKeys = KeyboardKeyCode::IC_KEY_NONE;
   uint8_t pressedKeys = KeyboardKeyCode::IC_KEY_NONE;

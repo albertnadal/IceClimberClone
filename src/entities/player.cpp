@@ -117,7 +117,18 @@ bool Player::Update(const uint8_t pressedKeys_) {
 }
 
 void Player::GetHitCollisionsWithEnemies(std::vector<ObjectCollision> &collisions) {
-    // TODO: Check for attack collisions using the attackBoundingBox
+    // Check for attack collisions with enemies present in the scene.
+    if (!GetAttackLowerBound().has_value() || !GetAttackUpperBound().has_value()) {
+        return;
+    }
+
+    std::vector<aabb::AABBIntersection<IEntity*>> objectIntersections = spacePartitionObjectsTree->query(GetAttackLowerBound().value(), GetAttackUpperBound().value());
+
+    for (auto intersection : objectIntersections) {
+        if (intersection.particle->type == EntityType::ENEMY) {
+            intersection.particle->Hit(isHeadedToRight);
+        }
+    }
 }
 
 void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& playerIsSuspendedInTheAir) {
@@ -284,7 +295,7 @@ void Player::UpdateCollisions() {
         isJumpApex = false;
 
         ObjectCollision collision = collisions.front();
-        collision.object->Hit(headedToRight);
+        collision.object->Hit(isHeadedToRight);
 
         TopCollisionDuringJump();
     } else if (isJumping && vectorDirection.x != 0 && collisions.size() >= 1 && maxHorizontalCorrection >= 0 && minHorizontalCorrection == 0 && minVerticalCorrection < 0) {
@@ -361,7 +372,7 @@ void Player::UpdateCollisions() {
         isJumpApex = false;
 
         ObjectCollision collision = collisions.front();
-        collision.object->Hit(headedToRight);
+        collision.object->Hit(isHeadedToRight);
 
         TopCollisionDuringJump();
     } else if (isFalling && minVerticalCorrection < 0) {
@@ -387,7 +398,7 @@ void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {
     if ((pressedKeys & KeyboardKeyCode::IC_KEY_RIGHT) == KeyboardKeyCode::IC_KEY_RIGHT) {
         // If is not IC_KEY_RIGHT repeated press then change character state
         if ((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::IC_KEY_RIGHT) != KeyboardKeyCode::IC_KEY_RIGHT))) {
-            headedToRight = true;
+            isHeadedToRight = true;
             isBlockedLeft = false;
 
             if (isJumpApex) {
@@ -408,7 +419,7 @@ void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {
     if ((pressedKeys & KeyboardKeyCode::IC_KEY_LEFT) == KeyboardKeyCode::IC_KEY_LEFT) {
         // If is not IC_KEY_LEFT repeated press then change character state
         if ((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::IC_KEY_LEFT) != KeyboardKeyCode::IC_KEY_LEFT))) {
-            headedToRight = false;
+            isHeadedToRight = false;
             isBlockedRight = false;
 
             if (isJumpApex) {
@@ -426,7 +437,7 @@ void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {
         LeftKeyReleased();
     }
 
-    if (!isJumping && !isFalling && !isSlipping && ((isOnMobileSurface && !isRunning && (isBlockedRight || isBlockedLeft)) || (isRunning && !isBlockedRight && !isBlockedLeft) || (headedToRight && !isBlockedRight) || (!headedToRight && !isBlockedLeft)) && ((pressedKeys & KeyboardKeyCode::IC_KEY_UP) == KeyboardKeyCode::IC_KEY_UP)) {
+    if (!isJumping && !isFalling && !isSlipping && ((isOnMobileSurface && !isRunning && (isBlockedRight || isBlockedLeft)) || (isRunning && !isBlockedRight && !isBlockedLeft) || (isHeadedToRight && !isBlockedRight) || (!isHeadedToRight && !isBlockedLeft)) && ((pressedKeys & KeyboardKeyCode::IC_KEY_UP) == KeyboardKeyCode::IC_KEY_UP)) {
         // If is not IC_KEY_UP repeated press then change character state
         if ((!checkPreviousPressedKeys) ||
             ((checkPreviousPressedKeys) && ((prevPressedKeys & KeyboardKeyCode::IC_KEY_UP) != KeyboardKeyCode::IC_KEY_UP))) {
@@ -504,7 +515,9 @@ void Player::LoadNextSprite() {
     recalculateAreasDataIsNeeded = true; // Is necessary because the current sprite may have different areas
     boundingBox = {spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY};
     solidBoundingBox = {spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY};
-    attackBoundingBox = {spriteData.attackLowerBoundX, spriteData.attackLowerBoundY, spriteData.attackUpperBoundX, spriteData.attackUpperBoundY};
+    attackBoundingBox = spriteData.hasAttack
+        ? std::make_optional<Boundaries>(Boundaries{spriteData.attackLowerBoundX, spriteData.attackLowerBoundY, spriteData.attackUpperBoundX, spriteData.attackUpperBoundY})
+        : std::nullopt;
     firstSpriteOfCurrentAnimationIsLoaded = true;
 }
 
@@ -605,7 +618,7 @@ void Player::FinishFall() {
 }
 
 void Player::UpdateSlip() {
-    PositionAddX(headedToRight ? 2.0f : -2.0f);
+    PositionAddX(isHeadedToRight ? 2.0f : -2.0f);
     UpdatePreviousDirection();
 
     if ((std::abs(hInitialSlipPosition - position.GetRealX()) >= SLIPPING_DISTANCE) || isBlockedLeft || isBlockedRight) {
@@ -664,7 +677,7 @@ void Player::Fall(float hSpeed) {
 
 void Player::Slip() {
     UpdatePreviousDirection();
-    vectorDirection.x = headedToRight ? 1 : -1;
+    vectorDirection.x = isHeadedToRight ? 1 : -1;
     vectorDirection.y = 0;
     hMomentum = 0;
     hInitialSlipPosition = position.GetRealX();

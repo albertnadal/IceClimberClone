@@ -86,6 +86,7 @@ void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
                                 int lowerBoundY = stoi(currentFrameValues->at(10));
                                 int upperBoundX = stoi(currentFrameValues->at(11));
                                 int upperBoundY = stoi(currentFrameValues->at(12));
+                                bool hasAttack = false;
                                 int attackLowerBoundX = 0, attackLowerBoundY = 0, attackUpperBoundX = 0, attackUpperBoundY = 0;
 
                                 if(currentFrameValues->size() == 17) {
@@ -93,10 +94,11 @@ void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
                                         attackLowerBoundY = stoi(currentFrameValues->at(14));
                                         attackUpperBoundX = stoi(currentFrameValues->at(15));
                                         attackUpperBoundY = stoi(currentFrameValues->at(16));
+                                        hasAttack = true;
                                 }
 
                                 // An sprite may contain areas defined by rectangles in order to check for basic and attack collisions with other objects during the gameplay
-                                currentEntitySpriteSheetAnimation->AddSprite({ width, height, xOffset, yOffset, u1, v1, u2, v2, duration, false, lowerBoundX, lowerBoundY, upperBoundX, upperBoundY, attackLowerBoundX, attackLowerBoundY, attackUpperBoundX, attackUpperBoundY });
+                                currentEntitySpriteSheetAnimation->AddSprite({ width, height, xOffset, yOffset, u1, v1, u2, v2, duration, false, lowerBoundX, lowerBoundY, upperBoundX, upperBoundY, hasAttack, attackLowerBoundX, attackLowerBoundY, attackUpperBoundX, attackUpperBoundY });
                         }
                 }
 

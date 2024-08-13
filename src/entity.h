@@ -26,7 +26,6 @@ protected:
   std::vector<SpriteData> currentAnimationSprites;
   std::vector<SpriteData>::iterator currentAnimationSpriteIterator;
   EntitySpriteSheet *spriteSheet = nullptr;
-  EntityType type;
   chrono::system_clock::time_point nextSpriteTime;
   bool animationLoaded = false;
   bool firstSpriteOfCurrentAnimationIsLoaded = false;
@@ -41,12 +40,13 @@ public:
   IEntity();
   IEntity(EntityIdentificator, EntityType, SurfaceType, unsigned char, bool, bool);
   EntityIdentificator id;
+  EntityType type;
   SurfaceType surfaceType;
   Sprite currentSprite;
   Position position;
   Boundaries boundingBox;
   Boundaries solidBoundingBox;
-  Boundaries attackBoundingBox;  // REVISIT: This attribute member must be moved to Player class, as the Player is the only object with attack areas
+  std::optional<Boundaries> attackBoundingBox = std::nullopt;  // REVISIT: This attribute member must be moved to Player class, as the Player is the only object with attack areas
   collision::vec2<int16_t> vectorDirection;
   uint32_t uniqueId;
   bool isBreakable = false;
@@ -64,9 +64,11 @@ public:
   virtual std::vector<int> GetUpperBound();
   virtual std::vector<int> GetSolidLowerBound();
   virtual std::vector<int> GetSolidUpperBound();
+  virtual std::optional<std::vector<int>> GetAttackLowerBound();  // REVISIT: This method must be moved to Player class, as the Player is the only object with attack areas
+  virtual std::optional<std::vector<int>> GetAttackUpperBound();  // REVISIT: This method must be moved to Player class, as the Player is the only object with attack areas
   virtual Boundaries GetAbsoluteBoundaries();
   virtual Boundaries GetAbsoluteSolidBoundaries();
-  virtual Boundaries GetAbsoluteAttackBoundaries();  // REVISIT: This method must be moved to Player class, as the Player is the only object with attack areas
+  virtual std::optional<Boundaries> GetAbsoluteAttackBoundaries();  // REVISIT: This method must be moved to Player class, as the Player is the only object with attack areas
   virtual EntityIdentificator Id();
   virtual EntityType Type();
   virtual void InitWithSpriteSheet(EntitySpriteSheet*);

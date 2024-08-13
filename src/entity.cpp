@@ -6,7 +6,8 @@ IEntity::IEntity() {
   id = EntityIdentificator::NONE;
   MersenneTwister rng;
   uniqueId = rng.integer(0, UINT_MAX);
-  boundingBox = solidBoundingBox = attackBoundingBox = {0, 0, 0, 0};
+  boundingBox = solidBoundingBox = {0, 0, 0, 0};
+  attackBoundingBox = std::nullopt;
   vectorDirection.x = 0;
   vectorDirection.y = 0;
   recalculateAreasDataIsNeeded = true;
@@ -24,7 +25,8 @@ IEntity::IEntity(EntityIdentificator _id, EntityType _type, SurfaceType surface_
   isTraversable(_isTraversable) {
   MersenneTwister rng;
   uniqueId = rng.integer(0, UINT_MAX);
-  boundingBox = solidBoundingBox = attackBoundingBox = {0, 0, 0, 0};
+  boundingBox = solidBoundingBox = {0, 0, 0, 0};
+  attackBoundingBox = std::nullopt;
   vectorDirection.x = 0;
   vectorDirection.y = 0;
   recalculateAreasDataIsNeeded = true;
@@ -122,23 +124,35 @@ bool IEntity::ShouldBeginAnimationLoopAgain()
 }
 
 std::vector<int> IEntity::GetLowerBound() {
-  std::vector<int> lowerBound{position.GetIntX() + boundingBox.lowerBoundX, position.GetIntY() + boundingBox.lowerBoundY};
-  return lowerBound;
+  return {position.GetIntX() + boundingBox.lowerBoundX, position.GetIntY() + boundingBox.lowerBoundY};
 }
 
 std::vector<int> IEntity::GetUpperBound() {
-  std::vector<int> upperBound{position.GetIntX() + boundingBox.upperBoundX, position.GetIntY() + boundingBox.upperBoundY};
-  return upperBound;
+  return {position.GetIntX() + boundingBox.upperBoundX, position.GetIntY() + boundingBox.upperBoundY};
 }
 
 std::vector<int> IEntity::GetSolidLowerBound() {
-  std::vector<int> lowerBound{position.GetIntX() + solidBoundingBox.lowerBoundX, position.GetIntY() + solidBoundingBox.lowerBoundY};
-  return lowerBound;
+  return {position.GetIntX() + solidBoundingBox.lowerBoundX, position.GetIntY() + solidBoundingBox.lowerBoundY};
 }
 
 std::vector<int> IEntity::GetSolidUpperBound() {
-  std::vector<int> upperBound{position.GetIntX() + solidBoundingBox.upperBoundX, position.GetIntY() + solidBoundingBox.upperBoundY};
-  return upperBound;
+  return {position.GetIntX() + solidBoundingBox.upperBoundX, position.GetIntY() + solidBoundingBox.upperBoundY};
+}
+
+std::optional<std::vector<int>> IEntity::GetAttackLowerBound() {
+  if (!attackBoundingBox.has_value()) {
+    return std::nullopt;
+  }
+
+  return std::vector<int>{position.GetIntX() + attackBoundingBox.value().lowerBoundX, position.GetIntY() + attackBoundingBox.value().lowerBoundY};
+}
+
+std::optional<std::vector<int>> IEntity::GetAttackUpperBound() {
+  if (!attackBoundingBox.has_value()) {
+    return std::nullopt;
+  }
+
+  return std::vector<int>{position.GetIntX() + attackBoundingBox.value().upperBoundX, position.GetIntY() + attackBoundingBox.value().upperBoundY};
 }
 
 Boundaries IEntity::GetAbsoluteBoundaries() {
@@ -155,11 +169,15 @@ Boundaries IEntity::GetAbsoluteSolidBoundaries() {
           position.GetIntY() + boundingBox.lowerBoundY};
 }
 
-Boundaries IEntity::GetAbsoluteAttackBoundaries() {
-  return {position.GetIntX() + attackBoundingBox.upperBoundX,
-          position.GetIntY() + attackBoundingBox.upperBoundY,
-          position.GetIntX() + attackBoundingBox.lowerBoundX,
-          position.GetIntY() + attackBoundingBox.lowerBoundY};
+std::optional<Boundaries> IEntity::GetAbsoluteAttackBoundaries() {
+  if (!attackBoundingBox.has_value()) {
+    return std::nullopt;
+  }
+
+  return Boundaries{position.GetIntX() + attackBoundingBox.value().upperBoundX,
+          position.GetIntY() + attackBoundingBox.value().upperBoundY,
+          position.GetIntX() + attackBoundingBox.value().lowerBoundX,
+          position.GetIntY() + attackBoundingBox.value().lowerBoundY};
 }
 
 EntityIdentificator IEntity::Id() {

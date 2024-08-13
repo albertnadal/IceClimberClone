@@ -113,7 +113,7 @@ void EntityManager::updateSpriteRectBuffers() {
     Vector2 pos = { entity_ptr->position.GetX(), entity_ptr->position.GetY() };
     Boundaries boundaries = entity_ptr->GetAbsoluteBoundaries();
     Boundaries solidBoundaries = entity_ptr->GetAbsoluteSolidBoundaries();
-    Boundaries attackBoundaries = entity_ptr->GetAbsoluteAttackBoundaries();
+    Boundaries attackBoundaries = entity_ptr->GetAbsoluteAttackBoundaries().value_or(Boundaries{0,0,0,0});
     Color tint = WHITE;
 
     // Tint in RED those objects that are candidates to collide with the player object.
@@ -135,7 +135,7 @@ void EntityManager::updateSpriteRectBuffers() {
     Vector2 pos = { entity_ptr->position.GetX(), entity_ptr->position.GetY() };
     Boundaries boundaries = entity_ptr->GetAbsoluteBoundaries();
     Boundaries solidBoundaries = entity_ptr->GetAbsoluteSolidBoundaries();
-    Boundaries attackBoundaries = entity_ptr->GetAbsoluteAttackBoundaries();
+    Boundaries attackBoundaries = entity_ptr->GetAbsoluteAttackBoundaries().value_or(Boundaries{0,0,0,0});
     spriteRectDoubleBuffer->producer_buffer[i] = SpriteRect(src, pos, boundaries, attackBoundaries, WHITE);
     i++;
   }
