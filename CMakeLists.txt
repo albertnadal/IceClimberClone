@@ -51,6 +51,8 @@ add_executable(rocket
         src/entities/nitpicker_state_transitions.cpp
         src/entities/nitpicker.cpp
         src/entities/nitpicker.h
+        src/entities/condor.cpp
+        src/entities/condor.h
         src/defines.h
         src/filesystem.h
         src/float_double_buffer.cpp

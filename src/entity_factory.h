@@ -19,6 +19,7 @@
 #include <entities/vegetable.h>
 #include <entities/number.h>
 #include <entities/nitpicker.h>
+#include <entities/condor.h>
 
 class EntityManager;
 

@@ -75,6 +75,7 @@ void EntityFactory::RegisterEntities() {
 	Register(EntityIdentificator::SEVEN, &Seven::Create);
 	Register(EntityIdentificator::EIGHT, &Eight::Create);
 	Register(EntityIdentificator::NITPICKER, &Nitpicker::Create);
+	Register(EntityIdentificator::CONDOR, &Condor::Create);
 }
 
 EntityFactory &EntityFactory::operator=(const EntityFactory &) {
