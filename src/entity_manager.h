@@ -17,7 +17,7 @@ class EntityManager
   std::map<uint32_t, IEntity*> staticObjects;
   std::vector<IEntity*> objectsToDelete;
   IEntity* player = nullptr;
-  int lifeCounter = 3;
+  int lifeCounter = MAX_PLAYER_LIFES;
 
   EntityDataManager *textureManager;
   SpriteRectDoubleBuffer *spriteRectDoubleBuffer;
@@ -26,6 +26,7 @@ class EntityManager
   float newCameraVerticalPosition;
   float currentCameraVerticalPosition;
   std::vector<int> validAltitudes = {84, 78, 72, 66, 60}; // Altitudes of levels 4, 5, 6, 7 and 8. Are multiple of six.
+  bool playerEnteredBonusStage;
 
   // Each level is six cells height. The entire mountain have 4 extra rows on top to enforce level floors to be
   // located in vertical position multiple of six. One additional row is appended to show the water.

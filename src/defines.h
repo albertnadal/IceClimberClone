@@ -114,3 +114,4 @@ constexpr float CAMERA_SPEED = 3.0f;                                            
 constexpr Rectangle LIFE_COUNTER_SPRITE_RECT = {96, 248, 16, 16};                // Life Counter sprite coordinates in the tilemap
 constexpr float LIFE_COUNTER_X = 112.0f;                                         // Life Counter X coordinate in the screen
 constexpr float LIFE_COUNTER_Y = 64.0f;                                          // Life Counter Y coordinate in the screen
+constexpr int MAX_PLAYER_LIFES = 3;                                              // Total number of lifes of the player

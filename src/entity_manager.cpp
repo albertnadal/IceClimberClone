@@ -9,6 +9,7 @@ EntityManager::EntityManager(EntityDataManager* _textureManager, SpriteRectDoubl
         spacePartitionObjectsTree = new aabb::Tree<IEntity*>();
         spacePartitionObjectsTree->setDimension(2);
         currentCameraVerticalPosition = newCameraVerticalPosition = 0.0f;
+        playerEnteredBonusStage = false;
         BuildMountain();
 }
 
@@ -78,10 +79,12 @@ void EntityManager::PlayerEnteredBonusStage() {
   // Delete all mobile objects below the bonus stage (except the player).
   for (auto const& x : mobileObjects) {
     IEntity* entity_ptr = x.second;
-    if ((entity_ptr != player) && (entity_ptr->position.GetInitialCellY() > BONUS_STAGE_CELL_Y)) {
+    if ((entity_ptr != player) && (entity_ptr->type != EntityType::VEGETABLE) && (entity_ptr->position.GetInitialCellY() > BONUS_STAGE_CELL_Y)) {
       entity_ptr->isMarkedToDelete = true;
     }
   }
+
+  playerEnteredBonusStage = true;
 }
 
 UpdateResult EntityManager::Update(uint8_t pressedKeys) {
@@ -90,12 +93,17 @@ UpdateResult EntityManager::Update(uint8_t pressedKeys) {
   updateSpriteRectBuffers();
   deleteUneededObjects();
 
-  UpdateResult result{std::nullopt, lifeCounter};
+  UpdateResult result;
 
   // Update vertical camera position when player reaches new level height
   if (newCameraVerticalPosition < currentCameraVerticalPosition) {
     currentCameraVerticalPosition -= CAMERA_SPEED; // Progressive update to get an smooth transition
     result.currentCameraVerticalPosition = currentCameraVerticalPosition;
+  }
+
+  // Do not provide the life counter if the player is in the bonus stage
+  if (!playerEnteredBonusStage) {
+    result.lifeCounter = lifeCounter;
   }
 
   return result;
