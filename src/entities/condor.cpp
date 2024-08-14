@@ -10,14 +10,32 @@ void Condor::PrintName() {
 }
 
 inline bool Condor::ReachedScreenEdge() {
-    return (position.GetRealX() < 0.0f) || (position.GetRealX() >= MOUNTAIN_WIDTH_FLOAT - (Width() >> 1));
+    return ((direction == Direction::LEFT) && (position.GetRealX() <= -Width())) || ((direction == Direction::RIGHT) && (position.GetRealX() >= MOUNTAIN_WIDTH_FLOAT));
+}
+
+void Condor::StartFlight() {
+    if (!direction.has_value()) {
+        direction = (rand() % 2 == 0) ? Direction::RIGHT : Direction::LEFT; // Random initial direction.
+    }
+
+    if (direction == Direction::RIGHT) {
+        PositionSetX(-Width());
+        LoadAnimationWithId(CondorAnimation::CONDOR_FLY_TO_RIGHT);
+    } else {
+        PositionSetX(MOUNTAIN_WIDTH_FLOAT);
+        LoadAnimationWithId(CondorAnimation::CONDOR_FLY_TO_LEFT);
+    }
+    isFlying = true;
 }
 
 bool Condor::Update(const uint8_t pressedKeys_) {
     bool needRedraw = false;
  
-    if (isFlying) {
-        // TODO
+    if (isFlying && direction.has_value()) {
+        MoveTo(*direction, 2.5f);
+        if (ReachedScreenEdge()) {
+            StartFlight();
+        }
         needRedraw = true;
     }
 
@@ -40,11 +58,17 @@ bool Condor::Update(const uint8_t pressedKeys_) {
 
 void Condor::Hit(bool hitFromLeft) {
     // TODO
+    isFlying = false;
+}
+
+void Condor::MoveTo(Direction direction, float distance) {
+    PositionAddX(direction == Direction::RIGHT ? distance : -(distance));
+    UpdatePositionInSpacePartitionTree();
 }
 
 void Condor::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
     spriteSheet = _spriteSheet;
-    LoadAnimationWithId(CondorAnimation::CONDOR_FLY_TO_RIGHT);
+    StartFlight(); // Set random initial position and direction.
 }
 
 IEntity *Condor::Create() {

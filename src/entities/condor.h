@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <optional>
 #include <chrono>
 #include <entity.h>
 #include <entity_manager.h>
@@ -18,11 +19,15 @@ using namespace std;
 
 class Condor: public IEntity
 {
-  Direction direction;
+  std::optional<Direction> direction = std::nullopt;
   bool ReachedScreenEdge();
+  void StartFlight();
 
   // Condor action states
   bool isFlying = false;           // Condor is flying
+
+  // Condor action update functions
+  void MoveTo(Direction, float);
 
 public:
   Condor();
