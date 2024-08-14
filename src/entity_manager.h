@@ -8,6 +8,8 @@
 #include <sprite_rect_double_buffer.h>
 #include <AABB/AABB.h>
 
+struct UpdateResult { std::optional<float> currentCameraVerticalPosition; int lifeCounter; };
+
 class EntityManager
 {
   aabb::Tree<IEntity*> *spacePartitionObjectsTree = nullptr; // Used for of object collision detection
@@ -15,16 +17,12 @@ class EntityManager
   std::map<uint32_t, IEntity*> staticObjects;
   std::vector<IEntity*> objectsToDelete;
   IEntity* player = nullptr;
-  uint32_t currentRow;
-  uint32_t visibleRows;
+  int lifeCounter = 3;
 
   EntityDataManager *textureManager;
   SpriteRectDoubleBuffer *spriteRectDoubleBuffer;
   uint32_t maxObjects;
-  uint32_t currentEscalatedHeight;
   void BuildMountain();
-  bool cameraIsMoving;
-  float totalPixelDisplacement;
   float newCameraVerticalPosition;
   float currentCameraVerticalPosition;
   std::vector<int> validAltitudes = {84, 78, 72, 66, 60}; // Altitudes of levels 4, 5, 6, 7 and 8. Are multiple of six.
@@ -168,7 +166,7 @@ class EntityManager
 public:
   EntityManager(EntityDataManager*, SpriteRectDoubleBuffer*, uint32_t);
   ~EntityManager();
-  std::optional<float> Update(uint8_t);
+  UpdateResult Update(uint8_t);
   std::optional<IEntity *> CreateEntityWithId(EntityIdentificator, int , int);
   float GetCurrentCameraVerticalPosition() const;
   std::optional<Position *> GetPlayerPosition() const;

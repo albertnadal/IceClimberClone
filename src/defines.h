@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <raylib/raylib.h>
 
 // Keyboard key codes
 enum KeyboardKeyCode: uint8_t { IC_KEY_LEFT = 0x80, IC_KEY_UP = 0x40, IC_KEY_RIGHT = 0x20, IC_KEY_DOWN = 0x10, IC_KEY_Q = 0x08, IC_KEY_W = 0x04, IC_KEY_A = 0x02, IC_KEY_SPACE = 0x01, IC_KEY_NONE = 0x00 };
@@ -110,3 +111,6 @@ constexpr int BONUS_STAGE_CELL_Y = 50;                                          
 constexpr float CAMERA_PADDING_TOP = 13 * CELL_HEIGHT_FLOAT;                     // Camera viewport top padding space
 constexpr float CAMERA_BONUS_STAGE_PADDING_TOP = 19 * CELL_HEIGHT_FLOAT;         // Camera viewport top padding space in the bonus stage
 constexpr float CAMERA_SPEED = 3.0f;                                             // Camera speed in vertical píxels per tick
+constexpr Rectangle LIFE_COUNTER_SPRITE_RECT = {96, 248, 16, 16};                // Life Counter sprite coordinates in the tilemap
+constexpr float LIFE_COUNTER_X = 112.0f;                                         // Life Counter X coordinate in the screen
+constexpr float LIFE_COUNTER_Y = 64.0f;                                          // Life Counter Y coordinate in the screen

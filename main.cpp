@@ -24,19 +24,24 @@ EntityManager *entityManager;
 int gameLogicFrequency = 16; // 16 milliseconds ≈ 60 ticks per second
 int framesPerSecond = 60;
 bool paused = false;
-float cameraVerticalPosition = -1.0f;  // Negative value means no position has been set
+std::optional<int> lifeCounter;
+std::mutex lifeCounterMutex;
+std::optional<float> cameraVerticalPosition;
 std::mutex cameraVerticalPositionMutex;
 
 static void* gameLogicThreadFunc(void* v)
 {
-        std::optional<float> optCameraVerticalPosition;
+        UpdateResult result;
         while(running) {
                 if (!paused) {
                         auto t0 = std::chrono::high_resolution_clock::now();
-                        optCameraVerticalPosition = entityManager->Update(pressedKeys);
+                        result = entityManager->Update(pressedKeys);
                         cameraVerticalPositionMutex.lock();
-                        cameraVerticalPosition = optCameraVerticalPosition.value_or(-1.0f);
+                        cameraVerticalPosition = result.currentCameraVerticalPosition;
                         cameraVerticalPositionMutex.unlock();
+                        lifeCounterMutex.lock();
+                        lifeCounter = result.lifeCounter;
+                        lifeCounterMutex.unlock();
                         auto t1 = std::chrono::high_resolution_clock::now();
                         cpuTimePerUpdate = t1 - t0;
                 }
@@ -78,6 +83,7 @@ int main()
         entityTextureManager = new EntityDataManager();
         SpriteRectDoubleBuffer *spriteRectDoubleBuffer = new SpriteRectDoubleBuffer(MAX_OBJECTS);
         entityManager = new EntityManager(entityTextureManager, spriteRectDoubleBuffer, MAX_OBJECTS);
+        std::optional<int> lifeCounterCopy;
 
         // Load texture atlas into GPU memory
         Texture2D textureAtlas = entityTextureManager->LoadTextureAtlas();
@@ -93,8 +99,8 @@ int main()
                         ClearBackground(BLACK);
 
                         cameraVerticalPositionMutex.lock();
-                        if (cameraVerticalPosition > 0.0f) {
-                                camera.offset = (Vector2){ 0, -cameraVerticalPosition * ZOOM };
+                        if (cameraVerticalPosition.has_value()) {
+                                camera.offset = (Vector2){ 0, -(cameraVerticalPosition.value()) * ZOOM };
                         }
                         cameraVerticalPositionMutex.unlock();
 
@@ -105,7 +111,7 @@ int main()
                                         auto source = spriteRectDoubleBuffer->consumer_buffer[i].source;
                                         auto tint = spriteRectDoubleBuffer->consumer_buffer[i].tint;
                                         DrawTextureRec(textureAtlas, source, position, tint);
-
+                                        /*
                                         // Draw solid bondaries only for debug purposes
                                         auto box = spriteRectDoubleBuffer->consumer_buffer[i].boundaries;
                                         DrawRectangleLinesEx({static_cast<float>(box.upperBoundX), static_cast<float>(box.upperBoundY), static_cast<float>(box.lowerBoundX-box.upperBoundX), static_cast<float>(box.lowerBoundY-box.upperBoundY)}, 1.0f, PINK);
@@ -113,10 +119,22 @@ int main()
                                         // Draw attack bondaries only for debug purposes
                                         box = spriteRectDoubleBuffer->consumer_buffer[i].attackBoundaries;
                                         DrawRectangleLinesEx({static_cast<float>(box.upperBoundX), static_cast<float>(box.upperBoundY), static_cast<float>(box.lowerBoundX-box.upperBoundX), static_cast<float>(box.lowerBoundY-box.upperBoundY)}, 1.0f, YELLOW);
+                                        */
                                 }
                                 spriteRectDoubleBuffer->unlock();
                                 DrawFPS(535, 110);
                         EndMode2D();
+
+                        lifeCounterMutex.lock();
+                        lifeCounterCopy = lifeCounter;
+                        lifeCounterMutex.unlock();
+
+                        if(lifeCounterCopy.has_value()) {
+                                for(float i=0; i<lifeCounterCopy.value(); i++) {
+                                        DrawTextureRec(textureAtlas, LIFE_COUNTER_SPRITE_RECT, {LIFE_COUNTER_X + (i*18), LIFE_COUNTER_Y}, WHITE);
+                                }
+                        }
+
                 EndDrawing();
         }
 

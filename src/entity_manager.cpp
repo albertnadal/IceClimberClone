@@ -8,10 +8,6 @@ EntityManager::EntityManager(EntityDataManager* _textureManager, SpriteRectDoubl
         maxObjects = _maxObjects;
         spacePartitionObjectsTree = new aabb::Tree<IEntity*>();
         spacePartitionObjectsTree->setDimension(2);
-        currentEscalatedHeight = 0; // height climbed
-        cameraIsMoving = false;
-        currentRow = 0;
-        visibleRows = 56;
         currentCameraVerticalPosition = newCameraVerticalPosition = 0.0f;
         BuildMountain();
 }
@@ -88,19 +84,21 @@ void EntityManager::PlayerEnteredBonusStage() {
   }
 }
 
-std::optional<float> EntityManager::Update(uint8_t pressedKeys) {
+UpdateResult EntityManager::Update(uint8_t pressedKeys) {
   updateMobileObjects(pressedKeys);
   updateStaticObjects();
   updateSpriteRectBuffers();
   deleteUneededObjects();
 
+  UpdateResult result{std::nullopt, lifeCounter};
+
   // Update vertical camera position when player reaches new level height
   if (newCameraVerticalPosition < currentCameraVerticalPosition) {
     currentCameraVerticalPosition -= CAMERA_SPEED; // Progressive update to get an smooth transition
-    return currentCameraVerticalPosition;
+    result.currentCameraVerticalPosition = currentCameraVerticalPosition;
   }
 
-  return std::nullopt;
+  return result;
 }
 
 void EntityManager::updateSpriteRectBuffers() {
