@@ -200,10 +200,6 @@ void IEntity::PrintName() {
   std::cout << "PrintName not overloaded for object." << std::endl;
 }
 
-bool IEntity::IsCloud() {
-  return false;
-}
-
 void IEntity::UpdatePositionInSpacePartitionTree() {
     std::vector<int> lowerBound = GetLowerBound();
     std::vector<int> upperBound = GetUpperBound();

@@ -2,7 +2,7 @@
 #include <chrono>
 
 Cloud::Cloud() :
-        IEntity(EntityIdentificator::CLOUD_SMALL, EntityType::TERRAIN, SurfaceType::SIMPLE, CloudStateIdentificator::CLOUD_MAX_STATES, false, false) {
+        IEntity(EntityIdentificator::CLOUD_SMALL, EntityType::CLOUD, SurfaceType::SIMPLE, CloudStateIdentificator::CLOUD_MAX_STATES, false, false) {
 }
 
 Cloud::Cloud(EntityIdentificator _id, EntityType _type, SurfaceType surface_type, unsigned char max_states, bool is_breakable, bool is_traversable) :
@@ -11,10 +11,6 @@ Cloud::Cloud(EntityIdentificator _id, EntityType _type, SurfaceType surface_type
 
 void Cloud::PrintName() {
         std::cout << "Cloud." << std::endl;
-}
-
-bool Cloud::IsCloud() {
-  return true;
 }
 
 void Cloud::UpdateFlight() {

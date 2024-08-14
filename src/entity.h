@@ -81,7 +81,6 @@ public:
   virtual void UpdatePositionInSpacePartitionTree();
   virtual void Hit(bool);
   virtual bool ShouldBeginAnimationLoopAgain();
-  virtual bool IsCloud();
 };
 
 typedef IEntity* (*CreateEntityFn)(void);

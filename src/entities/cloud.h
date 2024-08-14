@@ -22,7 +22,6 @@ public:
   ~Cloud();
   virtual void InitWithSpriteSheet(EntitySpriteSheet*);
   virtual void PrintName();
-  bool IsCloud() override;
   bool Update(uint8_t);
   static IEntity* Create();
 

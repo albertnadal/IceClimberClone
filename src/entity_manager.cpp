@@ -49,7 +49,7 @@ std::optional<IEntity *> EntityManager::CreateEntityWithId(EntityIdentificator e
     spacePartitionObjectsTree->insertParticle(*entity_ptr, lowerBound, upperBound);
 
     // Save pointers to proper arrays for static objects and mobile objects
-    if(((*entity_ptr)->Type() == EntityType::TERRAIN) || ((*entity_ptr)->Type() == EntityType::NUMBER)) {
+    if(((*entity_ptr)->Type() == EntityType::TERRAIN) || ((*entity_ptr)->Type() == EntityType::CLOUD) || ((*entity_ptr)->Type() == EntityType::NUMBER)) {
       staticObjects[(*entity_ptr)->uniqueId] = *entity_ptr;
     } else {
       mobileObjects[(*entity_ptr)->uniqueId] = *entity_ptr;

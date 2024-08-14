@@ -158,7 +158,7 @@ void Ice::UpdateCollisions() {
                 bool object_collides = false;
 
                 for (auto intersection : objectIntersections) {
-                    if (!intersection.particle->isTraversable && !intersection.particle->isMarkedToDelete && !intersection.particle->IsCloud() && (intersection.particle->id != EntityIdentificator::TOPI)) {
+                    if (!intersection.particle->isTraversable && !intersection.particle->isMarkedToDelete && (intersection.particle->type != EntityType::CLOUD) && (intersection.particle->id != EntityIdentificator::TOPI)) {
                         object_collides = true;
                         break;
                     }

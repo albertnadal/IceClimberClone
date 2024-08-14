@@ -222,7 +222,7 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
     if ((underlyingObjectCandidate != nullptr) && !underlyingObjectCandidate->isTraversable) {
         playerIsSuspendedInTheAir = false;
 
-        if (underlyingObjectCandidate->IsCloud()) {
+        if (underlyingObjectCandidate->type == EntityType::CLOUD) {
             currentUnderlyingCloud = underlyingObjectCandidate;
         }
 
