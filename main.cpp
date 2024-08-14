@@ -10,10 +10,10 @@
 #include <entity_data_manager.h>
 #include <entity_manager.h>
 
-const float ZOOM = 1.0f;
-const uint32_t SCR_WIDTH = 1280;
-const uint32_t SCR_HEIGHT = 30*CELL_HEIGHT*ZOOM; // REVISIT: The height should be a fixed value and the zoom value should be calculated based on the screen height.
-const uint32_t MAX_OBJECTS = 1000;
+constexpr float ZOOM = 1.0f;
+constexpr uint32_t SCR_WIDTH = 1280;
+constexpr uint32_t SCR_HEIGHT = 30*CELL_HEIGHT*ZOOM; // REVISIT: The height should be a fixed value and the zoom value should be calculated based on the screen height.
+constexpr uint32_t MAX_OBJECTS = 1000;
 
 pthread_t gameLogicThread;
 std::chrono::duration<float> cpuTimePerUpdate;
@@ -21,8 +21,7 @@ uint8_t pressedKeys = IC_KEY_NONE;
 bool running = true;
 EntityDataManager *entityTextureManager;
 EntityManager *entityManager;
-int gameLogicFrequency = 16; // 16 milliseconds ≈ 60 ticks per second
-int framesPerSecond = 60;
+int gameLogicFrequency = MILLISECONDS_PER_TICK; // 16 milliseconds ≈ 60 ticks per second
 bool paused = false;
 std::optional<int> lifeCounter;
 std::mutex lifeCounterMutex;
@@ -78,7 +77,7 @@ int main()
         camera.rotation = 0.0f;
         camera.zoom = ZOOM;
 
-        SetTargetFPS(framesPerSecond);
+        SetTargetFPS(FPS);
 
         entityTextureManager = new EntityDataManager();
         SpriteRectDoubleBuffer *spriteRectDoubleBuffer = new SpriteRectDoubleBuffer(MAX_OBJECTS);
@@ -122,7 +121,6 @@ int main()
                                         */
                                 }
                                 spriteRectDoubleBuffer->unlock();
-                                DrawFPS(535, 110);
                         EndMode2D();
 
                         lifeCounterMutex.lock();
@@ -135,6 +133,7 @@ int main()
                                 }
                         }
 
+                        DrawFPS(16, 16);
                 EndDrawing();
         }
 
