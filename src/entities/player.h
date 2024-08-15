@@ -26,6 +26,7 @@ class Player: public IEntity
   void LoadNextSprite();
   bool PlayerIsQuiet();
   void UpdatePreviousDirection();
+  void IncreaseAchievementCounterByEntity(IEntity*);
   void CheckHitCollisionsWithEnemies();
   void GetSolidCollisions(std::vector<ObjectCollision>&, bool&);
   void DisplacePlayerIfUnderlyingSurfaceIsMobile();

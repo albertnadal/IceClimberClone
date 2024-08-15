@@ -116,6 +116,29 @@ bool Player::Update(const uint8_t pressedKeys_) {
     return needRedraw;
 }
 
+void Player::IncreaseAchievementCounterByEntity(IEntity* entity) {
+    // Increase proper achievement counters
+    if (entity->type == EntityType::ENEMY) {
+        switch (entity->id) {
+            case EntityIdentificator::NITPICKER:
+                nitpickerCount++;
+                break;
+
+            case EntityIdentificator::ICE:
+                iceCount++;
+                break;
+
+            case EntityIdentificator::CONDOR:
+                reachedCondor = true;
+                break;
+        }
+    } else if (entity->type == EntityType::VEGETABLE) {
+        vegetableCount++;
+    } else if ((entity->type == EntityType::TERRAIN) && entity->isBreakable) {
+        brickCount++;
+    }
+}
+
 void Player::CheckHitCollisionsWithEnemies() {
     // Check for attack collisions with enemies present in the scene.
     if (!GetAttackLowerBound().has_value() || !GetAttackUpperBound().has_value()) {
@@ -127,6 +150,7 @@ void Player::CheckHitCollisionsWithEnemies() {
     for (auto intersection : objectIntersections) {
         if (intersection.particle->type == EntityType::ENEMY) {
             intersection.particle->Hit(isHeadedToRight);
+            IncreaseAchievementCounterByEntity(intersection.particle);
         }
     }
 }
@@ -295,7 +319,7 @@ void Player::UpdateCollisions() {
 
         ObjectCollision collision = collisions.front();
         collision.object->Hit(isHeadedToRight);
-
+        IncreaseAchievementCounterByEntity(collision.object);
         TopCollisionDuringJump();
     } else if (isJumping && vectorDirection.x != 0 && collisions.size() >= 1 && maxHorizontalCorrection >= 0 && minHorizontalCorrection == 0 && minVerticalCorrection < 0) {
         // Check for single brick collision when player is falling to the left during a jump
@@ -372,7 +396,7 @@ void Player::UpdateCollisions() {
 
         ObjectCollision collision = collisions.front();
         collision.object->Hit(isHeadedToRight);
-
+        IncreaseAchievementCounterByEntity(collision.object);
         TopCollisionDuringJump();
     } else if (isFalling && minVerticalCorrection < 0) {
         // Player collided with the ground (during a fall)
