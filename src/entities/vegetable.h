@@ -18,7 +18,8 @@ public:
   ~Vegetable();
   virtual void InitWithSpriteSheet(EntitySpriteSheet*);
   virtual void PrintName();
-  bool Update(uint8_t);
+  bool Update(uint8_t) override;
+  void Hit(bool) override;
   static IEntity* Create();
 
 private:

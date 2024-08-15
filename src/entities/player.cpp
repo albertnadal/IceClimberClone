@@ -166,6 +166,11 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
     int minIntersectionXDiffUnderlyingObjectCandidate = 9999;
 
     for (auto intersection : objectIntersections) {
+        if (intersection.particle->type == EntityType::VEGETABLE) {
+            intersection.particle->Hit(isHeadedToRight);
+            IncreaseAchievementCounterByEntity(intersection.particle);
+        }
+
         if ((intersection.particle == this) || intersection.particle->isTraversable || (std::find(objectsToIgnoreDuringFall.begin(), objectsToIgnoreDuringFall.end(), intersection.particle) != objectsToIgnoreDuringFall.end())) {
             continue;
         }

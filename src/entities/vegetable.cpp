@@ -33,6 +33,11 @@ bool Vegetable::Update(uint8_t pressedKeys_) {
         return needRedraw;
 }
 
+void Vegetable::Hit(bool hitFromLeft) {
+    RemoveFromSpacePartitionObjectsTree();
+    isMarkedToDelete = true;
+}
+
 void Vegetable::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
         spriteSheet = _spriteSheet;
 }
