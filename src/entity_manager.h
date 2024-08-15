@@ -4,11 +4,15 @@
 #include <vector>
 #include <optional>
 #include <entity_factory.h>
+#include <entities/player.h>
 #include <entity_data_manager.h>
 #include <sprite_rect_double_buffer.h>
 #include <AABB/AABB.h>
 
+class Player;
+
 struct UpdateResult { std::optional<float> currentCameraVerticalPosition; int lifeCounter; };
+struct ScoreSummary { EntityIdentificator vegetableId = EntityIdentificator::NONE; bool reachedCondor = false; int vegetableCount = 0, nitpickerCount = 0, iceCount = 0, brickCount = 0; int condorUnitScore = 0, vegetableUnitScore = 0, nitpickerUnitScore = 0, iceUnitScore = 0, brickUnitScore = 0; };
 
 class EntityManager
 {
@@ -16,8 +20,9 @@ class EntityManager
   std::map<uint32_t, IEntity*> mobileObjects;
   std::map<uint32_t, IEntity*> staticObjects;
   std::vector<IEntity*> objectsToDelete;
-  IEntity* player = nullptr;
+  Player* player = nullptr;
   int lifeCounter = MAX_PLAYER_LIFES;
+  ScoreSummary scoreSummary;
 
   EntityDataManager *textureManager;
   SpriteRectDoubleBuffer *spriteRectDoubleBuffer;

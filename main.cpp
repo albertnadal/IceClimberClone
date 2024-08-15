@@ -21,7 +21,7 @@ uint8_t pressedKeys = IC_KEY_NONE;
 bool running = true;
 EntityDataManager *entityTextureManager;
 EntityManager *entityManager;
-int gameLogicFrequency = MILLISECONDS_PER_TICK; // 16 milliseconds ≈ 60 ticks per second
+int gameLogicFrequency = MILLISECONDS_PER_TICK;
 bool paused = false;
 std::optional<int> lifeCounter;
 std::mutex lifeCounterMutex;
@@ -35,12 +35,15 @@ static void* gameLogicThreadFunc(void* v)
                 if (!paused) {
                         auto t0 = std::chrono::high_resolution_clock::now();
                         result = entityManager->Update(pressedKeys);
+
                         cameraVerticalPositionMutex.lock();
                         cameraVerticalPosition = result.currentCameraVerticalPosition;
                         cameraVerticalPositionMutex.unlock();
+
                         lifeCounterMutex.lock();
                         lifeCounter = result.lifeCounter;
                         lifeCounterMutex.unlock();
+
                         auto t1 = std::chrono::high_resolution_clock::now();
                         cpuTimePerUpdate = t1 - t0;
                 }

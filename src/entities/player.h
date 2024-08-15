@@ -53,6 +53,8 @@ class Player: public IEntity
   uint16_t hMomentum = 0;
   const uint16_t maxMomentum = 15;
   collision::vec2<int16_t> prevVectorDirection;
+
+  // Player underlying objects info
   std::optional<SurfaceType> underlyingObjectSurfaceType;
   IEntity* prevUnderlyingCloud = nullptr;
   IEntity* currentUnderlyingCloud = nullptr;
@@ -92,6 +94,13 @@ public:
   void NotifyNewAltitudeHasBeenReached();
   bool ShouldBeginAnimationLoopAgain() override;
   static IEntity* Create();
+
+  // Achievements
+  bool reachedCondor = false;
+  int vegetableCount = 0;
+  int nitpickerCount = 0;
+  int iceCount = 0;
+  int brickCount = 0;
 
   // state machine triggers
   void RightKeyPressed();

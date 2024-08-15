@@ -30,7 +30,7 @@ std::optional<IEntity *> EntityManager::CreateEntityWithId(EntityIdentificator e
 
   if(entity_ptr.has_value()) {
     if (entity_id == EntityIdentificator::POPO) {
-      player = *entity_ptr;
+      player = static_cast<Player*>(*entity_ptr);
       currentCameraVerticalPosition = newCameraVerticalPosition = INITIAL_CAMERA_POSITION;
     }
 
