@@ -25,7 +25,7 @@ class Condor: public IEntity
 
   // Condor action states
   bool isFlying = false;           // Condor is flying
-  bool isInactive = false;         // Condor is stopped due to the game has finished, this way the update function became inoperative
+  bool isHaunted = false;          // Condor is haunted, this way the update function became inoperative
 
   // Condor action update functions
   void MoveTo(Direction, float);
