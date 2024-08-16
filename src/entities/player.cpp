@@ -60,6 +60,9 @@ void Player::NotifyNewAltitudeHasBeenReached() {
 }
 
 bool Player::Update(const uint8_t pressedKeys_) {
+    if (isInactive) {
+        return false;
+    }
 
     bool needRedraw = false;
     pressedKeys = pressedKeys_;
@@ -130,6 +133,7 @@ void Player::IncreaseAchievementCounterByEntity(IEntity* entity) {
 
             case EntityIdentificator::CONDOR:
                 reachedCondor = true;
+                isInactive = true;
                 break;
         }
     } else if (entity->type == EntityType::VEGETABLE) {

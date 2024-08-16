@@ -71,6 +71,7 @@ class Player: public IEntity
   bool isBlockedRight = false;     // Player is stuck running to the right towards a brick
   bool isBlockedLeft = false;      // Player is stuck running to the left towards a brick
   bool isOnMobileSurface = false;  // Player underlying surface is mobile
+  bool isInactive = false;         // Player is stopped due to the game has finished, this way the update function became inoperative
 
   // Player action update functions
   void UpdateCollisions();

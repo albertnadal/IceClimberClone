@@ -29,6 +29,10 @@ void Condor::StartFlight() {
 }
 
 bool Condor::Update(const uint8_t pressedKeys_) {
+    if (isInactive) {
+        return false;
+    }
+
     bool needRedraw = false;
  
     if (isFlying && direction.has_value()) {
@@ -57,8 +61,8 @@ bool Condor::Update(const uint8_t pressedKeys_) {
 }
 
 void Condor::Hit(bool hitFromLeft) {
-    // TODO
     isFlying = false;
+    isInactive = true;
 }
 
 void Condor::MoveTo(Direction direction, float distance) {
