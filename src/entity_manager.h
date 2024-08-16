@@ -11,8 +11,8 @@
 
 class Player;
 
-struct UpdateResult { std::optional<float> currentCameraVerticalPosition; int lifeCounter; };
-struct ScoreSummary { EntityIdentificator vegetableId = EntityIdentificator::NONE; bool reachedCondor = false; int vegetableCount = 0, nitpickerCount = 0, iceCount = 0, brickCount = 0; int condorUnitScore = 0, vegetableUnitScore = 0, nitpickerUnitScore = 0, iceUnitScore = 0, brickUnitScore = 0; };
+struct UpdateInfo { std::optional<float> currentCameraVerticalPosition; int lifeCounter; bool gameFinished; };
+struct GameScoreSummary { EntityIdentificator vegetableId = EntityIdentificator::NONE; bool condorHunted = false; int vegetableCount = 0, nitpickerCount = 0, iceCount = 0, brickCount = 0; int condorUnitScore = 0, vegetableUnitScore = 0, nitpickerUnitScore = 0, iceUnitScore = 0, brickUnitScore = 0; };
 
 class EntityManager
 {
@@ -22,7 +22,8 @@ class EntityManager
   std::vector<IEntity*> objectsToDelete;
   Player* player = nullptr;
   int lifeCounter = MAX_PLAYER_LIFES;
-  ScoreSummary scoreSummary;
+  bool gameFinished = false;
+  GameScoreSummary scoreSummary;
 
   EntityDataManager *textureManager;
   SpriteRectDoubleBuffer *spriteRectDoubleBuffer;
@@ -172,12 +173,14 @@ class EntityManager
 public:
   EntityManager(EntityDataManager*, SpriteRectDoubleBuffer*, uint32_t);
   ~EntityManager();
-  UpdateResult Update(uint8_t);
+  UpdateInfo Update(uint8_t);
   std::optional<IEntity *> CreateEntityWithId(EntityIdentificator, int , int);
   float GetCurrentCameraVerticalPosition() const;
   std::optional<Position *> GetPlayerPosition() const;
+  GameScoreSummary GetGameScoreSummary() const;
   void PlayerReachedNewAltitude(int);
   void PlayerEnteredBonusStage();
+  void PlayerFinishedGame(bool, int, int, int, int);
 };
 
 #endif

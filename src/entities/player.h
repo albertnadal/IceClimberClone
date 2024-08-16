@@ -100,7 +100,7 @@ public:
   static IEntity* Create();
 
   // Achievements
-  bool reachedCondor = false;
+  bool condorHunted = false;
   int vegetableCount = 0;
   int nitpickerCount = 0;
   int iceCount = 0;

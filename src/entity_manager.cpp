@@ -10,6 +10,7 @@ EntityManager::EntityManager(EntityDataManager* _textureManager, SpriteRectDoubl
         spacePartitionObjectsTree->setDimension(2);
         currentCameraVerticalPosition = newCameraVerticalPosition = 0.0f;
         playerEnteredBonusStage = false;
+        gameFinished = false;
         BuildMountain();
 }
 
@@ -75,6 +76,10 @@ std::optional<Position *> EntityManager::GetPlayerPosition() const {
   return &(player->position);
 }
 
+GameScoreSummary EntityManager::GetGameScoreSummary() const {
+  return scoreSummary;
+}
+
 void EntityManager::PlayerEnteredBonusStage() {
   // Delete all mobile objects below the bonus stage (except the player).
   for (auto const& x : mobileObjects) {
@@ -87,26 +92,37 @@ void EntityManager::PlayerEnteredBonusStage() {
   playerEnteredBonusStage = true;
 }
 
-UpdateResult EntityManager::Update(uint8_t pressedKeys) {
+void EntityManager::PlayerFinishedGame(bool condorHunted, int vegetableCount, int nitpickerCount, int iceCount, int brickCount) {
+  scoreSummary.condorHunted = condorHunted;
+  scoreSummary.vegetableCount = vegetableCount;
+  scoreSummary.nitpickerCount = nitpickerCount;
+  scoreSummary.iceCount = iceCount;
+  scoreSummary.brickCount = brickCount;
+  gameFinished = true;
+}
+
+UpdateInfo EntityManager::Update(uint8_t pressedKeys) {
   updateMobileObjects(pressedKeys);
   updateStaticObjects();
   updateSpriteRectBuffers();
   deleteUneededObjects();
 
-  UpdateResult result;
+  UpdateInfo info;
 
   // Update vertical camera position when player reaches new level height
   if (newCameraVerticalPosition < currentCameraVerticalPosition) {
     currentCameraVerticalPosition -= CAMERA_SPEED; // Progressive update to get an smooth transition
-    result.currentCameraVerticalPosition = currentCameraVerticalPosition;
+    info.currentCameraVerticalPosition = currentCameraVerticalPosition;
   }
 
   // Do not provide the life counter if the player is in the bonus stage
   if (!playerEnteredBonusStage) {
-    result.lifeCounter = lifeCounter;
+    info.lifeCounter = lifeCounter;
   }
 
-  return result;
+  info.gameFinished = gameFinished;
+
+  return info;
 }
 
 void EntityManager::updateSpriteRectBuffers() {

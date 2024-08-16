@@ -18,7 +18,7 @@ constexpr uint32_t MAX_OBJECTS = 1000;
 pthread_t gameLogicThread;
 std::chrono::duration<float> cpuTimePerUpdate;
 uint8_t pressedKeys = IC_KEY_NONE;
-bool running = true;
+bool gameFinished = false;
 EntityDataManager *entityTextureManager;
 EntityManager *entityManager;
 int gameLogicFrequency = MILLISECONDS_PER_TICK;
@@ -27,21 +27,23 @@ std::optional<int> lifeCounter;
 std::mutex lifeCounterMutex;
 std::optional<float> cameraVerticalPosition;
 std::mutex cameraVerticalPositionMutex;
+GameScoreSummary scoreSummary;
 
 static void* gameLogicThreadFunc(void* v)
 {
-        UpdateResult result;
-        while(running) {
+        UpdateInfo info;
+        while(!gameFinished) {
                 if (!paused) {
                         auto t0 = std::chrono::high_resolution_clock::now();
-                        result = entityManager->Update(pressedKeys);
+                        info = entityManager->Update(pressedKeys);
+                        gameFinished = info.gameFinished;
 
                         cameraVerticalPositionMutex.lock();
-                        cameraVerticalPosition = result.currentCameraVerticalPosition;
+                        cameraVerticalPosition = info.currentCameraVerticalPosition;
                         cameraVerticalPositionMutex.unlock();
 
                         lifeCounterMutex.lock();
-                        lifeCounter = result.lifeCounter;
+                        lifeCounter = info.lifeCounter;
                         lifeCounterMutex.unlock();
 
                         auto t1 = std::chrono::high_resolution_clock::now();
@@ -49,6 +51,8 @@ static void* gameLogicThreadFunc(void* v)
                 }
                 std::this_thread::sleep_for(std::chrono::milliseconds(gameLogicFrequency) - cpuTimePerUpdate);
         }
+
+        scoreSummary = entityManager->GetGameScoreSummary();
         return nullptr;
 }
 
@@ -140,7 +144,7 @@ int main()
                 EndDrawing();
         }
 
-        running = false;
+        gameFinished = true;
 
         // Wait for the gameLogicThread to finish
         pthread_join(gameLogicThread, nullptr);

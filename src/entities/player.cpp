@@ -63,7 +63,7 @@ bool Player::Update(const uint8_t pressedKeys_) {
     if (gameFinished) {
         // Make a pause before notifying the game has finished
         if(chrono::system_clock::now() >= notifyGameFinishedTime) {
-            // TODO: Tell entityManager the game finished
+            entityManager->PlayerFinishedGame(condorHunted, vegetableCount, nitpickerCount, iceCount, brickCount);
         }
         return false;
     }
@@ -136,7 +136,7 @@ void Player::IncreaseAchievementCounterByEntity(IEntity* entity) {
                 break;
 
             case EntityIdentificator::CONDOR:
-                reachedCondor = true;
+                condorHunted = true;
                 gameFinished = true;
                 notifyGameFinishedTime = (chrono::system_clock::now() + std::chrono::milliseconds(PAUSE_DURATION_BEFORE_GAME_FINISHED_NOTIFICATION));
                 break;
