@@ -29,7 +29,7 @@ void Condor::StartFlight() {
 }
 
 bool Condor::Update(const uint8_t pressedKeys_) {
-    if (isHaunted) {
+    if (isHunted) {
         return false;
     }
 
@@ -62,7 +62,7 @@ bool Condor::Update(const uint8_t pressedKeys_) {
 
 void Condor::Hit(bool hitFromLeft) {
     isFlying = false;
-    isHaunted = true;
+    isHunted = true;
 }
 
 void Condor::MoveTo(Direction direction, float distance) {
