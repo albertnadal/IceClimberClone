@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <optional>
+#include <chrono>
 #include <entity.h>
 #include <entity_manager.h>
 #include <state_machine.h>
@@ -18,9 +19,11 @@ using namespace std;
 class Player: public IEntity
 {
   bool isHeadedToRight = true;
+  bool gameFinished = false;
   int lowestCellYReached = 9999;
   uint8_t prevPressedKeys = KeyboardKeyCode::IC_KEY_NONE;
   uint8_t pressedKeys = KeyboardKeyCode::IC_KEY_NONE;
+  chrono::system_clock::time_point notifyGameFinishedTime;
   void ProcessPressedKeys(bool = true);
   void ProcessReleasedKeys();
   void LoadNextSprite();
@@ -71,7 +74,6 @@ class Player: public IEntity
   bool isBlockedRight = false;     // Player is stuck running to the right towards a brick
   bool isBlockedLeft = false;      // Player is stuck running to the left towards a brick
   bool isOnMobileSurface = false;  // Player underlying surface is mobile
-  bool isInactive = false;         // Player is stopped due to the game has finished, this way the update function became inoperative
 
   // Player action update functions
   void UpdateCollisions();

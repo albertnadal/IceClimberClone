@@ -60,7 +60,11 @@ void Player::NotifyNewAltitudeHasBeenReached() {
 }
 
 bool Player::Update(const uint8_t pressedKeys_) {
-    if (isInactive) {
+    if (gameFinished) {
+        // Make a pause before notifying the game has finished
+        if(chrono::system_clock::now() >= notifyGameFinishedTime) {
+            // TODO: Tell entityManager the game finished
+        }
         return false;
     }
 
@@ -133,7 +137,8 @@ void Player::IncreaseAchievementCounterByEntity(IEntity* entity) {
 
             case EntityIdentificator::CONDOR:
                 reachedCondor = true;
-                isInactive = true;
+                gameFinished = true;
+                notifyGameFinishedTime = (chrono::system_clock::now() + std::chrono::milliseconds(PAUSE_DURATION_BEFORE_GAME_FINISHED_NOTIFICATION));
                 break;
         }
     } else if (entity->type == EntityType::VEGETABLE) {
