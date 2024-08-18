@@ -3,6 +3,9 @@
 #include <cstdint>
 #include <raylib/raylib.h>
 
+// Screen types
+enum GameScreenType: uint16_t { MAIN_MENU = 0, MOUNTAIN_GAME_PLAY = 1, PLAYER_SCORE_SUMMARY = 2 };
+
 // Keyboard key codes
 enum KeyboardKeyCode: uint8_t { IC_KEY_LEFT = 0x80, IC_KEY_UP = 0x40, IC_KEY_RIGHT = 0x20, IC_KEY_DOWN = 0x10, IC_KEY_Q = 0x08, IC_KEY_W = 0x04, IC_KEY_A = 0x02, IC_KEY_SPACE = 0x01, IC_KEY_NONE = 0x00 };
 
@@ -118,3 +121,5 @@ constexpr float LIFE_COUNTER_X = 112.0f;                                        
 constexpr float LIFE_COUNTER_Y = 64.0f;                                          // Life Counter Y coordinate in the screen.
 constexpr int MAX_PLAYER_LIFES = 3;                                              // Total number of lifes of the player.
 constexpr int PAUSE_DURATION_BEFORE_GAME_FINISHED_NOTIFICATION = 2000;           // Pause duration in milliseconds before the gameplay finishes, due to Condor hunted or player death.
+constexpr float VEGETABLE_WIDTH = 32.0f;                                         // Width of a vegetable in the tilemap.
+constexpr float EGGPLANT_VEGETABLE_X = 112.0f;                                   // X coordinate of the eggplant sprite in the tilemap.
