@@ -1,0 +1,296 @@
+TASKS AND ROADMAP TIMELINE:
+
+- Compile and run the current code [ OK ]  
+- Compile and import the static Raylib library into the project [ OK ]  
+- Replace the use of OpenGL via glfw3 with Raylib [ OK ]  
+  - Load texture atlas into GPU memory via Raylib [ OK ]  
+- Use Raylib for keyboard control [ OK ]  
+- Combine all files/classes in the items folder into a single .h and .cpp [ OK ]  
+  - Move brick subclasses into a single brick.h/cpp file [ OK ]  
+  - Move side wall subclasses into a single side_wall.h/cpp file [ OK ]  
+  - Keep main_character.c/hpp and rename it to player.c/cpp [ OK ]
+
+- Fix object positioning on the screen [ OK ]  
+- Display the bounding box of object collisions [ OK ]  
+- Highlight objects that collide with the player [ OK ]  
+- Make the boundingBox of the objects also the solid collision area for now. <==== [ OK ]  
+- Add the solidBoundingBox attribute so that it becomes the collision area <==== [ OK ]  
+- spacePartitionObjectsTree->query(GetLowerBound(),GetUpperBound()) should return objects of type AABBIntersection.  
+  An intersection contains a pointer to an ISceneObject and the penetration values of the intersection [ OK ]  
+- Delete deprecated references to currentSprite.areas / GetSimpleAreas / GetSolidAreas [ OK ]
+- Detect collisions when walking horizontally and stop the player [ OK ]  
+- Remove references to the deprecated ObjectCollisionData type [ OK ]
+
+- Fix vertical jump (90º) [ OK ]  
+  - When the player starts to lift off, they pass through objects they collide with on the ground [ OK ] [ ACK ]  
+  - When the player starts to lift off, they pass through objects they collide with laterally [ OK ] [ ACK ]  
+  - When the player jumps, they pass through objects they collide with using their head [ OK ] [ ACK ]  
+  - When the player lands, they pass through objects they collide with [ OK ] [ ACK ]  
+  - When the player lifts off facing left toward a wall, they fall [ OK ] [ ACK ]  
+  - When the player lands on a single brick, they pass through it [ OK ] [ ACK ]  
+  - When the player is reaching the maximum height (apex) of a jump and the user presses the RIGHT/LEFT key, the player falls in the indicated direction [ OK ]  
+    - When the player falls and collides laterally with a column of bricks, they get stuck to the wall instead of falling vertically [ OK ]  
+
+- Fix player fall [ OK ]
+  - When the player falls facing left, the sprites do not load correctly [ OK ] [ ACK ]
+  - When the player collides with the ground during a fall, they do not stop [ OK ] [ ACK ]
+  - When the player, after colliding with the ground during a fall, then makes an abrupt vertical movement
+  ¨ when they jump 90º again. This only fails when facing a wall on the left. [ OK ] [ ACK ]
+  - When the player falls on a single brick, the 4px margin must be considered to make them fall sideways if necessary [ OK ] [ ACK ]
+
+- Fix parabolic jump [ OK ]
+  - Fix diagonal left collision when falling against a single brick [ OK ] [ ACK ]
+  - Fix diagonal right collision when falling against a single brick [ OK ] [ ACK ]
+  - Fix diagonal right collision when falling against a column of 2+ bricks [ OK ] [ ACK ]
+  - Fix diagonal left collision when falling against a column of 2+ bricks [ OK ] [ ACK ]
+  - When the player collides diagonally right during a fall against the right side of a brick, it must be considered that if there are
+  ¨ 4 pixels of margin left on the right, the player should start a free fall [ OK ] [ ACK ]
+  - Fix vertical collision when falling against a ground made of 3+ bricks [ OK ] [ ACK ]
+  - When the player jumps, they pass through objects they collide with using their head [ OK ] [ ACK ]
+  - When the player jumps, they pass through objects they collide with laterally [ OK ] [ ACK ]
+  - When the user is blocked walking to the right/left and presses UP, they should not be able to jump [ OK ]
+  - When the user is in stand-by blocked on the right or left by a brick, they should only be able to make 90-degree jumps [ OK ]
+
+- Free fall into space when exiting to the right of a brick's collision surface [ OK ]
+- Free fall into space when exiting to the left of a brick's collision surface [ OK ]
+
+- Fix erratic player behavior during certain collisions <==== [ CURRENT ]
+- Move ObjectCollision struct definition from player.h to scene_object.h file [ OK ]
+- Define and use the GRAVITY constant in defines.h [ OK ]
+
+- Breaking bricks with a vertical jump (90º) [ OK ]
+  - When the player collides from above during a jump, the reference of the object they collided with must be obtained [ OK ]
+  - Implement breaking a square brick when colliding during a jump [ OK ]
+  - Remove the brick that was propelled at the time of the hit from the AABB tree [ OK ]
+  - Finish propelling a brick after a certain time (FinishPropel method) [ OK ]
+  - Mark objects that can be destroyed and destroy the marked objects before updating [ OK ]
+  - Implement breaking a half-square brick when colliding during a jump [ OK ]
+
+- Breaking bricks with a parabolic jump [ OK ]
+
+- Implement sliding on icy ground <====
+  - Add SLIP_TO_RIGHT and SLIP_TO_LEFT definitions to PlayerAnimation [ OK ]
+  - Add sprite and spritesheet configuration for sliding to the right and left [ OK ]
+  - Add boolean "isSlipping" state to the "Player" class [ OK ]
+  - Define and implement the "StopRunningOnIce" trigger and the "STATE_Slip_Right" and "STATE_Slip_Left" states [ OK ]
+  - Implement the "void Slip();" and "void UpdateSlip();" functions [ OK ]
+  - Implement ending the slide after covering a certain distance [ OK ]
+  - Implement ending the slide in case of collision [ OK ]
+  - Sliding on ice should only occur when maximum momentum is reached [ OK ]
+
+- Implement movement on conveyor belts <====
+  - Add sprite and spritesheet configuration for brown/green/blue conveyor belts to the right and left [ OK ]
+  - Move the player X pixels to the relevant side when on a conveyor belt [ OK ]
+  - The player passes through walls when moved by a conveyor belt [ OK ]
+  - The conveyor belt moves the player when they are on a normal brick and barely touch the belt. The underlying surface should be determined based on the brick with which it has the most collision surface [ OK ]
+  - When the player is facing a wall of bricks and is also on a conveyor belt, then if they try to jump, the jump doesn't work. If there is no conveyor belt, it works fine [ OK ]
+  - Implement breaking and falling of conveyor belts [ OK ]
+
+- Implement indestructible bricks:
+  - Add sprites and configuration for indestructible normal bricks [ OK ]
+  - Add sprites and configuration for indestructible conveyor belts [ OK ]
+
+- Implement clouds:
+  - Add sprites and configuration for the "small cloud" spritesheet [ OK ]
+  - Add sprites and configuration for the "big cloud" spritesheet [ OK ]
+  - Add sprites and configuration for the "tiny cloud" spritesheet [ OK ]
+  - Implement base class "Cloud" in the "objects" folder [ OK ]
+  - Implement "CloudSmall" subclass [ OK ]
+  - Implement horizontal movement of CloudSmall/Big/Tiny [ OK ]
+  - Implement player transportation when on a "Cloud" object [ OK ]
+  - Implement respawn interval and respawn of clouds when they leave the level [ OK ]
+  - Coordinates type may need to be changed from uint16_t to int. Negative positions should be considered [ OK ]
+  - The player on the cloud should be transported at the same speed as the cloud <==== [ CURRENT ]
+  - Implement/fix edge cases in collisions between the player and clouds <====
+    - Player is on the cloud. Player collides with a brick. The player is pushed in the opposite direction. When they are off the cloud surface, the player should start a free fall. [ OK ]
+    - Player on a cloud leaves the surface in the direction the cloud is traveling. The player should fall. [ OK ]
+
+- Prepare Devlog #2
+  - Write script [ OK ]
+  - Prepare storyboard [ OK ]
+  - Record audio [ OK ]
+  - Record videos [ OK ]
+  - Edit [ OK ]
+
+- Add a property to ISceneObjects to determine if the object is passable or not. For example, the SideWall. [ OK ]
+- When the player goes off the screen margins, they should appear on the opposite margin. [ OK ]
+- Add the non-passable ice SideWalls used in the bonus area. [ OK ]
+  - Define classes and enumerations [ OK ]
+  - Add the sprites to the tilemap and configure them [ OK ]
+
+- Add the Devlog2 video link to albiasoft.com and itch.io [ OK ]
+- If the UpdatePreviousDirection functions are useless, then remove them [ OK ]
+- The Width() and Height() functions should be inline, and the implementation should be moved to the base class [ OK ]
+
+- Implement the Topi character:
+  - Define the Topi class [ OK ]
+  - Define the state map:
+    - WALK_RIGHT [ OK ]
+    - WALK_LEFT [ OK ]
+    - RUN_TO_PICK_UP_ICE_RIGHT [ OK ]
+    - RUN_TO_PICK_UP_ICE_LEFT [ OK ]
+    - WALK_BRING_ICE_RIGHT [ OK ]
+    - WALK_BRING_ICE_LEFT [ OK ]
+    - FALL_DAZED_RIGHT [ OK ]
+    - FALL_DAZED_LEFT [ OK ]
+    - RUN_DAZED_RIGHT [ OK ]
+    - RUN_DAZED_LEFT [ OK ]
+  - Implement the states for walking right and left [ OK ]
+  - When Topi reaches the side of the screen while walking, they should reappear walking from a random side [ OK ]
+  - Detect when approaching an area without ground (similar to when the player detects a fall and instead of falling, turns back) [ OK ]
+  - Make sure it doesn't detect the sides of the screen as gaps [ OK ]
+  - Ensure it only considers gaps in the direction it's walking <==== [ CURRENT | Ignore for now ]
+  - Implement the state where it goes to pick up an ice block [ OK ]
+  - Implement the state of falling due to a missing block when going to pick up ice [ OK ]
+    - Ignore collisions with underlying objects when it starts falling [ OK ]
+    - Implement vertical collision during fall and corresponding fall termination [ OK ]
+  - When Topi reaches the side of the screen while dazed, they should start walking from a random side in the original level where they were created [ OK ]
+  - Implement the state of falling due to a missing block while running in a dazed state [ OK ]
+  - When a fall ends in a dazed state and it runs dazed, colliding with a block with its head, it causes an unwanted vertical correction that makes it climb onto the block it collided with (see video) [ OK ]
+  - When Topi collides horizontally with a brick while dazed or walking, it should turn around [ OK ]
+  - Test dropping Topi onto a cloud and fix any potential errors [ OK ]
+  - Implement the state where it returns carrying ice to fill a gap:
+    - Add definitions and the Ice class for the ice block [ OK ]
+    - Add sprite and configuration for the ice block's spritesheet [ OK ]
+    - Move the ice block horizontally when it collides horizontally only with Topi in the ice-carrying state [ OK ]
+    - Fill gaps when the ice block is suspended [ OK ]
+    - Create and position an Ice instance when Topi returns from the side of the screen carrying ice [ OK ]
+    - Ensure that when a gap is filled, it is within the horizontal limits of the screen [ OK ]
+    - Fix a bug where the ice block doesn't fill the gap (the brick is likely not created due to an unwanted collision) [ OK ]
+    - When the brick just below Topi is destroyed while it is dragging ice, it goes into a dazed state without moving. This also happens when there's no brick below Topi at the starting position. Topi should fall. [ OK ]
+
+- Implement vertical scrolling when moving up a vertical level:
+  - Design the first mountain of the game [ OK ]
+  - Initially position the camera at the bottom of the level [ OK ]
+  - Create the Water class and corresponding sprite [ OK ]
+  - The viewport height should be 30 cells [ OK ]
+  - Move the camera to the next level when Popo ascends from level 4 [ OK ]
+  - Implement vertical scrolling when accessing the bonus area [ OK ]
+  - Implement vertical scrolling when ascending within the bonus area [ OK ]
+  - Popo no longer has the hammer when entering the Bonus Stage <==== [ CURRENT | Consider leaving for later ]
+
+- Implement vegetables in the Bonus Stage [ OK ]
+- Implement stars in the Bonus Stage [ OK ]
+- Fix a bug where the stars in the Bonus Stage prevent Popo from falling [ OK ]
+- Implement level indicators [ OK ]
+- Add Topis to the mountainMap of the first mountain [ OK ]
+- Remove excess rows from the mountainMap [ OK ]
+
+- Run the cppcheck static analyzer and fix errors <==== [ CURRENT ]
+- The screen height should have a fixed numerical value, not depend on ZOOM. The ZOOM value should be calculated dynamically based on screen height <===== [ CURRENT ]
+- The animation of the green brick when it breaks is incorrect [ OK ]
+
+- Prepare Devlog #3
+  - Write script [ OK ]
+  - Prepare storyboard [ OK ]
+  - Record audio [ OK ]
+  - Record videos [ OK ]
+  - Edit [ OK ]
+
+- Implement the Nitpicker character:
+  - Define the Nitpicker class and enumerations [ OK ]
+  - Add the sprites to the tilemap and configure them [ OK ]
+  - Define the state map: [ OK ]
+    - WAITING_FOR_RESPAWN
+    - FLYING
+    - FALLING
+  - Get the initial vertical position of the viewport. This will be the respawn vertical position of the Nitpicker [ OK ]
+  - Implement the Nitpicker's flying movement:
+    - After 3 failed attack attempts, the Nitpicker should fly off the screen [ OK ]
+    - When the Nitpicker flies off the screen, it should go into WaitingForRespawn mode [ OK ]
+    - Load the corresponding Nitpicker animation when flying left and right [ OK ]
+    - When the user enters the bonus stage, the Nitpicker should disappear, and the instance should be destroyed [ OK ]
+
+- Implement enemy hits:
+  - Clean up legacy SpriteAreas code (solid & simple) [ OK ]
+  - Implement definition and loading of hitBoundaries from objtypes.dat [ OK ]
+  - Implement CheckHitCollisionsWithEnemies method [ OK ]
+  - Nitpicker [ OK ]
+    - Implement a method in the AABB class to indicate if an object is present in the tree or not [ OK ]
+    - If not present, re-add the Nitpicker to the partition objects tree when starting flight via STATE_Flying() [ OK ]
+  - Topi [ OK ]
+  - Topi ice [ OK ]
+
+- Implement the Condor character:
+  - Define the Condor class and enumerations [ OK ]
+  - Add the sprites to the tilemap and configure them [ OK ]
+  - Implement the Condor's flying movement [ OK ]
+  - Implement the collision of Popo with the Condor [ OK ]
+    - The game should end, and the summary screen should be displayed <==== [ Leave for later ]
+
+- Implement the life counter:
+  - The EntityManager::Update method should return the "UpdateResult" struct containing the following fields [ OK ]
+    - std::optional<float> currentCameraVerticalPosition [ OK ]
+    - std::optional<int> lifeCounter [ OK ]
+  - Render the life indicator in the game's main loop [ OK ]
+  - When the player enters the Bonus Stage, the life indicator should not be displayed [ OK ]
+
+- Remove the implementation and calls to the "Topi::IsTopi()" method, and instead, check if the EntityIdentificator is TOPI [ OK ]
+- Remove the implementation and calls to the "Cloud::IsCloud" method, and instead, check if the EntityType is CLOUD [ OK ]
+- Use a define for the assignment int gameLogicFrequency = 16; in the main program [ OK ]
+- Use a define for the assignment int framesPerSecond = 60; in the main program [ OK ]
+
+- Implement a structure to store hits and points accumulated during a game. This structure will be returned at the end of the game. [ OK ]
+  - Add and update the counter for the number of vegetables collected during the game [ OK ]
+  - Add and update the counter for the number of ice blocks broken during the game [ OK ]
+  - Add and update the counter for the number of Nitpickers caught during the game [ OK ]
+  - Add and update the counter for the number of bricks broken during the game [ OK ]
+  - Add a boolean to indicate if the Condor has been caught [ OK ]
+
+- When Popo catches the Condor, the game should end:
+  - Popo and the Condor should remain stationary for a couple of seconds. [ OK ]
+  - After two seconds, the Update function should indicate that the game is over. [ OK ]
+    - The Player instance should notify the EntityManager instance that the game is over by calling a method that also passes the achieved milestones as a parameter [ OK ]
+  - When the logic loop gets that the game is over, the loop/thread should end [ OK ]
+  - Return the accumulated score storage structure with the EntityManager::GetGameScoreSummary() method [ OK ]
+
+- Implement the game summary screen:
+  - Display the summary screen of points achieved by the player when the game logic thread ends <==== [ CURRENT ]
+  - Add sprites of a happy and crying Popo [ OK ]
+  - Add sprites of the score summary frame [ OK ]
+    - The sprite will already have the texts "1 PLAYER", the "X" multiplication signs, and "TOTAL" [ OK ]
+  - Add sprites for the texts "MOUNTAIN", "NO BONUS", and "WINNER BONUS!" [ OK ]
+  - Add sprites for the characters "0", "1", "2", "3", "4", "5", "6", "7", "8", and "9" [ OK ]
+
+- Implement contact with enemies and vegetables:
+  - Topi <====
+  - Topi ice <====
+  - Nitpicker <====
+  - Vegetables [ OK ]
+
+- Implement the dazed state of Popo <====
+- Implement the respawn of Popo after losing a life <====
+
+- Parameterize the magic numbers of the EntityManager::BuildMountain method in defines <====
+- Review the unused includes in the entity class headers due to copy&paste of files <====
+- If possible, move the ReachedScreenEdge method used in some entity subclasses to the base IEntity class <====
+
+- Add the project to the website https://osgameclones.com <====
+- Mark all read-only class methods as 'const' <====
+- Define as 'const' those function parameters that are passed by reference and are read-only <===
+- Consider renaming the EntityManager class to GameplayManager, as it not only manages entities but also controls other game states such as remaining lives, points achieved, etc. <====
+
+- Implement Polar Bear <====
+- Implement the Bonus Stage stopwatch object <====
+- Do not call Update on non-animated decorative objects <====
+- Implement the BonusStageText class, configure the sprites, and add it to the mountainMap [ OK ]
+
+- The function ::Update(uint8_t pressedKeys_) should have a default implementation in the base class for cases like side walls, water, and similar objects. Those with their own implementation should override the code. <=====
+
+- Move the define ENTITY_TYPES_FILENAME from entity_data_manager.h to defines.h [ OK ]
+- The isCloud function can be implemented in the base class to return False, except in the Cloud class where it should override and return True. All override functions present in other subclasses should be removed [ OK ]
+- Remove the deprecated recoverPreviousPosition function from the Position class and the prev_* attributes [ OK ]
+- Remove the deprecated RecoverPreviousPosition function from the IEntity class and its derivatives [ OK ]
+- The abstract InitWithSpriteSheet method in ISceneObject should be implemented by the base classes Brick and SideWall, not by each subclass <====
+- Rename the Player class to Popo. If needed! <====
+- Rename ISceneObject to IEntity. Rename the "objects" folder to "entities". [ OK ]
+- Remove overridden destructors in bricks and side_walls (both in .h and .cpp). They are not needed. [ OK ]
+- Move the player state transition methods to a separate file (player_state_transitions.cpp) [ OK ]
+- Remove the deprecated state "isLeaningOnTheGround" [ OK ]
+- Remove the files utils.h, vec2.cpp, vec2.h, fvec2.cpp, and fvec2.h if not used [ OK ]
+- Destroy objects that have been marked for deletion [ OK ]
+- The "BuildWorld" function should only load into the "mobileObjects" and "staticObjects" maps the objects present in the viewport <====
+- When the game viewport levels up, load into the "mobileObjects" and "staticObjects" maps the objects present in the viewport <====
+- When the game viewport levels up, destroy objects in "mobileObjects" and "staticObjects" that are not present in the viewport <====
+- Fix the z-index of the sprites <==== [ CURRENT ]
+- Try to compile the program to run in a web browser via wasm <====
