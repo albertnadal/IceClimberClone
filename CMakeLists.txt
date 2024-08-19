@@ -57,6 +57,7 @@ add_executable(rocket
         src/filesystem.h
         src/float_double_buffer.cpp
         src/float_double_buffer.h
+        src/score_screen.cpp
         src/entity_sprite_sheet.cpp
         src/entity_sprite_sheet.h
         src/entity_sprite_sheet_animation.cpp

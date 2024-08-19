@@ -9,6 +9,7 @@
 #include <defines.h>
 #include <entity_data_manager.h>
 #include <entity_manager.h>
+#include <score_screen.cpp>
 
 constexpr float ZOOM = 1.0f;
 constexpr uint32_t SCR_WIDTH = 32*CELL_HEIGHT*ZOOM;  // REVISIT: The width should be a fixed value and the zoom value should be calculated based on the screen height.
@@ -29,6 +30,8 @@ std::optional<float> cameraVerticalPosition;
 std::mutex cameraVerticalPositionMutex;
 GameScoreSummary scoreSummary;
 GameScreenType currentGameScreen;
+int mountainNumber = 1;
+int accumulatedScore = 14260;
 
 static void* gameLogicThreadFunc(void* v)
 {
@@ -158,21 +161,7 @@ int main()
                         EndDrawing();
                         /* END DRAWING GAME PLAY */
                 } else if (currentGameScreen == GameScreenType::PLAYER_SCORE_SUMMARY) {
-                        /* BEGIN DRAWING PLAYER SCORE SUMMARY */
-                        BeginDrawing();
-                                ClearBackground(BLACK);
-                                BeginMode2D(staticCamera);
-                                        DrawTextureRec(textureAtlas, {304,336,128,16}, {172,32}, WHITE);  // MOUNTAIN text
-                                        DrawTextureRec(textureAtlas, {560,0,220,380}, {140,72}, WHITE);   // Decorative frame
-                                        float vegetableXPos = EGGPLANT_VEGETABLE_X + ((scoreSummary.vegetableId - EntityIdentificator::EGGPLANT) * VEGETABLE_WIDTH);
-                                        DrawTextureRec(textureAtlas, {vegetableXPos,352,32,32}, {182,200}, WHITE);  // Vegetable
-                                        DrawTextureRec(textureAtlas, {256,112,16,32}, {188,228}, WHITE);  // Ice
-                                        DrawTextureRec(textureAtlas, {272,144,32,32}, {182,267}, WHITE);  // Nitpicker
-                                        DrawTextureRec(textureAtlas, {32,232,16,16}, {188,310}, WHITE);   // Blue brick
-                                EndMode2D();
-                                DrawFPS(16, 16);
-                        EndDrawing();
-                        /* END DRAWING PLAYER SCORE SUMMARY */
+                        renderScoreScreen(textureAtlas, staticCamera, scoreSummary, mountainNumber, accumulatedScore);
                 } else if (currentGameScreen == GameScreenType::MAIN_MENU) {
                         /* BEGIN DRAWING MAIN MENU */
                         BeginDrawing();

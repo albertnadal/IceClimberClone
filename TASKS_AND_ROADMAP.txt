@@ -251,6 +251,10 @@ TASKS AND ROADMAP TIMELINE:
     - The sprite will already have the texts "1 PLAYER", the "X" multiplication signs, and "TOTAL" [ OK ]
   - Add sprites for the texts "MOUNTAIN", "NO BONUS", and "WINNER BONUS!" [ OK ]
   - Add sprites for the characters "0", "1", "2", "3", "4", "5", "6", "7", "8", and "9" [ OK ]
+  - Show proper vegetable sprite in the screen [ OK ]
+  - Implement function to draw zero padded numbers in the screen [ OK ]
+  - Show proper unit score points, hit counters and the total player score [ OK ]
+  - Show the mountain number in the top side of the screen [ OK ]
 
 - Implement contact with enemies and vegetables:
   - Topi <====
