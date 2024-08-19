@@ -19,7 +19,9 @@ constexpr uint32_t MAX_OBJECTS = 1000;
 pthread_t gameLogicThread;
 std::chrono::duration<float> cpuTimePerUpdate;
 uint8_t pressedKeys = IC_KEY_NONE;
-bool gameFinished = false;
+bool exitGame = false;
+bool isGameFinished = false;
+bool isGameOver = false;
 EntityDataManager *entityTextureManager;
 EntityManager *entityManager;
 int gameLogicFrequency = MILLISECONDS_PER_TICK;
@@ -36,11 +38,11 @@ int accumulatedScore = 14260;
 static void* gameLogicThreadFunc(void* v)
 {
         UpdateInfo info;
-        while(!gameFinished) {
+        while(!exitGame && !isGameFinished) {
                 if (!paused) {
                         auto t0 = std::chrono::high_resolution_clock::now();
                         info = entityManager->Update(pressedKeys);
-                        gameFinished = info.gameFinished;
+                        isGameFinished = info.gameFinished;
 
                         cameraVerticalPositionMutex.lock();
                         cameraVerticalPosition = info.currentCameraVerticalPosition;
@@ -56,11 +58,13 @@ static void* gameLogicThreadFunc(void* v)
                 std::this_thread::sleep_for(std::chrono::milliseconds(gameLogicFrequency) - cpuTimePerUpdate);
         }
 
+        isGameOver = entityManager->IsGameOver();
         scoreSummary = entityManager->GetGameScoreSummary();
+        currentGameScreen = GameScreenType::PLAYER_SCORE_SUMMARY;
         return nullptr;
 }
 
-inline void processInput() {
+inline void processKeyboardInput() {
         if (IsKeyPressed(KEY_RIGHT) || IsKeyReleased(KEY_RIGHT)) pressedKeys ^= IC_KEY_RIGHT;
         if (IsKeyPressed(KEY_LEFT) || IsKeyReleased(KEY_LEFT)) pressedKeys ^= IC_KEY_LEFT;
         if (IsKeyPressed(KEY_UP) || IsKeyReleased(KEY_UP)) pressedKeys ^= IC_KEY_UP;
@@ -114,10 +118,9 @@ int main()
 
         while (!WindowShouldClose())
         {
-                processInput();
-
                 if (currentGameScreen == GameScreenType::MOUNTAIN_GAME_PLAY) {
-                        /* BEGIN DRAWING MOUNTAIN GAME PLAY */
+                        processKeyboardInput();
+
                         BeginDrawing();
                                 ClearBackground(BLACK);
 
@@ -159,9 +162,23 @@ int main()
 
                                 DrawFPS(16, 16);
                         EndDrawing();
-                        /* END DRAWING GAME PLAY */
                 } else if (currentGameScreen == GameScreenType::PLAYER_SCORE_SUMMARY) {
                         renderScoreScreen(textureAtlas, staticCamera, scoreSummary, mountainNumber, accumulatedScore);
+
+                        if (IsKeyPressed(KEY_SPACE)) {
+                                if (isGameOver) {
+                                        // Go to main menu
+                                        mountainNumber = 1;
+                                        accumulatedScore = 0;
+                                } else {
+                                        // Play the next mountain available
+                                        isGameFinished = false;
+                                        mountainNumber++;
+                                        // TODO: Call entityManager->setupMountain(mountainNumber)
+                                        currentGameScreen = GameScreenType::MOUNTAIN_GAME_PLAY;
+                                        pthread_create(&gameLogicThread, nullptr, gameLogicThreadFunc, nullptr);
+                                }
+                        }
                 } else if (currentGameScreen == GameScreenType::MAIN_MENU) {
                         /* BEGIN DRAWING MAIN MENU */
                         BeginDrawing();
@@ -175,7 +192,7 @@ int main()
                 }
         }
 
-        gameFinished = true;
+        exitGame = true;
 
         // Wait for the gameLogicThread to finish
         pthread_join(gameLogicThread, nullptr);

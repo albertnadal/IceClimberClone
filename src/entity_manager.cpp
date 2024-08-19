@@ -10,7 +10,8 @@ EntityManager::EntityManager(EntityDataManager* _textureManager, SpriteRectDoubl
         spacePartitionObjectsTree->setDimension(2);
         currentCameraVerticalPosition = newCameraVerticalPosition = 0.0f;
         playerEnteredBonusStage = false;
-        gameFinished = false;
+        isGameFinished = false;
+        isGameOver = false;
         BuildMountain();
 }
 
@@ -80,6 +81,10 @@ GameScoreSummary EntityManager::GetGameScoreSummary() const {
   return scoreSummary;
 }
 
+bool EntityManager::IsGameOver() const {
+  return isGameOver;
+}
+
 void EntityManager::PlayerEnteredBonusStage() {
   // Delete all mobile objects below the bonus stage (except the player).
   for (auto const& x : mobileObjects) {
@@ -98,7 +103,7 @@ void EntityManager::PlayerFinishedGame(bool condorHunted, int vegetableCount, in
   scoreSummary.nitpickerCount = nitpickerCount;
   scoreSummary.iceCount = iceCount;
   scoreSummary.brickCount = brickCount;
-  gameFinished = true;
+  isGameFinished = true;
 }
 
 UpdateInfo EntityManager::Update(uint8_t pressedKeys) {
@@ -120,7 +125,7 @@ UpdateInfo EntityManager::Update(uint8_t pressedKeys) {
     info.lifeCounter = lifeCounter;
   }
 
-  info.gameFinished = gameFinished;
+  info.gameFinished = isGameFinished;
 
   return info;
 }

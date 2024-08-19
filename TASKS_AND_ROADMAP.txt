@@ -245,7 +245,7 @@ TASKS AND ROADMAP TIMELINE:
   - Return the accumulated score storage structure with the EntityManager::GetGameScoreSummary() method [ OK ]
 
 - Implement the game summary screen:
-  - Display the summary screen of points achieved by the player when the game logic thread ends <==== [ CURRENT ]
+  - Display the summary screen of points achieved by the player when the game logic thread ends [ OK ]
   - Add sprites of a happy and crying Popo [ OK ]
   - Add sprites of the score summary frame [ OK ]
     - The sprite will already have the texts "1 PLAYER", the "X" multiplication signs, and "TOTAL" [ OK ]
@@ -255,6 +255,17 @@ TASKS AND ROADMAP TIMELINE:
   - Implement function to draw zero padded numbers in the screen [ OK ]
   - Show proper unit score points, hit counters and the total player score [ OK ]
   - Show the mountain number in the top side of the screen [ OK ]
+
+- Implement the main menu screen:
+  - Display the main menu screen when game starts <==== [ CURRENT ]
+  - Add sprites of "1 PLAYER GAME", "MOUNTAIN", "TOP·", "PTS." and "(c)1984 NINTENDO" in the tilemap <==== [ CURRENT ]
+  - Make up screen with the proper sprites <==== [ CURRENT ]
+  - Select mountain number with UP and DOWN keys <==== [ CURRENT ]
+  - Load top score from file <==== [ CURRENT ]
+  - Start new game for the selected mountain on press SPACE or ENTER keys <==== [ CURRENT ]
+
+- Implement EntityManager::setupMountain(int mountainNumber) to setup a new gameplay for an specific mountain <====
+- Add support to load mountain data from files with name "mountain##.dat" <====
 
 - Implement contact with enemies and vegetables:
   - Topi <====

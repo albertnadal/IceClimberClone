@@ -22,7 +22,8 @@ class EntityManager
   std::vector<IEntity*> objectsToDelete;
   Player* player = nullptr;
   int lifeCounter = MAX_PLAYER_LIFES;
-  bool gameFinished = false;
+  bool isGameFinished = false;
+  bool isGameOver = false;
   GameScoreSummary scoreSummary;
 
   EntityDataManager *textureManager;
@@ -178,6 +179,7 @@ public:
   float GetCurrentCameraVerticalPosition() const;
   std::optional<Position *> GetPlayerPosition() const;
   GameScoreSummary GetGameScoreSummary() const;
+  bool IsGameOver() const;
   void PlayerReachedNewAltitude(int);
   void PlayerEnteredBonusStage();
   void PlayerFinishedGame(bool, int, int, int, int);
