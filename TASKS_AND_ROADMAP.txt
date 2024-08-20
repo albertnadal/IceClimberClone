@@ -258,11 +258,12 @@ TASKS AND ROADMAP TIMELINE:
 
 - Implement the main menu screen:
   - Display the main menu screen when game starts <==== [ CURRENT ]
-  - Add sprites of "1 PLAYER GAME", "MOUNTAIN", "TOP·", "PTS." and "(c)1984 NINTENDO" in the tilemap <==== [ CURRENT ]
+  - Add sprites of "PLAYER GAME", "TOP·", "PTS." and "(c)1984 NINTENDO" in the tilemap [ OK ]
   - Make up screen with the proper sprites <==== [ CURRENT ]
   - Select mountain number with UP and DOWN keys <==== [ CURRENT ]
   - Load top score from file <==== [ CURRENT ]
   - Start new game for the selected mountain on press SPACE or ENTER keys <==== [ CURRENT ]
+
 
 - Implement EntityManager::setupMountain(int mountainNumber) to setup a new gameplay for an specific mountain <====
 - Add support to load mountain data from files with name "mountain##.dat" <====
