@@ -9,6 +9,7 @@
 #include <defines.h>
 #include <entity_data_manager.h>
 #include <entity_manager.h>
+#include <main_menu_screen.cpp>
 #include <score_screen.cpp>
 
 constexpr float ZOOM = 1.0f;
@@ -34,6 +35,7 @@ GameScoreSummary scoreSummary;
 GameScreenType currentGameScreen;
 int mountainNumber = 1;
 int accumulatedScore = 14260;
+int highScore = 0;
 
 static void* gameLogicThreadFunc(void* v)
 {
@@ -180,15 +182,7 @@ int main()
                                 }
                         }
                 } else if (currentGameScreen == GameScreenType::MAIN_MENU) {
-                        /* BEGIN DRAWING MAIN MENU */
-                        BeginDrawing();
-                                ClearBackground(BLACK);
-                                BeginMode2D(staticCamera);
-                                        // TODO
-                                EndMode2D();
-                                DrawFPS(16, 16);
-                        EndDrawing();
-                        /* END DRAWING MAIN MENU */
+                        renderMainMenuScreen(textureAtlas, staticCamera, mountainNumber, highScore);
                 }
         }
 
