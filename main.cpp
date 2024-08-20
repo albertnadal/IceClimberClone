@@ -183,6 +183,12 @@ int main()
                         }
                 } else if (currentGameScreen == GameScreenType::MAIN_MENU) {
                         renderMainMenuScreen(textureAtlas, staticCamera, mountainNumber, highScore);
+
+                        if (IsKeyPressed(KEY_UP)) {
+                                mountainNumber = (mountainNumber % TOTAL_MOUNTAINS) + 1;
+                        } else if (IsKeyPressed(KEY_DOWN)) {
+                                mountainNumber = (mountainNumber - 2 + TOTAL_MOUNTAINS) % TOTAL_MOUNTAINS + 1;
+                        }
                 }
         }
 
