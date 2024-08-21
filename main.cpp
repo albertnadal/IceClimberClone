@@ -9,6 +9,7 @@
 #include <defines.h>
 #include <entity_data_manager.h>
 #include <entity_manager.h>
+#include <utils.cpp>
 #include <main_menu_screen.cpp>
 #include <score_screen.cpp>
 
@@ -87,7 +88,9 @@ int main()
         srand(static_cast<unsigned>(time(0))); // Initialize the random seed to avoid deterministic behaviours. Just for debug purposes.
 
         InitWindow(SCR_WIDTH, SCR_HEIGHT, "Ice Climber");
-        currentGameScreen = GameScreenType::MOUNTAIN_GAME_PLAY;  // TODO: GameScreenType::PLAYER_SCORE_SUMMARY;
+        highScore = loadHighscoreFromFile(HIGHSCORE_FILENAME);
+
+        currentGameScreen = GameScreenType::MOUNTAIN_GAME_PLAY;    // TODO: GameScreenType::PLAYER_SCORE_SUMMARY;
         scoreSummary.vegetableId = EntityIdentificator::EGGPLANT;  // TODO: The vegetable Id should be taken from the selected mountain data.
 
         // Camera configuration for simple static screens

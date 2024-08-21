@@ -261,10 +261,10 @@ TASKS AND ROADMAP TIMELINE:
   - Add sprites of "PLAYER GAME", "TOP·", "PTS." and "(c)1984 NINTENDO" in the tilemap [ OK ]
   - Make up screen with the proper sprites [ OK ]
   - Select mountain number with UP and DOWN keys [ OK ]
-  - Load top score from file <==== [ CURRENT ]
+  - Load top score from file [ OK ]
   - Start new game for the selected mountain on press SPACE or ENTER keys <==== [ CURRENT ]
 
-
+- Delete lines in "objtypes.dat" files using deprecated "solid" and "simple" operations" <====
 - Implement EntityManager::setupMountain(int mountainNumber) to setup a new gameplay for an specific mountain <====
 - Add support to load mountain data from files with name "mountain##.dat" <====
 

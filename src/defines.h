@@ -92,7 +92,8 @@ enum CondorAnimation: uint16_t { CONDOR_FLY_TO_RIGHT = 97, CONDOR_FLY_TO_LEFT = 
 // Others
 constexpr int FPS = 60;                                                          // Frames per second.
 constexpr int MILLISECONDS_PER_TICK = 16;                                        // Game logic frequency in milliseconds. 16ms ≈ 60 ticks per second.
-constexpr char* ENTITY_TYPES_FILENAME = "objtypes.dat";                    // Data file where entity animations and collision areas are defined.
+constexpr char* ENTITY_TYPES_FILENAME = "objtypes.dat";                          // The data file where entity animations and collision areas are defined.
+constexpr char* HIGHSCORE_FILENAME = "highscore.dat";                            // The data file where the highest score is stored.
 constexpr float GRAVITY = 9.81f;                                                 // Gravity value used for physics calculations.
 constexpr int MIN_PIXELS_ON_UNDERLYING_SURFACE = 4;                              // Min number of pixels on the edge of an underlying surface to do not fall.
 constexpr int SLIPPING_DISTANCE = 30;                                            // The distance, in pixels, the player slips when suddenly stopping on an ice floor.
