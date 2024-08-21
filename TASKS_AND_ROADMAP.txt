@@ -264,7 +264,7 @@ TASKS AND ROADMAP TIMELINE:
   - Load top score from file [ OK ]
   - Start new game for the selected mountain on press SPACE or ENTER keys <==== [ CURRENT ]
 
-- Delete lines in "objtypes.dat" files using deprecated "solid" and "simple" operations" <====
+- Delete lines in "objtypes.dat" files using deprecated "solid" and "simple" operations" [ OK ]
 - Implement EntityManager::setupMountain(int mountainNumber) to setup a new gameplay for an specific mountain <====
 - Add support to load mountain data from files with name "mountain##.dat" <====
 
