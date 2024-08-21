@@ -10,18 +10,6 @@
 #include <utils.h>
 
 void renderScoreScreen(Texture2D &textureAtlas, Camera2D &staticCamera, GameScoreSummary &scoreSummary, int mountainNumber, int accumulatedScore) {
-    // REVISIT: scoreSummary modified here just for debug purposes.
-    scoreSummary.condorHunted = true;
-    scoreSummary.condorUnitScore = 5000;
-    scoreSummary.vegetableUnitScore = 500;
-    scoreSummary.vegetableCount = 3;
-    scoreSummary.nitpickerUnitScore = 800;
-    scoreSummary.nitpickerCount = 2;
-    scoreSummary.iceUnitScore = 400;
-    scoreSummary.iceCount = 8;
-    scoreSummary.brickUnitScore = 40;
-    scoreSummary.brickCount = 19;
-
     BeginDrawing();
             ClearBackground(BLACK);
             BeginMode2D(staticCamera);

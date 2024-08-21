@@ -20,9 +20,34 @@ void EntityManager::LoadMountainFromFile(const std::string& filename) {
   std::ifstream file(filename);
   assert(file.is_open() && "Error: Unable to open file with mountain data.");
 
+  // Load mountain configuration
   std::string line;
-  int row = 0;
+  std::getline(file, line); // Vegetable Id
+  Utils::removeCommentAndTrim(line);
+  scoreSummary.vegetableId = (EntityIdentificator)(std::stoi(line));
 
+  std::getline(file, line); // Condor unit score
+  Utils::removeCommentAndTrim(line);
+  scoreSummary.condorUnitScore = std::stoi(line);
+
+  std::getline(file, line); // Vegetable unit score
+  Utils::removeCommentAndTrim(line);
+  scoreSummary.vegetableUnitScore = std::stoi(line);
+
+  std::getline(file, line); // Ice block unit score
+  Utils::removeCommentAndTrim(line);
+  scoreSummary.iceUnitScore = std::stoi(line);
+
+  std::getline(file, line); // Nitpicker unit score
+  Utils::removeCommentAndTrim(line);
+  scoreSummary.nitpickerUnitScore = std::stoi(line);
+
+  std::getline(file, line); // Brick unit score
+  Utils::removeCommentAndTrim(line);
+  scoreSummary.brickUnitScore = std::stoi(line);
+
+  // Load mountain objects
+  int row = 0;
   while (std::getline(file, line) && row < MOUNTAIN_HEIGHT_CELLS) {
       std::stringstream ss(line);
       std::string cell;
@@ -123,6 +148,14 @@ void EntityManager::SetupMountain(int mountainNumber) {
     playerEnteredBonusStage = false;
     isGameFinished = false;
     isGameOver = false;
+    lifeCounter = MAX_PLAYER_LIFES;
+
+    // Reset player achievements
+    scoreSummary.condorHunted = false;
+    scoreSummary.vegetableCount = 0;
+    scoreSummary.nitpickerCount = 0;
+    scoreSummary.iceCount = 0;
+    scoreSummary.brickCount = 0;
 
     std::string filename;
     Utils::getMountainFilename(mountainNumber, filename);
