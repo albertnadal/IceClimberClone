@@ -171,10 +171,11 @@ int main()
                                         // Go to main menu
                                         mountainNumber = 1;
                                         accumulatedScore = 0;
+                                        currentGameScreen = GameScreenType::MAIN_MENU;
                                 } else {
                                         // Play the next mountain available
                                         isGameFinished = false;
-                                        mountainNumber++;
+                                        mountainNumber = (mountainNumber % TOTAL_MOUNTAINS) + 1;
                                         cameraVerticalPosition = std::nullopt;
                                         mountainCamera.offset = (Vector2){ 0, -INITIAL_CAMERA_POSITION };
 

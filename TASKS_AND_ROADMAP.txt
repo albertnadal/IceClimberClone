@@ -264,71 +264,75 @@ TASKS AND ROADMAP TIMELINE:
   - Load top score from file [ OK ]
   - Start new game for the selected mountain on press SPACE or ENTER keys [ OK ]
 
+- Implement the BonusStageText class, configure the sprites, and add it to the mountainMap [ OK ]
 - Delete lines in "objtypes.dat" files using deprecated "solid" and "simple" operations" [ OK ]
 - Implement EntityManager::setupMountain(int mountainNumber) to setup a new gameplay for an specific mountain [ OK ]
 - Add support to load mountain data from files with name "mountain##.dat" [ OK ]
 - Reset active EntityManager instance on start a new game (reset current score, lifes counter, etc.) [ OK ]
 - Load the vegetableId, condorUnitScore, vegetableUnitScore, nitpickerUnitScore, iceUnitScore and brickUnitScore from the mountain data file [ OK ]
 - Move std::optional<Boundaries> attackBoundingBox from Entity class to Player class <==== [ Wait until finished Devlog 4 ]
-- Load and start play next mountain on exit score summary screen <==== [ CURRENT ]
+- Load and start to play next mountain on exit score summary screen [ OK ]
 - Create data file for mountains:
   - 1 [ OK ]
-  - 2 [ CURRENT ]
-  - 3 [ CURRENT ]
-  - 4 [ CURRENT ]
-  - 5 [ CURRENT ]
-  - 6 [ CURRENT ]
-  - 7 [ CURRENT ]
-  - 8 [ CURRENT ]
-  - 9 [ CURRENT ]
-  - 10 [ CURRENT ]
-  - 11 [ CURRENT ]
-  - 12 [ CURRENT ]
-  - 13 [ CURRENT ]
-  - 14 [ CURRENT ]
-  - 15 [ CURRENT ]
-  - 16 [ CURRENT ]
-  - 17 [ CURRENT ]
-  - 18 [ CURRENT ]
-  - 19 [ CURRENT ]
-  - 20 [ CURRENT ]
-  - 21 [ CURRENT ]
-  - 22 [ CURRENT ]
-  - 23 [ CURRENT ]
-  - 24 [ CURRENT ]
-  - 25 [ CURRENT ]
-  - 26 [ CURRENT ]
-  - 27 [ CURRENT ]
-  - 28 [ CURRENT ]
-  - 29 [ CURRENT ]
-  - 30 [ CURRENT ]
-  - 31 [ CURRENT ]
-  - 32 [ CURRENT ]
+  - 2 [ WIP ]
+  - 3 [ WIP ]
+  - 4 [ WIP ]
+  - 5 [ WIP ]
+  - 6 [ WIP ]
+  - 7 [ WIP ]
+  - 8 [ WIP ]
+  - 9 [ WIP ]
+  - 10 [ WIP ]
+  - 11 [ WIP ]
+  - 12 [ WIP ]
+  - 13 [ WIP ]
+  - 14 [ WIP ]
+  - 15 [ WIP ]
+  - 16 [ WIP ]
+  - 17 [ WIP ]
+  - 18 [ WIP ]
+  - 19 [ WIP ]
+  - 20 [ WIP ]
+  - 21 [ WIP ]
+  - 22 [ WIP ]
+  - 23 [ WIP ]
+  - 24 [ WIP ]
+  - 25 [ WIP ]
+  - 26 [ WIP ]
+  - 27 [ WIP ]
+  - 28 [ WIP ]
+  - 29 [ WIP ]
+  - 30 [ WIP ]
+  - 31 [ WIP ]
+  - 32 [ WIP ]
+
+- Store in memory the accumulated score during a game and update the high score if needed on finish <==== [ CURRENT ]
+- Show the proper accumulated score in the score player score summary screen <==== [ CURRENT ]
 
 - Implement contact with enemies and vegetables:
-  - Topi <====
-  - Topi ice <====
-  - Nitpicker <====
+  - Topi <==== [ CURRENT ]
+  - Topi ice <==== [ CURRENT ]
+  - Nitpicker <==== [ CURRENT ]
   - Vegetables [ OK ]
 
-- Implement the dazed state of Popo <====
-- Implement the respawn of Popo after losing a life <====
+- Implement the dazed state of Popo <==== [ CURRENT ]
+- Implement the respawn of Popo after losing a life <==== [ CURRENT ]
 
-- Parameterize the magic numbers of the EntityManager::BuildMountain method in defines <====
+- Create a PSD file of the texture image with the pink in a separate layer and remove pink points in the PNG image <====
+- Parameterize the magic numbers of the EntityManager::BuildMountain method in defines [ OK ]
 - Review the unused includes in the entity class headers due to copy&paste of files <====
 - If possible, move the ReachedScreenEdge method used in some entity subclasses to the base IEntity class <====
 
 - Add the project to the website https://osgameclones.com <====
 - Mark all read-only class methods as 'const' <====
 - Define as 'const' those function parameters that are passed by reference and are read-only <===
-- Consider renaming the EntityManager class to GameplayManager, as it not only manages entities but also controls other game states such as remaining lives, points achieved, etc. <====
+- Consider renaming the EntityManager class to GameManager, as it not only manages entities but also controls other game states such as remaining lives, points achieved, etc. <====
 
+- Do not call Update on non-animated decorative objects <====
+- The function ::Update(uint8_t pressedKeys_) should have a default implementation in the base class for cases like side walls, water, and similar objects. Those with their own implementation should override the code. <=====
+- Fix the z-index of the sprites <====
 - Implement Polar Bear <====
 - Implement the Bonus Stage stopwatch object <====
-- Do not call Update on non-animated decorative objects <====
-- Implement the BonusStageText class, configure the sprites, and add it to the mountainMap [ OK ]
-
-- The function ::Update(uint8_t pressedKeys_) should have a default implementation in the base class for cases like side walls, water, and similar objects. Those with their own implementation should override the code. <=====
 
 - Move the define ENTITY_TYPES_FILENAME from entity_data_manager.h to defines.h [ OK ]
 - The isCloud function can be implemented in the base class to return False, except in the Cloud class where it should override and return True. All override functions present in other subclasses should be removed [ OK ]
@@ -345,5 +349,4 @@ TASKS AND ROADMAP TIMELINE:
 - The "BuildWorld" function should only load into the "mobileObjects" and "staticObjects" maps the objects present in the viewport <====
 - When the game viewport levels up, load into the "mobileObjects" and "staticObjects" maps the objects present in the viewport <====
 - When the game viewport levels up, destroy objects in "mobileObjects" and "staticObjects" that are not present in the viewport <====
-- Fix the z-index of the sprites <==== [ CURRENT ]
 - Try to compile the program to run in a web browser via wasm <====

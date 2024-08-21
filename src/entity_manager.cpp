@@ -144,6 +144,10 @@ void EntityManager::PlayerFinishedGame(bool condorHunted, int vegetableCount, in
 }
 
 void EntityManager::SetupMountain(int mountainNumber) {
+    // Delete old object instances created in the previous game
+    deleteAllObjects();
+
+    // Reset values
     currentCameraVerticalPosition = newCameraVerticalPosition = 0.0f;
     playerEnteredBonusStage = false;
     isGameFinished = false;
@@ -157,6 +161,7 @@ void EntityManager::SetupMountain(int mountainNumber) {
     scoreSummary.iceCount = 0;
     scoreSummary.brickCount = 0;
 
+    // Load the data of the requested mountain
     std::string filename;
     Utils::getMountainFilename(mountainNumber, filename);
     LoadMountainFromFile(filename);
@@ -267,7 +272,34 @@ void EntityManager::deleteUneededObjects() {
   objectsToDelete.clear();
 }
 
+void EntityManager::deleteAllObjects() {
+  // Mark the Player instance to delete.
+  if (player != nullptr) {
+    player->isMarkedToDelete = true;
+    player = nullptr;
+  }
+
+  // Delete all instances marked to delete.
+  deleteUneededObjects();
+
+  // Delete mobile object instances.
+  for (auto& pair : mobileObjects) {
+    spacePartitionObjectsTree->removeParticle(pair.second);
+    delete pair.second;
+  }
+  mobileObjects.clear();
+
+  // Delete static object instances.
+  for (auto& pair : staticObjects) {
+    spacePartitionObjectsTree->removeParticle(pair.second);
+    delete pair.second;
+  }
+  staticObjects.clear();
+}
+
 EntityManager::~EntityManager() {
+  deleteAllObjects();
+
   if(spacePartitionObjectsTree != nullptr) {
     delete spacePartitionObjectsTree;
   }

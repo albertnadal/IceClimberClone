@@ -35,6 +35,7 @@ class EntityManager
   std::vector<int> validAltitudes = {84, 78, 72, 66, 60}; // Altitudes of levels 4, 5, 6, 7 and 8. Are multiple of six.
   bool playerEnteredBonusStage;
   void deleteUneededObjects();
+  void deleteAllObjects();
   void updateEntities(std::map<uint32_t, IEntity*>&, std::optional<uint8_t>);
   void updateMobileObjects(uint8_t);
   void updateStaticObjects();
