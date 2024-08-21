@@ -9,7 +9,7 @@
 #include <defines.h>
 #include <entity_data_manager.h>
 #include <entity_manager.h>
-#include <utils.cpp>
+#include <utils.h>
 #include <main_menu_screen.cpp>
 #include <score_screen.cpp>
 
@@ -88,7 +88,7 @@ int main()
         srand(static_cast<unsigned>(time(0))); // Initialize the random seed to avoid deterministic behaviours. Just for debug purposes.
 
         InitWindow(SCR_WIDTH, SCR_HEIGHT, "Ice Climber");
-        highScore = loadHighscoreFromFile(HIGHSCORE_FILENAME);
+        highScore = Utils::loadHighscoreFromFile(HIGHSCORE_FILENAME);
 
         currentGameScreen = GameScreenType::MAIN_MENU;
         scoreSummary.vegetableId = EntityIdentificator::EGGPLANT;  // TODO: The vegetable Id should be taken from the selected mountain data.
@@ -175,9 +175,11 @@ int main()
                                         // Play the next mountain available
                                         isGameFinished = false;
                                         mountainNumber++;
-                                        // TODO: Call EntityManager::setupMountain(mountainNumber)
+                                        cameraVerticalPosition = std::nullopt;
+                                        mountainCamera.offset = (Vector2){ 0, -INITIAL_CAMERA_POSITION };
+
                                         pressedKeys = IC_KEY_NONE;
-                                        entityManager->Update(pressedKeys);
+                                        entityManager->SetupMountain(mountainNumber);
                                         currentGameScreen = GameScreenType::MOUNTAIN_GAME_PLAY;
                                         pthread_create(&gameLogicThread, nullptr, gameLogicThreadFunc, nullptr);
                                 }
@@ -192,12 +194,13 @@ int main()
                         } else if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_ENTER)) {
                                 accumulatedScore = 0;
                                 lifeCounter = std::nullopt;
+                                cameraVerticalPosition = std::nullopt;
+                                mountainCamera.offset = (Vector2){ 0, -INITIAL_CAMERA_POSITION };
                                 isGameFinished = false;
                                 isGameOver = false;
 
-                                // TODO: Call to EntityManager::setupMountain(int mountainNumber)
                                 pressedKeys = IC_KEY_NONE;
-                                entityManager->Update(pressedKeys);
+                                entityManager->SetupMountain(mountainNumber);
                                 currentGameScreen = GameScreenType::MOUNTAIN_GAME_PLAY;
                                 pthread_create(&gameLogicThread, nullptr, gameLogicThreadFunc, nullptr);
                         }

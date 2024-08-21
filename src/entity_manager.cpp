@@ -1,6 +1,8 @@
 #include <entity_manager.h>
 #include <entity_factory.h>
 #include <entity.h>
+#include <fstream>
+#include <sstream>
 
 EntityManager::EntityManager(EntityDataManager* _textureManager, SpriteRectDoubleBuffer* _spriteRectDoubleBuffer, uint32_t _maxObjects) {
         textureManager = _textureManager;
@@ -12,19 +14,29 @@ EntityManager::EntityManager(EntityDataManager* _textureManager, SpriteRectDoubl
         playerEnteredBonusStage = false;
         isGameFinished = false;
         isGameOver = false;
-        BuildMountain();
 }
 
-void EntityManager::BuildMountain() {
-  // Each level is six cells height. The entire mountain have 4 extra rows on top to enforce level floors to be
-  // located in vertical position multiple of six. One additional row is appended to show the water.
-  for(int row=0; row<4 + 17*6 + 1; row++) {
-    for(int col=0; col<MOUNTAIN_WIDTH_CELLS; col++) {
-      if(EntityIdentificator entity_id = (EntityIdentificator)mountainMap[row][col]) {
-        std::optional<IEntity *> entity_ptr = CreateEntityWithId(entity_id, col, row);
+void EntityManager::LoadMountainFromFile(const std::string& filename) {
+  std::ifstream file(filename);
+  assert(file.is_open() && "Error: Unable to open file with mountain data.");
+
+  std::string line;
+  int row = 0;
+
+  while (std::getline(file, line) && row < MOUNTAIN_HEIGHT_CELLS) {
+      std::stringstream ss(line);
+      std::string cell;
+      int col = 0;
+
+      while (std::getline(ss, cell, ',') && col < MOUNTAIN_WIDTH_CELLS) {
+          CreateEntityWithId((EntityIdentificator)(std::stoi(cell)), col, row);
+          ++col;
       }
-    }
+
+      ++row;
   }
+
+  file.close();
 }
 
 std::optional<IEntity *> EntityManager::CreateEntityWithId(EntityIdentificator entity_id, int x, int y) {
@@ -104,6 +116,17 @@ void EntityManager::PlayerFinishedGame(bool condorHunted, int vegetableCount, in
   scoreSummary.iceCount = iceCount;
   scoreSummary.brickCount = brickCount;
   isGameFinished = true;
+}
+
+void EntityManager::SetupMountain(int mountainNumber) {
+    currentCameraVerticalPosition = newCameraVerticalPosition = 0.0f;
+    playerEnteredBonusStage = false;
+    isGameFinished = false;
+    isGameOver = false;
+
+    std::string filename;
+    Utils::getMountainFilename(mountainNumber, filename);
+    LoadMountainFromFile(filename);
 }
 
 UpdateInfo EntityManager::Update(uint8_t pressedKeys) {

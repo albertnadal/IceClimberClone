@@ -7,7 +7,7 @@
 #include <raylib/raylib.h>
 #include <defines.h>
 #include <entity_manager.h>
-#include <utils.cpp>
+#include <utils.h>
 
 void renderScoreScreen(Texture2D &textureAtlas, Camera2D &staticCamera, GameScoreSummary &scoreSummary, int mountainNumber, int accumulatedScore) {
     // REVISIT: scoreSummary modified here just for debug purposes.
@@ -42,7 +42,7 @@ void renderScoreScreen(Texture2D &textureAtlas, Camera2D &staticCamera, GameScor
                     DrawTextureRec(textureAtlas, {272,176+(scoreSummary.condorHunted ? 32.0f : 0.0f),96,32}, {234,138}, WHITE);  // WINNER/NO BONUS
 
                     if (scoreSummary.condorHunted) {
-                        renderNumberAtPosition(textureAtlas, scoreSummary.condorUnitScore, 4, 250, 170, false, WHITE);  // Condor score
+                        Utils::renderNumberAtPosition(textureAtlas, scoreSummary.condorUnitScore, 4, 250, 170, false, WHITE);  // Condor score
                     }
 
                     float vegetableXPos = EGGPLANT_VEGETABLE_X + ((scoreSummary.vegetableId - EntityIdentificator::EGGPLANT) * VEGETABLE_SPRITE_WIDTH);
@@ -50,21 +50,21 @@ void renderScoreScreen(Texture2D &textureAtlas, Camera2D &staticCamera, GameScor
                     DrawTextureRec(textureAtlas, {256,112,16,32}, {184,228}, WHITE);  // Ice
                     DrawTextureRec(textureAtlas, {272,144,32,32}, {178,267}, WHITE);  // Nitpicker
                     DrawTextureRec(textureAtlas, {32,232,16,16}, {184,310}, WHITE);  // Blue brick
-                    renderNumberAtPosition(textureAtlas, mountainNumber, 2, 305, 32, true, WHITE);  // Mountain number
+                    Utils::renderNumberAtPosition(textureAtlas, mountainNumber, 2, 305, 32, true, WHITE);  // Mountain number
 
-                    renderNumberAtPosition(textureAtlas, scoreSummary.vegetableUnitScore, 4, 218, 214, false, WHITE);  // Vegetable score counter
-                    renderNumberAtPosition(textureAtlas, scoreSummary.vegetableCount, 2, 300, 214, true, WHITE);  // Vegetable counter
+                    Utils::renderNumberAtPosition(textureAtlas, scoreSummary.vegetableUnitScore, 4, 218, 214, false, WHITE);  // Vegetable score counter
+                    Utils::renderNumberAtPosition(textureAtlas, scoreSummary.vegetableCount, 2, 300, 214, true, WHITE);  // Vegetable counter
 
-                    renderNumberAtPosition(textureAtlas, scoreSummary.iceUnitScore, 4, 218, 246, false, WHITE);  // Ice score counter
-                    renderNumberAtPosition(textureAtlas, scoreSummary.iceCount, 2, 300, 246, true, WHITE);  // Ice hit counter
+                    Utils::renderNumberAtPosition(textureAtlas, scoreSummary.iceUnitScore, 4, 218, 246, false, WHITE);  // Ice score counter
+                    Utils::renderNumberAtPosition(textureAtlas, scoreSummary.iceCount, 2, 300, 246, true, WHITE);  // Ice hit counter
 
-                    renderNumberAtPosition(textureAtlas, scoreSummary.nitpickerUnitScore, 4, 218, 278, false, WHITE);  // Nitpicker score counter
-                    renderNumberAtPosition(textureAtlas, scoreSummary.nitpickerCount, 2, 300, 278, true, WHITE);  // Nitpicker hit counter
+                    Utils::renderNumberAtPosition(textureAtlas, scoreSummary.nitpickerUnitScore, 4, 218, 278, false, WHITE);  // Nitpicker score counter
+                    Utils::renderNumberAtPosition(textureAtlas, scoreSummary.nitpickerCount, 2, 300, 278, true, WHITE);  // Nitpicker hit counter
 
-                    renderNumberAtPosition(textureAtlas, scoreSummary.brickUnitScore, 4, 218, 310, false, WHITE);  // Brick score counter
-                    renderNumberAtPosition(textureAtlas, scoreSummary.brickCount, 2, 300, 310, true, WHITE);  // Brick hit counter
+                    Utils::renderNumberAtPosition(textureAtlas, scoreSummary.brickUnitScore, 4, 218, 310, false, WHITE);  // Brick score counter
+                    Utils::renderNumberAtPosition(textureAtlas, scoreSummary.brickCount, 2, 300, 310, true, WHITE);  // Brick hit counter
 
-                    renderNumberAtPosition(textureAtlas, accumulatedScore, 6, 202, 390, true, WHITE);  // Total score
+                    Utils::renderNumberAtPosition(textureAtlas, accumulatedScore, 6, 202, 390, true, WHITE);  // Total score
             EndMode2D();
             DrawFPS(16, 16);
     EndDrawing();

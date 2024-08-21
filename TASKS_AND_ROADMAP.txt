@@ -265,8 +265,9 @@ TASKS AND ROADMAP TIMELINE:
   - Start new game for the selected mountain on press SPACE or ENTER keys [ OK ]
 
 - Delete lines in "objtypes.dat" files using deprecated "solid" and "simple" operations" [ OK ]
-- Implement EntityManager::setupMountain(int mountainNumber) to setup a new gameplay for an specific mountain <==== [ CURRENT ]
-- Add support to load mountain data from files with name "mountain##.dat" <==== [ CURRENT ]
+- Implement EntityManager::setupMountain(int mountainNumber) to setup a new gameplay for an specific mountain [ OK ]
+- Add support to load mountain data from files with name "mountain##.dat" [ OK ]
+- Reset active EntityManager instance on start a new game (reset current score, lifes counter, etc.) <==== [ CURRENT ]
 
 - Implement contact with enemies and vegetables:
   - Topi <====

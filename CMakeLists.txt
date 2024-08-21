@@ -72,6 +72,7 @@ add_executable(rocket
         src/entity_factory.h
         src/entity_manager.cpp
         src/entity_manager.h
+        src/utils.h
         src/shader.h
         src/shader_m.h
         src/shader_s.h
