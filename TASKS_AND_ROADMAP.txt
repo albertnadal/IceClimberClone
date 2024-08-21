@@ -257,16 +257,16 @@ TASKS AND ROADMAP TIMELINE:
   - Show the mountain number in the top side of the screen [ OK ]
 
 - Implement the main menu screen:
-  - Display the main menu screen when game starts <==== [ CURRENT ]
+  - Display the main menu screen when game starts [ OK ]
   - Add sprites of "PLAYER GAME", "TOP·", "PTS." and "(c)1984 NINTENDO" in the tilemap [ OK ]
   - Make up screen with the proper sprites [ OK ]
   - Select mountain number with UP and DOWN keys [ OK ]
   - Load top score from file [ OK ]
-  - Start new game for the selected mountain on press SPACE or ENTER keys <==== [ CURRENT ]
+  - Start new game for the selected mountain on press SPACE or ENTER keys [ OK ]
 
 - Delete lines in "objtypes.dat" files using deprecated "solid" and "simple" operations" [ OK ]
-- Implement EntityManager::setupMountain(int mountainNumber) to setup a new gameplay for an specific mountain <====
-- Add support to load mountain data from files with name "mountain##.dat" <====
+- Implement EntityManager::setupMountain(int mountainNumber) to setup a new gameplay for an specific mountain <==== [ CURRENT ]
+- Add support to load mountain data from files with name "mountain##.dat" <==== [ CURRENT ]
 
 - Implement contact with enemies and vegetables:
   - Topi <====

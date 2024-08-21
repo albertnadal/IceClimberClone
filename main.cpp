@@ -35,7 +35,7 @@ std::mutex cameraVerticalPositionMutex;
 GameScoreSummary scoreSummary;
 GameScreenType currentGameScreen;
 int mountainNumber = 1;
-int accumulatedScore = 14260;
+int accumulatedScore = 0;
 int highScore = 0;
 
 static void* gameLogicThreadFunc(void* v)
@@ -90,7 +90,7 @@ int main()
         InitWindow(SCR_WIDTH, SCR_HEIGHT, "Ice Climber");
         highScore = loadHighscoreFromFile(HIGHSCORE_FILENAME);
 
-        currentGameScreen = GameScreenType::MOUNTAIN_GAME_PLAY;    // TODO: GameScreenType::PLAYER_SCORE_SUMMARY;
+        currentGameScreen = GameScreenType::MAIN_MENU;
         scoreSummary.vegetableId = EntityIdentificator::EGGPLANT;  // TODO: The vegetable Id should be taken from the selected mountain data.
 
         // Camera configuration for simple static screens
@@ -116,10 +116,6 @@ int main()
 
         // Load texture atlas into GPU memory
         Texture2D textureAtlas = entityTextureManager->LoadTextureAtlas();
-
-        entityManager->Update(pressedKeys);
-
-        pthread_create(&gameLogicThread, nullptr, gameLogicThreadFunc, nullptr);
 
         while (!WindowShouldClose())
         {
@@ -179,7 +175,9 @@ int main()
                                         // Play the next mountain available
                                         isGameFinished = false;
                                         mountainNumber++;
-                                        // TODO: Call entityManager->setupMountain(mountainNumber)
+                                        // TODO: Call EntityManager::setupMountain(mountainNumber)
+                                        pressedKeys = IC_KEY_NONE;
+                                        entityManager->Update(pressedKeys);
                                         currentGameScreen = GameScreenType::MOUNTAIN_GAME_PLAY;
                                         pthread_create(&gameLogicThread, nullptr, gameLogicThreadFunc, nullptr);
                                 }
@@ -191,6 +189,17 @@ int main()
                                 mountainNumber = (mountainNumber % TOTAL_MOUNTAINS) + 1;
                         } else if (IsKeyPressed(KEY_DOWN)) {
                                 mountainNumber = (mountainNumber - 2 + TOTAL_MOUNTAINS) % TOTAL_MOUNTAINS + 1;
+                        } else if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_ENTER)) {
+                                accumulatedScore = 0;
+                                lifeCounter = std::nullopt;
+                                isGameFinished = false;
+                                isGameOver = false;
+
+                                // TODO: Call to EntityManager::setupMountain(int mountainNumber)
+                                pressedKeys = IC_KEY_NONE;
+                                entityManager->Update(pressedKeys);
+                                currentGameScreen = GameScreenType::MOUNTAIN_GAME_PLAY;
+                                pthread_create(&gameLogicThread, nullptr, gameLogicThreadFunc, nullptr);
                         }
                 }
         }
