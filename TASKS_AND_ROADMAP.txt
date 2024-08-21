@@ -270,6 +270,7 @@ TASKS AND ROADMAP TIMELINE:
 - Reset active EntityManager instance on start a new game (reset current score, lifes counter, etc.) [ OK ]
 - Load the vegetableId, condorUnitScore, vegetableUnitScore, nitpickerUnitScore, iceUnitScore and brickUnitScore from the mountain data file [ OK ]
 - Move std::optional<Boundaries> attackBoundingBox from Entity class to Player class <==== [ Wait until finished Devlog 4 ]
+- Load and start play next mountain on exit score summary screen <==== [ CURRENT ]
 - Create data file for mountains:
   - 1 [ OK ]
   - 2 [ CURRENT ]

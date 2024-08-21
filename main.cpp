@@ -166,7 +166,7 @@ int main()
                 } else if (currentGameScreen == GameScreenType::PLAYER_SCORE_SUMMARY) {
                         renderScoreScreen(textureAtlas, staticCamera, scoreSummary, mountainNumber, accumulatedScore);
 
-                        if (IsKeyPressed(KEY_SPACE)) {
+                        if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_ENTER)) {
                                 if (isGameOver) {
                                         // Go to main menu
                                         mountainNumber = 1;
