@@ -276,6 +276,10 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
 }
 
 void Player::UpdateCollisions() {
+    if (isDead) {
+        return;
+    }
+
     std::vector<ObjectCollision> collisions;
     bool playerIsSuspendedInTheAir = false;
 
