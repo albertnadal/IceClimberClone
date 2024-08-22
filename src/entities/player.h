@@ -74,6 +74,7 @@ class Player: public IEntity
   bool isBlockedRight = false;     // Player is stuck running to the right towards a brick
   bool isBlockedLeft = false;      // Player is stuck running to the left towards a brick
   bool isOnMobileSurface = false;  // Player underlying surface is mobile
+  bool isDead = false;             // Player has been killed by an enemy
 
   // Player action update functions
   void UpdateCollisions();
@@ -123,6 +124,7 @@ public:
   void SuspendedInTheAir();
   void StopRunningOnSlidingSurface();
   void StopSlipping();
+  void Killed();
 
 private:
   // state machine state functions
@@ -142,6 +144,7 @@ private:
   void STATE_Hit_Left();
   void STATE_Slip_Right();
   void STATE_Slip_Left();
+  void STATE_Killed();
 
   // state map to define state function order
   BEGIN_STATE_MAP
@@ -161,6 +164,7 @@ private:
       STATE_MAP_ENTRY(&Player::STATE_Hit_Left)
       STATE_MAP_ENTRY(&Player::STATE_Slip_Right)
       STATE_MAP_ENTRY(&Player::STATE_Slip_Left)
+      STATE_MAP_ENTRY(&Player::STATE_Killed)
   END_STATE_MAP
 
   // state enumeration order must match the order of state
@@ -182,6 +186,7 @@ private:
       STATE_HIT_LEFT,
       STATE_SLIP_RIGHT,
       STATE_SLIP_LEFT,
+      STATE_KILLED,
       POPO_MAX_STATES
   };
 };

@@ -310,12 +310,13 @@ TASKS AND ROADMAP TIMELINE:
 - Show the proper accumulated score in the score player score summary screen [ OK ]
 
 - Implement contact with enemies and vegetables:
-  - Topi <==== [ CURRENT ]
-  - Topi ice <==== [ CURRENT ]
-  - Nitpicker <==== [ CURRENT ]
+  - Topi [ OK ]
+  - Topi ice [ OK ]
+  - Nitpicker [ OK ]
   - Vegetables [ OK ]
 
-- Implement the dazed state of Popo <==== [ CURRENT ]
+- Configure Popo jumping dead animation [ OK ]
+- Implement the dead state of Popo <==== [ CURRENT ]
 - Implement the respawn of Popo after losing a life <==== [ CURRENT ]
 - Implement lose a life when Popo falls out of the bottom of the screen <==== [ CURRENT ]
 - Add the GAME OVER sprite [ OK ]

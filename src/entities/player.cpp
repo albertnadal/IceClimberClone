@@ -178,6 +178,8 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
         if (intersection.particle->type == EntityType::VEGETABLE) {
             intersection.particle->Hit(isHeadedToRight);
             IncreaseAchievementCounterByEntity(intersection.particle);
+        } else if ((intersection.particle->type == EntityType::ENEMY) && (intersection.particle->id != EntityIdentificator::CONDOR)) {
+            Killed();
         }
 
         if ((intersection.particle == this) || intersection.particle->isTraversable || (std::find(objectsToIgnoreDuringFall.begin(), objectsToIgnoreDuringFall.end(), intersection.particle) != objectsToIgnoreDuringFall.end())) {
@@ -565,7 +567,9 @@ IEntity *Player::Create() {
 Player::~Player() = default;
 
 bool Player::ShouldBeginAnimationLoopAgain() {
-    if (currentState == PlayerStateIdentificator::STATE_HIT_RIGHT) {
+    if (isDead) {
+        return true;
+    } else if (currentState == PlayerStateIdentificator::STATE_HIT_RIGHT) {
         isHitting = false;
         ExternalEvent(PlayerStateIdentificator::STATE_IDLE_RIGHT, nullptr);
         return true;
@@ -832,4 +836,11 @@ void Player::STATE_Slip_Left() {
     isRunning = false;
     Slip();
     LoadAnimationWithId(PlayerAnimation::SLIP_TO_LEFT);
+}
+
+void Player::STATE_Killed() {
+    isDead = true;
+    // TODO: Store current position as next respawn position.
+    Jump(47.0f, 0.0f);
+    LoadAnimationWithId(PlayerAnimation::JUMP_DEAD);
 }
