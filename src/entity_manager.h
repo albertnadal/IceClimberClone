@@ -50,7 +50,7 @@ public:
   std::optional<Position *> GetPlayerPosition() const;
   GameScoreSummary GetGameScoreSummary() const;
   bool IsGameOver() const;
-  void PlayerReachedNewAltitude(int);
+  std::optional<float> PlayerReachedNewAltitude(int);
   void PlayerEnteredBonusStage();
   void PlayerFinishedGame(bool, int, int, int, int);
 };

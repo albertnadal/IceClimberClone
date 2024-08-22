@@ -316,9 +316,10 @@ TASKS AND ROADMAP TIMELINE:
   - Vegetables [ OK ]
 
 - Configure Popo jumping dead animation [ OK ]
+- Calculate the current bottom mountain viewport when Popo reaches a new altitude [ OK ]
 - Implement the dead state of Popo <==== [ CURRENT ]
   - During dead jump Popo should not experience collisions [ OK ]
-  - When Popo position reaches a certain amount of cells under its initial death cell then report the kill to EntityManager <==== [ CURRENT ]
+  - When Popo position surpaces the current bottom mountain viewport then report the kill to the EntityManager <==== [ CURRENT ]
 
 - Implement the respawn of Popo after losing a life <==== [ CURRENT ]
 - Implement lose a life when Popo falls out of the bottom of the screen <==== [ CURRENT ]

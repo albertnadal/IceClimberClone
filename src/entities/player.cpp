@@ -51,7 +51,12 @@ void Player::NotifyNewAltitudeHasBeenReached() {
     int currentCellY = position.GetCellY();
     if((((currentCellY % 6 == 0) && (currentCellY > BONUS_STAGE_CELL_Y)) || (currentCellY == BONUS_STAGE_CELL_Y) || (currentCellY < BONUS_STAGE_CELL_Y)) && (currentCellY < lowestCellYReached)) {
         lowestCellYReached = currentCellY;
-        entityManager->PlayerReachedNewAltitude(currentCellY);
+
+        // Notify the player reached a new altitude and get the updated bottom viewport of the mountain.
+        auto bottomViewportOpt = entityManager->PlayerReachedNewAltitude(currentCellY);
+        if (bottomViewportOpt.has_value()) {
+            bottomViewport = bottomViewportOpt.value();
+        }
 
         if (currentCellY == BONUS_STAGE_CELL_Y) {
             entityManager->PlayerEnteredBonusStage();

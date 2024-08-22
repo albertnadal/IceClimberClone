@@ -95,11 +95,16 @@ std::optional<IEntity *> EntityManager::CreateEntityWithId(EntityIdentificator e
   return entity_ptr;
 }
 
-void EntityManager::PlayerReachedNewAltitude(int cellY) {
+std::optional<float> EntityManager::PlayerReachedNewAltitude(int cellY) {
   if ((std::find(validAltitudes.begin(), validAltitudes.end(), cellY) != validAltitudes.end()) || (cellY <= BONUS_STAGE_CELL_Y)) {
     float padding_top = (cellY != BONUS_STAGE_CELL_Y) ? CAMERA_PADDING_TOP : CAMERA_BONUS_STAGE_PADDING_TOP;
     newCameraVerticalPosition = cellY*CELL_HEIGHT_FLOAT - padding_top;
+
+    // Return the current bottom vertical position of the mountain viewport
+    return newCameraVerticalPosition + (MOUNTAIN_VIEWPORT_HEIGHT_CELLS*CELL_HEIGHT_FLOAT);
   }
+
+  return std::nullopt;
 }
 
 float EntityManager::GetCurrentCameraVerticalPosition() const {

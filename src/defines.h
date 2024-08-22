@@ -102,6 +102,7 @@ constexpr int CELL_WIDTH = 16;                                                  
 constexpr int CELL_HEIGHT = 16;                                                  // The height, in pixels, of a map cell.
 constexpr float CELL_WIDTH_FLOAT = 16.0f;
 constexpr float CELL_HEIGHT_FLOAT = 16.0f;
+constexpr int MOUNTAIN_VIEWPORT_HEIGHT_CELLS = 31;                               // Vertical viewport of the mountain in cells
 constexpr int MOUNTAIN_HEIGHT_CELLS = 107;                                       // The height of a mountain in number of cells
 constexpr int MOUNTAIN_WIDTH_CELLS = 32;                                         // The width of a mountain in number of cells.
 constexpr int MOUNTAIN_WIDTH = MOUNTAIN_WIDTH_CELLS * CELL_WIDTH;                // The integer width in pixels of a mountain. 32cells x 16px.

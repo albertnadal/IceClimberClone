@@ -21,6 +21,7 @@ class Player: public IEntity
   bool isHeadedToRight = true;
   bool gameFinished = false;
   int lowestCellYReached = 9999;
+  float bottomViewport = MOUNTAIN_HEIGHT_CELLS * CELL_HEIGHT_FLOAT; // Initial bottom vertical position of the mountain viewport.
   uint8_t prevPressedKeys = KeyboardKeyCode::IC_KEY_NONE;
   uint8_t pressedKeys = KeyboardKeyCode::IC_KEY_NONE;
   chrono::system_clock::time_point notifyGameFinishedTime;
