@@ -598,7 +598,8 @@ void Player::UpdateJump() {
     float vOffset = -(vInitialJumpSpeed * tJump - (0.5f) * GRAVITY * tJump * tJump);
 
     // Update vertical jump position
-    PositionSetXY(hInitialJumpPosition + (hInitialJumpSpeed * tJump), vInitialJumpPosition + vOffset);
+    float vJumpPosition = vInitialJumpPosition + vOffset;
+    PositionSetXY(hInitialJumpPosition + (hInitialJumpSpeed * tJump), vJumpPosition);
     UpdatePreviousDirection();
     vectorDirection.x = (hInitialJumpSpeed > 0.0f) ? 1 : (hInitialJumpSpeed < 0.0f) ? -1 : 0;
     vectorDirection.y = (previous_vOffset < vOffset) ? -1 : 1;
@@ -607,6 +608,10 @@ void Player::UpdateJump() {
     if (isJumpApex) {
         // User is able to fall to the right or left side when pressing RIGHT or LEFT keys.
         ProcessPressedKeys(false);
+    }
+
+    if (vJumpPosition > bottomViewport) {
+        // TODO: Notify entityManager that player died and a life must be substracted.
     }
 
     previous_vOffset = vOffset;
@@ -651,10 +656,15 @@ void Player::UpdateFall() {
 
     // Equation of vertical displacement in free fall.
     float vOffset = (0.5f) * GRAVITY * tFall * tFall;
-    PositionSetY(vInitialFallPosition + vOffset);
+    float vFallPosition = vInitialFallPosition + vOffset;
+    PositionSetY(vFallPosition);
     UpdatePreviousDirection();
     vectorDirection.x = (hInitialFallSpeed > 0.0f) ? 1 : (hInitialFallSpeed < 0.0f) ? -1 : 0;
     vectorDirection.y = -1;
+
+    if (vFallPosition > bottomViewport) {
+        // TODO: Notify entityManager that player died and a life must be substracted.
+    }
 }
 
 void Player::FinishFall() {

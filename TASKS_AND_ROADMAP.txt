@@ -317,11 +317,11 @@ TASKS AND ROADMAP TIMELINE:
 
 - Configure Popo jumping dead animation [ OK ]
 - Calculate the current bottom mountain viewport when Popo reaches a new altitude [ OK ]
-- Implement the dead state of Popo <==== [ CURRENT ]
+- Implement the dead state of Popo <==== [ CURRENT | #2 ]
   - During dead jump Popo should not experience collisions [ OK ]
-  - When Popo position surpaces the current bottom mountain viewport then report the kill to the EntityManager <==== [ CURRENT ]
+  - When Popo position surpaces the current bottom mountain viewport then report the kill to the EntityManager <==== [ CURRENT | #1 ]
 
-- Implement the respawn of Popo after losing a life <==== [ CURRENT ]
+- Implement the respawn of Popo after losing a life <==== [ CURRENT | #3 ]
 - Implement lose a life when Popo falls out of the bottom of the screen <==== [ CURRENT ]
 - Add the GAME OVER sprite [ OK ]
 - Show the Game Over message when reaching 0 lifes and go to player score summary screen <==== [ CURRENT ]
