@@ -318,6 +318,7 @@ TASKS AND ROADMAP TIMELINE:
 - Implement the dazed state of Popo <==== [ CURRENT ]
 - Implement the respawn of Popo after losing a life <==== [ CURRENT ]
 
+- Prepare MP3 music tracks [ OK ]
 - Create a PSD file of the texture image with the pink in a separate layer and remove pink points in the PNG image <====
 - Parameterize the magic numbers of the EntityManager::BuildMountain method in defines [ OK ]
 - Review the unused includes in the entity class headers due to copy&paste of files <====

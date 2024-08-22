@@ -39,3 +39,6 @@
 *.png   binary
 *.jpg   binary
 *.psd   binary
+
+# Audio
+*.mp3   binary
