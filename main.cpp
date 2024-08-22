@@ -62,7 +62,15 @@ static void* gameLogicThreadFunc(void* v)
         }
 
         isGameOver = entityManager->IsGameOver();
+
+        // Update accumulated score and update high score if needed
         scoreSummary = entityManager->GetGameScoreSummary();
+        accumulatedScore += ((scoreSummary.vegetableCount * scoreSummary.vegetableUnitScore) + (scoreSummary.iceCount * scoreSummary.iceUnitScore) + (scoreSummary.nitpickerCount * scoreSummary.nitpickerUnitScore) + (scoreSummary.brickCount * scoreSummary.brickUnitScore) + (scoreSummary.condorHunted ? scoreSummary.condorUnitScore : 0));
+        if (accumulatedScore > highScore) {
+                highScore = accumulatedScore;
+                Utils::saveHighscoreToFile(highScore, HIGHSCORE_FILENAME);
+        }
+
         currentGameScreen = GameScreenType::PLAYER_SCORE_SUMMARY;
         return nullptr;
 }
