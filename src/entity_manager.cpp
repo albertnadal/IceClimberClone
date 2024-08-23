@@ -151,7 +151,6 @@ void EntityManager::PlayerFinishedGame(bool condorHunted, int vegetableCount, in
 bool EntityManager::PlayerHasLostALife() {
   if (lifeCounter <= 0) {
       isGameOver = true;
-      player->isMarkedToDelete = true;
   }
 
   lifeCounter--;

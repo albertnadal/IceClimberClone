@@ -19,7 +19,7 @@ void Player::RightKeyPressed() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Killed
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Respawn
+            TRANSITION_MAP_ENTRY (STATE_RUN_RIGHT)  // STATE_Respawn
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -42,7 +42,7 @@ void Player::RightKeyReleased() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Killed
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Respawn
+            TRANSITION_MAP_ENTRY (STATE_IDLE_RIGHT) // STATE_Respawn
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -65,7 +65,7 @@ void Player::LeftKeyPressed() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Killed
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Respawn
+            TRANSITION_MAP_ENTRY (STATE_RUN_LEFT)   // STATE_Respawn
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -88,7 +88,7 @@ void Player::LeftKeyReleased() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Killed
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Respawn
+            TRANSITION_MAP_ENTRY (STATE_IDLE_LEFT)  // STATE_Respawn
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -111,7 +111,7 @@ void Player::UpKeyPressed() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Slip_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Slip_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Killed
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Respawn
+            TRANSITION_MAP_ENTRY (STATE_JUMP_IDLE_RIGHT)  // STATE_Respawn
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -318,7 +318,7 @@ void Player::SpaceKeyPressed() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Slip_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Slip_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Killed
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Respawn
+            TRANSITION_MAP_ENTRY (STATE_HIT_RIGHT)        // STATE_Respawn
     END_TRANSITION_MAP(nullptr)
 }
 

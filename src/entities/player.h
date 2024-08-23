@@ -81,6 +81,7 @@ class Player: public IEntity
   bool isOnMobileSurface = false;  // Player underlying surface is mobile
   bool isDead = false;             // Player has been killed by an enemy
   bool isRespawning = false;       // Player is respawning
+  bool isGameOver = false;         // Game ended
 
   // Player action update functions
   void UpdateCollisions();

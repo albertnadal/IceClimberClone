@@ -324,10 +324,12 @@ TASKS AND ROADMAP TIMELINE:
 - Implement the respawn of Popo after losing a life [ OK ]
 - Implement lose a life when Popo falls out of the bottom of the screen [ OK ]
 - Add the GAME OVER sprite [ OK ]
-- Disable the respawn mode when Popo performs an action, this way Popo is becomes vulnerable again <==== [ CURRENT ]
+- Disable the respawn mode when Popo performs an action, this way Popo becomes vulnerable again [ OK ]
 - Show the Game Over message when reaching 0 lifes and go to player score summary screen <==== [ CURRENT ]
+- Implement STATE_Respawn_Right and STATE_Respawn_Left instead of having a unique state for respawn <==== [ CURRENT ]
 
 - Prepare MP3 music tracks [ OK ]
+- Delete the Popo state DownKeyPressed trigger as is unnecessary <====
 - Create a PSD file of the texture image with the pink in a separate layer and remove pink points in the PNG image <====
 - Parameterize the magic numbers of the EntityManager::BuildMountain method in defines [ OK ]
 - Review the unused includes in the entity class headers due to copy&paste of files <====

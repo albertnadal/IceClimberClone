@@ -65,6 +65,10 @@ void Player::NotifyNewAltitudeHasBeenReached() {
 }
 
 bool Player::Update(const uint8_t pressedKeys_) {
+    if (isGameOver) {
+        return false;
+    }
+
     if (gameFinished) {
         // Make a pause before notifying the game has finished
         if(chrono::system_clock::now() >= notifyGameFinishedTime) {
@@ -86,7 +90,6 @@ bool Player::Update(const uint8_t pressedKeys_) {
         UpdateSlip();
         needRedraw = true;
     } else {
-
         // Displace the player if the underlying surface is mobile
         DisplacePlayerIfUnderlyingSurfaceIsMobile();
 
@@ -95,7 +98,6 @@ bool Player::Update(const uint8_t pressedKeys_) {
         } else if (pressedKeys != prevPressedKeys) {
             ProcessReleasedKeys();
         }
-
     }
 
     // Correct the player's position if they go beyond the screen edges
@@ -616,7 +618,7 @@ void Player::UpdateJump() {
     previous_vOffset = vOffset;
 
     if (vJumpPosition > bottomViewport) {
-        bool isGameOver = entityManager->PlayerHasLostALife();
+        isGameOver = entityManager->PlayerHasLostALife();
         if (!isGameOver) {
             Respawn();
         }
@@ -762,6 +764,7 @@ void Player::Slip() {
 }
 
 void Player::STATE_Idle_Right() {
+    isRespawning = false;
     isRunning = false;
     isBlockedRight = false;
     isBlockedLeft = false;
@@ -774,6 +777,7 @@ void Player::STATE_Idle_Right() {
 }
 
 void Player::STATE_Idle_Left() {
+    isRespawning = false;
     isRunning = false;
     isBlockedRight = false;
     isBlockedLeft = false;
@@ -786,6 +790,7 @@ void Player::STATE_Idle_Left() {
 }
 
 void Player::STATE_Run_Right() {
+    isRespawning = false;
     isRunning = true;
     UpdatePreviousDirection();
     vectorDirection.x = 1;
@@ -794,6 +799,7 @@ void Player::STATE_Run_Right() {
 }
 
 void Player::STATE_Run_Left() {
+    isRespawning = false;
     isRunning = true;
     UpdatePreviousDirection();
     vectorDirection.x = -1;
@@ -802,16 +808,19 @@ void Player::STATE_Run_Left() {
 }
 
 void Player::STATE_Jump_Idle_Right() {
+    isRespawning = false;
     Jump(47.0f, 0.0f);
     LoadAnimationWithId(PlayerAnimation::JUMP_RIGHT);
 }
 
 void Player::STATE_Jump_Idle_Left() {
+    isRespawning = false;
     Jump(47.0f, 0.0f);
     LoadAnimationWithId(PlayerAnimation::JUMP_LEFT);
 }
 
 void Player::STATE_Jump_Run_Right() {
+    isRespawning = false;
     isRunning = false;
     // More momentum produces a longer jump
     Jump(45.0f, hMomentum == maxMomentum ? 10.0f : 4.0f);
@@ -819,6 +828,7 @@ void Player::STATE_Jump_Run_Right() {
 }
 
 void Player::STATE_Jump_Run_Left() {
+    isRespawning = false;
     isRunning = false;
     // More momentum produces a longer jump
     Jump(45.0f, hMomentum == maxMomentum ? -10.0f : -4.0f);
@@ -826,35 +836,41 @@ void Player::STATE_Jump_Run_Left() {
 }
 
 void Player::STATE_Fall_Idle_Right() {
+    isRespawning = false;
     isRunning = false;
     Fall(0.0f);
     LoadAnimationWithId(PlayerAnimation::FALL_RIGHT);
 }
 
 void Player::STATE_Fall_Idle_Left() {
+    isRespawning = false;
     isRunning = false;
     Fall(0.0f);
     LoadAnimationWithId(PlayerAnimation::FALL_LEFT);
 }
 
 void Player::STATE_Fall_Run_Right() {
+    isRespawning = false;
     isRunning = false;
     Fall(8.0f);
     LoadAnimationWithId(PlayerAnimation::FALL_RIGHT);
 }
 
 void Player::STATE_Fall_Run_Left() {
+    isRespawning = false;
     isRunning = false;
     Fall(-8.0f);
     LoadAnimationWithId(PlayerAnimation::FALL_LEFT);
 }
 
 void Player::STATE_Hit_Right() {
+    isRespawning = false;
     isRunning = false;
     LoadAnimationWithId(PlayerAnimation::HIT_RIGHT);
 }
 
 void Player::STATE_Hit_Left() {
+    isRespawning = false;
     isRunning = false;
     LoadAnimationWithId(PlayerAnimation::HIT_LEFT);
 }
