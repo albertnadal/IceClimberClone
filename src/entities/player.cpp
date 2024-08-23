@@ -620,7 +620,7 @@ void Player::UpdateJump() {
     if (vJumpPosition > bottomViewport) {
         isGameOver = entityManager->PlayerHasLostALife();
         if (!isGameOver) {
-            Respawn();
+            StartRespawn();
         }
     }
 }
@@ -673,7 +673,7 @@ void Player::UpdateFall() {
     if (vFallPosition > bottomViewport) {
         bool isGameOver = entityManager->PlayerHasLostALife();
         if (!isGameOver) {
-            Respawn();
+            StartRespawn();
         }
     }
 }
@@ -704,6 +704,22 @@ void Player::FinishSlip() {
     vectorDirection.x = 0;
     vectorDirection.y = 0;
     StopSlipping();
+}
+
+void Player::RespawnWithAnimation(PlayerAnimation animation) {
+    isRespawning = true;
+    isDead = false;
+    isRunning = false;
+    isJumping = false;
+    isFalling = false;
+    isJumpApex = false;
+
+    if ((respawnX < 0.0f) || (respawnY < 0.0f)) {
+        position.recoverInitialPosition();
+    } else {
+        position.setXY(respawnX, respawnY);
+    }
+    LoadAnimationWithId(animation);
 }
 
 void Player::MoveTo(Direction direction) {
@@ -893,18 +909,10 @@ void Player::STATE_Killed() {
     LoadAnimationWithId(PlayerAnimation::JUMP_DEAD);
 }
 
-void Player::STATE_Respawn() {
-    isRespawning = true;
-    isDead = false;
-    isRunning = false;
-    isJumping = false;
-    isFalling = false;
-    isJumpApex = false;
+void Player::STATE_Respawn_Right() {
+    RespawnWithAnimation(PlayerAnimation::RESPAWN_RIGHT);
+}
 
-    if ((respawnX < 0.0f) || (respawnY < 0.0f)) {
-        position.recoverInitialPosition();
-    } else {
-        position.setXY(respawnX, respawnY);
-    }
-    LoadAnimationWithId(isHeadedToRight ? PlayerAnimation::RESPAWN_RIGHT : PlayerAnimation::RESPAWN_LEFT);
+void Player::STATE_Respawn_Left() {
+    RespawnWithAnimation(PlayerAnimation::RESPAWN_LEFT);
 }

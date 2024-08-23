@@ -97,6 +97,8 @@ class Player: public IEntity
   void Slip();
   void UpdateSlip();
   void FinishSlip();
+  void RespawnWithAnimation(PlayerAnimation);
+
 public:
   Player();
   ~Player() override;
@@ -132,7 +134,7 @@ public:
   void StopRunningOnSlidingSurface();
   void StopSlipping();
   void Killed();
-  void Respawn();
+  void StartRespawn();
 
 private:
   // state machine state functions
@@ -153,7 +155,8 @@ private:
   void STATE_Slip_Right();
   void STATE_Slip_Left();
   void STATE_Killed();
-  void STATE_Respawn();
+  void STATE_Respawn_Right();
+  void STATE_Respawn_Left();
 
   // state map to define state function order
   BEGIN_STATE_MAP
@@ -174,7 +177,8 @@ private:
       STATE_MAP_ENTRY(&Player::STATE_Slip_Right)
       STATE_MAP_ENTRY(&Player::STATE_Slip_Left)
       STATE_MAP_ENTRY(&Player::STATE_Killed)
-      STATE_MAP_ENTRY(&Player::STATE_Respawn)
+      STATE_MAP_ENTRY(&Player::STATE_Respawn_Right)
+      STATE_MAP_ENTRY(&Player::STATE_Respawn_Left)
   END_STATE_MAP
 
   // state enumeration order must match the order of state
@@ -197,7 +201,8 @@ private:
       STATE_SLIP_RIGHT,
       STATE_SLIP_LEFT,
       STATE_KILLED,
-      STATE_RESPAWN,
+      STATE_RESPAWN_RIGHT,
+      STATE_RESPAWN_LEFT,
       POPO_MAX_STATES
   };
 };
