@@ -20,6 +20,7 @@
 #include <entities/number.h>
 #include <entities/nitpicker.h>
 #include <entities/condor.h>
+#include <entities/game_over.h>
 
 class EntityManager;
 

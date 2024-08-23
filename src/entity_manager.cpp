@@ -151,6 +151,9 @@ void EntityManager::PlayerFinishedGame(bool condorHunted, int vegetableCount, in
 bool EntityManager::PlayerHasLostALife() {
   if (lifeCounter <= 0) {
       isGameOver = true;
+
+      // Show the Game Over message moving from player vertical possition to top.
+      CreateEntityWithId(EntityIdentificator::GAME_OVER, 4, player->position.GetCellY());
   }
 
   lifeCounter--;
