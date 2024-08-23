@@ -508,15 +508,6 @@ void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {
         }
     }
 
-    if (!isJumping && ((pressedKeys & KeyboardKeyCode::IC_KEY_DOWN) == KeyboardKeyCode::IC_KEY_DOWN)) {
-        // If is not IC_KEY_DOWN repeated press then change character state
-        if ((!checkPreviousPressedKeys) || ((checkPreviousPressedKeys) &&
-                                            ((prevPressedKeys & KeyboardKeyCode::IC_KEY_DOWN) !=
-                                             KeyboardKeyCode::IC_KEY_DOWN))) {
-            DownKeyPressed();
-        }
-    }
-
     prevPressedKeys = pressedKeys;
 }
 

@@ -120,30 +120,6 @@ void Player::UpKeyPressed() {
     END_TRANSITION_MAP(nullptr)
 }
 
-void Player::DownKeyPressed() {
-    BEGIN_TRANSITION_MAP                                  // - Current State -
-            TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_RIGHT)  // STATE_Idle_Right
-            TRANSITION_MAP_ENTRY (STATE_FALL_IDLE_LEFT)   // STATE_Idle_Left
-            TRANSITION_MAP_ENTRY (STATE_FALL_RUN_RIGHT)   // STATE_Run_Right
-            TRANSITION_MAP_ENTRY (STATE_FALL_RUN_LEFT)    // STATE_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Jump_Idle_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Jump_Idle_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Jump_Run_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Jump_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Fall_Idle_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Fall_Idle_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Fall_Run_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Fall_Run_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Hit_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Hit_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Slip_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Slip_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Killed
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Respawn_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Respawn_Left
-    END_TRANSITION_MAP(nullptr)
-}
-
 void Player::TopCollisionDuringJump() {
     BEGIN_TRANSITION_MAP                                  // - Current State -
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Idle_Right

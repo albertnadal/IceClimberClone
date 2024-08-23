@@ -123,7 +123,6 @@ public:
   void LeftKeyReleased();
   void UpKeyPressed();
   void SpaceKeyPressed();
-  void DownKeyPressed();
   void JumpLanding();
   void FallLanding();
   void TopCollisionDuringJump();
