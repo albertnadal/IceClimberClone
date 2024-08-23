@@ -184,7 +184,10 @@ void Player::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& 
             intersection.particle->Hit(isHeadedToRight);
             IncreaseAchievementCounterByEntity(intersection.particle);
         } else if ((intersection.particle->type == EntityType::ENEMY) && (intersection.particle->id != EntityIdentificator::CONDOR)) {
+            collisions.clear();
+            playerIsSuspendedInTheAir = false;
             Killed();
+            return;
         }
 
         if ((intersection.particle == this) || intersection.particle->isTraversable || (std::find(objectsToIgnoreDuringFall.begin(), objectsToIgnoreDuringFall.end(), intersection.particle) != objectsToIgnoreDuringFall.end())) {
@@ -576,7 +579,7 @@ IEntity *Player::Create() {
 Player::~Player() = default;
 
 bool Player::ShouldBeginAnimationLoopAgain() {
-    if (isDead) {
+    if (isDead || isRespawning) {
         return true;
     } else if (currentState == PlayerStateIdentificator::STATE_HIT_RIGHT) {
         isHitting = false;
@@ -610,11 +613,14 @@ void Player::UpdateJump() {
         ProcessPressedKeys(false);
     }
 
-    if (vJumpPosition > bottomViewport) {
-        // TODO: Notify entityManager that player died and a life must be substracted.
-    }
-
     previous_vOffset = vOffset;
+
+    if (vJumpPosition > bottomViewport) {
+        bool isGameOver = entityManager->PlayerHasLostALife();
+        if (!isGameOver) {
+            Respawn();
+        }
+    }
 }
 
 void Player::FinishJump() {
@@ -663,7 +669,10 @@ void Player::UpdateFall() {
     vectorDirection.y = -1;
 
     if (vFallPosition > bottomViewport) {
-        // TODO: Notify entityManager that player died and a life must be substracted.
+        bool isGameOver = entityManager->PlayerHasLostALife();
+        if (!isGameOver) {
+            Respawn();
+        }
     }
 }
 
@@ -697,6 +706,11 @@ void Player::FinishSlip() {
 
 void Player::MoveTo(Direction direction) {
     if (!isJumping && !isHitting) {
+        // Store current "safe" player position as respawn position in case of death.
+        respawnX = position.GetRealX();
+        respawnY = position.GetRealY();
+
+        // Update the player position.
         PositionAddX(direction == Direction::RIGHT ? 4.0f : -4.0f);
         vectorDirection.x = (direction == Direction::RIGHT ? 1 : -1);
         if (hMomentum < maxMomentum) {
@@ -859,7 +873,22 @@ void Player::STATE_Slip_Left() {
 
 void Player::STATE_Killed() {
     isDead = true;
-    // TODO: Store current position as next respawn position.
     Jump(47.0f, 0.0f);
     LoadAnimationWithId(PlayerAnimation::JUMP_DEAD);
+}
+
+void Player::STATE_Respawn() {
+    isRespawning = true;
+    isDead = false;
+    isRunning = false;
+    isJumping = false;
+    isFalling = false;
+    isJumpApex = false;
+
+    if ((respawnX < 0.0f) || (respawnY < 0.0f)) {
+        position.recoverInitialPosition();
+    } else {
+        position.setXY(respawnX, respawnY);
+    }
+    LoadAnimationWithId(isHeadedToRight ? PlayerAnimation::RESPAWN_RIGHT : PlayerAnimation::RESPAWN_LEFT);
 }

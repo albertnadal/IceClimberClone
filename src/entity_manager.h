@@ -53,6 +53,7 @@ public:
   std::optional<float> PlayerReachedNewAltitude(int);
   void PlayerEnteredBonusStage();
   void PlayerFinishedGame(bool, int, int, int, int);
+  bool PlayerHasLostALife();
 };
 
 #endif

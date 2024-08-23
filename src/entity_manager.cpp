@@ -148,6 +148,16 @@ void EntityManager::PlayerFinishedGame(bool condorHunted, int vegetableCount, in
   isGameFinished = true;
 }
 
+bool EntityManager::PlayerHasLostALife() {
+  if (lifeCounter <= 0) {
+      isGameOver = true;
+      player->isMarkedToDelete = true;
+  }
+
+  lifeCounter--;
+  return isGameOver;
+}
+
 void EntityManager::SetupMountain(int mountainNumber) {
     // Delete old object instances created in the previous game
     deleteAllObjects();

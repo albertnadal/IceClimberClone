@@ -36,6 +36,10 @@ class Player: public IEntity
   void DisplacePlayerIfUnderlyingSurfaceIsMobile();
   void CorrectPlayerPositionOnReachScreenEdge();
 
+  // Respawn position
+  float respawnX = -1.0f;
+  float respawnY = -1.0f;
+
   // Jump trajectory data
   float hInitialJumpSpeed = 0.0f;
   float vInitialJumpSpeed = 0.0f;
@@ -76,6 +80,7 @@ class Player: public IEntity
   bool isBlockedLeft = false;      // Player is stuck running to the left towards a brick
   bool isOnMobileSurface = false;  // Player underlying surface is mobile
   bool isDead = false;             // Player has been killed by an enemy
+  bool isRespawning = false;       // Player is respawning
 
   // Player action update functions
   void UpdateCollisions();
@@ -126,6 +131,7 @@ public:
   void StopRunningOnSlidingSurface();
   void StopSlipping();
   void Killed();
+  void Respawn();
 
 private:
   // state machine state functions
@@ -146,6 +152,7 @@ private:
   void STATE_Slip_Right();
   void STATE_Slip_Left();
   void STATE_Killed();
+  void STATE_Respawn();
 
   // state map to define state function order
   BEGIN_STATE_MAP
@@ -166,6 +173,7 @@ private:
       STATE_MAP_ENTRY(&Player::STATE_Slip_Right)
       STATE_MAP_ENTRY(&Player::STATE_Slip_Left)
       STATE_MAP_ENTRY(&Player::STATE_Killed)
+      STATE_MAP_ENTRY(&Player::STATE_Respawn)
   END_STATE_MAP
 
   // state enumeration order must match the order of state
@@ -188,6 +196,7 @@ private:
       STATE_SLIP_RIGHT,
       STATE_SLIP_LEFT,
       STATE_KILLED,
+      STATE_RESPAWN,
       POPO_MAX_STATES
   };
 };

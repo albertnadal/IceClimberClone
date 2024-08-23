@@ -22,7 +22,7 @@ enum SurfaceType: uint16_t { SIMPLE = 0, SLIDING = 1, MOBILE_RIGHT = 2, MOBILE_L
 enum Direction: uint8_t { RIGHT = 0, LEFT = 1 };
 
 // Object animation identificators
-enum PlayerAnimation: uint16_t { STAND_BY_RIGHT = 0, STAND_BY_LEFT = 1, RUN_TO_RIGHT = 2, RUN_TO_LEFT = 3, JUMP_RIGHT = 4, JUMP_LEFT = 5, FALL_RIGHT = 6, FALL_LEFT = 7, HIT_RIGHT = 8, HIT_LEFT = 9, SLIP_TO_RIGHT = 10, SLIP_TO_LEFT = 11, JUMP_DEAD = 12 };
+enum PlayerAnimation: uint16_t { STAND_BY_RIGHT = 0, STAND_BY_LEFT = 1, RUN_TO_RIGHT = 2, RUN_TO_LEFT = 3, JUMP_RIGHT = 4, JUMP_LEFT = 5, FALL_RIGHT = 6, FALL_LEFT = 7, HIT_RIGHT = 8, HIT_LEFT = 9, SLIP_TO_RIGHT = 10, SLIP_TO_LEFT = 11, JUMP_DEAD = 12, RESPAWN_RIGHT = 13, RESPAWN_LEFT = 14 };
 enum BrickAnimation: uint16_t { BRICK_GREEN_STICKY = 10, BRICK_GREEN_FALLING = 11 };
 enum BrickBrownAnimation: uint16_t { BRICK_BROWN_STICKY = 12, BRICK_BROWN_FALLING = 13 };
 enum BrickBlueAnimation: uint16_t { BRICK_BLUE_STICKY = 14, BRICK_BLUE_FALLING = 15 };
