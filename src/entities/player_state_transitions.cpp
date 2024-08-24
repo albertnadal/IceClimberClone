@@ -376,8 +376,8 @@ void Player::Killed() {
             TRANSITION_MAP_ENTRY (STATE_KILLED)           // STATE_Fall_Run_Left
             TRANSITION_MAP_ENTRY (STATE_KILLED)           // STATE_Hit_Right
             TRANSITION_MAP_ENTRY (STATE_KILLED)           // STATE_Hit_Left
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Slip_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Slip_Left
+            TRANSITION_MAP_ENTRY (STATE_KILLED)           // STATE_Slip_Right
+            TRANSITION_MAP_ENTRY (STATE_KILLED)           // STATE_Slip_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Killed
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Respawn_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)          // STATE_Respawn_Left

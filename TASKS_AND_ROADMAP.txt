@@ -331,7 +331,7 @@ TASKS AND ROADMAP TIMELINE:
   - Notify EntityManager when GameOver entity reaches the top [ OK ]
   - Accumulate the score achieved by Popo when the game is over [ OK ]
 - Implement STATE_Respawn_Right and STATE_Respawn_Left instead of having a unique state for respawn [ OK ]
-- A falling dazed Topi cannot kill Popo <==== [ CURRENT ]
+- A falling dazed Topi cannot kill Popo [ OK ]
 - When moving Popo in respawn state something weird happens when running <==== [ CURRENT ]
 
 - Prepare MP3 music tracks [ OK ]

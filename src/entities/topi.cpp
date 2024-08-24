@@ -92,7 +92,6 @@ bool Topi::Update(const uint8_t pressedKeys_) {
 
 void Topi::Hit(bool hitFromLeft) {
     if (isWalking || isGoingToPickUpIce) {
-        RemoveFromSpacePartitionObjectsTree();
         HitReceived();
     }
 }
@@ -366,6 +365,7 @@ void Topi::STATE_Fall_Dazed_Right() {
     direction = Direction::LEFT;
     vectorDirection.x = 0;
     vectorDirection.y = -1;
+    RemoveFromSpacePartitionObjectsTree();
     LoadAnimationWithId(TopiAnimation::TOPI_FALL_DAZED_RIGHT);
 }
 
@@ -378,6 +378,7 @@ void Topi::STATE_Fall_Dazed_Left() {
     direction = Direction::RIGHT;
     vectorDirection.x = 0;
     vectorDirection.y = -1;
+    RemoveFromSpacePartitionObjectsTree();
     LoadAnimationWithId(TopiAnimation::TOPI_FALL_DAZED_LEFT);
 }
 
@@ -388,6 +389,7 @@ void Topi::STATE_Run_Dazed_Right() {
     isFalling = false;
     isDazed = true;
     direction = Direction::RIGHT;
+    RemoveFromSpacePartitionObjectsTree();
     LoadAnimationWithId(TopiAnimation::RUN_DAZED_RIGHT);
 }
 
@@ -398,6 +400,7 @@ void Topi::STATE_Run_Dazed_Left() {
     isFalling = false;
     isDazed = true;
     direction = Direction::LEFT;
+    RemoveFromSpacePartitionObjectsTree();
     LoadAnimationWithId(TopiAnimation::RUN_DAZED_LEFT);
 }
 
