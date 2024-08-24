@@ -52,8 +52,9 @@ public:
   bool IsGameOver() const;
   std::optional<float> PlayerReachedNewAltitude(int);
   void PlayerEnteredBonusStage();
-  void PlayerFinishedGame(bool, int, int, int, int);
+  void PlayerCompletedMountain(bool, int, int, int, int);
   bool PlayerHasLostALife();
+  void FinishGame();
 };
 
 #endif

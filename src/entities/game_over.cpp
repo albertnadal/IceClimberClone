@@ -14,7 +14,10 @@ bool GameOver::Update(const uint8_t pressedKeys_) {
  
     if (isMoving) {
         PositionAddY(-1.0f);
-        // TODO: Notify EntityManager when reaching the top of the screen.
+        if((position.GetInitialCellY() - position.GetCellY()) >= MOUNTAIN_VIEWPORT_HEIGHT_CELLS) {
+            isMoving = false;
+            entityManager->FinishGame();
+        }
         needRedraw = true;
     }
 

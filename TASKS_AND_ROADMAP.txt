@@ -328,7 +328,7 @@ TASKS AND ROADMAP TIMELINE:
 - Show the Game Over message when reaching 0 lifes and go to player score summary screen <==== [ CURRENT #2 ]
   - Create GameOver entity class [ OK ]
   - Move GameOver sprite from bottom to top [ OK ]
-  - Notify EntityManager when GameOver entity reaches the top <==== [ CURRENT #1 ]
+  - Notify EntityManager when GameOver entity reaches the top [ OK ]
   - Accumulate the score achieved by Popo when the game is over <==== [ CURRENT #3 ]
 - Implement STATE_Respawn_Right and STATE_Respawn_Left instead of having a unique state for respawn [ OK ]
 - A falling dazed Topi cannot kill Popo <==== [ CURRENT ]

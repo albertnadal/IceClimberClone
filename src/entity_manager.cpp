@@ -139,7 +139,7 @@ void EntityManager::PlayerEnteredBonusStage() {
   playerEnteredBonusStage = true;
 }
 
-void EntityManager::PlayerFinishedGame(bool condorHunted, int vegetableCount, int nitpickerCount, int iceCount, int brickCount) {
+void EntityManager::PlayerCompletedMountain(bool condorHunted, int vegetableCount, int nitpickerCount, int iceCount, int brickCount) {
   scoreSummary.condorHunted = condorHunted;
   scoreSummary.vegetableCount = vegetableCount;
   scoreSummary.nitpickerCount = nitpickerCount;
@@ -158,6 +158,10 @@ bool EntityManager::PlayerHasLostALife() {
 
   lifeCounter--;
   return isGameOver;
+}
+
+void EntityManager::FinishGame() {
+  isGameFinished = true;
 }
 
 void EntityManager::SetupMountain(int mountainNumber) {

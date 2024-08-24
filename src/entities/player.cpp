@@ -72,7 +72,7 @@ bool Player::Update(const uint8_t pressedKeys_) {
     if (gameFinished) {
         // Make a pause before notifying the game has finished
         if(chrono::system_clock::now() >= notifyGameFinishedTime) {
-            entityManager->PlayerFinishedGame(condorHunted, vegetableCount, nitpickerCount, iceCount, brickCount);
+            entityManager->PlayerCompletedMountain(condorHunted, vegetableCount, nitpickerCount, iceCount, brickCount);
         }
         return false;
     }
