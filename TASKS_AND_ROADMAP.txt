@@ -325,11 +325,11 @@ TASKS AND ROADMAP TIMELINE:
 - Implement lose a life when Popo falls out of the bottom of the screen [ OK ]
 - Add the GAME OVER sprite [ OK ]
 - Disable the respawn mode when Popo performs an action, this way Popo becomes vulnerable again [ OK ]
-- Show the Game Over message when reaching 0 lifes and go to player score summary screen <==== [ CURRENT #2 ]
+- Show the Game Over message when reaching 0 lifes and go to player score summary screen:
   - Create GameOver entity class [ OK ]
   - Move GameOver sprite from bottom to top [ OK ]
   - Notify EntityManager when GameOver entity reaches the top [ OK ]
-  - Accumulate the score achieved by Popo when the game is over <==== [ CURRENT #3 ]
+  - Accumulate the score achieved by Popo when the game is over [ OK ]
 - Implement STATE_Respawn_Right and STATE_Respawn_Left instead of having a unique state for respawn [ OK ]
 - A falling dazed Topi cannot kill Popo <==== [ CURRENT ]
 - When moving Popo in respawn state something weird happens when running <==== [ CURRENT ]

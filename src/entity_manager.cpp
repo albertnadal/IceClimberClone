@@ -148,7 +148,12 @@ void EntityManager::PlayerCompletedMountain(bool condorHunted, int vegetableCoun
   isGameFinished = true;
 }
 
-bool EntityManager::PlayerHasLostALife() {
+bool EntityManager::PlayerHasLostALife(int vegetableCount, int nitpickerCount, int iceCount, int brickCount) {
+  scoreSummary.vegetableCount = vegetableCount;
+  scoreSummary.nitpickerCount = nitpickerCount;
+  scoreSummary.iceCount = iceCount;
+  scoreSummary.brickCount = brickCount;
+
   if (lifeCounter <= 0) {
       isGameOver = true;
 

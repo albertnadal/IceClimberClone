@@ -609,7 +609,7 @@ void Player::UpdateJump() {
     previous_vOffset = vOffset;
 
     if (vJumpPosition > bottomViewport) {
-        isGameOver = entityManager->PlayerHasLostALife();
+        isGameOver = entityManager->PlayerHasLostALife(vegetableCount, nitpickerCount, iceCount, brickCount);
         if (!isGameOver) {
             StartRespawn();
         }
@@ -662,7 +662,7 @@ void Player::UpdateFall() {
     vectorDirection.y = -1;
 
     if (vFallPosition > bottomViewport) {
-        bool isGameOver = entityManager->PlayerHasLostALife();
+        bool isGameOver = entityManager->PlayerHasLostALife(vegetableCount, nitpickerCount, iceCount, brickCount);
         if (!isGameOver) {
             StartRespawn();
         }
