@@ -335,6 +335,7 @@ TASKS AND ROADMAP TIMELINE:
 - When moving Popo in respawn state something weird happens when running [ OK ]
 - When entering the main menu cannot select a mountain when pressing the up/down arrow for the first time [ CANNOT REPRODUCE ]
 - Define DEBUG constant for debuging purposes [ OK ]
+- Create highscore.dat file if not exists [ OK ]
 
 - Prepare MP3 music tracks [ OK ]
 - Play music in the main menu <==== [ CURRENT ]

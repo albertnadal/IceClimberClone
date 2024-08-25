@@ -87,13 +87,13 @@ public:
     }
 
     static void saveHighscoreToFile(int score, const std::string& filename) {
-        std::ofstream outFile(filename);
+        std::ofstream outFile(filename, std::ios::out | std::ios::trunc);
 
         if (outFile.is_open()) {
             outFile << score;
             outFile.close();
         } else {
-            std::cerr << "Error: Cannot open the file " << filename << std::endl;
+            std::cerr << "Error: Cannot open or create the file " << filename << std::endl;
         }
     }
 };
