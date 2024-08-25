@@ -230,14 +230,16 @@ void EntityManager::updateSpriteRectBuffers() {
     Boundaries attackBoundaries = entity_ptr->GetAbsoluteAttackBoundaries().value_or(Boundaries{0,0,0,0});
     Color tint = WHITE;
 
-    // Tint in RED those objects that are candidates to collide with the player object.
-    auto it = std::find_if(objectIntersections.begin(), objectIntersections.end(),
-                           [entity_ptr](const aabb::AABBIntersection<IEntity*>& intersection) {
-                               return intersection.particle == entity_ptr;
-                           });
+    if (DEBUG) {
+      // Tint in RED those objects that are candidates to collide with the player object.
+      auto it = std::find_if(objectIntersections.begin(), objectIntersections.end(),
+                            [entity_ptr](const aabb::AABBIntersection<IEntity*>& intersection) {
+                                return intersection.particle == entity_ptr;
+                            });
 
-    if (it != objectIntersections.end()) {
-      tint = RED;
+      if (it != objectIntersections.end()) {
+        tint = RED;
+      }
     }
 
     spriteRectDoubleBuffer->producer_buffer[i++] = SpriteRect(src, pos, boundaries, attackBoundaries, tint);

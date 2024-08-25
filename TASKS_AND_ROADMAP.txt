@@ -333,7 +333,8 @@ TASKS AND ROADMAP TIMELINE:
 - Implement STATE_Respawn_Right and STATE_Respawn_Left instead of having a unique state for respawn [ OK ]
 - A falling dazed Topi cannot kill Popo [ OK ]
 - When moving Popo in respawn state something weird happens when running [ OK ]
-- When entering the main menu cannot select a mountain when pressing the up/down arrow for the first time <==== [ CURRENT ]
+- When entering the main menu cannot select a mountain when pressing the up/down arrow for the first time [ CANNOT REPRODUCE ]
+- Define DEBUG constant for debuging purposes [ OK ]
 
 - Prepare MP3 music tracks [ OK ]
 - Play music in the main menu <==== [ CURRENT ]

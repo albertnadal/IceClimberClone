@@ -91,6 +91,7 @@ enum CondorAnimation: uint16_t { CONDOR_FLY_TO_RIGHT = 97, CONDOR_FLY_TO_LEFT = 
 enum GameOverAnimation: uint16_t { GAME_OVER_MOVE_UP = 99 };
 
 // Others
+constexpr bool DEBUG = false;                                                    // Debug mode.
 constexpr int FPS = 60;                                                          // Frames per second.
 constexpr int MILLISECONDS_PER_TICK = 16;                                        // Game logic frequency in milliseconds. 16ms ≈ 60 ticks per second.
 constexpr char* ENTITY_TYPES_FILENAME = "objtypes.dat";                          // The data file where entity animations and collision areas are defined.

@@ -86,9 +86,11 @@ inline void processKeyboardInput() {
         if (IsKeyPressed(KEY_SPACE) || IsKeyReleased(KEY_SPACE)) pressedKeys ^= IC_KEY_SPACE;
         if (IsKeyPressed(KEY_ESCAPE) || IsKeyReleased(KEY_ESCAPE)) pressedKeys ^= IC_KEY_DOWN;
 
-        if (IsKeyPressed(KEY_P)) gameLogicFrequency += 10;
-        if (IsKeyPressed(KEY_O)) gameLogicFrequency -= 10;
-        if (IsKeyPressed(KEY_M)) paused = !paused;
+        if (DEBUG) {
+                if (IsKeyPressed(KEY_P)) gameLogicFrequency += 10;
+                if (IsKeyPressed(KEY_O)) gameLogicFrequency -= 10;
+                if (IsKeyPressed(KEY_M)) paused = !paused;
+        }
 }
 
 int main()
@@ -146,15 +148,16 @@ int main()
                                                 auto source = spriteRectDoubleBuffer->consumer_buffer[i].source;
                                                 auto tint = spriteRectDoubleBuffer->consumer_buffer[i].tint;
                                                 DrawTextureRec(textureAtlas, source, position, tint);
-                                                /*
-                                                // Draw solid bondaries only for debug purposes
-                                                auto box = spriteRectDoubleBuffer->consumer_buffer[i].boundaries;
-                                                DrawRectangleLinesEx({static_cast<float>(box.upperBoundX), static_cast<float>(box.upperBoundY), static_cast<float>(box.lowerBoundX-box.upperBoundX), static_cast<float>(box.lowerBoundY-box.upperBoundY)}, 1.0f, PINK);
 
-                                                // Draw attack bondaries only for debug purposes
-                                                box = spriteRectDoubleBuffer->consumer_buffer[i].attackBoundaries;
-                                                DrawRectangleLinesEx({static_cast<float>(box.upperBoundX), static_cast<float>(box.upperBoundY), static_cast<float>(box.lowerBoundX-box.upperBoundX), static_cast<float>(box.lowerBoundY-box.upperBoundY)}, 1.0f, YELLOW);
-                                                */
+                                                if (DEBUG) {
+                                                        // Draw solid bondaries only for debug purposes
+                                                        auto box = spriteRectDoubleBuffer->consumer_buffer[i].boundaries;
+                                                        DrawRectangleLinesEx({static_cast<float>(box.upperBoundX), static_cast<float>(box.upperBoundY), static_cast<float>(box.lowerBoundX-box.upperBoundX), static_cast<float>(box.lowerBoundY-box.upperBoundY)}, 1.0f, PINK);
+
+                                                        // Draw attack bondaries only for debug purposes
+                                                        box = spriteRectDoubleBuffer->consumer_buffer[i].attackBoundaries;
+                                                        DrawRectangleLinesEx({static_cast<float>(box.upperBoundX), static_cast<float>(box.upperBoundY), static_cast<float>(box.lowerBoundX-box.upperBoundX), static_cast<float>(box.lowerBoundY-box.upperBoundY)}, 1.0f, YELLOW);
+                                                }
                                         }
                                         spriteRectDoubleBuffer->unlock();
                                 EndMode2D();
