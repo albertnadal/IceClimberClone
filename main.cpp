@@ -37,6 +37,8 @@ GameScreenType currentGameScreen;
 int mountainNumber = 1;
 int accumulatedScore = 0;
 int highScore = 0;
+Music titleScreenMusic;
+Music mountainGamePlayMusic;
 
 static void* gameLogicThreadFunc(void* v)
 {
@@ -98,10 +100,15 @@ int main()
         srand(static_cast<unsigned>(time(0))); // Initialize the random seed to avoid deterministic behaviours. Just for debug purposes.
 
         InitWindow(SCR_WIDTH, SCR_HEIGHT, "Ice Climber");
+        InitAudioDevice();
         highScore = Utils::loadHighscoreFromFile(HIGHSCORE_FILENAME);
 
         currentGameScreen = GameScreenType::MAIN_MENU;
-        scoreSummary.vegetableId = EntityIdentificator::EGGPLANT;  // TODO: The vegetable Id should be taken from the selected mountain data.
+        titleScreenMusic = LoadMusicStream(MAIN_MENU_AUDIO_FILENAME);
+        PlayMusicStream(titleScreenMusic);
+        titleScreenMusic.looping = true;
+        mountainGamePlayMusic = LoadMusicStream(GAME_PLAY_AUDIO_FILENAME);
+        mountainGamePlayMusic.looping = true;
 
         // Camera configuration for simple static screens
         Camera2D staticCamera = { 0 };
@@ -131,6 +138,7 @@ int main()
         {
                 if (currentGameScreen == GameScreenType::MOUNTAIN_GAME_PLAY) {
                         processKeyboardInput();
+                        UpdateMusicStream(mountainGamePlayMusic);
 
                         BeginDrawing();
                                 ClearBackground(BLACK);
@@ -183,6 +191,7 @@ int main()
                                         mountainNumber = 1;
                                         accumulatedScore = 0;
                                         currentGameScreen = GameScreenType::MAIN_MENU;
+                                        PlayMusicStream(titleScreenMusic);
                                 } else {
                                         // Play the next mountain available
                                         isGameFinished = false;
@@ -193,10 +202,12 @@ int main()
                                         pressedKeys = IC_KEY_NONE;
                                         entityManager->SetupMountain(mountainNumber);
                                         currentGameScreen = GameScreenType::MOUNTAIN_GAME_PLAY;
+                                        PlayMusicStream(mountainGamePlayMusic);
                                         pthread_create(&gameLogicThread, nullptr, gameLogicThreadFunc, nullptr);
                                 }
                         }
                 } else if (currentGameScreen == GameScreenType::MAIN_MENU) {
+                        UpdateMusicStream(titleScreenMusic);
                         renderMainMenuScreen(textureAtlas, staticCamera, mountainNumber, highScore);
 
                         if (IsKeyPressed(KEY_UP)) {
@@ -204,6 +215,8 @@ int main()
                         } else if (IsKeyPressed(KEY_DOWN)) {
                                 mountainNumber = (mountainNumber - 2 + TOTAL_MOUNTAINS) % TOTAL_MOUNTAINS + 1;
                         } else if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_ENTER)) {
+                                StopMusicStream(titleScreenMusic);
+                                PlayMusicStream(mountainGamePlayMusic);
                                 accumulatedScore = 0;
                                 lifeCounter = std::nullopt;
                                 cameraVerticalPosition = std::nullopt;
@@ -227,7 +240,10 @@ int main()
         delete entityTextureManager;
         delete entityManager;
         delete spriteRectDoubleBuffer;
+
         UnloadTexture(textureAtlas);
+        UnloadMusicStream(titleScreenMusic);
+        CloseAudioDevice();
         CloseWindow();
 
         return 0;
