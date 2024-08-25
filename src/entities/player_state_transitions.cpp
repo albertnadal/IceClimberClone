@@ -20,7 +20,7 @@ void Player::RightKeyPressed() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Killed
             TRANSITION_MAP_ENTRY (STATE_RUN_RIGHT)  // STATE_Respawn_Right
-            TRANSITION_MAP_ENTRY (STATE_RUN_LEFT)   // STATE_Respawn_Left
+            TRANSITION_MAP_ENTRY (STATE_RUN_RIGHT)  // STATE_Respawn_Left
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -44,7 +44,7 @@ void Player::RightKeyReleased() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Killed
             TRANSITION_MAP_ENTRY (STATE_IDLE_RIGHT) // STATE_Respawn_Right
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Respawn_Left
+            TRANSITION_MAP_ENTRY (STATE_IDLE_RIGHT) // STATE_Respawn_Left
     END_TRANSITION_MAP(nullptr)
 }
 
@@ -67,7 +67,7 @@ void Player::LeftKeyPressed() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Killed
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Respawn_Right
+            TRANSITION_MAP_ENTRY (STATE_RUN_LEFT)   // STATE_Respawn_Right
             TRANSITION_MAP_ENTRY (STATE_RUN_LEFT)   // STATE_Respawn_Left
     END_TRANSITION_MAP(nullptr)
 }
@@ -91,7 +91,7 @@ void Player::LeftKeyReleased() {
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Right
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Slip_Left
             TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Killed
-            TRANSITION_MAP_ENTRY (EVENT_IGNORED)    // STATE_Respawn_Right
+            TRANSITION_MAP_ENTRY (STATE_IDLE_LEFT)  // STATE_Respawn_Right
             TRANSITION_MAP_ENTRY (STATE_IDLE_LEFT)  // STATE_Respawn_Left
     END_TRANSITION_MAP(nullptr)
 }

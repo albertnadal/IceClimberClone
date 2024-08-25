@@ -332,9 +332,16 @@ TASKS AND ROADMAP TIMELINE:
   - Accumulate the score achieved by Popo when the game is over [ OK ]
 - Implement STATE_Respawn_Right and STATE_Respawn_Left instead of having a unique state for respawn [ OK ]
 - A falling dazed Topi cannot kill Popo [ OK ]
-- When moving Popo in respawn state something weird happens when running <==== [ CURRENT ]
+- When moving Popo in respawn state something weird happens when running [ OK ]
+- When entering the main menu cannot select a mountain when pressing the up/down arrow for the first time <==== [ CURRENT ]
 
 - Prepare MP3 music tracks [ OK ]
+- Play music in the main menu <==== [ CURRENT ]
+- Play music during gameplay <==== [ CURRENT ]
+- Play music during game over message <==== [ CURRENT ]
+- Play music when stage clear <==== [ CURRENT ]
+- Play music when losing a life <==== [ CURRENT ]
+- Play music in stage <==== [ CURRENT ]
 - Delete the Popo state DownKeyPressed trigger as is unnecessary [ OK ]
 - Create a PSD file of the texture image with the pink in a separate layer and remove pink points in the PNG image <====
 - Parameterize the magic numbers of the EntityManager::BuildMountain method in defines [ OK ]
