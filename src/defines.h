@@ -99,6 +99,7 @@ constexpr char* HIGHSCORE_FILENAME = "highscore.dat";                           
 constexpr char* MOUNTAIN_FILENAME = "levels/mountain?.dat";                      // The data file where mountain information is stored.
 constexpr char* MAIN_MENU_AUDIO_FILENAME = "audio/title_screen.mp3";             // Background music for the title screen menu.
 constexpr char* GAME_PLAY_AUDIO_FILENAME = "audio/stage_theme.mp3";              // Background music for the mountain game play.
+constexpr char* STAGE_CLEAR_AUDIO_FILENAME = "audio/stage_clear.mp3";            // Background music for the stage score summary screen.
 constexpr float GRAVITY = 9.81f;                                                 // Gravity value used for physics calculations.
 constexpr int MIN_PIXELS_ON_UNDERLYING_SURFACE = 4;                              // Min number of pixels on the edge of an underlying surface to do not fall.
 constexpr int SLIPPING_DISTANCE = 30;                                            // The distance, in pixels, the player slips when suddenly stopping on an ice floor.

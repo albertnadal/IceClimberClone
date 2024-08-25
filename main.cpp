@@ -39,6 +39,7 @@ int accumulatedScore = 0;
 int highScore = 0;
 Music titleScreenMusic;
 Music mountainGamePlayMusic;
+Music stageClearMusic;
 
 static void* gameLogicThreadFunc(void* v)
 {
@@ -73,6 +74,7 @@ static void* gameLogicThreadFunc(void* v)
                 Utils::saveHighscoreToFile(highScore, HIGHSCORE_FILENAME);
         }
 
+        PlayMusicStream(stageClearMusic);
         currentGameScreen = GameScreenType::PLAYER_SCORE_SUMMARY;
         return nullptr;
 }
@@ -109,6 +111,8 @@ int main()
         titleScreenMusic.looping = true;
         mountainGamePlayMusic = LoadMusicStream(GAME_PLAY_AUDIO_FILENAME);
         mountainGamePlayMusic.looping = true;
+        stageClearMusic = LoadMusicStream(STAGE_CLEAR_AUDIO_FILENAME);
+        stageClearMusic.looping = false;
 
         // Camera configuration for simple static screens
         Camera2D staticCamera = { 0 };
@@ -183,9 +187,11 @@ int main()
                                 DrawFPS(16, 16);
                         EndDrawing();
                 } else if (currentGameScreen == GameScreenType::PLAYER_SCORE_SUMMARY) {
+                        UpdateMusicStream(stageClearMusic);
                         renderScoreScreen(textureAtlas, staticCamera, scoreSummary, mountainNumber, accumulatedScore);
 
                         if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_ENTER)) {
+                                StopMusicStream(stageClearMusic);
                                 if (isGameOver) {
                                         // Go to main menu
                                         mountainNumber = 1;
