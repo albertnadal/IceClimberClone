@@ -191,6 +191,7 @@ int main()
                                         mountainNumber = 1;
                                         accumulatedScore = 0;
                                         currentGameScreen = GameScreenType::MAIN_MENU;
+                                        StopMusicStream(titleScreenMusic);
                                         PlayMusicStream(titleScreenMusic);
                                 } else {
                                         // Play the next mountain available
@@ -202,6 +203,7 @@ int main()
                                         pressedKeys = IC_KEY_NONE;
                                         entityManager->SetupMountain(mountainNumber);
                                         currentGameScreen = GameScreenType::MOUNTAIN_GAME_PLAY;
+                                        StopMusicStream(mountainGamePlayMusic);
                                         PlayMusicStream(mountainGamePlayMusic);
                                         pthread_create(&gameLogicThread, nullptr, gameLogicThreadFunc, nullptr);
                                 }
@@ -216,6 +218,7 @@ int main()
                                 mountainNumber = (mountainNumber - 2 + TOTAL_MOUNTAINS) % TOTAL_MOUNTAINS + 1;
                         } else if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_ENTER)) {
                                 StopMusicStream(titleScreenMusic);
+                                StopMusicStream(mountainGamePlayMusic);
                                 PlayMusicStream(mountainGamePlayMusic);
                                 accumulatedScore = 0;
                                 lifeCounter = std::nullopt;
