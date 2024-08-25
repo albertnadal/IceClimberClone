@@ -26,7 +26,6 @@ void renderScoreScreen(Texture2D &textureAtlas, Camera2D &staticCamera, GameScor
                         popoXOffset += 48.0f;
                     }
                     DrawTextureRec(textureAtlas, {(scoreSummary.condorHunted ? 656.0f : 560.0f) + popoXOffset,400,48,64}, {174,120}, WHITE);  // Popo crying or jumping
-
                     DrawTextureRec(textureAtlas, {272,176+(scoreSummary.condorHunted ? 32.0f : 0.0f),96,32}, {234,138}, WHITE);  // WINNER/NO BONUS
 
                     if (scoreSummary.condorHunted) {
@@ -54,7 +53,10 @@ void renderScoreScreen(Texture2D &textureAtlas, Camera2D &staticCamera, GameScor
 
                     Utils::renderNumberAtPosition(textureAtlas, accumulatedScore, 6, 202, 390, true, WHITE);  // Total score
             EndMode2D();
-            DrawFPS(16, 16);
+
+    if (DEBUG) {
+        DrawFPS(16, 16);
+    }
     EndDrawing();
 }
 

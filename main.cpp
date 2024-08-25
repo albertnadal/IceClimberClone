@@ -184,7 +184,9 @@ int main()
                                         }
                                 }
 
-                                DrawFPS(16, 16);
+                                if (DEBUG) {
+                                        DrawFPS(16, 16);
+                                }
                         EndDrawing();
                 } else if (currentGameScreen == GameScreenType::PLAYER_SCORE_SUMMARY) {
                         UpdateMusicStream(stageClearMusic);

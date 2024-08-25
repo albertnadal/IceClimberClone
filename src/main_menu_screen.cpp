@@ -22,7 +22,10 @@ void renderMainMenuScreen(Texture2D &textureAtlas, Camera2D &staticCamera, int m
                     DrawTextureRec(textureAtlas, {0,376,80,16}, {146,430}, WHITE);  // (c)1984
                     DrawTextureRec(textureAtlas, {272,240,128,16}, {242,430}, WHITE);  // NINTENDO
             EndMode2D();
-            DrawFPS(16, 16);
+
+    if (DEBUG) {
+        DrawFPS(16, 16);
+    }
     EndDrawing();
 }
 

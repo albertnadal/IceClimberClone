@@ -336,14 +336,26 @@ TASKS AND ROADMAP TIMELINE:
 - When entering the main menu cannot select a mountain when pressing the up/down arrow for the first time [ CANNOT REPRODUCE ]
 - Define DEBUG constant for debuging purposes [ OK ]
 - Create highscore.dat file if not exists [ OK ]
+- Show FPS only in debug mode [ OK ]
 
-- Prepare MP3 music tracks [ OK ]
-- Play music in the main menu [ OK ]
-- Play music during gameplay [ OK ]
-- Play music during game over message <==== [ CURRENT ]
-- Play music when stage clear <==== [ CURRENT ]
-- Play music when losing a life <==== [ CURRENT ]
-- Implement a Util method to load game music <==== [ CURRENT ]
+- Play background music:
+  - Prepare music audio tracks [ OK ]
+  - Play music in the main menu [ OK ]
+  - Play music during gameplay [ OK ]
+  - Play music when stage clear [ OK ]
+
+- Play sounds:
+  - Prepare sound audio tracks <=== [ CURRENT ]
+  - Prepare a SoundManager class to play sounds <==== [ CURRENT ]
+  - Play game over message tone <==== [ CURRENT ]
+  - Play losing life tone <==== [ CURRENT ]
+  - Play jump sound <==== [ CURRENT ]
+  - Play break brick sound <==== [ CURRENT ]
+  - Play hit enemy (ice, topi) sound <==== [ CURRENT ]
+  - Play hit nitpicker <==== [ CURRENT ]
+  - Play pick vegetable <==== [ CURRENT ]
+
+- Implement a Util method to load game music in the main function <==== [ CURRENT ]
 - Delete the Popo state DownKeyPressed trigger as is unnecessary [ OK ]
 - Create a PSD file of the texture image with the pink in a separate layer and remove pink points in the PNG image <====
 - Parameterize the magic numbers of the EntityManager::BuildMountain method in defines [ OK ]
