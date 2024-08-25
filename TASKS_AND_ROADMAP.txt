@@ -337,6 +337,7 @@ TASKS AND ROADMAP TIMELINE:
 - Define DEBUG constant for debuging purposes [ OK ]
 - Create highscore.dat file if not exists [ OK ]
 - Show FPS only in debug mode [ OK ]
+- Add non-commercial fan-made project disclaimer in the main menu [ OK ]
 
 - Play background music:
   - Prepare music audio tracks [ OK ]
@@ -355,7 +356,7 @@ TASKS AND ROADMAP TIMELINE:
   - Play hit nitpicker <==== [ CURRENT ]
   - Play pick vegetable <==== [ CURRENT ]
 
-- Implement a Util method to load game music in the main function <==== [ CURRENT ]
+- Implement a Utils static method to load game music in the main function <==== [ CURRENT ]
 - Delete the Popo state DownKeyPressed trigger as is unnecessary [ OK ]
 - Create a PSD file of the texture image with the pink in a separate layer and remove pink points in the PNG image <====
 - Parameterize the magic numbers of the EntityManager::BuildMountain method in defines [ OK ]

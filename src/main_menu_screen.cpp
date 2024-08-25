@@ -19,8 +19,9 @@ void renderMainMenuScreen(Texture2D &textureAtlas, Camera2D &staticCamera, int m
                     DrawTextureRec(textureAtlas, {432,336,48,16}, {162,300}, { 252, 116, 180, 255 });  // TOP (tint #fc74b4)
                     Utils::renderNumberAtPosition(textureAtlas, highScore, 6, 210, 300, true, { 252, 116, 180, 255 });  // High score number
                     DrawTextureRec(textureAtlas, {480,336,48,16}, {312,300}, { 252, 116, 180, 255 });  // PTS (tint #fc74b4)
-                    DrawTextureRec(textureAtlas, {0,376,80,16}, {146,430}, WHITE);  // (c)1984
-                    DrawTextureRec(textureAtlas, {272,240,128,16}, {242,430}, WHITE);  // NINTENDO
+                    DrawTextureRec(textureAtlas, {0,376,80,16}, {146,348}, WHITE);  // (c)1984
+                    DrawTextureRec(textureAtlas, {272,240,128,16}, {242,348}, WHITE);  // NINTENDO
+                    DrawTextureRec(textureAtlas, {0,592,448,64}, {32,396}, WHITE);  // Disclaimer message
             EndMode2D();
 
     if (DEBUG) {
