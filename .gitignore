@@ -34,3 +34,6 @@
 *.out
 *.app
 main
+
+# Game data files
+highscore.dat
