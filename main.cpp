@@ -106,12 +106,12 @@ int main()
         highScore = Utils::loadHighscoreFromFile(HIGHSCORE_FILENAME);
 
         currentGameScreen = GameScreenType::MAIN_MENU;
-        titleScreenMusic = LoadMusicStream(MAIN_MENU_AUDIO_FILENAME);
+        titleScreenMusic = LoadMusicStream(MAIN_MENU_MUSIC_FILENAME);
         PlayMusicStream(titleScreenMusic);
         titleScreenMusic.looping = true;
-        mountainGamePlayMusic = LoadMusicStream(GAME_PLAY_AUDIO_FILENAME);
+        mountainGamePlayMusic = LoadMusicStream(GAME_PLAY_MUSIC_FILENAME);
         mountainGamePlayMusic.looping = true;
-        stageClearMusic = LoadMusicStream(STAGE_CLEAR_AUDIO_FILENAME);
+        stageClearMusic = LoadMusicStream(STAGE_CLEAR_MUSIC_FILENAME);
         stageClearMusic.looping = false;
 
         // Camera configuration for simple static screens
