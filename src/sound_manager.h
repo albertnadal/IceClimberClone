@@ -1,7 +1,6 @@
 #ifndef SOUND_MANAGER_H
 #define SOUND_MANAGER_H
 
-#include <iostream>
 #include <string>
 #include <map>
 #include <defines.h>
@@ -13,12 +12,12 @@ class SoundManager
 {
   typedef map<SoundIdentificator, Sound> SoundsMap;
   SoundsMap soundsMap;
-  Sound LoadSoundFromFile(const std::string&);
 public:
   SoundManager();
   ~SoundManager();
   void LoadSounds();
   void UnloadSounds();
+  void PlaySoundById(SoundIdentificator) const;
 };
 
 #endif

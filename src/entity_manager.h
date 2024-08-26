@@ -5,6 +5,7 @@
 #include <optional>
 #include <entity_factory.h>
 #include <entities/player.h>
+#include <sound_manager.h>
 #include <entity_data_manager.h>
 #include <sprite_rect_double_buffer.h>
 #include <AABB/AABB.h>
@@ -26,6 +27,7 @@ class EntityManager
   bool isGameFinished = false;
   bool isGameOver = false;
   GameScoreSummary scoreSummary;
+  SoundManager *soundManager;
   EntityDataManager *textureManager;
   SpriteRectDoubleBuffer *spriteRectDoubleBuffer;
   uint32_t maxObjects;
@@ -41,7 +43,7 @@ class EntityManager
   void updateStaticObjects();
   void updateSpriteRectBuffers();
 public:
-  EntityManager(EntityDataManager*, SpriteRectDoubleBuffer*, uint32_t);
+  EntityManager(SoundManager*, EntityDataManager*, SpriteRectDoubleBuffer*, uint32_t);
   ~EntityManager();
   void SetupMountain(int);
   UpdateInfo Update(uint8_t);
@@ -50,6 +52,7 @@ public:
   std::optional<Position *> GetPlayerPosition() const;
   GameScoreSummary GetGameScoreSummary() const;
   bool IsGameOver() const;
+  void PlaySoundById(SoundIdentificator) const;
   std::optional<float> PlayerReachedNewAltitude(int);
   void PlayerEnteredBonusStage();
   void PlayerCompletedMountain(bool, int, int, int, int);

@@ -347,10 +347,10 @@ TASKS AND ROADMAP TIMELINE:
 
 - Play sounds:
   - Prepare sound audio tracks [ OK ]
-  - Implement SoundManager class to play sounds <==== [ CURRENT ]
+  - Implement SoundManager class to play sounds [ OK ]
   - Play game over message tone <==== [ CURRENT ]
   - Play losing life tone <==== [ CURRENT ]
-  - Play jump sound <==== [ CURRENT ]
+  - Play jump sound [ OK ]
   - Play break brick sound <==== [ CURRENT ]
   - Play hit enemy (ice, topi) sound <==== [ CURRENT ]
   - Play hit nitpicker <==== [ CURRENT ]

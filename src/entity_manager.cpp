@@ -4,7 +4,8 @@
 #include <fstream>
 #include <sstream>
 
-EntityManager::EntityManager(EntityDataManager* _textureManager, SpriteRectDoubleBuffer* _spriteRectDoubleBuffer, uint32_t _maxObjects) {
+EntityManager::EntityManager(SoundManager* _soundManager, EntityDataManager* _textureManager, SpriteRectDoubleBuffer* _spriteRectDoubleBuffer, uint32_t _maxObjects) {
+        soundManager = _soundManager;
         textureManager = _textureManager;
         spriteRectDoubleBuffer = _spriteRectDoubleBuffer;
         maxObjects = _maxObjects;
@@ -125,6 +126,10 @@ GameScoreSummary EntityManager::GetGameScoreSummary() const {
 
 bool EntityManager::IsGameOver() const {
   return isGameOver;
+}
+
+void EntityManager::PlaySoundById(SoundIdentificator soundId) const {
+  soundManager->PlaySoundById(soundId);
 }
 
 void EntityManager::PlayerEnteredBonusStage() {

@@ -9,6 +9,7 @@
 #include <defines.h>
 #include <entity_data_manager.h>
 #include <entity_manager.h>
+#include <sound_manager.h>
 #include <utils.h>
 #include <main_menu_screen.cpp>
 #include <score_screen.cpp>
@@ -26,6 +27,7 @@ bool isGameFinished = false;
 bool isGameOver = false;
 EntityDataManager *entityTextureManager;
 EntityManager *entityManager;
+SoundManager *soundManager;
 int gameLogicFrequency = MILLISECONDS_PER_TICK;
 bool paused = false;
 std::optional<int> lifeCounter;
@@ -106,12 +108,12 @@ int main()
         highScore = Utils::loadHighscoreFromFile(HIGHSCORE_FILENAME);
 
         currentGameScreen = GameScreenType::MAIN_MENU;
-        titleScreenMusic = LoadMusicStream(MAIN_MENU_MUSIC_FILENAME);
+        titleScreenMusic = LoadMusicStream((std::string(AUDIO_FOLDER) + MAIN_MENU_MUSIC_FILENAME).c_str());
         PlayMusicStream(titleScreenMusic);
         titleScreenMusic.looping = true;
-        mountainGamePlayMusic = LoadMusicStream(GAME_PLAY_MUSIC_FILENAME);
+        mountainGamePlayMusic = LoadMusicStream((std::string(AUDIO_FOLDER) + GAME_PLAY_MUSIC_FILENAME).c_str());
         mountainGamePlayMusic.looping = true;
-        stageClearMusic = LoadMusicStream(STAGE_CLEAR_MUSIC_FILENAME);
+        stageClearMusic = LoadMusicStream((std::string(AUDIO_FOLDER) + STAGE_CLEAR_MUSIC_FILENAME).c_str());
         stageClearMusic.looping = false;
 
         // Camera configuration for simple static screens
@@ -132,7 +134,8 @@ int main()
 
         entityTextureManager = new EntityDataManager();
         SpriteRectDoubleBuffer *spriteRectDoubleBuffer = new SpriteRectDoubleBuffer(MAX_OBJECTS);
-        entityManager = new EntityManager(entityTextureManager, spriteRectDoubleBuffer, MAX_OBJECTS);
+        soundManager = new SoundManager();
+        entityManager = new EntityManager(soundManager, entityTextureManager, spriteRectDoubleBuffer, MAX_OBJECTS);
         std::optional<int> lifeCounterCopy;
 
         // Load texture atlas into GPU memory
@@ -248,6 +251,7 @@ int main()
         // Wait for the gameLogicThread to finish
         pthread_join(gameLogicThread, nullptr);
 
+        delete soundManager;
         delete entityTextureManager;
         delete entityManager;
         delete spriteRectDoubleBuffer;
