@@ -359,7 +359,7 @@ TASKS AND ROADMAP TIMELINE:
 - Parameterize the magic numbers of the EntityManager::BuildMountain method in defines [ OK ]
 - Do not print Raylib debug messages if DEBUG is set to false [ OK ]
 - Remove unneeded Print methods only used for debug in the early stages of the development [ OK ]
-- Create a PSD file of the texture image with the pink in a separate layer and remove pink points in the PNG image <==== [ CURRENT ]
+- Create a PSD file of the texture image with the pink in a separate layer and remove pink points in the PNG image [ OK ]
 - Rename file "objtypes.dat" to a more appropiate name <==== [ CURRENT ]
 - Review the unused includes in the entity class headers due to copy&paste of files <==== [ CURRENT ]
 - If possible, move the ReachedScreenEdge method used in some entity subclasses to the base IEntity class <==== [ CURRENT ]
@@ -370,6 +370,8 @@ TASKS AND ROADMAP TIMELINE:
 - Run the cppcheck static analyzer and fix errors <==== [ CURRENT ]
 - The screen height should have a fixed numerical value, not depend on ZOOM. The ZOOM value should be calculated dynamically based on screen height <===== [ CURRENT ]
 
+- Compile and test the game on a Windows computer <====
+- Compile and test the game on a Linux computer <====
 - Add the project to the website https://osgameclones.com <====
 - Define as 'const' those function parameters that are passed by reference and are read-only <===
 - Do not call Update on non-animated decorative objects <====
