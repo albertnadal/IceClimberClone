@@ -97,6 +97,7 @@ enum GameOverAnimation: uint16_t { GAME_OVER_MOVE_UP = 99 };
 constexpr bool DEBUG = false;                                                    // Debug mode.
 constexpr int FPS = 60;                                                          // Frames per second.
 constexpr int MILLISECONDS_PER_TICK = 16;                                        // Game logic frequency in milliseconds. 16ms ≈ 60 ticks per second.
+constexpr char* WINDOW_TITLE = "Ice Climber clone (alpha version)";              // Title to show in the application window bar.
 constexpr char* ENTITY_TYPES_FILENAME = "objtypes.dat";                          // The data file where entity animations and collision areas are defined.
 constexpr char* HIGHSCORE_FILENAME = "highscore.dat";                            // The data file where the highest score is stored.
 constexpr char* MOUNTAIN_FILENAME = "levels/mountain?.dat";                      // The data file where mountain information is stored.
