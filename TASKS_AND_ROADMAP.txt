@@ -13,8 +13,8 @@ TASKS AND ROADMAP TIMELINE:
 - Fix object positioning on the screen [ OK ]  
 - Display the bounding box of object collisions [ OK ]  
 - Highlight objects that collide with the player [ OK ]  
-- Make the boundingBox of the objects also the solid collision area for now. <==== [ OK ]  
-- Add the solidBoundingBox attribute so that it becomes the collision area <==== [ OK ]  
+- Make the boundingBox of the objects also the solid collision area for now. [ OK ]
+- Add the solidBoundingBox attribute so that it becomes the collision area [ OK ]
 - spacePartitionObjectsTree->query(GetLowerBound(),GetUpperBound()) should return objects of type AABBIntersection.  
   An intersection contains a pointer to an ISceneObject and the penetration values of the intersection [ OK ]  
 - Delete deprecated references to currentSprite.areas / GetSimpleAreas / GetSolidAreas [ OK ]
@@ -68,7 +68,7 @@ TASKS AND ROADMAP TIMELINE:
 
 - Breaking bricks with a parabolic jump [ OK ]
 
-- Implement sliding on icy ground <====
+- Implement sliding on icy ground:
   - Add SLIP_TO_RIGHT and SLIP_TO_LEFT definitions to PlayerAnimation [ OK ]
   - Add sprite and spritesheet configuration for sliding to the right and left [ OK ]
   - Add boolean "isSlipping" state to the "Player" class [ OK ]
@@ -78,7 +78,7 @@ TASKS AND ROADMAP TIMELINE:
   - Implement ending the slide in case of collision [ OK ]
   - Sliding on ice should only occur when maximum momentum is reached [ OK ]
 
-- Implement movement on conveyor belts <====
+- Implement movement on conveyor belts:
   - Add sprite and spritesheet configuration for brown/green/blue conveyor belts to the right and left [ OK ]
   - Move the player X pixels to the relevant side when on a conveyor belt [ OK ]
   - The player passes through walls when moved by a conveyor belt [ OK ]
@@ -100,8 +100,8 @@ TASKS AND ROADMAP TIMELINE:
   - Implement player transportation when on a "Cloud" object [ OK ]
   - Implement respawn interval and respawn of clouds when they leave the level [ OK ]
   - Coordinates type may need to be changed from uint16_t to int. Negative positions should be considered [ OK ]
-  - The player on the cloud should be transported at the same speed as the cloud <==== [ CURRENT ]
-  - Implement/fix edge cases in collisions between the player and clouds <====
+  - The player on the cloud should be transported at the same speed as the cloud <==== [ IMPLEMENT IN A FUTURE VERSION ]
+  - Implement/fix edge cases in collisions between the player and clouds:
     - Player is on the cloud. Player collides with a brick. The player is pushed in the opposite direction. When they are off the cloud surface, the player should start a free fall. [ OK ]
     - Player on a cloud leaves the surface in the direction the cloud is traveling. The player should fall. [ OK ]
 
@@ -167,7 +167,7 @@ TASKS AND ROADMAP TIMELINE:
   - Move the camera to the next level when Popo ascends from level 4 [ OK ]
   - Implement vertical scrolling when accessing the bonus area [ OK ]
   - Implement vertical scrolling when ascending within the bonus area [ OK ]
-  - Popo no longer has the hammer when entering the Bonus Stage <==== [ CURRENT | Consider leaving for later ]
+  - Popo no longer has the hammer when entering the Bonus Stage <==== [ IMPLEMENT IN A FUTURE VERSION ]
 
 - Implement vegetables in the Bonus Stage [ OK ]
 - Implement stars in the Bonus Stage [ OK ]
@@ -175,9 +175,6 @@ TASKS AND ROADMAP TIMELINE:
 - Implement level indicators [ OK ]
 - Add Topis to the mountainMap of the first mountain [ OK ]
 - Remove excess rows from the mountainMap [ OK ]
-
-- Run the cppcheck static analyzer and fix errors <==== [ CURRENT ]
-- The screen height should have a fixed numerical value, not depend on ZOOM. The ZOOM value should be calculated dynamically based on screen height <===== [ CURRENT ]
 - The animation of the green brick when it breaks is incorrect [ OK ]
 
 - Prepare Devlog #3
@@ -216,7 +213,7 @@ TASKS AND ROADMAP TIMELINE:
   - Add the sprites to the tilemap and configure them [ OK ]
   - Implement the Condor's flying movement [ OK ]
   - Implement the collision of Popo with the Condor [ OK ]
-    - The game should end, and the summary screen should be displayed <==== [ Leave for later ]
+    - The game should end, and the summary screen should be displayed [ OK ]
 
 - Implement the life counter:
   - The EntityManager::Update method should return the "UpdateResult" struct containing the following fields [ OK ]
@@ -274,7 +271,7 @@ TASKS AND ROADMAP TIMELINE:
 - Load and start to play next mountain on exit score summary screen [ OK ]
 - Create data file for mountains:
   - 1 [ OK ]
-  - 2 [ WIP ]
+  - 2 [ CURRENT ]
   - 3 [ WIP ]
   - 4 [ WIP ]
   - 5 [ WIP ]
@@ -359,23 +356,27 @@ TASKS AND ROADMAP TIMELINE:
 
 - Implement a Utils static method to load game music in the main function [ OK ]
 - Delete the Popo state DownKeyPressed trigger as is unnecessary [ OK ]
-- Create a PSD file of the texture image with the pink in a separate layer and remove pink points in the PNG image <====
 - Parameterize the magic numbers of the EntityManager::BuildMountain method in defines [ OK ]
 - Do not print Raylib debug messages if DEBUG is set to false [ OK ]
 - Remove unneeded Print methods only used for debug in the early stages of the development [ OK ]
-- Review the unused includes in the entity class headers due to copy&paste of files <====
-- If possible, move the ReachedScreenEdge method used in some entity subclasses to the base IEntity class <====
+- Create a PSD file of the texture image with the pink in a separate layer and remove pink points in the PNG image <==== [ CURRENT ]
+- Rename file "objtypes.dat" to a more appropiate name <==== [ CURRENT ]
+- Review the unused includes in the entity class headers due to copy&paste of files <==== [ CURRENT ]
+- If possible, move the ReachedScreenEdge method used in some entity subclasses to the base IEntity class <==== [ CURRENT ]
+- Fix compiler warnings <==== [ CURRENT ]
+- Mark all read-only class methods as 'const' <==== [ CURRENT ]
+- Try to compile the program to run in a web browser via wasm/emscripten <==== [ CURRENT ]
+- Consider renaming the EntityManager class to GameManager, as it not only manages entities but also controls other game states such as remaining lives, points achieved, etc. <==== [ CURRENT ]
+- Run the cppcheck static analyzer and fix errors <==== [ CURRENT ]
+- The screen height should have a fixed numerical value, not depend on ZOOM. The ZOOM value should be calculated dynamically based on screen height <===== [ CURRENT ]
 
 - Add the project to the website https://osgameclones.com <====
-- Mark all read-only class methods as 'const' <====
 - Define as 'const' those function parameters that are passed by reference and are read-only <===
-- Consider renaming the EntityManager class to GameManager, as it not only manages entities but also controls other game states such as remaining lives, points achieved, etc. <====
-
 - Do not call Update on non-animated decorative objects <====
 - The function ::Update(uint8_t pressedKeys_) should have a default implementation in the base class for cases like side walls, water, and similar objects. Those with their own implementation should override the code. <=====
 - Fix the z-index of the sprites <====
-- Implement Polar Bear <====
-- Implement the Bonus Stage stopwatch object <====
+- Implement Polar Bear <==== [ IMPLEMENT IN A FUTURE VERSION ]
+- Implement the Bonus Stage stopwatch object <==== [ IMPLEMENT IN A FUTURE VERSION ]
 
 - Move the define ENTITY_TYPES_FILENAME from entity_data_manager.h to defines.h [ OK ]
 - The isCloud function can be implemented in the base class to return False, except in the Cloud class where it should override and return True. All override functions present in other subclasses should be removed [ OK ]
@@ -392,4 +393,3 @@ TASKS AND ROADMAP TIMELINE:
 - The "BuildWorld" function should only load into the "mobileObjects" and "staticObjects" maps the objects present in the viewport <====
 - When the game viewport levels up, load into the "mobileObjects" and "staticObjects" maps the objects present in the viewport <====
 - When the game viewport levels up, destroy objects in "mobileObjects" and "staticObjects" that are not present in the viewport <====
-- Try to compile the program to run in a web browser via wasm <====
