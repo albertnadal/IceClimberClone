@@ -118,6 +118,10 @@ SpriteData IEntity::NextSpriteData() {
     return *currentAnimationSpriteIterator++;
 }
 
+inline bool IEntity::ReachedScreenEdge() {
+    return (position.GetRealX() < 0.0f) || (position.GetRealX() >= MOUNTAIN_WIDTH_FLOAT - (Width() >> 1));
+}
+
 bool IEntity::ShouldBeginAnimationLoopAgain()
 {
     return false;

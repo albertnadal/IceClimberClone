@@ -31,7 +31,7 @@ class Ice: public IEntity
 
   // Ice action update functions
   void UpdateCollisions();
-  bool ReachedScreenEdge();
+  bool ReachedScreenEdge() override;
 
 public:
   Ice();

@@ -362,7 +362,7 @@ TASKS AND ROADMAP TIMELINE:
 - Create a PSD file of the texture image with the pink in a separate layer and remove pink points in the PNG image [ OK ]
 - Rename file "objtypes.dat" to a more appropiate name (entities.dat) [ OK ]
 - Review the unused includes in the entity class headers due to copy&paste of files <==== [ CURRENT ]
-- If possible, move the ReachedScreenEdge method used in some entity subclasses to the base IEntity class <==== [ CURRENT ]
+- If possible, move the ReachedScreenEdge method used in some entity subclasses to the base IEntity class [ OK ]
 - Fix compiler warnings <==== [ CURRENT ]
 - Mark all read-only class methods as 'const' <==== [ CURRENT ]
 - Try to compile the program to run in a web browser via wasm/emscripten <==== [ CURRENT ]

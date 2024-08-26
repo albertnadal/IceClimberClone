@@ -12,10 +12,6 @@ void Topi::PrintName() {
     std::cout << "Topi." << std::endl;
 }
 
-inline bool Topi::ReachedScreenEdge() {
-    return (position.GetRealX() < 0.0f) || (position.GetRealX() >= MOUNTAIN_WIDTH_FLOAT - (Width() >> 1));
-}
-
 void Topi::SetRandomWalkStartPosition() {
     direction = (rand() % 2 == 0) ? Direction::RIGHT : Direction::LEFT; // Random initial direction.
     if (direction == Direction::RIGHT) {

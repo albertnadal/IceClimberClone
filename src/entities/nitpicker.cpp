@@ -10,10 +10,6 @@ void Nitpicker::PrintName() {
     std::cout << "Nitpicker." << std::endl;
 }
 
-inline bool Nitpicker::ReachedScreenEdge() {
-    return (position.GetRealX() < 0.0f) || (position.GetRealX() >= MOUNTAIN_WIDTH_FLOAT - (Width() >> 1));
-}
-
 void Nitpicker::UpdateFlight() {
     float horizontalSpeed = speedVector.first;
 

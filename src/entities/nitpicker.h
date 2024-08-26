@@ -20,7 +20,6 @@ using namespace std;
 class Nitpicker: public IEntity
 {
   Direction direction;
-  bool ReachedScreenEdge();
   std::pair<float, float> speedVector{0.0f, 0.0f};
   std::vector<std::pair<float, float>> flyingRoute;
   std::vector<std::pair<float, float>>::iterator flyingRouteIt;

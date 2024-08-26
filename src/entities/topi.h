@@ -21,7 +21,6 @@ class Topi: public IEntity
   Direction direction;
   void LoadNextSprite() ;
   void GetSolidCollisions(std::vector<ObjectCollision>&, bool&, bool&);
-  bool ReachedScreenEdge();
   void SetRandomWalkStartPosition();
 
   std::optional<EntityIdentificator> objectToCarryId;

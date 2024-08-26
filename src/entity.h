@@ -35,6 +35,7 @@ protected:
   void LoadAnimationWithId(uint16_t);
   void LoadNextSprite();
   SpriteData NextSpriteData();
+  virtual bool ReachedScreenEdge();
 public:
   IEntity();
   IEntity(EntityIdentificator, EntityType, SurfaceType, unsigned char, bool, bool);
