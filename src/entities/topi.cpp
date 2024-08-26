@@ -92,6 +92,7 @@ bool Topi::Update(const uint8_t pressedKeys_) {
 
 void Topi::Hit(bool hitFromLeft) {
     if (isWalking || isGoingToPickUpIce) {
+        entityManager->PlaySoundById(SoundIdentificator::HIT_ENEMY_SOUND);
         HitReceived();
     }
 }

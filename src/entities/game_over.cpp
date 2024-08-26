@@ -41,6 +41,7 @@ bool GameOver::Update(const uint8_t pressedKeys_) {
 void GameOver::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
     spriteSheet = _spriteSheet;
     LoadAnimationWithId(GameOverAnimation::GAME_OVER_MOVE_UP);
+    entityManager->PlaySoundById(SoundIdentificator::GAME_OVER_SOUND);
 }
 
 IEntity *GameOver::Create() {

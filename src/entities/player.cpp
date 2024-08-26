@@ -741,7 +741,7 @@ void Player::Jump(float vSpeed, float hSpeed) {
     isJumpApex = false;
     isFalling = false;
     isSlipping = false;
-    entityManager->PlaySoundById(SoundIdentificator::JUMP_SOUND);
+    entityManager->PlaySoundById(isDead ? SoundIdentificator::LOSE_LIFE_SOUND : SoundIdentificator::JUMP_SOUND);
 }
 
 void Player::Fall(float hSpeed) {

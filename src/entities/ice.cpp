@@ -49,6 +49,7 @@ bool Ice::Update(const uint8_t pressedKeys_) {
 }
 
 void Ice::Hit(bool hitFromLeft) {
+    entityManager->PlaySoundById(SoundIdentificator::HIT_ENEMY_SOUND);
     RemoveFromSpacePartitionObjectsTree();
     isBeingPushed = false;
     isBeingDestroyed = true;

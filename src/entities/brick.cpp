@@ -20,6 +20,7 @@ void Brick::Propel(float vSpeed, float hSpeed) {
     hInitialPropelPosition = position.GetRealX();
     tPropel = 0.0f;
     isPropelled = true;
+    entityManager->PlaySoundById(SoundIdentificator::BREAK_BRICK_SOUND);
 }
 
 bool Brick::Update(uint8_t pressedKeys_) {

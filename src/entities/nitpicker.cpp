@@ -99,6 +99,7 @@ bool Nitpicker::Update(const uint8_t pressedKeys_) {
 
 void Nitpicker::Hit(bool hitFromLeft) {
     if (isFlying) {
+        entityManager->PlaySoundById(SoundIdentificator::HIT_NITPICKER_SOUND);
         RemoveFromSpacePartitionObjectsTree();
         StartFall();
     }
