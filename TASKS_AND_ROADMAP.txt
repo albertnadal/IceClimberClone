@@ -346,7 +346,7 @@ TASKS AND ROADMAP TIMELINE:
   - Play music when stage clear [ OK ]
 
 - Play sounds:
-  - Prepare sound audio tracks <=== [ CURRENT ]
+  - Prepare sound audio tracks [ OK ]
   - Prepare a SoundManager class to play sounds <==== [ CURRENT ]
   - Play game over message tone <==== [ CURRENT ]
   - Play losing life tone <==== [ CURRENT ]
