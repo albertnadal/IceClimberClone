@@ -7,7 +7,7 @@ using namespace collision;
 
 EntityDataManager::EntityDataManager()
 {
-        LoadObjectsDataFromFile(ENTITY_TYPES_FILENAME);
+        LoadObjectsDataFromFile(ENTITIES_DATA_FILENAME);
 }
 
 EntityDataManager::~EntityDataManager() {
