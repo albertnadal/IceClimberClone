@@ -347,7 +347,7 @@ TASKS AND ROADMAP TIMELINE:
 
 - Play sounds:
   - Prepare sound audio tracks [ OK ]
-  - Prepare a SoundManager class to play sounds <==== [ CURRENT ]
+  - Implement SoundManager class to play sounds <==== [ CURRENT ]
   - Play game over message tone <==== [ CURRENT ]
   - Play losing life tone <==== [ CURRENT ]
   - Play jump sound <==== [ CURRENT ]
