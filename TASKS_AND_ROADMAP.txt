@@ -355,6 +355,7 @@ TASKS AND ROADMAP TIMELINE:
   - Play hit enemy (ice, topi) sound [ OK ]
   - Play hit nitpicker [ OK ]
   - Play pick vegetable [ OK ]
+  - Play mountain selection sound [ OK ]
 
 - Implement a Utils static method to load game music in the main function <==== [ CURRENT ]
 - Delete the Popo state DownKeyPressed trigger as is unnecessary [ OK ]

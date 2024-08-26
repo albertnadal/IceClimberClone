@@ -225,8 +225,10 @@ int main()
 
                         if (IsKeyPressed(KEY_UP)) {
                                 mountainNumber = (mountainNumber % TOTAL_MOUNTAINS) + 1;
+                                entityManager->PlaySoundById(SoundIdentificator::SELECT_SOUND);
                         } else if (IsKeyPressed(KEY_DOWN)) {
                                 mountainNumber = (mountainNumber - 2 + TOTAL_MOUNTAINS) % TOTAL_MOUNTAINS + 1;
+                                entityManager->PlaySoundById(SoundIdentificator::SELECT_SOUND);
                         } else if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_ENTER)) {
                                 StopMusicStream(titleScreenMusic);
                                 StopMusicStream(mountainGamePlayMusic);
