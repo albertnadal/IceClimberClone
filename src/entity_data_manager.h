@@ -18,7 +18,6 @@ class EntityDataManager
   std::string textureFilename;
   uint32_t textureId;
   void LoadObjectsDataFromFile(std::string filename);
-  void Print();
 public:
   EntityDataManager();
   ~EntityDataManager();

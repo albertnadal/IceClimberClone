@@ -16,6 +16,5 @@ public:
   ~EntitySpriteSheetAnimation();
   void AddSprite(SpriteData);
   const std::vector<SpriteData>& GetSprites() const;
-  void Print();
 };
 #endif

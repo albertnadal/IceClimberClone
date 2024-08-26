@@ -362,6 +362,7 @@ TASKS AND ROADMAP TIMELINE:
 - Create a PSD file of the texture image with the pink in a separate layer and remove pink points in the PNG image <====
 - Parameterize the magic numbers of the EntityManager::BuildMountain method in defines [ OK ]
 - Do not print Raylib debug messages if DEBUG is set to false [ OK ]
+- Remove unneeded Print methods only used for debug in the early stages of the development [ OK ]
 - Review the unused includes in the entity class headers due to copy&paste of files <====
 - If possible, move the ReachedScreenEdge method used in some entity subclasses to the base IEntity class <====
 

@@ -18,20 +18,6 @@ EntitySpriteSheet::~EntitySpriteSheet() {
 	}
 }
 
-void EntitySpriteSheet::Print()
-{
-  printf("Entity type Id: %d\n", Id);
-  printf("Total object actions: %lu\n", animations.size());
-
-  std::map<uint16_t, EntitySpriteSheetAnimation*>::iterator it = animations.begin();
-
-	while (it != animations.end())
-	{
-		it->second->Print();
-		it++;
-	}
-}
-
 void EntitySpriteSheet::AddAnimation(EntitySpriteSheetAnimation *animation) {
   animations.insert(std::pair<uint16_t,EntitySpriteSheetAnimation*>(animation->Id, animation));
 }

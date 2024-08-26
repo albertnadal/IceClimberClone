@@ -16,7 +16,6 @@ public:
         ~EntitySpriteSheet();
         void AddAnimation(EntitySpriteSheetAnimation*);
         std::optional<EntitySpriteSheetAnimation*> GetAnimationWithId(uint16_t);
-        void Print();
 };
 
 #endif

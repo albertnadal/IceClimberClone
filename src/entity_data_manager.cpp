@@ -7,9 +7,7 @@ using namespace collision;
 
 EntityDataManager::EntityDataManager()
 {
-        cout << "EntityDataManager created!" << endl;
         LoadObjectsDataFromFile(ENTITY_TYPES_FILENAME);
-        Print();
 }
 
 EntityDataManager::~EntityDataManager() {
@@ -19,16 +17,6 @@ EntityDataManager::~EntityDataManager() {
         }
 
         entitySpriteSheetsMap.clear();
-}
-
-void EntityDataManager::Print()
-{
-        printf("Texture filename: %s\n", textureFilename.c_str());
-        printf("Total object sprite sheets: %lu\n", entitySpriteSheetsMap.size());
-        for (auto& kv : entitySpriteSheetsMap) {
-                EntitySpriteSheet* entitySpriteSheet = kv.second;
-                entitySpriteSheet->Print();
-        }
 }
 
 void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
