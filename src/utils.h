@@ -96,6 +96,15 @@ public:
             std::cerr << "Error: Cannot open or create the file " << filename << std::endl;
         }
     }
+
+    static void loadGameMusic(Music &titleScreenMusic, Music &mountainGamePlayMusic, Music &stageClearMusic) {
+        titleScreenMusic = LoadMusicStream((std::string(AUDIO_FOLDER) + MAIN_MENU_MUSIC_FILENAME).c_str());
+        titleScreenMusic.looping = true;
+        mountainGamePlayMusic = LoadMusicStream((std::string(AUDIO_FOLDER) + GAME_PLAY_MUSIC_FILENAME).c_str());
+        mountainGamePlayMusic.looping = true;
+        stageClearMusic = LoadMusicStream((std::string(AUDIO_FOLDER) + STAGE_CLEAR_MUSIC_FILENAME).c_str());
+        stageClearMusic.looping = false;
+    }
 };
 
 #endif // UTILS_H

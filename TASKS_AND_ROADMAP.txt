@@ -357,7 +357,7 @@ TASKS AND ROADMAP TIMELINE:
   - Play pick vegetable [ OK ]
   - Play mountain selection sound [ OK ]
 
-- Implement a Utils static method to load game music in the main function <==== [ CURRENT ]
+- Implement a Utils static method to load game music in the main function [ OK ]
 - Delete the Popo state DownKeyPressed trigger as is unnecessary [ OK ]
 - Create a PSD file of the texture image with the pink in a separate layer and remove pink points in the PNG image <====
 - Parameterize the magic numbers of the EntityManager::BuildMountain method in defines [ OK ]
@@ -385,7 +385,7 @@ TASKS AND ROADMAP TIMELINE:
 - Remove overridden destructors in bricks and side_walls (both in .h and .cpp). They are not needed. [ OK ]
 - Move the player state transition methods to a separate file (player_state_transitions.cpp) [ OK ]
 - Remove the deprecated state "isLeaningOnTheGround" [ OK ]
-- Remove the files utils.h, vec2.cpp, vec2.h, fvec2.cpp, and fvec2.h if not used [ OK ]
+- Remove the files vec2.cpp, vec2.h, fvec2.cpp, and fvec2.h if not used [ OK ]
 - Destroy objects that have been marked for deletion [ OK ]
 - The "BuildWorld" function should only load into the "mobileObjects" and "staticObjects" maps the objects present in the viewport <====
 - When the game viewport levels up, load into the "mobileObjects" and "staticObjects" maps the objects present in the viewport <====

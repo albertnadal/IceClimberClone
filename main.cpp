@@ -106,15 +106,9 @@ int main()
         InitWindow(SCR_WIDTH, SCR_HEIGHT, "Ice Climber");
         InitAudioDevice();
         highScore = Utils::loadHighscoreFromFile(HIGHSCORE_FILENAME);
-
-        currentGameScreen = GameScreenType::MAIN_MENU;
-        titleScreenMusic = LoadMusicStream((std::string(AUDIO_FOLDER) + MAIN_MENU_MUSIC_FILENAME).c_str());
+        Utils::loadGameMusic(titleScreenMusic, mountainGamePlayMusic, stageClearMusic);
         PlayMusicStream(titleScreenMusic);
-        titleScreenMusic.looping = true;
-        mountainGamePlayMusic = LoadMusicStream((std::string(AUDIO_FOLDER) + GAME_PLAY_MUSIC_FILENAME).c_str());
-        mountainGamePlayMusic.looping = true;
-        stageClearMusic = LoadMusicStream((std::string(AUDIO_FOLDER) + STAGE_CLEAR_MUSIC_FILENAME).c_str());
-        stageClearMusic.looping = false;
+        currentGameScreen = GameScreenType::MAIN_MENU;
 
         // Camera configuration for simple static screens
         Camera2D staticCamera = { 0 };
