@@ -247,13 +247,15 @@ int main()
         // Wait for the gameLogicThread to finish
         pthread_join(gameLogicThread, nullptr);
 
-        delete soundManager;
+        delete soundManager; // This also unloads sounds
         delete entityTextureManager;
         delete entityManager;
         delete spriteRectDoubleBuffer;
 
         UnloadTexture(textureAtlas);
         UnloadMusicStream(titleScreenMusic);
+        UnloadMusicStream(mountainGamePlayMusic);
+        UnloadMusicStream(stageClearMusic);
         CloseAudioDevice();
         CloseWindow();
 
