@@ -31,7 +31,7 @@ public:
   Brick(EntityIdentificator, EntityType, SurfaceType, unsigned char, bool, bool);
   Brick();
   virtual void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  virtual void PrintName() override;
+  virtual void PrintName() const override;
   bool Update(uint8_t) override;
   void Hit(bool) override;
   static IEntity* Create();
@@ -66,7 +66,7 @@ class BrickBlue : public Brick
 public:
   BrickBlue();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -81,7 +81,7 @@ class BrickBlueHalf : public Brick
 public:
   BrickBlueHalf();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -96,7 +96,7 @@ class BrickBrown : public Brick
 public:
   BrickBrown();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -111,7 +111,7 @@ class BrickBrownHalf : public Brick
 public:
   BrickBrownHalf();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -126,7 +126,7 @@ class BrickGreenHalf : public Brick
 public:
   BrickGreenHalf();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -141,7 +141,7 @@ class BrickBlueConveyorBeltRight : public Brick
 public:
   BrickBlueConveyorBeltRight();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -156,7 +156,7 @@ class BrickBlueConveyorBeltLeft : public Brick
 public:
   BrickBlueConveyorBeltLeft();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -171,7 +171,7 @@ class BrickBrownConveyorBeltRight : public Brick
 public:
   BrickBrownConveyorBeltRight();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -186,7 +186,7 @@ class BrickBrownConveyorBeltLeft : public Brick
 public:
   BrickBrownConveyorBeltLeft();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -201,7 +201,7 @@ class BrickGreenConveyorBeltRight : public Brick
 public:
   BrickGreenConveyorBeltRight();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -216,7 +216,7 @@ class BrickGreenConveyorBeltLeft : public Brick
 public:
   BrickGreenConveyorBeltLeft();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -231,7 +231,7 @@ class BrickGreenUnbreakable : public Brick
 public:
   BrickGreenUnbreakable();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -245,7 +245,7 @@ class BrickBrownUnbreakable : public Brick
 public:
   BrickBrownUnbreakable();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -259,7 +259,7 @@ class BrickBlueUnbreakable : public Brick
 public:
   BrickBlueUnbreakable();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -273,7 +273,7 @@ class BrickBlueConveyorBeltRightUnbreakable : public Brick
 public:
   BrickBlueConveyorBeltRightUnbreakable();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -287,7 +287,7 @@ class BrickBlueConveyorBeltLeftUnbreakable : public Brick
 public:
   BrickBlueConveyorBeltLeftUnbreakable();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -301,7 +301,7 @@ class BrickBrownConveyorBeltRightUnbreakable : public Brick
 public:
   BrickBrownConveyorBeltRightUnbreakable();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -315,7 +315,7 @@ class BrickBrownConveyorBeltLeftUnbreakable : public Brick
 public:
   BrickBrownConveyorBeltLeftUnbreakable();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -329,7 +329,7 @@ class BrickGreenConveyorBeltRightUnbreakable : public Brick
 public:
   BrickGreenConveyorBeltRightUnbreakable();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:
@@ -343,7 +343,7 @@ class BrickGreenConveyorBeltLeftUnbreakable : public Brick
 public:
   BrickGreenConveyorBeltLeftUnbreakable();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 
 private:

@@ -8,7 +8,7 @@ Topi::Topi() :
     objectToCarryId = std::nullopt;
 }
 
-void Topi::PrintName() {
+void Topi::PrintName() const {
     std::cout << "Topi." << std::endl;
 }
 

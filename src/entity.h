@@ -35,7 +35,7 @@ protected:
   void LoadAnimationWithId(uint16_t);
   void LoadNextSprite();
   SpriteData NextSpriteData();
-  virtual bool ReachedScreenEdge();
+  virtual bool ReachedScreenEdge() const;
 public:
   IEntity();
   IEntity(EntityIdentificator, EntityType, SurfaceType, unsigned char, bool, bool);
@@ -60,22 +60,21 @@ public:
   void PositionSetY(float);
   void PositionAddX(float);
   void PositionAddY(float);
-  virtual std::vector<int> GetLowerBound();
-  virtual std::vector<int> GetUpperBound();
-  virtual std::vector<int> GetSolidLowerBound();
-  virtual std::vector<int> GetSolidUpperBound();
-  virtual std::optional<std::vector<int>> GetAttackLowerBound();  // REVISIT: This method must be moved to Player class, as the Player is the only object with attack areas
-  virtual std::optional<std::vector<int>> GetAttackUpperBound();  // REVISIT: This method must be moved to Player class, as the Player is the only object with attack areas
-  virtual Boundaries GetAbsoluteBoundaries();
-  virtual Boundaries GetAbsoluteSolidBoundaries();
-  virtual std::optional<Boundaries> GetAbsoluteAttackBoundaries();  // REVISIT: This method must be moved to Player class, as the Player is the only object with attack areas
-  virtual EntityIdentificator Id();
-  virtual EntityType Type();
+  virtual std::vector<int> GetLowerBound() const;
+  virtual std::vector<int> GetUpperBound() const;
+  virtual std::vector<int> GetSolidLowerBound() const;
+  virtual std::vector<int> GetSolidUpperBound() const;
+  virtual std::optional<std::vector<int>> GetAttackLowerBound() const;  // REVISIT: This method must be moved to Player class, as the Player is the only object with attack areas
+  virtual std::optional<std::vector<int>> GetAttackUpperBound() const;  // REVISIT: This method must be moved to Player class, as the Player is the only object with attack areas
+  virtual Boundaries GetAbsoluteBoundaries() const;
+  virtual Boundaries GetAbsoluteSolidBoundaries() const;
+  virtual std::optional<Boundaries> GetAbsoluteAttackBoundaries() const;  // REVISIT: This method must be moved to Player class, as the Player is the only object with attack areas
+  virtual EntityIdentificator Id() const;
+  virtual EntityType Type() const;
   virtual void InitWithSpriteSheet(EntitySpriteSheet*);
-  virtual int Width();
-  virtual int Height();
-  virtual void PrintName();
-  virtual void PrintBoundaries();
+  virtual int Width() const;
+  virtual int Height() const;
+  virtual void PrintName() const;
   virtual bool Update();
   virtual bool Update(const uint8_t);
   virtual bool Update(const uint8_t, aabb::Tree<IEntity*>&);

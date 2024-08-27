@@ -9,7 +9,7 @@
 #include <entity_manager.h>
 #include <utils.h>
 
-void renderScoreScreen(Texture2D &textureAtlas, Camera2D &staticCamera, GameScoreSummary &scoreSummary, int mountainNumber, int accumulatedScore) {
+static inline void renderScoreScreen(Texture2D &textureAtlas, Camera2D &staticCamera, GameScoreSummary &scoreSummary, int mountainNumber, int accumulatedScore) {
     BeginDrawing();
             ClearBackground(BLACK);
             BeginMode2D(staticCamera);

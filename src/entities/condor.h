@@ -20,7 +20,7 @@ using namespace std;
 class Condor: public IEntity
 {
   std::optional<Direction> direction = std::nullopt;
-  bool ReachedScreenEdge() override;
+  bool ReachedScreenEdge() const override;
   void StartFlight();
 
   // Condor action states
@@ -34,7 +34,7 @@ public:
   Condor();
   ~Condor() override;
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   bool Update(uint8_t) override;
   void Hit(bool) override;
   static IEntity* Create();

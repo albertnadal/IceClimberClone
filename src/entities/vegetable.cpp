@@ -9,7 +9,7 @@ Vegetable::Vegetable(EntityIdentificator _id, EntityType _type, SurfaceType surf
         IEntity(_id, _type, surface_type, max_states, is_breakable, is_traversable) {
 }
 
-void Vegetable::PrintName() {
+void Vegetable::PrintName() const {
         std::cout << "Vegetable." << std::endl;
 }
 
@@ -57,7 +57,7 @@ Eggplant::Eggplant() :
         Vegetable(EntityIdentificator::EGGPLANT, EntityType::VEGETABLE, SurfaceType::SIMPLE, VegetableStateIdentificator::VEGETABLE_MAX_STATES, false, true) {
 }
 
-void Eggplant::PrintName() {
+void Eggplant::PrintName() const {
         std::cout << "Eggplant." << std::endl;
 }
 
@@ -76,7 +76,7 @@ Carrot::Carrot() :
         Vegetable(EntityIdentificator::CARROT, EntityType::VEGETABLE, SurfaceType::SIMPLE, VegetableStateIdentificator::VEGETABLE_MAX_STATES, false, true) {
 }
 
-void Carrot::PrintName() {
+void Carrot::PrintName() const {
         std::cout << "Carrot." << std::endl;
 }
 
@@ -95,7 +95,7 @@ Cabbage::Cabbage() :
         Vegetable(EntityIdentificator::CABBAGE, EntityType::VEGETABLE, SurfaceType::SIMPLE, VegetableStateIdentificator::VEGETABLE_MAX_STATES, false, true) {
 }
 
-void Cabbage::PrintName() {
+void Cabbage::PrintName() const {
         std::cout << "Cabbage." << std::endl;
 }
 
@@ -114,7 +114,7 @@ Zucchini::Zucchini() :
         Vegetable(EntityIdentificator::ZUCCHINI, EntityType::VEGETABLE, SurfaceType::SIMPLE, VegetableStateIdentificator::VEGETABLE_MAX_STATES, false, true) {
 }
 
-void Zucchini::PrintName() {
+void Zucchini::PrintName() const {
         std::cout << "Zucchini." << std::endl;
 }
 
@@ -133,7 +133,7 @@ Corn::Corn() :
         Vegetable(EntityIdentificator::CORN, EntityType::VEGETABLE, SurfaceType::SIMPLE, VegetableStateIdentificator::VEGETABLE_MAX_STATES, false, true) {
 }
 
-void Corn::PrintName() {
+void Corn::PrintName() const {
         std::cout << "Corn." << std::endl;
 }
 
@@ -152,7 +152,7 @@ Turnip::Turnip() :
         Vegetable(EntityIdentificator::TURNIP, EntityType::VEGETABLE, SurfaceType::SIMPLE, VegetableStateIdentificator::VEGETABLE_MAX_STATES, false, true) {
 }
 
-void Turnip::PrintName() {
+void Turnip::PrintName() const {
         std::cout << "Turnip." << std::endl;
 }
 
@@ -171,7 +171,7 @@ Pumpkin::Pumpkin() :
         Vegetable(EntityIdentificator::PUMPKIN, EntityType::VEGETABLE, SurfaceType::SIMPLE, VegetableStateIdentificator::VEGETABLE_MAX_STATES, false, true) {
 }
 
-void Pumpkin::PrintName() {
+void Pumpkin::PrintName() const {
         std::cout << "Pumpkin." << std::endl;
 }
 
@@ -190,7 +190,7 @@ RomaineLettuce::RomaineLettuce() :
         Vegetable(EntityIdentificator::ROMAINE_LETTUCE, EntityType::VEGETABLE, SurfaceType::SIMPLE, VegetableStateIdentificator::VEGETABLE_MAX_STATES, false, true) {
 }
 
-void RomaineLettuce::PrintName() {
+void RomaineLettuce::PrintName() const {
         std::cout << "RomaineLettuce." << std::endl;
 }
 
@@ -209,7 +209,7 @@ Potato::Potato() :
         Vegetable(EntityIdentificator::POTATO, EntityType::VEGETABLE, SurfaceType::SIMPLE, VegetableStateIdentificator::VEGETABLE_MAX_STATES, false, true) {
 }
 
-void Potato::PrintName() {
+void Potato::PrintName() const {
         std::cout << "Potato." << std::endl;
 }
 
@@ -228,7 +228,7 @@ Mushroom::Mushroom() :
         Vegetable(EntityIdentificator::MUSHROOM, EntityType::VEGETABLE, SurfaceType::SIMPLE, VegetableStateIdentificator::VEGETABLE_MAX_STATES, false, true) {
 }
 
-void Mushroom::PrintName() {
+void Mushroom::PrintName() const {
         std::cout << "Mushroom." << std::endl;
 }
 

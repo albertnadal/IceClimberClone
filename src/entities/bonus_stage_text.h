@@ -17,7 +17,7 @@ public:
   BonusStageText();
   ~BonusStageText();
   virtual void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  virtual void PrintName() override;
+  virtual void PrintName() const override;
   bool Update(uint8_t) override;
   static IEntity* Create();
 

@@ -118,7 +118,7 @@ SpriteData IEntity::NextSpriteData() {
     return *currentAnimationSpriteIterator++;
 }
 
-inline bool IEntity::ReachedScreenEdge() {
+inline bool IEntity::ReachedScreenEdge() const {
     return (position.GetRealX() < 0.0f) || (position.GetRealX() >= MOUNTAIN_WIDTH_FLOAT - (Width() >> 1));
 }
 
@@ -127,23 +127,23 @@ bool IEntity::ShouldBeginAnimationLoopAgain()
     return false;
 }
 
-std::vector<int> IEntity::GetLowerBound() {
+std::vector<int> IEntity::GetLowerBound() const {
   return {position.GetIntX() + boundingBox.lowerBoundX, position.GetIntY() + boundingBox.lowerBoundY};
 }
 
-std::vector<int> IEntity::GetUpperBound() {
+std::vector<int> IEntity::GetUpperBound() const {
   return {position.GetIntX() + boundingBox.upperBoundX, position.GetIntY() + boundingBox.upperBoundY};
 }
 
-std::vector<int> IEntity::GetSolidLowerBound() {
+std::vector<int> IEntity::GetSolidLowerBound() const {
   return {position.GetIntX() + solidBoundingBox.lowerBoundX, position.GetIntY() + solidBoundingBox.lowerBoundY};
 }
 
-std::vector<int> IEntity::GetSolidUpperBound() {
+std::vector<int> IEntity::GetSolidUpperBound() const {
   return {position.GetIntX() + solidBoundingBox.upperBoundX, position.GetIntY() + solidBoundingBox.upperBoundY};
 }
 
-std::optional<std::vector<int>> IEntity::GetAttackLowerBound() {
+std::optional<std::vector<int>> IEntity::GetAttackLowerBound() const {
   if (!attackBoundingBox.has_value()) {
     return std::nullopt;
   }
@@ -151,7 +151,7 @@ std::optional<std::vector<int>> IEntity::GetAttackLowerBound() {
   return std::vector<int>{position.GetIntX() + attackBoundingBox.value().lowerBoundX, position.GetIntY() + attackBoundingBox.value().lowerBoundY};
 }
 
-std::optional<std::vector<int>> IEntity::GetAttackUpperBound() {
+std::optional<std::vector<int>> IEntity::GetAttackUpperBound() const {
   if (!attackBoundingBox.has_value()) {
     return std::nullopt;
   }
@@ -159,21 +159,21 @@ std::optional<std::vector<int>> IEntity::GetAttackUpperBound() {
   return std::vector<int>{position.GetIntX() + attackBoundingBox.value().upperBoundX, position.GetIntY() + attackBoundingBox.value().upperBoundY};
 }
 
-Boundaries IEntity::GetAbsoluteBoundaries() {
+Boundaries IEntity::GetAbsoluteBoundaries() const {
   return {position.GetIntX() + boundingBox.upperBoundX,
           position.GetIntY() + boundingBox.upperBoundY,
           position.GetIntX() + boundingBox.lowerBoundX,
           position.GetIntY() + boundingBox.lowerBoundY};
 }
 
-Boundaries IEntity::GetAbsoluteSolidBoundaries() {
+Boundaries IEntity::GetAbsoluteSolidBoundaries() const {
   return {position.GetIntX() + boundingBox.upperBoundX,
           position.GetIntY() + boundingBox.upperBoundY,
           position.GetIntX() + boundingBox.lowerBoundX,
           position.GetIntY() + boundingBox.lowerBoundY};
 }
 
-std::optional<Boundaries> IEntity::GetAbsoluteAttackBoundaries() {
+std::optional<Boundaries> IEntity::GetAbsoluteAttackBoundaries() const {
   if (!attackBoundingBox.has_value()) {
     return std::nullopt;
   }
@@ -184,23 +184,23 @@ std::optional<Boundaries> IEntity::GetAbsoluteAttackBoundaries() {
           position.GetIntY() + attackBoundingBox.value().lowerBoundY};
 }
 
-EntityIdentificator IEntity::Id() {
+EntityIdentificator IEntity::Id() const {
   return id;
 }
 
-EntityType IEntity::Type() {
+EntityType IEntity::Type() const {
   return type;
 }
 
-inline int IEntity::Width() {
+inline int IEntity::Width() const {
   return currentSprite.width;
 }
 
-inline int IEntity::Height() {
+inline int IEntity::Height() const {
   return currentSprite.height;
 }
 
-void IEntity::PrintName() {
+void IEntity::PrintName() const {
   std::cout << "PrintName not overloaded for object." << std::endl;
 }
 
@@ -208,12 +208,6 @@ void IEntity::UpdatePositionInSpacePartitionTree() {
     std::vector<int> lowerBound = GetLowerBound();
     std::vector<int> upperBound = GetUpperBound();
     spacePartitionObjectsTree->updateParticle(this, lowerBound, upperBound);
-}
-
-void IEntity::PrintBoundaries() {
-  std::vector<int> lowerBound = GetLowerBound();
-  std::vector<int> upperBound = GetUpperBound();
-  std:cout << "Lowerbound X: " << lowerBound[0] << " Y: " << lowerBound[1] << " | Upperbound X: " << upperBound[0] << " Y: " << upperBound[1] << endl;
 }
 
 bool IEntity::Update() {

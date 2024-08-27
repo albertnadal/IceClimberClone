@@ -17,7 +17,7 @@ public:
   BonusStageTile();
   ~BonusStageTile();
   virtual void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  virtual void PrintName() override;
+  virtual void PrintName() const override;
   bool Update(uint8_t) override;
   static IEntity* Create();
 
@@ -40,7 +40,7 @@ class BonusStageTileA : public BonusStageTile
 public:
   BonusStageTileA();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -51,7 +51,7 @@ class BonusStageTileB : public BonusStageTile
 public:
   BonusStageTileB();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -62,7 +62,7 @@ class BonusStageTileC : public BonusStageTile
 public:
   BonusStageTileC();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 

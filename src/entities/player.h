@@ -28,13 +28,12 @@ class Player: public IEntity
   void ProcessPressedKeys(bool = true);
   void ProcessReleasedKeys();
   void LoadNextSprite();
-  bool PlayerIsQuiet();
   void UpdatePreviousDirection();
   void IncreaseAchievementCounterByEntity(IEntity*);
   void CheckHitCollisionsWithEnemies();
   void GetSolidCollisions(std::vector<ObjectCollision>&, bool&);
-  void DisplacePlayerIfUnderlyingSurfaceIsMobile();
-  void CorrectPlayerPositionOnReachScreenEdge();
+  void AdjustPlayerPositionIfUnderlyingSurfaceIsMobile();
+  void AdjustPlayerPositionOnScreenEdge();
 
   // Respawn position
   float respawnX = -1.0f;
@@ -103,7 +102,7 @@ public:
   Player();
   ~Player() override;
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   bool Update(uint8_t) override;
   void NotifyNewAltitudeHasBeenReached();
   bool ShouldBeginAnimationLoopAgain() override;

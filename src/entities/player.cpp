@@ -10,11 +10,11 @@ Player::Player() :
     underlyingObjectSurfaceType = SurfaceType::SIMPLE;
 }
 
-void Player::PrintName() {
+void Player::PrintName() const {
     std::cout << "Popo." << std::endl;
 }
 
-void Player::DisplacePlayerIfUnderlyingSurfaceIsMobile() {
+void Player::AdjustPlayerPositionIfUnderlyingSurfaceIsMobile() {
     if (!underlyingObjectSurfaceType.has_value()) {
         return;
     }
@@ -33,7 +33,7 @@ void Player::DisplacePlayerIfUnderlyingSurfaceIsMobile() {
     PositionAddX(displacement);
 }
 
-inline void Player::CorrectPlayerPositionOnReachScreenEdge() {
+inline void Player::AdjustPlayerPositionOnScreenEdge() {
     if (position.GetRealX() < 0.0f) {
         PositionSetX(MOUNTAIN_WIDTH_FLOAT - 9.0f);
     }
@@ -91,7 +91,7 @@ bool Player::Update(const uint8_t pressedKeys_) {
         needRedraw = true;
     } else {
         // Displace the player if the underlying surface is mobile
-        DisplacePlayerIfUnderlyingSurfaceIsMobile();
+        AdjustPlayerPositionIfUnderlyingSurfaceIsMobile();
 
         if (pressedKeys != KeyboardKeyCode::IC_KEY_NONE) {
             ProcessPressedKeys();
@@ -101,7 +101,7 @@ bool Player::Update(const uint8_t pressedKeys_) {
     }
 
     // Correct the player's position if they go beyond the screen edges
-    CorrectPlayerPositionOnReachScreenEdge();
+    AdjustPlayerPositionOnScreenEdge();
 
     // Check for collisions
     UpdateCollisions();
@@ -442,10 +442,6 @@ void Player::UpdatePreviousDirection() {
         prevVectorDirection.x = vectorDirection.x;
         prevVectorDirection.y = vectorDirection.y;
     }
-}
-
-bool Player::PlayerIsQuiet() {
-    return (vectorDirection.x == 0) && (vectorDirection.x == vectorDirection.y);
 }
 
 void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {

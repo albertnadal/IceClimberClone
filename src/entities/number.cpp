@@ -9,7 +9,7 @@ Number::Number(EntityIdentificator _id, EntityType _type, SurfaceType surface_ty
         IEntity(_id, _type, surface_type, max_states, is_breakable, is_traversable) {
 }
 
-void Number::PrintName() {
+void Number::PrintName() const {
         std::cout << "Number." << std::endl;
 }
 
@@ -51,7 +51,7 @@ One::One() :
         Number(EntityIdentificator::ONE, EntityType::NUMBER, SurfaceType::SIMPLE, NumberStateIdentificator::NUMBER_MAX_STATES, false, true) {
 }
 
-void One::PrintName() {
+void One::PrintName() const {
         std::cout << "One." << std::endl;
 }
 
@@ -70,7 +70,7 @@ Two::Two() :
         Number(EntityIdentificator::TWO, EntityType::NUMBER, SurfaceType::SIMPLE, NumberStateIdentificator::NUMBER_MAX_STATES, false, true) {
 }
 
-void Two::PrintName() {
+void Two::PrintName() const {
         std::cout << "Two." << std::endl;
 }
 
@@ -89,7 +89,7 @@ Three::Three() :
         Number(EntityIdentificator::THREE, EntityType::NUMBER, SurfaceType::SIMPLE, NumberStateIdentificator::NUMBER_MAX_STATES, false, true) {
 }
 
-void Three::PrintName() {
+void Three::PrintName() const {
         std::cout << "Three." << std::endl;
 }
 
@@ -108,7 +108,7 @@ Four::Four() :
         Number(EntityIdentificator::FOUR, EntityType::NUMBER, SurfaceType::SIMPLE, NumberStateIdentificator::NUMBER_MAX_STATES, false, true) {
 }
 
-void Four::PrintName() {
+void Four::PrintName() const {
         std::cout << "Four." << std::endl;
 }
 
@@ -127,7 +127,7 @@ Five::Five() :
         Number(EntityIdentificator::FIVE, EntityType::NUMBER, SurfaceType::SIMPLE, NumberStateIdentificator::NUMBER_MAX_STATES, false, true) {
 }
 
-void Five::PrintName() {
+void Five::PrintName() const {
         std::cout << "Five." << std::endl;
 }
 
@@ -146,7 +146,7 @@ Six::Six() :
         Number(EntityIdentificator::SIX, EntityType::NUMBER, SurfaceType::SIMPLE, NumberStateIdentificator::NUMBER_MAX_STATES, false, true) {
 }
 
-void Six::PrintName() {
+void Six::PrintName() const {
         std::cout << "Six." << std::endl;
 }
 
@@ -165,7 +165,7 @@ Seven::Seven() :
         Number(EntityIdentificator::SEVEN, EntityType::NUMBER, SurfaceType::SIMPLE, NumberStateIdentificator::NUMBER_MAX_STATES, false, true) {
 }
 
-void Seven::PrintName() {
+void Seven::PrintName() const {
         std::cout << "Seven." << std::endl;
 }
 
@@ -184,7 +184,7 @@ Eight::Eight() :
         Number(EntityIdentificator::EIGHT, EntityType::NUMBER, SurfaceType::SIMPLE, NumberStateIdentificator::NUMBER_MAX_STATES, false, true) {
 }
 
-void Eight::PrintName() {
+void Eight::PrintName() const {
         std::cout << "Eight." << std::endl;
 }
 

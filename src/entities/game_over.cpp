@@ -5,7 +5,7 @@ GameOver::GameOver() :
         IEntity(EntityIdentificator::GAME_OVER, EntityType::TERRAIN, SurfaceType::SIMPLE, GameOverStateIdentificator::GAME_OVER_MAX_STATES, false, true) {
 }
 
-void GameOver::PrintName() {
+void GameOver::PrintName() const {
     std::cout << "GameOver." << std::endl;
 }
 

@@ -9,7 +9,7 @@ Water::Water(EntityIdentificator _id, EntityType _type, SurfaceType surface_type
         IEntity(_id, _type, surface_type, max_states, is_breakable, is_traversable) {
 }
 
-void Water::PrintName() {
+void Water::PrintName() const {
         std::cout << "Water." << std::endl;
 }
 

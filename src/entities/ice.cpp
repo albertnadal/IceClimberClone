@@ -8,11 +8,11 @@ Ice::Ice() :
     fillHoleEntityId = std::nullopt;
 }
 
-void Ice::PrintName() {
+void Ice::PrintName() const {
     std::cout << "Ice." << std::endl;
 }
 
-inline bool Ice::ReachedScreenEdge() {
+inline bool Ice::ReachedScreenEdge() const {
     return (position.GetRealX() < (Width() >> 1)) || (position.GetRealX() >= MOUNTAIN_WIDTH_FLOAT - Width());
 }
 

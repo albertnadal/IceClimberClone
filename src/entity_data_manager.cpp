@@ -34,7 +34,7 @@ void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
                 std::istringstream iss(line);
                 string token;
                 bool commentFound = false;
-                std::vector<string> *currentFrameValues = new std::vector<string>;
+                std::vector<string> currentFrameValues;
                 LineType currentLineType = UNDEFINED_LINE_TYPE;
 
                 while((iss >> token) && (!commentFound)) {
@@ -55,33 +55,33 @@ void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
                                 currentEntitySpriteSheet->AddAnimation(currentEntitySpriteSheetAnimation);
                         } else {
                                 currentLineType = OBJ_SPRITE;
-                                currentFrameValues->push_back(token);
+                                currentFrameValues.push_back(token);
                         }
                 }
 
                 if(currentLineType == OBJ_SPRITE) {
-                        if(currentFrameValues->size() >= 13) {
-                                int width = stoi(currentFrameValues->at(0));
-                                int height = stoi(currentFrameValues->at(1));
-                                int xOffset = stoi(currentFrameValues->at(2));
-                                int yOffset = stoi(currentFrameValues->at(3));
-                                float u1 = stof(currentFrameValues->at(4));
-                                float v1 = stof(currentFrameValues->at(5));
-                                float u2 = stof(currentFrameValues->at(6));
-                                float v2 = stof(currentFrameValues->at(7));
-                                int duration = stoi(currentFrameValues->at(8));
-                                int lowerBoundX = stoi(currentFrameValues->at(9));
-                                int lowerBoundY = stoi(currentFrameValues->at(10));
-                                int upperBoundX = stoi(currentFrameValues->at(11));
-                                int upperBoundY = stoi(currentFrameValues->at(12));
+                        if(currentFrameValues.size() >= 13) {
+                                int width = stoi(currentFrameValues.at(0));
+                                int height = stoi(currentFrameValues.at(1));
+                                int xOffset = stoi(currentFrameValues.at(2));
+                                int yOffset = stoi(currentFrameValues.at(3));
+                                float u1 = stof(currentFrameValues.at(4));
+                                float v1 = stof(currentFrameValues.at(5));
+                                float u2 = stof(currentFrameValues.at(6));
+                                float v2 = stof(currentFrameValues.at(7));
+                                int duration = stoi(currentFrameValues.at(8));
+                                int lowerBoundX = stoi(currentFrameValues.at(9));
+                                int lowerBoundY = stoi(currentFrameValues.at(10));
+                                int upperBoundX = stoi(currentFrameValues.at(11));
+                                int upperBoundY = stoi(currentFrameValues.at(12));
                                 bool hasAttack = false;
                                 int attackLowerBoundX = 0, attackLowerBoundY = 0, attackUpperBoundX = 0, attackUpperBoundY = 0;
 
-                                if(currentFrameValues->size() == 17) {
-                                        attackLowerBoundX = stoi(currentFrameValues->at(13));
-                                        attackLowerBoundY = stoi(currentFrameValues->at(14));
-                                        attackUpperBoundX = stoi(currentFrameValues->at(15));
-                                        attackUpperBoundY = stoi(currentFrameValues->at(16));
+                                if(currentFrameValues.size() == 17) {
+                                        attackLowerBoundX = stoi(currentFrameValues.at(13));
+                                        attackLowerBoundY = stoi(currentFrameValues.at(14));
+                                        attackUpperBoundX = stoi(currentFrameValues.at(15));
+                                        attackUpperBoundY = stoi(currentFrameValues.at(16));
                                         hasAttack = true;
                                 }
 
@@ -89,16 +89,14 @@ void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
                                 currentEntitySpriteSheetAnimation->AddSprite({ width, height, xOffset, yOffset, u1, v1, u2, v2, duration, false, lowerBoundX, lowerBoundY, upperBoundX, upperBoundY, hasAttack, attackLowerBoundX, attackLowerBoundY, attackUpperBoundX, attackUpperBoundY });
                         }
                 }
-
-                delete currentFrameValues;
         }
 }
 
-Texture2D EntityDataManager::LoadTextureAtlas() {
+Texture2D EntityDataManager::LoadTextureAtlas() const {
         return LoadTexture(FileSystem::getPath(textureFilename).c_str());
 }
 
-std::optional<EntitySpriteSheet*> EntityDataManager::GetSpriteSheetByEntityIdentificator(EntityIdentificator sceneObjectIdentificator) {
+std::optional<EntitySpriteSheet*> EntityDataManager::GetSpriteSheetByEntityIdentificator(EntityIdentificator sceneObjectIdentificator) const {
         auto searchIterator = entitySpriteSheetsMap.find(sceneObjectIdentificator);
         if (searchIterator != entitySpriteSheetsMap.end()) {
                 return searchIterator->second;

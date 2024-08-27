@@ -43,7 +43,7 @@ public:
   Nitpicker();
   ~Nitpicker() override;
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   bool Update(uint8_t) override;
   void Hit(bool) override;
   static IEntity* Create();

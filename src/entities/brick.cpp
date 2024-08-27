@@ -9,7 +9,7 @@ Brick::Brick(EntityIdentificator _id, EntityType _type, SurfaceType surface_type
         IEntity(_id, _type, surface_type, max_states, is_breakable, is_traversable) {
 }
 
-void Brick::PrintName() {
+void Brick::PrintName() const {
         std::cout << "Brick." << std::endl;
 }
 
@@ -113,7 +113,7 @@ BrickBlue::BrickBlue() :
         Brick(EntityIdentificator::BRICK_BLUE, EntityType::TERRAIN, SurfaceType::SLIDING, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
-void BrickBlue::PrintName() {
+void BrickBlue::PrintName() const {
         std::cout << "BrickBlue." << std::endl;
 }
 
@@ -142,7 +142,7 @@ BrickBlueHalf::BrickBlueHalf() :
         Brick(EntityIdentificator::BRICK_BLUE_HALF, EntityType::TERRAIN, SurfaceType::SLIDING, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
-void BrickBlueHalf::PrintName() {
+void BrickBlueHalf::PrintName() const {
         std::cout << "BrickBlueHalf." << std::endl;
 }
 
@@ -171,7 +171,7 @@ BrickBrown::BrickBrown() :
         Brick(EntityIdentificator::BRICK_BROWN, EntityType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
-void BrickBrown::PrintName() {
+void BrickBrown::PrintName() const {
         std::cout << "BrickBrown." << std::endl;
 }
 
@@ -200,7 +200,7 @@ BrickBrownHalf::BrickBrownHalf() :
         Brick(EntityIdentificator::BRICK_BROWN_HALF, EntityType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
-void BrickBrownHalf::PrintName() {
+void BrickBrownHalf::PrintName() const {
         std::cout << "BrickBrownHalf." << std::endl;
 }
 
@@ -229,7 +229,7 @@ BrickGreenHalf::BrickGreenHalf() :
         Brick(EntityIdentificator::BRICK_GREEN_HALF, EntityType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
-void BrickGreenHalf::PrintName() {
+void BrickGreenHalf::PrintName() const {
         std::cout << "BrickGreenHalf." << std::endl;
 }
 
@@ -258,7 +258,7 @@ BrickBlueConveyorBeltRight::BrickBlueConveyorBeltRight() :
         Brick(EntityIdentificator::BRICK_BLUE_CONVEYOR_BELT_RIGHT, EntityType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
-void BrickBlueConveyorBeltRight::PrintName() {
+void BrickBlueConveyorBeltRight::PrintName() const {
         std::cout << "BrickBlueConveyorBeltRight." << std::endl;
 }
 
@@ -287,7 +287,7 @@ BrickBlueConveyorBeltLeft::BrickBlueConveyorBeltLeft() :
         Brick(EntityIdentificator::BRICK_BLUE_CONVEYOR_BELT_LEFT, EntityType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
-void BrickBlueConveyorBeltLeft::PrintName() {
+void BrickBlueConveyorBeltLeft::PrintName() const {
         std::cout << "BrickBlueConveyorBeltLeft." << std::endl;
 }
 
@@ -316,7 +316,7 @@ BrickBrownConveyorBeltRight::BrickBrownConveyorBeltRight() :
         Brick(EntityIdentificator::BRICK_BROWN_CONVEYOR_BELT_RIGHT, EntityType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
-void BrickBrownConveyorBeltRight::PrintName() {
+void BrickBrownConveyorBeltRight::PrintName() const {
         std::cout << "BrickBrownConveyorBeltRight." << std::endl;
 }
 
@@ -345,7 +345,7 @@ BrickBrownConveyorBeltLeft::BrickBrownConveyorBeltLeft() :
         Brick(EntityIdentificator::BRICK_BROWN_CONVEYOR_BELT_LEFT, EntityType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
-void BrickBrownConveyorBeltLeft::PrintName() {
+void BrickBrownConveyorBeltLeft::PrintName() const {
         std::cout << "BrickBrownConveyorBeltLeft." << std::endl;
 }
 
@@ -374,7 +374,7 @@ BrickGreenConveyorBeltRight::BrickGreenConveyorBeltRight() :
         Brick(EntityIdentificator::BRICK_GREEN_CONVEYOR_BELT_RIGHT, EntityType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
-void BrickGreenConveyorBeltRight::PrintName() {
+void BrickGreenConveyorBeltRight::PrintName() const {
         std::cout << "BrickGreenConveyorBeltRight." << std::endl;
 }
 
@@ -403,7 +403,7 @@ BrickGreenConveyorBeltLeft::BrickGreenConveyorBeltLeft() :
         Brick(EntityIdentificator::BRICK_GREEN_CONVEYOR_BELT_LEFT, EntityType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, true, false) {
 }
 
-void BrickGreenConveyorBeltLeft::PrintName() {
+void BrickGreenConveyorBeltLeft::PrintName() const {
         std::cout << "BrickGreenConveyorBeltLeft." << std::endl;
 }
 
@@ -432,7 +432,7 @@ BrickGreenUnbreakable::BrickGreenUnbreakable() :
         Brick(EntityIdentificator::BRICK_GREEN_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
 }
 
-void BrickGreenUnbreakable::PrintName() {
+void BrickGreenUnbreakable::PrintName() const {
         std::cout << "BrickGreenUnbreakable." << std::endl;
 }
 
@@ -456,7 +456,7 @@ BrickBrownUnbreakable::BrickBrownUnbreakable() :
         Brick(EntityIdentificator::BRICK_BROWN_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::SIMPLE, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
 }
 
-void BrickBrownUnbreakable::PrintName() {
+void BrickBrownUnbreakable::PrintName() const {
         std::cout << "BrickBrownUnbreakable." << std::endl;
 }
 
@@ -480,7 +480,7 @@ BrickBlueUnbreakable::BrickBlueUnbreakable() :
         Brick(EntityIdentificator::BRICK_BLUE_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::SLIDING, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
 }
 
-void BrickBlueUnbreakable::PrintName() {
+void BrickBlueUnbreakable::PrintName() const {
         std::cout << "BrickBlueUnbreakable." << std::endl;
 }
 
@@ -504,7 +504,7 @@ BrickBlueConveyorBeltRightUnbreakable::BrickBlueConveyorBeltRightUnbreakable() :
         Brick(EntityIdentificator::BRICK_BLUE_CONVEYOR_BELT_RIGHT_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
 }
 
-void BrickBlueConveyorBeltRightUnbreakable::PrintName() {
+void BrickBlueConveyorBeltRightUnbreakable::PrintName() const {
         std::cout << "BrickBlueConveyorBeltRightUnbreakable." << std::endl;
 }
 
@@ -528,7 +528,7 @@ BrickBlueConveyorBeltLeftUnbreakable::BrickBlueConveyorBeltLeftUnbreakable() :
         Brick(EntityIdentificator::BRICK_BLUE_CONVEYOR_BELT_LEFT_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
 }
 
-void BrickBlueConveyorBeltLeftUnbreakable::PrintName() {
+void BrickBlueConveyorBeltLeftUnbreakable::PrintName() const {
         std::cout << "BrickBlueConveyorBeltLeftUnbreakable." << std::endl;
 }
 
@@ -552,7 +552,7 @@ BrickGreenConveyorBeltRightUnbreakable::BrickGreenConveyorBeltRightUnbreakable()
         Brick(EntityIdentificator::BRICK_GREEN_CONVEYOR_BELT_RIGHT_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
 }
 
-void BrickGreenConveyorBeltRightUnbreakable::PrintName() {
+void BrickGreenConveyorBeltRightUnbreakable::PrintName() const {
         std::cout << "BrickGreenConveyorBeltRightUnbreakable." << std::endl;
 }
 
@@ -576,7 +576,7 @@ BrickGreenConveyorBeltLeftUnbreakable::BrickGreenConveyorBeltLeftUnbreakable() :
         Brick(EntityIdentificator::BRICK_GREEN_CONVEYOR_BELT_LEFT_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
 }
 
-void BrickGreenConveyorBeltLeftUnbreakable::PrintName() {
+void BrickGreenConveyorBeltLeftUnbreakable::PrintName() const {
         std::cout << "BrickGreenConveyorBeltLeftUnbreakable." << std::endl;
 }
 
@@ -600,7 +600,7 @@ BrickBrownConveyorBeltRightUnbreakable::BrickBrownConveyorBeltRightUnbreakable()
         Brick(EntityIdentificator::BRICK_BROWN_CONVEYOR_BELT_RIGHT_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::MOBILE_RIGHT, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
 }
 
-void BrickBrownConveyorBeltRightUnbreakable::PrintName() {
+void BrickBrownConveyorBeltRightUnbreakable::PrintName() const {
         std::cout << "BrickBrownConveyorBeltRightUnbreakable." << std::endl;
 }
 
@@ -624,7 +624,7 @@ BrickBrownConveyorBeltLeftUnbreakable::BrickBrownConveyorBeltLeftUnbreakable() :
         Brick(EntityIdentificator::BRICK_BROWN_CONVEYOR_BELT_LEFT_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::MOBILE_LEFT, BrickStateIdentificator::BRICK_MAX_STATES, false, false) {
 }
 
-void BrickBrownConveyorBeltLeftUnbreakable::PrintName() {
+void BrickBrownConveyorBeltLeftUnbreakable::PrintName() const {
         std::cout << "BrickBrownConveyorBeltLeftUnbreakable." << std::endl;
 }
 

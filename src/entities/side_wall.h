@@ -17,7 +17,7 @@ public:
   SideWall();
   ~SideWall();
   virtual void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  virtual void PrintName() override;
+  virtual void PrintName() const override;
   bool Update(uint8_t) override;
   static IEntity* Create();
 
@@ -40,7 +40,7 @@ class SideWallBlueLeft : public SideWall
 public:
   SideWallBlueLeft();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -51,7 +51,7 @@ class SideWallBlueRight : public SideWall
 public:
   SideWallBlueRight();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -62,7 +62,7 @@ class SideWallBlueColumnsLeft : public SideWall
 public:
   SideWallBlueColumnsLeft();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -73,7 +73,7 @@ class SideWallBlueColumnsRight : public SideWall
 public:
   SideWallBlueColumnsRight();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -84,7 +84,7 @@ class SideWallBrownLeft : public SideWall
 public:
   SideWallBrownLeft();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -95,7 +95,7 @@ class SideWallBrownRight : public SideWall
 public:
   SideWallBrownRight();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -106,7 +106,7 @@ class SideWallBrownColumnsLeft : public SideWall
 public:
   SideWallBrownColumnsLeft();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -117,7 +117,7 @@ class SideWallBrownColumnsRight : public SideWall
 public:
   SideWallBrownColumnsRight();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -128,7 +128,7 @@ class SideWallGreenLeft : public SideWall
 public:
   SideWallGreenLeft();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -139,7 +139,7 @@ class SideWallGreenRight : public SideWall
 public:
   SideWallGreenRight();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -150,7 +150,7 @@ class SideWallGreenColumnsLeft : public SideWall
 public:
   SideWallGreenColumnsLeft();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -161,7 +161,7 @@ class SideWallGreenColumnsRight : public SideWall
 public:
   SideWallGreenColumnsRight();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -172,7 +172,7 @@ class SideWallIceModelAUnbreakable : public SideWall
 public:
   SideWallIceModelAUnbreakable();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -183,7 +183,7 @@ class SideWallIceModelBUnbreakable : public SideWall
 public:
   SideWallIceModelBUnbreakable();
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   static IEntity* Create();
 };
 

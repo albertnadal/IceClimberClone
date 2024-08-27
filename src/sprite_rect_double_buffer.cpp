@@ -8,7 +8,7 @@ SpriteRectDoubleBuffer::SpriteRectDoubleBuffer(uint32_t _max_length) {
         consumer_buffer = new SpriteRect[max_length];
 }
 
-uint32_t SpriteRectDoubleBuffer::buffer_size()
+uint32_t SpriteRectDoubleBuffer::bufferSize() const
 {
         return (max_length * sizeof(SpriteRect));
 }

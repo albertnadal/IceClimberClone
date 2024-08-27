@@ -18,7 +18,7 @@ public:
   Vegetable();
   ~Vegetable();
   virtual void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  virtual void PrintName() override;
+  virtual void PrintName() const override;
   bool Update(uint8_t) override;
   void Hit(bool) override;
   static IEntity* Create();
@@ -42,7 +42,7 @@ class Eggplant : public Vegetable
 public:
   Eggplant();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -53,7 +53,7 @@ class Carrot : public Vegetable
 public:
   Carrot();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -64,7 +64,7 @@ class Cabbage : public Vegetable
 public:
   Cabbage();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -75,7 +75,7 @@ class Zucchini : public Vegetable
 public:
   Zucchini();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -86,7 +86,7 @@ class Corn : public Vegetable
 public:
   Corn();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -97,7 +97,7 @@ class Turnip : public Vegetable
 public:
   Turnip();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -108,7 +108,7 @@ class Pumpkin : public Vegetable
 public:
   Pumpkin();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -119,7 +119,7 @@ class RomaineLettuce : public Vegetable
 public:
   RomaineLettuce();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -130,7 +130,7 @@ class Potato : public Vegetable
 public:
   Potato();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -141,7 +141,7 @@ class Mushroom : public Vegetable
 public:
   Mushroom();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 

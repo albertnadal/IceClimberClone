@@ -21,7 +21,7 @@ public:
   Cloud();
   ~Cloud();
   virtual void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  virtual void PrintName() override;
+  virtual void PrintName() const override;
   bool Update(uint8_t) override;
   static IEntity* Create();
 
@@ -44,7 +44,7 @@ class CloudSmall : public Cloud
 public:
   CloudSmall();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -55,7 +55,7 @@ class CloudBig : public Cloud
 public:
   CloudBig();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -66,7 +66,7 @@ class CloudTiny : public Cloud
 public:
   CloudTiny();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 

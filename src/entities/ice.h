@@ -31,13 +31,13 @@ class Ice: public IEntity
 
   // Ice action update functions
   void UpdateCollisions();
-  bool ReachedScreenEdge() override;
+  bool ReachedScreenEdge() const override;
 
 public:
   Ice();
   ~Ice() override;
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   bool Update(uint8_t) override;
   void Hit(bool) override;
   bool ShouldBeginAnimationLoopAgain() override;

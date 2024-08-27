@@ -6,7 +6,7 @@ Nitpicker::Nitpicker() :
     numAttackAttempts = 0;
 }
 
-void Nitpicker::PrintName() {
+void Nitpicker::PrintName() const {
     std::cout << "Nitpicker." << std::endl;
 }
 

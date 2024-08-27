@@ -29,7 +29,7 @@ public:
   bool is_consuming_buffer = false;
 
   SpriteRectDoubleBuffer(uint32_t);
-  uint32_t buffer_size();
+  uint32_t bufferSize() const;
   void swapBuffers();
   void lock();
   void unlock();

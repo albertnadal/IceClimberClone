@@ -9,7 +9,7 @@ BonusStageText::BonusStageText(EntityIdentificator _id, EntityType _type, Surfac
         IEntity(_id, _type, surface_type, max_states, is_breakable, is_traversable) {
 }
 
-void BonusStageText::PrintName() {
+void BonusStageText::PrintName() const {
         std::cout << "BonusStageText." << std::endl;
 }
 

@@ -9,7 +9,7 @@ Cloud::Cloud(EntityIdentificator _id, EntityType _type, SurfaceType surface_type
         IEntity(_id, _type, surface_type, max_states, is_breakable, is_traversable) {
 }
 
-void Cloud::PrintName() {
+void Cloud::PrintName() const {
         std::cout << "Cloud." << std::endl;
 }
 
@@ -73,7 +73,7 @@ CloudSmall::CloudSmall() :
         Cloud(EntityIdentificator::CLOUD_SMALL, EntityType::TERRAIN, SurfaceType::MOBILE_RIGHT, CloudStateIdentificator::CLOUD_MAX_STATES, false, false) {
 }
 
-void CloudSmall::PrintName() {
+void CloudSmall::PrintName() const {
         std::cout << "CloudSmall." << std::endl;
 }
 
@@ -92,7 +92,7 @@ CloudBig::CloudBig() :
         Cloud(EntityIdentificator::CLOUD_BIG, EntityType::TERRAIN, SurfaceType::MOBILE_RIGHT, CloudStateIdentificator::CLOUD_MAX_STATES, false, false) {
 }
 
-void CloudBig::PrintName() {
+void CloudBig::PrintName() const {
         std::cout << "CloudBig." << std::endl;
 }
 
@@ -111,7 +111,7 @@ CloudTiny::CloudTiny() :
         Cloud(EntityIdentificator::CLOUD_TINY, EntityType::TERRAIN, SurfaceType::MOBILE_RIGHT, CloudStateIdentificator::CLOUD_MAX_STATES, false, false) {
 }
 
-void CloudTiny::PrintName() {
+void CloudTiny::PrintName() const {
         std::cout << "CloudTiny." << std::endl;
 }
 

@@ -84,18 +84,18 @@ EntityFactory &EntityFactory::operator=(const EntityFactory &) {
 }
 
 EntityFactory::~EntityFactory() {
-	m_FactoryMap.clear();
+	entityFactoryMap.clear();
 }
 
-void EntityFactory::Register(const EntityIdentificator sceneObjectId, CreateEntityFn pfnCreate)
+void EntityFactory::Register(const EntityIdentificator sceneObjectId, const CreateEntityFn pfnCreate)
 {
-	m_FactoryMap[sceneObjectId] = pfnCreate;
+	entityFactoryMap[sceneObjectId] = pfnCreate;
 }
 
-std::optional<IEntity*> EntityFactory::CreateEntity(const EntityIdentificator sceneObjectId)
+std::optional<IEntity*> EntityFactory::CreateEntity(const EntityIdentificator sceneObjectId) const
 {
-	FactoryMap::iterator it = m_FactoryMap.find(sceneObjectId);
-	if( it != m_FactoryMap.end() ) {
+	EntityFactoryMap::const_iterator it = entityFactoryMap.find(sceneObjectId);
+	if( it != entityFactoryMap.end() ) {
 		IEntity *sceneObject = it->second();
 		std::optional<EntitySpriteSheet *> entitySpriteSheet = textureManager->GetSpriteSheetByEntityIdentificator(sceneObject->Id());
 		assert(entitySpriteSheet != std::nullopt);

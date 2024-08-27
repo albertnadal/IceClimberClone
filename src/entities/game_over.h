@@ -20,7 +20,7 @@ public:
   GameOver();
   ~GameOver() override;
   void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  void PrintName() override;
+  void PrintName() const override;
   bool Update(uint8_t) override;
   static IEntity* Create();
 

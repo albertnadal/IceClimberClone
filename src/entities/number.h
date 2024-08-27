@@ -17,7 +17,7 @@ public:
   Number();
   ~Number();
   virtual void InitWithSpriteSheet(EntitySpriteSheet*) override;
-  virtual void PrintName() override;
+  virtual void PrintName() const override;
   bool Update(uint8_t) override;
   static IEntity* Create();
 
@@ -40,7 +40,7 @@ class One : public Number
 public:
   One();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -51,7 +51,7 @@ class Two : public Number
 public:
   Two();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -62,7 +62,7 @@ class Three : public Number
 public:
   Three();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -73,7 +73,7 @@ class Four : public Number
 public:
   Four();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -84,7 +84,7 @@ class Five : public Number
 public:
   Five();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -95,7 +95,7 @@ class Six : public Number
 public:
   Six();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -106,7 +106,7 @@ class Seven : public Number
 public:
   Seven();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 
@@ -117,7 +117,7 @@ class Eight : public Number
 public:
   Eight();
   void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void PrintName() const;
   static IEntity* Create();
 };
 

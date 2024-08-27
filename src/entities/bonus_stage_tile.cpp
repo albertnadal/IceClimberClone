@@ -9,7 +9,7 @@ BonusStageTile::BonusStageTile(EntityIdentificator _id, EntityType _type, Surfac
         IEntity(_id, _type, surface_type, max_states, is_breakable, is_traversable) {
 }
 
-void BonusStageTile::PrintName() {
+void BonusStageTile::PrintName() const {
         std::cout << "BonusStageTile." << std::endl;
 }
 
@@ -51,7 +51,7 @@ BonusStageTileA::BonusStageTileA() :
         BonusStageTile(EntityIdentificator::BONUS_STAGE_TILE_A, EntityType::TERRAIN, SurfaceType::SIMPLE, BonusStageTileStateIdentificator::BONUS_STAGE_TILE_MAX_STATES, false, true) {
 }
 
-void BonusStageTileA::PrintName() {
+void BonusStageTileA::PrintName() const {
         std::cout << "BonusStageTileA." << std::endl;
 }
 
@@ -70,7 +70,7 @@ BonusStageTileB::BonusStageTileB() :
         BonusStageTile(EntityIdentificator::BONUS_STAGE_TILE_B, EntityType::TERRAIN, SurfaceType::SIMPLE, BonusStageTileStateIdentificator::BONUS_STAGE_TILE_MAX_STATES, false, true) {
 }
 
-void BonusStageTileB::PrintName() {
+void BonusStageTileB::PrintName() const {
         std::cout << "BonusStageTileB." << std::endl;
 }
 
@@ -89,7 +89,7 @@ BonusStageTileC::BonusStageTileC() :
         BonusStageTile(EntityIdentificator::BONUS_STAGE_TILE_C, EntityType::TERRAIN, SurfaceType::SIMPLE, BonusStageTileStateIdentificator::BONUS_STAGE_TILE_MAX_STATES, false, true) {
 }
 
-void BonusStageTileC::PrintName() {
+void BonusStageTileC::PrintName() const {
         std::cout << "BonusStageTileC." << std::endl;
 }
 

@@ -9,7 +9,7 @@ SideWall::SideWall(EntityIdentificator _id, EntityType _type, SurfaceType surfac
         IEntity(_id, _type, surface_type, max_states, is_breakable, is_traversable) {
 }
 
-void SideWall::PrintName() {
+void SideWall::PrintName() const {
         std::cout << "SideWall." << std::endl;
 }
 
@@ -51,7 +51,7 @@ SideWallBlueLeft::SideWallBlueLeft() :
         SideWall(EntityIdentificator::SIDE_WALL_BLUE_LEFT, EntityType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
-void SideWallBlueLeft::PrintName() {
+void SideWallBlueLeft::PrintName() const {
         std::cout << "SideWallBlueLeft." << std::endl;
 }
 
@@ -70,7 +70,7 @@ SideWallBlueRight::SideWallBlueRight() :
         SideWall(EntityIdentificator::SIDE_WALL_BLUE_RIGHT, EntityType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
-void SideWallBlueRight::PrintName() {
+void SideWallBlueRight::PrintName() const {
         std::cout << "SideWallBlueRight." << std::endl;
 }
 
@@ -89,7 +89,7 @@ SideWallBlueColumnsLeft::SideWallBlueColumnsLeft() :
         SideWall(EntityIdentificator::SIDE_WALL_BLUE_COLUMNS_LEFT, EntityType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
-void SideWallBlueColumnsLeft::PrintName() {
+void SideWallBlueColumnsLeft::PrintName() const {
         std::cout << "SideWallBlueColumnsLeft." << std::endl;
 }
 
@@ -108,7 +108,7 @@ SideWallBlueColumnsRight::SideWallBlueColumnsRight() :
         SideWall(EntityIdentificator::SIDE_WALL_BLUE_COLUMNS_RIGHT, EntityType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
-void SideWallBlueColumnsRight::PrintName() {
+void SideWallBlueColumnsRight::PrintName() const {
         std::cout << "SideWallBlueColumnsRight." << std::endl;
 }
 
@@ -127,7 +127,7 @@ SideWallBrownLeft::SideWallBrownLeft() :
         SideWall(EntityIdentificator::SIDE_WALL_BROWN_LEFT, EntityType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
-void SideWallBrownLeft::PrintName() {
+void SideWallBrownLeft::PrintName() const {
         std::cout << "SideWallBrownLeft." << std::endl;
 }
 
@@ -146,7 +146,7 @@ SideWallBrownRight::SideWallBrownRight() :
         SideWall(EntityIdentificator::SIDE_WALL_BROWN_RIGHT, EntityType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
-void SideWallBrownRight::PrintName() {
+void SideWallBrownRight::PrintName() const {
         std::cout << "SideWallBrownRight." << std::endl;
 }
 
@@ -165,7 +165,7 @@ SideWallBrownColumnsLeft::SideWallBrownColumnsLeft() :
         SideWall(EntityIdentificator::SIDE_WALL_BROWN_COLUMNS_LEFT, EntityType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
-void SideWallBrownColumnsLeft::PrintName() {
+void SideWallBrownColumnsLeft::PrintName() const {
         std::cout << "SideWallBrownColumnsLeft." << std::endl;
 }
 
@@ -184,7 +184,7 @@ SideWallBrownColumnsRight::SideWallBrownColumnsRight() :
         SideWall(EntityIdentificator::SIDE_WALL_BROWN_COLUMNS_RIGHT, EntityType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
-void SideWallBrownColumnsRight::PrintName() {
+void SideWallBrownColumnsRight::PrintName() const {
         std::cout << "SideWallBrownColumnsRight." << std::endl;
 }
 
@@ -203,7 +203,7 @@ SideWallGreenLeft::SideWallGreenLeft() :
         SideWall(EntityIdentificator::SIDE_WALL_GREEN_LEFT, EntityType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
-void SideWallGreenLeft::PrintName() {
+void SideWallGreenLeft::PrintName() const {
         std::cout << "SideWallGreenLeft." << std::endl;
 }
 
@@ -222,7 +222,7 @@ SideWallGreenRight::SideWallGreenRight() :
         SideWall(EntityIdentificator::SIDE_WALL_GREEN_RIGHT, EntityType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
-void SideWallGreenRight::PrintName() {
+void SideWallGreenRight::PrintName() const {
         std::cout << "SideWallGreenRight." << std::endl;
 }
 
@@ -241,7 +241,7 @@ SideWallGreenColumnsLeft::SideWallGreenColumnsLeft() :
         SideWall(EntityIdentificator::SIDE_WALL_GREEN_COLUMNS_LEFT, EntityType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
-void SideWallGreenColumnsLeft::PrintName() {
+void SideWallGreenColumnsLeft::PrintName() const {
         std::cout << "SideWallGreenColumnsLeft." << std::endl;
 }
 
@@ -260,7 +260,7 @@ SideWallGreenColumnsRight::SideWallGreenColumnsRight() :
         SideWall(EntityIdentificator::SIDE_WALL_GREEN_COLUMNS_RIGHT, EntityType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, true) {
 }
 
-void SideWallGreenColumnsRight::PrintName() {
+void SideWallGreenColumnsRight::PrintName() const {
         std::cout << "SideWallGreenColumnsRight." << std::endl;
 }
 
@@ -279,7 +279,7 @@ SideWallIceModelAUnbreakable::SideWallIceModelAUnbreakable() :
         SideWall(EntityIdentificator::SIDE_WALL_ICE_MODEL_A_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, false) {
 }
 
-void SideWallIceModelAUnbreakable::PrintName() {
+void SideWallIceModelAUnbreakable::PrintName() const {
         std::cout << "SideWallIceModelAUnbreakable." << std::endl;
 }
 
@@ -298,7 +298,7 @@ SideWallIceModelBUnbreakable::SideWallIceModelBUnbreakable() :
         SideWall(EntityIdentificator::SIDE_WALL_ICE_MODEL_B_UNBREAKABLE, EntityType::TERRAIN, SurfaceType::SIMPLE, SideWallStateIdentificator::SIDE_WALL_MAX_STATES, false, false) {
 }
 
-void SideWallIceModelBUnbreakable::PrintName() {
+void SideWallIceModelBUnbreakable::PrintName() const {
         std::cout << "SideWallIceModelBUnbreakable." << std::endl;
 }
 

@@ -21,8 +21,8 @@ class EntityDataManager
 public:
   EntityDataManager();
   ~EntityDataManager();
-  Texture2D LoadTextureAtlas();
-  std::optional<EntitySpriteSheet*> GetSpriteSheetByEntityIdentificator(EntityIdentificator);
+  Texture2D LoadTextureAtlas() const;
+  std::optional<EntitySpriteSheet*> GetSpriteSheetByEntityIdentificator(EntityIdentificator) const;
 };
 
 bool startsWith(std::string mainStr, std::string toMatch);

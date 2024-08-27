@@ -30,8 +30,8 @@ private:
   EntityFactory(EntityManager*, EntityDataManager*, aabb::Tree<IEntity*>*);
   EntityFactory &operator=(const EntityFactory &);
   void RegisterEntities();
-  typedef map<EntityIdentificator, CreateEntityFn> FactoryMap;
-  FactoryMap m_FactoryMap;
+  typedef std::map<EntityIdentificator, CreateEntityFn> EntityFactoryMap;
+  EntityFactoryMap entityFactoryMap;
   EntityManager *entityManager = nullptr;
   EntityDataManager *textureManager = nullptr;
   aabb::Tree<IEntity*> *spacePartitionObjectsTree = nullptr;
@@ -39,7 +39,7 @@ public:
 	~EntityFactory();
 	static EntityFactory *Get(EntityManager*, EntityDataManager*, aabb::Tree<IEntity*>*);
 	void Register(const EntityIdentificator, CreateEntityFn);
-	std::optional<IEntity*> CreateEntity(const EntityIdentificator);
+	std::optional<IEntity*> CreateEntity(const EntityIdentificator) const;
 };
 
 #endif

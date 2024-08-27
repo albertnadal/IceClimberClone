@@ -5,11 +5,11 @@ Condor::Condor() :
         IEntity(EntityIdentificator::CONDOR, EntityType::ENEMY, SurfaceType::SIMPLE, CondorStateIdentificator::CONDOR_MAX_STATES, false, true) {
 }
 
-void Condor::PrintName() {
+void Condor::PrintName() const {
     std::cout << "Condor." << std::endl;
 }
 
-inline bool Condor::ReachedScreenEdge() {
+inline bool Condor::ReachedScreenEdge() const {
     return ((direction == Direction::LEFT) && (position.GetRealX() <= -Width())) || ((direction == Direction::RIGHT) && (position.GetRealX() >= MOUNTAIN_WIDTH_FLOAT));
 }
 

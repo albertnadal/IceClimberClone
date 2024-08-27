@@ -5,7 +5,7 @@
 #include <defines.h>
 #include <utils.h>
 
-void renderMainMenuScreen(Texture2D &textureAtlas, Camera2D &staticCamera, int mountainNumber, int highScore) {
+static inline void renderMainMenuScreen(Texture2D &textureAtlas, Camera2D &staticCamera, int mountainNumber, int highScore) {
     BeginDrawing();
             ClearBackground(BLACK);
             BeginMode2D(staticCamera);
