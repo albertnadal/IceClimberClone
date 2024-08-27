@@ -30,7 +30,6 @@ protected:
   bool animationLoaded = false;
   bool firstSpriteOfCurrentAnimationIsLoaded = false;
   bool animationHasOnlyOneSprite = false;
-  bool recalculateAreasDataIsNeeded = true;
   void RemoveFromSpacePartitionObjectsTree();
   void LoadAnimationWithId(uint16_t);
   void LoadNextSprite();

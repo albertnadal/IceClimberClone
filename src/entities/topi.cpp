@@ -297,7 +297,6 @@ void Topi::LoadNextSprite() {
     // Adjusts object position according to the sprite offset
     PositionSetOffset(spriteData.xOffset, spriteData.yOffset);
 
-    recalculateAreasDataIsNeeded = true; // Is necessary because the current sprite may have different areas
     boundingBox = {spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY};
     solidBoundingBox = {spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY};
     firstSpriteOfCurrentAnimationIsLoaded = true;

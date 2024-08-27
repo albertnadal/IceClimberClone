@@ -10,7 +10,6 @@ IEntity::IEntity() {
   attackBoundingBox = std::nullopt;
   vectorDirection.x = 0;
   vectorDirection.y = 0;
-  recalculateAreasDataIsNeeded = true;
   isBreakable = false;
   isTraversable = false;
   isMarkedToDelete = false;
@@ -29,7 +28,6 @@ IEntity::IEntity(EntityIdentificator _id, EntityType _type, SurfaceType surface_
   attackBoundingBox = std::nullopt;
   vectorDirection.x = 0;
   vectorDirection.y = 0;
-  recalculateAreasDataIsNeeded = true;
 }
 
 void IEntity::SetSpacePartitionObjectsTree(aabb::Tree<IEntity*> *_spacePartitionObjectsTree) {
@@ -42,32 +40,26 @@ void IEntity::SetEntityManager(EntityManager *_entityManager) {
 
 void IEntity::PositionSetXY(float x, float y) {
     position.setXY(x, y);
-    recalculateAreasDataIsNeeded = true;
 }
 
 void IEntity::PositionSetX(float x) {
   position.setX(x);
-  recalculateAreasDataIsNeeded = true;
 }
 
 void IEntity::PositionSetY(float y) {
   position.setY(y);
-  recalculateAreasDataIsNeeded = true;
 }
 
 void IEntity::PositionAddX(float x) {
   position.addX(x);
-  recalculateAreasDataIsNeeded = true;
 }
 
 void IEntity::PositionAddY(float y) {
   position.addY(y);
-  recalculateAreasDataIsNeeded = true;
 }
 
 void IEntity::PositionSetOffset(int16_t x, int16_t y) {
   position.setOffset(x, y);
-  recalculateAreasDataIsNeeded = true;
 }
 
 void IEntity::RemoveFromSpacePartitionObjectsTree() {
@@ -104,7 +96,6 @@ void IEntity::LoadNextSprite()
   currentSprite.v1 = spriteData.v1;
   currentSprite.u2 = spriteData.u2;
   currentSprite.v2 = spriteData.v2;
-  recalculateAreasDataIsNeeded = true; // Is necessary because the current sprite may have different areas
   boundingBox = { spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY };
   firstSpriteOfCurrentAnimationIsLoaded = true;
 }
