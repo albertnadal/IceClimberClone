@@ -16,9 +16,9 @@ public:
   SideWall(EntityIdentificator, EntityType, SurfaceType, unsigned char, bool, bool);
   SideWall();
   ~SideWall();
-  virtual void InitWithSpriteSheet(EntitySpriteSheet*);
-  virtual void PrintName();
-  bool Update(uint8_t);
+  virtual void InitWithSpriteSheet(EntitySpriteSheet*) override;
+  virtual void PrintName() override;
+  bool Update(uint8_t) override;
   static IEntity* Create();
 
 private:
@@ -182,8 +182,8 @@ class SideWallIceModelBUnbreakable : public SideWall
 {
 public:
   SideWallIceModelBUnbreakable();
-  void InitWithSpriteSheet(EntitySpriteSheet*);
-  void PrintName();
+  void InitWithSpriteSheet(EntitySpriteSheet*) override;
+  void PrintName() override;
   static IEntity* Create();
 };
 

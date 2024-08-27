@@ -39,7 +39,7 @@ struct StateStruct
 
 #define BEGIN_STATE_MAP \
 public:\
-const StateStruct* GetStateMap() {\
+const StateStruct* GetStateMap() override {\
     static const StateStruct StateMap[] = {
 
 #define STATE_MAP_ENTRY(stateFunc)\

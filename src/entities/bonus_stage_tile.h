@@ -16,9 +16,9 @@ public:
   BonusStageTile(EntityIdentificator, EntityType, SurfaceType, unsigned char, bool, bool);
   BonusStageTile();
   ~BonusStageTile();
-  virtual void InitWithSpriteSheet(EntitySpriteSheet*);
-  virtual void PrintName();
-  bool Update(uint8_t);
+  virtual void InitWithSpriteSheet(EntitySpriteSheet*) override;
+  virtual void PrintName() override;
+  bool Update(uint8_t) override;
   static IEntity* Create();
 
 private:

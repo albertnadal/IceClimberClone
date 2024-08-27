@@ -17,8 +17,8 @@ public:
   Vegetable(EntityIdentificator, EntityType, SurfaceType, unsigned char, bool, bool);
   Vegetable();
   ~Vegetable();
-  virtual void InitWithSpriteSheet(EntitySpriteSheet*);
-  virtual void PrintName();
+  virtual void InitWithSpriteSheet(EntitySpriteSheet*) override;
+  virtual void PrintName() override;
   bool Update(uint8_t) override;
   void Hit(bool) override;
   static IEntity* Create();

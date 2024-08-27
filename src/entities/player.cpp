@@ -147,6 +147,8 @@ void Player::IncreaseAchievementCounterByEntity(IEntity* entity) {
                 gameFinished = true;
                 notifyGameFinishedTime = (chrono::system_clock::now() + std::chrono::milliseconds(PAUSE_DURATION_BEFORE_GAME_FINISHED_NOTIFICATION));
                 break;
+            default:
+                break;
         }
     } else if (entity->type == EntityType::VEGETABLE) {
         vegetableCount++;
