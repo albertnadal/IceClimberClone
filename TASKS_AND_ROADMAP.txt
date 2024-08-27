@@ -366,7 +366,8 @@ TASKS AND ROADMAP TIMELINE:
 - Mark missing read-only class methods as 'const' [ OK ]
 - Move IEntity::GetAttackLowerBound and IEntity::GetAbsoluteAttackBoundaries to Player class <==== [ Wait until finished Devlog 4 ]
 - Delete unused member IEntity::recalculateAreasDataIsNeeded [ OK ]
-- Try to compile the program to run in a web browser via wasm/emscripten <==== [ CURRENT ]
+- Try to compile the program to run in a web browser via wasm/emscripten <==== [ EXPERIENCING ISSUES WITH PTHREADS RUNNING IN THE BROWSER ]
+  - Raylib must be compiled using the flag config.h::SUPPORT_CUSTOM_FRAME_CONTROL = true
 - Review the unused includes in the entity class headers due to copy&paste of files <==== [ CURRENT ]
 - Consider renaming the EntityManager class to GameManager, as it not only manages entities but also controls other game states such as remaining lives, points achieved, etc. <==== [ CURRENT ]
 - Run the cppcheck static analyzer and fix errors <==== [ CURRENT ]
