@@ -25,7 +25,6 @@ class Brick: public IEntity
   float tPropel = 0.0f;
   float hInitialPropelPosition = 0.0f;
   float vInitialPropelPosition = 0.0f;
-  float previous_vOffset = 0.0f;
 
 public:
   Brick(EntityIdentificator, EntityType, SurfaceType, unsigned char, bool, bool);

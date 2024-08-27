@@ -372,14 +372,14 @@ TASKS AND ROADMAP TIMELINE:
 - Consider renaming the EntityManager class to GameManager, as it not only manages entities but also controls other game states such as remaining lives, points achieved, etc. <==== [ CURRENT ]
 - Run the cppcheck static analyzer and fix errors <==== [ CURRENT ]
 - The screen height should have a fixed numerical value, not depend on ZOOM. The ZOOM value should be calculated dynamically based on screen height <===== [ CURRENT ]
+- Fix the z-index of the sprites <==== [ CURRENT ]
+- Define as 'const' those function parameters that are passed by reference and are read-only <==== [ CURRENT ]
 
 - Compile and test the game on a Windows computer <====
 - Compile and test the game on a Linux computer <====
 - Add the project to the website https://osgameclones.com <====
-- Define as 'const' those function parameters that are passed by reference and are read-only <===
 - Do not call Update on non-animated decorative objects <====
 - The function ::Update(uint8_t pressedKeys_) should have a default implementation in the base class for cases like side walls, water, and similar objects. Those with their own implementation should override the code. <=====
-- Fix the z-index of the sprites <====
 - Implement Polar Bear <==== [ IMPLEMENT IN A FUTURE VERSION ]
 - Implement the Bonus Stage stopwatch object <==== [ IMPLEMENT IN A FUTURE VERSION ]
 

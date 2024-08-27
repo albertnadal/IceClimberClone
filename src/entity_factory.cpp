@@ -96,13 +96,13 @@ std::optional<IEntity*> EntityFactory::CreateEntity(const EntityIdentificator sc
 {
 	EntityFactoryMap::const_iterator it = entityFactoryMap.find(sceneObjectId);
 	if( it != entityFactoryMap.end() ) {
-		IEntity *sceneObject = it->second();
-		std::optional<EntitySpriteSheet *> entitySpriteSheet = textureManager->GetSpriteSheetByEntityIdentificator(sceneObject->Id());
+		IEntity *entity = it->second();
+		std::optional<EntitySpriteSheet *> entitySpriteSheet = textureManager->GetSpriteSheetByEntityIdentificator(entity->Id());
 		assert(entitySpriteSheet != std::nullopt);
-		sceneObject->SetEntityManager(entityManager);
-		sceneObject->SetSpacePartitionObjectsTree(spacePartitionObjectsTree);
-		sceneObject->InitWithSpriteSheet(*entitySpriteSheet);
-		return sceneObject;
+		entity->SetEntityManager(entityManager);
+		entity->SetSpacePartitionObjectsTree(spacePartitionObjectsTree);
+		entity->InitWithSpriteSheet(*entitySpriteSheet);
+		return entity;
 	}
 
 	return std::nullopt;

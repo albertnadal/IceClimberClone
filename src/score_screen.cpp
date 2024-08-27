@@ -20,8 +20,7 @@ static inline void renderScoreScreen(Texture2D &textureAtlas, Camera2D &staticCa
                     float popoXOffset = 0.0f;
                     auto now = std::chrono::system_clock::now();
                     std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
-                    std::tm* localTime = std::localtime(&currentTime);    
-                    int second = localTime->tm_sec;    
+                    std::tm* localTime = std::localtime(&currentTime);
                     if (localTime->tm_sec % 2 == 0) {
                         popoXOffset += 48.0f;
                     }

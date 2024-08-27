@@ -16,7 +16,6 @@ class EntityDataManager
   typedef map<EntityIdentificator, EntitySpriteSheet*> SpriteSheetsMap;
   SpriteSheetsMap entitySpriteSheetsMap;
   std::string textureFilename;
-  uint32_t textureId;
   void LoadObjectsDataFromFile(std::string filename);
 public:
   EntityDataManager();

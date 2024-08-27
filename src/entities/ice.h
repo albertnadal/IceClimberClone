@@ -18,7 +18,6 @@ using namespace std;
 
 class Ice: public IEntity
 {
-  Direction direction;
   void GetSolidCollisions(std::vector<ObjectCollision>&, bool&, bool&);
 
   std::optional<EntityIdentificator> fillHoleEntityId;

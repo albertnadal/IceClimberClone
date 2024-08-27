@@ -9,10 +9,9 @@
 
 class EntitySpriteSheet
 {
-        EntityIdentificator Id;
         std::map<uint16_t, EntitySpriteSheetAnimation*> animations;
 public:
-        EntitySpriteSheet(EntityIdentificator);
+        EntitySpriteSheet();
         ~EntitySpriteSheet();
         void AddAnimation(EntitySpriteSheetAnimation*);
         std::optional<EntitySpriteSheetAnimation*> GetAnimationWithId(uint16_t);

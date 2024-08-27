@@ -115,14 +115,14 @@ int main()
         currentGameScreen = GameScreenType::MAIN_MENU;
 
         // Camera configuration for simple static screens
-        Camera2D staticCamera = { 0 };
+        Camera2D staticCamera;
         staticCamera.target = (Vector2){ 0, 0 };
         staticCamera.offset = (Vector2){ 0, 0 };
         staticCamera.rotation = 0.0f;
         staticCamera.zoom = ZOOM;
 
         // Camera configuration for mountain game play screen
-        Camera2D mountainCamera = { 0 };
+        Camera2D mountainCamera;
         mountainCamera.target = (Vector2){ 0, 0 };
         mountainCamera.offset = (Vector2){ 0, -INITIAL_CAMERA_POSITION };
         mountainCamera.rotation = 0.0f;
@@ -218,6 +218,7 @@ int main()
                                 }
                         }
                 } else if (currentGameScreen == GameScreenType::MAIN_MENU) {
+                        PollInputEvents();
                         UpdateMusicStream(titleScreenMusic);
                         renderMainMenuScreen(textureAtlas, staticCamera, mountainNumber, highScore);
 

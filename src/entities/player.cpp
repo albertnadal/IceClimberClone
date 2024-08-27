@@ -302,7 +302,7 @@ void Player::UpdateCollisions() {
     this->GetSolidCollisions(collisions, playerIsSuspendedInTheAir);
 
     // Check if the player is floating in the air (no ground under his feet)
-    if (playerIsSuspendedInTheAir && !isJumping && !isFalling && !isHitting && /*!isBlockedRight && !isBlockedLeft &&*/ !isSlipping) {
+    if (playerIsSuspendedInTheAir && !isJumping && !isFalling && !isHitting && !isSlipping) {
         FallDueToSuspendedInTheAir();
         return;
     }

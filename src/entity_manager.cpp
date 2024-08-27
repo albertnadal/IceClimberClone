@@ -231,7 +231,6 @@ void EntityManager::updateSpriteRectBuffers() {
     Rectangle src = { entity_ptr->currentSprite.u1, entity_ptr->currentSprite.v1, entity_ptr->currentSprite.u2, entity_ptr->currentSprite.v2 };
     Vector2 pos = { entity_ptr->position.GetX(), entity_ptr->position.GetY() };
     Boundaries boundaries = entity_ptr->GetAbsoluteBoundaries();
-    Boundaries solidBoundaries = entity_ptr->GetAbsoluteSolidBoundaries();
     Boundaries attackBoundaries = entity_ptr->GetAbsoluteAttackBoundaries().value_or(Boundaries{0,0,0,0});
     Color tint = WHITE;
 
@@ -255,7 +254,6 @@ void EntityManager::updateSpriteRectBuffers() {
     Rectangle src = { entity_ptr->currentSprite.u1, entity_ptr->currentSprite.v1, entity_ptr->currentSprite.u2, entity_ptr->currentSprite.v2 };
     Vector2 pos = { entity_ptr->position.GetX(), entity_ptr->position.GetY() };
     Boundaries boundaries = entity_ptr->GetAbsoluteBoundaries();
-    Boundaries solidBoundaries = entity_ptr->GetAbsoluteSolidBoundaries();
     Boundaries attackBoundaries = entity_ptr->GetAbsoluteAttackBoundaries().value_or(Boundaries{0,0,0,0});
     spriteRectDoubleBuffer->producer_buffer[i] = SpriteRect(src, pos, boundaries, attackBoundaries, WHITE);
     i++;

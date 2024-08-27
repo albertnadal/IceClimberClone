@@ -1,9 +1,6 @@
 #include <entity_sprite_sheet.h>
 
-EntitySpriteSheet::EntitySpriteSheet(EntityIdentificator _id)
-        : Id(_id)
-{
-
+EntitySpriteSheet::EntitySpriteSheet() {
 }
 
 EntitySpriteSheet::~EntitySpriteSheet() {
@@ -11,7 +8,6 @@ EntitySpriteSheet::~EntitySpriteSheet() {
 
 	while (it != animations.end())
 	{
-		uint16_t entityAnimationId = it->first;
 		EntitySpriteSheetAnimation* entityAnimation = it->second;
 		delete entityAnimation;
 		it++;

@@ -27,7 +27,6 @@ void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
         std::string line;
         EntitySpriteSheet *currentEntitySpriteSheet;
         EntitySpriteSheetAnimation *currentEntitySpriteSheetAnimation;
-        uint16_t currentEntitySpriteSheetAnimationId;
 
         while (std::getline(infile, line))
         {
@@ -46,7 +45,7 @@ void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
                         } else if(startsWith(token, "##")) {
                                 currentLineType = OBJ_ID;
                                 EntityIdentificator entityId = (EntityIdentificator)std::stoi(token.substr(2));
-                                currentEntitySpriteSheet = new EntitySpriteSheet(entityId);
+                                currentEntitySpriteSheet = new EntitySpriteSheet();
                                 entitySpriteSheetsMap[entityId] = currentEntitySpriteSheet;
                         } else if(startsWith(token, "#")) {
                                 currentLineType = OBJ_ANIMATION_ID;
