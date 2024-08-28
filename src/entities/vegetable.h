@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <entity.h>
-#include <entity_manager.h>
+#include <game_manager.h>
 #include <state_machine.h>
 #include <sprite.h>
 #include <position.h>

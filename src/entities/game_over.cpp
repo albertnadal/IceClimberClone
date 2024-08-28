@@ -16,7 +16,7 @@ bool GameOver::Update(const uint8_t pressedKeys_) {
         PositionAddY(-1.0f);
         if((position.GetInitialCellY() - position.GetCellY()) >= MOUNTAIN_VIEWPORT_HEIGHT_CELLS) {
             isMoving = false;
-            entityManager->FinishGame();
+            gameManager->FinishGame();
         }
         needRedraw = true;
     }
@@ -41,7 +41,7 @@ bool GameOver::Update(const uint8_t pressedKeys_) {
 void GameOver::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
     spriteSheet = _spriteSheet;
     LoadAnimationWithId(GameOverAnimation::GAME_OVER_MOVE_UP);
-    entityManager->PlaySoundById(SoundIdentificator::GAME_OVER_SOUND);
+    gameManager->PlaySoundById(SoundIdentificator::GAME_OVER_SOUND);
 }
 
 IEntity *GameOver::Create() {

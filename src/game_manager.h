@@ -1,5 +1,5 @@
-#ifndef ENTITY_MANAGER_H
-#define ENTITY_MANAGER_H
+#ifndef GAME_MANAGER_H
+#define GAME_MANAGER_H
 
 #include <vector>
 #include <optional>
@@ -16,7 +16,7 @@ class Player;
 struct UpdateInfo { std::optional<float> currentCameraVerticalPosition; int lifeCounter; bool gameFinished; };
 struct GameScoreSummary { EntityIdentificator vegetableId = EntityIdentificator::NONE; bool condorHunted = false; int vegetableCount = 0, nitpickerCount = 0, iceCount = 0, brickCount = 0; int condorUnitScore = 0, vegetableUnitScore = 0, nitpickerUnitScore = 0, iceUnitScore = 0, brickUnitScore = 0; };
 
-class EntityManager
+class GameManager
 {
   aabb::Tree<IEntity*> *spacePartitionObjectsTree = nullptr; // Used for of object collision detection
   std::map<uint32_t, IEntity*> mobileObjects;
@@ -43,8 +43,8 @@ class EntityManager
   void updateStaticObjects();
   void updateSpriteRectBuffers();
 public:
-  EntityManager(SoundManager*, EntityDataManager*, SpriteRectDoubleBuffer*, uint32_t);
-  ~EntityManager();
+  GameManager(SoundManager*, EntityDataManager*, SpriteRectDoubleBuffer*, uint32_t);
+  ~GameManager();
   void SetupMountain(int);
   UpdateInfo Update(uint8_t);
   std::optional<IEntity *> CreateEntityWithId(EntityIdentificator, int , int);

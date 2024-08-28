@@ -34,8 +34,8 @@ void IEntity::SetSpacePartitionObjectsTree(aabb::Tree<IEntity*> *_spacePartition
   spacePartitionObjectsTree = _spacePartitionObjectsTree;
 }
 
-void IEntity::SetEntityManager(EntityManager *_entityManager) {
-  entityManager = _entityManager;
+void IEntity::SetGameManager(GameManager *_gameManager) {
+  gameManager = _gameManager;
 }
 
 void IEntity::PositionSetXY(float x, float y) {

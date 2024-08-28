@@ -1,10 +1,10 @@
-#include <entity_manager.h>
+#include <game_manager.h>
 #include <entity_factory.h>
 #include <entity.h>
 #include <fstream>
 #include <sstream>
 
-EntityManager::EntityManager(SoundManager* _soundManager, EntityDataManager* _textureManager, SpriteRectDoubleBuffer* _spriteRectDoubleBuffer, uint32_t _maxObjects) {
+GameManager::GameManager(SoundManager* _soundManager, EntityDataManager* _textureManager, SpriteRectDoubleBuffer* _spriteRectDoubleBuffer, uint32_t _maxObjects) {
         soundManager = _soundManager;
         textureManager = _textureManager;
         spriteRectDoubleBuffer = _spriteRectDoubleBuffer;
@@ -17,7 +17,7 @@ EntityManager::EntityManager(SoundManager* _soundManager, EntityDataManager* _te
         isGameOver = false;
 }
 
-void EntityManager::LoadMountainFromFile(const std::string& filename) {
+void GameManager::LoadMountainFromFile(const std::string& filename) {
   std::ifstream file(filename);
   assert(file.is_open() && "Error: Unable to open file with mountain data.");
 
@@ -65,7 +65,7 @@ void EntityManager::LoadMountainFromFile(const std::string& filename) {
   file.close();
 }
 
-std::optional<IEntity *> EntityManager::CreateEntityWithId(EntityIdentificator entity_id, int x, int y) {
+std::optional<IEntity *> GameManager::CreateEntityWithId(EntityIdentificator entity_id, int x, int y) {
   std::optional<IEntity *> entity_ptr = EntityFactory::Get(this, textureManager, spacePartitionObjectsTree)->CreateEntity(entity_id);
 
   if(entity_ptr.has_value()) {
@@ -96,7 +96,7 @@ std::optional<IEntity *> EntityManager::CreateEntityWithId(EntityIdentificator e
   return entity_ptr;
 }
 
-std::optional<float> EntityManager::PlayerReachedNewAltitude(int cellY) {
+std::optional<float> GameManager::PlayerReachedNewAltitude(int cellY) {
   if ((std::find(validAltitudes.begin(), validAltitudes.end(), cellY) != validAltitudes.end()) || (cellY <= BONUS_STAGE_CELL_Y)) {
     float padding_top = (cellY != BONUS_STAGE_CELL_Y) ? CAMERA_PADDING_TOP : CAMERA_BONUS_STAGE_PADDING_TOP;
     newCameraVerticalPosition = cellY*CELL_HEIGHT_FLOAT - padding_top;
@@ -108,11 +108,11 @@ std::optional<float> EntityManager::PlayerReachedNewAltitude(int cellY) {
   return std::nullopt;
 }
 
-float EntityManager::GetCurrentCameraVerticalPosition() const {
+float GameManager::GetCurrentCameraVerticalPosition() const {
   return currentCameraVerticalPosition <= 1.0f ? INITIAL_CAMERA_POSITION : currentCameraVerticalPosition;
 }
 
-std::optional<Position *> EntityManager::GetPlayerPosition() const {
+std::optional<Position *> GameManager::GetPlayerPosition() const {
   if (player == nullptr) {
     return std::nullopt;
   }
@@ -120,19 +120,19 @@ std::optional<Position *> EntityManager::GetPlayerPosition() const {
   return &(player->position);
 }
 
-GameScoreSummary EntityManager::GetGameScoreSummary() const {
+GameScoreSummary GameManager::GetGameScoreSummary() const {
   return scoreSummary;
 }
 
-bool EntityManager::IsGameOver() const {
+bool GameManager::IsGameOver() const {
   return isGameOver;
 }
 
-void EntityManager::PlaySoundById(SoundIdentificator soundId) const {
+void GameManager::PlaySoundById(SoundIdentificator soundId) const {
   soundManager->PlaySoundById(soundId);
 }
 
-void EntityManager::PlayerEnteredBonusStage() {
+void GameManager::PlayerEnteredBonusStage() {
   // Delete all mobile objects below the bonus stage (except the player).
   for (auto const& x : mobileObjects) {
     IEntity* entity_ptr = x.second;
@@ -144,7 +144,7 @@ void EntityManager::PlayerEnteredBonusStage() {
   playerEnteredBonusStage = true;
 }
 
-void EntityManager::PlayerCompletedMountain(bool condorHunted, int vegetableCount, int nitpickerCount, int iceCount, int brickCount) {
+void GameManager::PlayerCompletedMountain(bool condorHunted, int vegetableCount, int nitpickerCount, int iceCount, int brickCount) {
   scoreSummary.condorHunted = condorHunted;
   scoreSummary.vegetableCount = vegetableCount;
   scoreSummary.nitpickerCount = nitpickerCount;
@@ -153,7 +153,7 @@ void EntityManager::PlayerCompletedMountain(bool condorHunted, int vegetableCoun
   isGameFinished = true;
 }
 
-bool EntityManager::PlayerHasLostALife(int vegetableCount, int nitpickerCount, int iceCount, int brickCount) {
+bool GameManager::PlayerHasLostALife(int vegetableCount, int nitpickerCount, int iceCount, int brickCount) {
   scoreSummary.vegetableCount = vegetableCount;
   scoreSummary.nitpickerCount = nitpickerCount;
   scoreSummary.iceCount = iceCount;
@@ -170,11 +170,11 @@ bool EntityManager::PlayerHasLostALife(int vegetableCount, int nitpickerCount, i
   return isGameOver;
 }
 
-void EntityManager::FinishGame() {
+void GameManager::FinishGame() {
   isGameFinished = true;
 }
 
-void EntityManager::SetupMountain(int mountainNumber) {
+void GameManager::SetupMountain(int mountainNumber) {
     // Delete old object instances created in the previous game
     deleteAllObjects();
 
@@ -198,7 +198,7 @@ void EntityManager::SetupMountain(int mountainNumber) {
     LoadMountainFromFile(filename);
 }
 
-UpdateInfo EntityManager::Update(uint8_t pressedKeys) {
+UpdateInfo GameManager::Update(uint8_t pressedKeys) {
   updateMobileObjects(pressedKeys);
   updateStaticObjects();
   updateSpriteRectBuffers();
@@ -222,7 +222,7 @@ UpdateInfo EntityManager::Update(uint8_t pressedKeys) {
   return info;
 }
 
-void EntityManager::updateSpriteRectBuffers() {
+void GameManager::updateSpriteRectBuffers() {
   int i = 0;
   std::vector<aabb::AABBIntersection<IEntity*>> objectIntersections = spacePartitionObjectsTree->query(player->GetLowerBound(), player->GetUpperBound());
 
@@ -263,7 +263,7 @@ void EntityManager::updateSpriteRectBuffers() {
   spriteRectDoubleBuffer->swapBuffers();
 }
 
-void EntityManager::updateEntities(std::map<uint32_t, IEntity*>& objects, std::optional<uint8_t> pressedKeys = std::nullopt) {
+void GameManager::updateEntities(std::map<uint32_t, IEntity*>& objects, std::optional<uint8_t> pressedKeys = std::nullopt) {
     for (auto const& x : objects) {
         IEntity* entity_ptr = x.second;
 
@@ -280,15 +280,15 @@ void EntityManager::updateEntities(std::map<uint32_t, IEntity*>& objects, std::o
     }
 }
 
-void EntityManager::updateMobileObjects(uint8_t pressedKeys) {
+void GameManager::updateMobileObjects(uint8_t pressedKeys) {
     updateEntities(mobileObjects, pressedKeys);
 }
 
-void EntityManager::updateStaticObjects() {
+void GameManager::updateStaticObjects() {
     updateEntities(staticObjects);
 }
 
-void EntityManager::deleteUneededObjects() {
+void GameManager::deleteUneededObjects() {
   for (auto entity_ptr : objectsToDelete) {
     staticObjects.erase(entity_ptr->uniqueId);
     mobileObjects.erase(entity_ptr->uniqueId);
@@ -303,7 +303,7 @@ void EntityManager::deleteUneededObjects() {
   objectsToDelete.clear();
 }
 
-void EntityManager::deleteAllObjects() {
+void GameManager::deleteAllObjects() {
   // Mark the Player instance to delete.
   if (player != nullptr) {
     player->isMarkedToDelete = true;
@@ -328,7 +328,7 @@ void EntityManager::deleteAllObjects() {
   staticObjects.clear();
 }
 
-EntityManager::~EntityManager() {
+GameManager::~GameManager() {
   deleteAllObjects();
 
   if(spacePartitionObjectsTree != nullptr) {

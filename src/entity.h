@@ -13,7 +13,7 @@
 using namespace std;
 
 class IEntity;
-class EntityManager;
+class GameManager;
 
 struct Boundaries { int lowerBoundX, lowerBoundY, upperBoundX, upperBoundY; };
 struct ObjectCollision { IEntity* object; int horizontalCorrection; int verticalCorrection; };
@@ -21,7 +21,7 @@ struct ObjectCollision { IEntity* object; int horizontalCorrection; int vertical
 class IEntity : public StateMachine
 {
 protected:
-  EntityManager *entityManager = nullptr;
+  GameManager *gameManager = nullptr;
   aabb::Tree<IEntity*> *spacePartitionObjectsTree = nullptr;
   std::vector<SpriteData> currentAnimationSprites;
   std::vector<SpriteData>::iterator currentAnimationSpriteIterator;
@@ -52,7 +52,7 @@ public:
   bool isTraversable = false;
   bool isMarkedToDelete = false;
   void SetSpacePartitionObjectsTree(aabb::Tree<IEntity*>*);
-  void SetEntityManager(EntityManager*);
+  void SetGameManager(GameManager*);
   void PositionSetOffset(int16_t x, int16_t y);
   void PositionSetXY(float, float);
   void PositionSetX(float);

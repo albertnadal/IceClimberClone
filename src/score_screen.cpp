@@ -6,7 +6,7 @@
 #include <chrono>
 #include <raylib/raylib.h>
 #include <defines.h>
-#include <entity_manager.h>
+#include <game_manager.h>
 #include <utils.h>
 
 static inline void renderScoreScreen(Texture2D &textureAtlas, Camera2D &staticCamera, GameScoreSummary &scoreSummary, int mountainNumber, int accumulatedScore) {

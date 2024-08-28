@@ -5,7 +5,7 @@
 #include <optional>
 #include <AABB/AABB.h>
 #include <entity.h>
-#include <entity_manager.h>
+#include <game_manager.h>
 #include <entity_data_manager.h>
 #include <entities/player.h>
 #include <entities/brick.h>
@@ -22,22 +22,22 @@
 #include <entities/condor.h>
 #include <entities/game_over.h>
 
-class EntityManager;
+class GameManager;
 
 class EntityFactory
 {
 private:
-  EntityFactory(EntityManager*, EntityDataManager*, aabb::Tree<IEntity*>*);
+  EntityFactory(GameManager*, EntityDataManager*, aabb::Tree<IEntity*>*);
   EntityFactory &operator=(const EntityFactory &);
   void RegisterEntities();
   typedef std::map<EntityIdentificator, CreateEntityFn> EntityFactoryMap;
   EntityFactoryMap entityFactoryMap;
-  EntityManager *entityManager = nullptr;
+  GameManager *gameManager = nullptr;
   EntityDataManager *textureManager = nullptr;
   aabb::Tree<IEntity*> *spacePartitionObjectsTree = nullptr;
 public:
 	~EntityFactory();
-	static EntityFactory *Get(EntityManager*, EntityDataManager*, aabb::Tree<IEntity*>*);
+	static EntityFactory *Get(GameManager*, EntityDataManager*, aabb::Tree<IEntity*>*);
 	void Register(const EntityIdentificator, CreateEntityFn);
 	std::optional<IEntity*> CreateEntity(const EntityIdentificator) const;
 };

@@ -88,7 +88,7 @@ bool Topi::Update(const uint8_t pressedKeys_) {
 
 void Topi::Hit(bool hitFromLeft) {
     if (isWalking || isGoingToPickUpIce) {
-        entityManager->PlaySoundById(SoundIdentificator::HIT_ENEMY_SOUND);
+        gameManager->PlaySoundById(SoundIdentificator::HIT_ENEMY_SOUND);
         HitReceived();
     }
 }
@@ -413,7 +413,7 @@ void Topi::STATE_Bring_Ice_Right() {
     // Create a block of ice on the right side of the Topi
     int cell_x = position.GetCellX() + (Width() / CELL_WIDTH);
     int cell_y = position.GetCellY();
-    entityManager->CreateEntityWithId(EntityIdentificator::ICE, cell_x, cell_y);
+    gameManager->CreateEntityWithId(EntityIdentificator::ICE, cell_x, cell_y);
 }
 
 void Topi::STATE_Bring_Ice_Left() {
@@ -429,5 +429,5 @@ void Topi::STATE_Bring_Ice_Left() {
     // Create a block of ice on the left side of the Topi
     int cell_x = position.GetCellX() - 1;
     int cell_y = position.GetCellY();
-    entityManager->CreateEntityWithId(EntityIdentificator::ICE, cell_x, cell_y);
+    gameManager->CreateEntityWithId(EntityIdentificator::ICE, cell_x, cell_y);
 }

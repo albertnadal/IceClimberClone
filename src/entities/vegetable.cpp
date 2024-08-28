@@ -36,7 +36,7 @@ bool Vegetable::Update(uint8_t pressedKeys_) {
 void Vegetable::Hit(bool hitFromLeft) {
     RemoveFromSpacePartitionObjectsTree();
     isMarkedToDelete = true;
-    entityManager->PlaySoundById(SoundIdentificator::TAKE_VEGETABLE_SOUND);
+    gameManager->PlaySoundById(SoundIdentificator::TAKE_VEGETABLE_SOUND);
 }
 
 void Vegetable::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {

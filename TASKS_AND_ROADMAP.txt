@@ -216,7 +216,7 @@ TASKS AND ROADMAP TIMELINE:
     - The game should end, and the summary screen should be displayed [ OK ]
 
 - Implement the life counter:
-  - The EntityManager::Update method should return the "UpdateResult" struct containing the following fields [ OK ]
+  - The GameManager::Update method should return the "UpdateResult" struct containing the following fields [ OK ]
     - std::optional<float> currentCameraVerticalPosition [ OK ]
     - std::optional<int> lifeCounter [ OK ]
   - Render the life indicator in the game's main loop [ OK ]
@@ -237,9 +237,9 @@ TASKS AND ROADMAP TIMELINE:
 - When Popo catches the Condor, the game should end:
   - Popo and the Condor should remain stationary for a couple of seconds. [ OK ]
   - After two seconds, the Update function should indicate that the game is over. [ OK ]
-    - The Player instance should notify the EntityManager instance that the game is over by calling a method that also passes the achieved milestones as a parameter [ OK ]
+    - The Player instance should notify the GameManager instance that the game is over by calling a method that also passes the achieved milestones as a parameter [ OK ]
   - When the logic loop gets that the game is over, the loop/thread should end [ OK ]
-  - Return the accumulated score storage structure with the EntityManager::GetGameScoreSummary() method [ OK ]
+  - Return the accumulated score storage structure with the GameManager::GetGameScoreSummary() method [ OK ]
 
 - Implement the game summary screen:
   - Display the summary screen of points achieved by the player when the game logic thread ends [ OK ]
@@ -263,9 +263,9 @@ TASKS AND ROADMAP TIMELINE:
 
 - Implement the BonusStageText class, configure the sprites, and add it to the mountainMap [ OK ]
 - Delete lines in "objtypes.dat" files using deprecated "solid" and "simple" operations" [ OK ]
-- Implement EntityManager::setupMountain(int mountainNumber) to setup a new gameplay for an specific mountain [ OK ]
+- Implement GameManager::setupMountain(int mountainNumber) to setup a new gameplay for an specific mountain [ OK ]
 - Add support to load mountain data from files with name "mountain##.dat" [ OK ]
-- Reset active EntityManager instance on start a new game (reset current score, lifes counter, etc.) [ OK ]
+- Reset active GameManager instance on start a new game (reset current score, lifes counter, etc.) [ OK ]
 - Load the vegetableId, condorUnitScore, vegetableUnitScore, nitpickerUnitScore, iceUnitScore and brickUnitScore from the mountain data file [ OK ]
 - Move std::optional<Boundaries> attackBoundingBox from Entity class to Player class <==== [ Wait until finished Devlog 4 ]
 - Load and start to play next mountain on exit score summary screen [ OK ]
@@ -316,7 +316,7 @@ TASKS AND ROADMAP TIMELINE:
 - Calculate the current bottom mountain viewport when Popo reaches a new altitude [ OK ]
 - Implement the dead state of Popo [ OK ]
   - During dead jump Popo should not experience collisions [ OK ]
-  - When Popo position surpaces the current bottom mountain viewport then report the kill to the EntityManager [ OK ]
+  - When Popo position surpaces the current bottom mountain viewport then report the kill to the GameManager [ OK ]
 
 - Implement the respawn of Popo after losing a life [ OK ]
 - Implement lose a life when Popo falls out of the bottom of the screen [ OK ]
@@ -325,7 +325,7 @@ TASKS AND ROADMAP TIMELINE:
 - Show the Game Over message when reaching 0 lifes and go to player score summary screen:
   - Create GameOver entity class [ OK ]
   - Move GameOver sprite from bottom to top [ OK ]
-  - Notify EntityManager when GameOver entity reaches the top [ OK ]
+  - Notify GameManager when GameOver entity reaches the top [ OK ]
   - Accumulate the score achieved by Popo when the game is over [ OK ]
 - Implement STATE_Respawn_Right and STATE_Respawn_Left instead of having a unique state for respawn [ OK ]
 - A falling dazed Topi cannot kill Popo [ OK ]
@@ -356,7 +356,7 @@ TASKS AND ROADMAP TIMELINE:
 
 - Implement a Utils static method to load game music in the main function [ OK ]
 - Delete the Popo state DownKeyPressed trigger as is unnecessary [ OK ]
-- Parameterize the magic numbers of the EntityManager::BuildMountain method in defines [ OK ]
+- Parameterize the magic numbers of the GameManager::BuildMountain method in defines [ OK ]
 - Do not print Raylib debug messages if DEBUG is set to false [ OK ]
 - Remove unneeded Print methods only used for debug in the early stages of the development [ OK ]
 - Create a PSD file of the texture image with the pink in a separate layer and remove pink points in the PNG image [ OK ]
@@ -369,7 +369,7 @@ TASKS AND ROADMAP TIMELINE:
 - Try to compile the program to run in a web browser via wasm/emscripten <==== [ EXPERIENCING ISSUES WITH PTHREADS RUNNING IN THE BROWSER ]
   - Raylib must be compiled using the flag config.h::SUPPORT_CUSTOM_FRAME_CONTROL = true
 - Review the unused includes in the entity class headers due to copy&paste of files <==== [ CURRENT ]
-- Consider renaming the EntityManager class to GameManager, as it not only manages entities but also controls other game states such as remaining lives, points achieved, etc. <==== [ CURRENT ]
+- Consider renaming the GameManager class to GameManager, as it not only manages entities but also controls other game states such as remaining lives, points achieved, etc. <==== [ CURRENT ]
 - Run the cppcheck static analyzer and fix errors <==== [ CURRENT ]
 - The screen height should have a fixed numerical value, not depend on ZOOM. The ZOOM value should be calculated dynamically based on screen height <===== [ CURRENT ]
 - Fix the z-index of the sprites <==== [ CURRENT ]

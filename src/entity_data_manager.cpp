@@ -95,8 +95,8 @@ Texture2D EntityDataManager::LoadTextureAtlas() const {
         return LoadTexture(FileSystem::getPath(textureFilename).c_str());
 }
 
-std::optional<EntitySpriteSheet*> EntityDataManager::GetSpriteSheetByEntityIdentificator(EntityIdentificator sceneObjectIdentificator) const {
-        auto searchIterator = entitySpriteSheetsMap.find(sceneObjectIdentificator);
+std::optional<EntitySpriteSheet*> EntityDataManager::GetSpriteSheetByEntityIdentificator(EntityIdentificator entityId) const {
+        auto searchIterator = entitySpriteSheetsMap.find(entityId);
         if (searchIterator != entitySpriteSheetsMap.end()) {
                 return searchIterator->second;
         }

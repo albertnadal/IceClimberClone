@@ -53,13 +53,13 @@ void Player::NotifyNewAltitudeHasBeenReached() {
         lowestCellYReached = currentCellY;
 
         // Notify the player reached a new altitude and get the updated bottom viewport of the mountain.
-        auto bottomViewportOpt = entityManager->PlayerReachedNewAltitude(currentCellY);
+        auto bottomViewportOpt = gameManager->PlayerReachedNewAltitude(currentCellY);
         if (bottomViewportOpt.has_value()) {
             bottomViewport = bottomViewportOpt.value();
         }
 
         if (currentCellY == BONUS_STAGE_CELL_Y) {
-            entityManager->PlayerEnteredBonusStage();
+            gameManager->PlayerEnteredBonusStage();
         }
     }
 }
@@ -72,7 +72,7 @@ bool Player::Update(const uint8_t pressedKeys_) {
     if (gameFinished) {
         // Make a pause before notifying the game has finished
         if(chrono::system_clock::now() >= notifyGameFinishedTime) {
-            entityManager->PlayerCompletedMountain(condorHunted, vegetableCount, nitpickerCount, iceCount, brickCount);
+            gameManager->PlayerCompletedMountain(condorHunted, vegetableCount, nitpickerCount, iceCount, brickCount);
         }
         return false;
     }
@@ -606,7 +606,7 @@ void Player::UpdateJump() {
     previous_vOffset = vOffset;
 
     if (vJumpPosition > bottomViewport) {
-        isGameOver = entityManager->PlayerHasLostALife(vegetableCount, nitpickerCount, iceCount, brickCount);
+        isGameOver = gameManager->PlayerHasLostALife(vegetableCount, nitpickerCount, iceCount, brickCount);
         if (!isGameOver) {
             StartRespawn();
         }
@@ -659,7 +659,7 @@ void Player::UpdateFall() {
     vectorDirection.y = -1;
 
     if (vFallPosition > bottomViewport) {
-        bool isGameOver = entityManager->PlayerHasLostALife(vegetableCount, nitpickerCount, iceCount, brickCount);
+        bool isGameOver = gameManager->PlayerHasLostALife(vegetableCount, nitpickerCount, iceCount, brickCount);
         if (!isGameOver) {
             StartRespawn();
         }
@@ -738,7 +738,7 @@ void Player::Jump(float vSpeed, float hSpeed) {
     isJumpApex = false;
     isFalling = false;
     isSlipping = false;
-    entityManager->PlaySoundById(isDead ? SoundIdentificator::LOSE_LIFE_SOUND : SoundIdentificator::JUMP_SOUND);
+    gameManager->PlaySoundById(isDead ? SoundIdentificator::LOSE_LIFE_SOUND : SoundIdentificator::JUMP_SOUND);
 }
 
 void Player::Fall(float hSpeed) {

@@ -95,7 +95,7 @@ bool Nitpicker::Update(const uint8_t pressedKeys_) {
 
 void Nitpicker::Hit(bool hitFromLeft) {
     if (isFlying) {
-        entityManager->PlaySoundById(SoundIdentificator::HIT_NITPICKER_SOUND);
+        gameManager->PlaySoundById(SoundIdentificator::HIT_NITPICKER_SOUND);
         RemoveFromSpacePartitionObjectsTree();
         StartFall();
     }
@@ -106,11 +106,11 @@ float Nitpicker::calculateDistance(const std::pair<float, float>& a, const std::
 }
 
 void Nitpicker::CalculateNewFlyingRoute() {
-    if (entityManager == nullptr) {
+    if (gameManager == nullptr) {
         return;
     }
 
-    std::optional<Position *> playerPosition = entityManager->GetPlayerPosition();
+    std::optional<Position *> playerPosition = gameManager->GetPlayerPosition();
     if (!playerPosition.has_value()) {
         return;
     }
@@ -175,7 +175,7 @@ void Nitpicker::STATE_Flying() {
     isFlying = true;
     isRetreating = false;
     isFalling = false;
-    PositionSetY(entityManager->GetCurrentCameraVerticalPosition() + NITPICKER_RESPAWN_TOP_MARGIN); // Use the viewport vertical position as respawn position.
+    PositionSetY(gameManager->GetCurrentCameraVerticalPosition() + NITPICKER_RESPAWN_TOP_MARGIN); // Use the viewport vertical position as respawn position.
 
     direction = (rand() % 2 == 0) ? Direction::RIGHT : Direction::LEFT; // Random initial direction.
     if (direction == Direction::RIGHT) {

@@ -8,7 +8,7 @@
 #include <raylib/raylib.h>
 #include <defines.h>
 #include <entity_data_manager.h>
-#include <entity_manager.h>
+#include <game_manager.h>
 #include <sound_manager.h>
 #include <utils.h>
 #include <main_menu_screen.cpp>
@@ -26,7 +26,7 @@ bool exitGame = false;
 bool isGameFinished = false;
 bool isGameOver = false;
 EntityDataManager *entityTextureManager;
-EntityManager *entityManager;
+GameManager *gameManager;
 SoundManager *soundManager;
 int gameLogicFrequency = MILLISECONDS_PER_TICK;
 bool paused = false;
@@ -49,7 +49,7 @@ static void* gameLogicThreadFunc(void* v)
         while(!exitGame && !isGameFinished) {
                 if (!paused) {
                         auto t0 = std::chrono::high_resolution_clock::now();
-                        info = entityManager->Update(pressedKeys);
+                        info = gameManager->Update(pressedKeys);
                         isGameFinished = info.gameFinished;
 
                         cameraVerticalPositionMutex.lock();
@@ -66,10 +66,10 @@ static void* gameLogicThreadFunc(void* v)
                 std::this_thread::sleep_for(std::chrono::milliseconds(gameLogicFrequency) - cpuTimePerUpdate);
         }
 
-        isGameOver = entityManager->IsGameOver();
+        isGameOver = gameManager->IsGameOver();
 
         // Update accumulated score and update high score if needed
-        scoreSummary = entityManager->GetGameScoreSummary();
+        scoreSummary = gameManager->GetGameScoreSummary();
         accumulatedScore += ((scoreSummary.vegetableCount * scoreSummary.vegetableUnitScore) + (scoreSummary.iceCount * scoreSummary.iceUnitScore) + (scoreSummary.nitpickerCount * scoreSummary.nitpickerUnitScore) + (scoreSummary.brickCount * scoreSummary.brickUnitScore) + (scoreSummary.condorHunted ? scoreSummary.condorUnitScore : 0));
         if (accumulatedScore > highScore) {
                 highScore = accumulatedScore;
@@ -133,7 +133,7 @@ int main()
         entityTextureManager = new EntityDataManager();
         SpriteRectDoubleBuffer *spriteRectDoubleBuffer = new SpriteRectDoubleBuffer(MAX_OBJECTS);
         soundManager = new SoundManager();
-        entityManager = new EntityManager(soundManager, entityTextureManager, spriteRectDoubleBuffer, MAX_OBJECTS);
+        gameManager = new GameManager(soundManager, entityTextureManager, spriteRectDoubleBuffer, MAX_OBJECTS);
         std::optional<int> lifeCounterCopy;
 
         // Load texture atlas into GPU memory
@@ -210,7 +210,7 @@ int main()
                                         mountainCamera.offset = (Vector2){ 0, -INITIAL_CAMERA_POSITION };
 
                                         pressedKeys = IC_KEY_NONE;
-                                        entityManager->SetupMountain(mountainNumber);
+                                        gameManager->SetupMountain(mountainNumber);
                                         currentGameScreen = GameScreenType::MOUNTAIN_GAME_PLAY;
                                         StopMusicStream(mountainGamePlayMusic);
                                         PlayMusicStream(mountainGamePlayMusic);
@@ -224,10 +224,10 @@ int main()
 
                         if (IsKeyPressed(KEY_UP)) {
                                 mountainNumber = (mountainNumber % TOTAL_MOUNTAINS) + 1;
-                                entityManager->PlaySoundById(SoundIdentificator::SELECT_SOUND);
+                                gameManager->PlaySoundById(SoundIdentificator::SELECT_SOUND);
                         } else if (IsKeyPressed(KEY_DOWN)) {
                                 mountainNumber = (mountainNumber - 2 + TOTAL_MOUNTAINS) % TOTAL_MOUNTAINS + 1;
-                                entityManager->PlaySoundById(SoundIdentificator::SELECT_SOUND);
+                                gameManager->PlaySoundById(SoundIdentificator::SELECT_SOUND);
                         } else if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_ENTER)) {
                                 StopMusicStream(titleScreenMusic);
                                 StopMusicStream(mountainGamePlayMusic);
@@ -240,7 +240,7 @@ int main()
                                 isGameOver = false;
 
                                 pressedKeys = IC_KEY_NONE;
-                                entityManager->SetupMountain(mountainNumber);
+                                gameManager->SetupMountain(mountainNumber);
                                 currentGameScreen = GameScreenType::MOUNTAIN_GAME_PLAY;
                                 pthread_create(&gameLogicThread, nullptr, gameLogicThreadFunc, nullptr);
                         }
@@ -254,7 +254,7 @@ int main()
 
         delete soundManager; // This also unloads sounds
         delete entityTextureManager;
-        delete entityManager;
+        delete gameManager;
         delete spriteRectDoubleBuffer;
 
         UnloadTexture(textureAtlas);

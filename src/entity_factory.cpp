@@ -2,8 +2,8 @@
 #include <entity_sprite_sheet.h>
 #include <map>
 
-EntityFactory::EntityFactory(EntityManager* _entityManager, EntityDataManager* _textureManager, aabb::Tree<IEntity*>* _spacePartitionObjectsTree) {
-	entityManager = _entityManager;
+EntityFactory::EntityFactory(GameManager* _gameManager, EntityDataManager* _textureManager, aabb::Tree<IEntity*>* _spacePartitionObjectsTree) {
+	gameManager = _gameManager;
 	textureManager = _textureManager;
 	spacePartitionObjectsTree = _spacePartitionObjectsTree;
 	RegisterEntities();
@@ -87,19 +87,19 @@ EntityFactory::~EntityFactory() {
 	entityFactoryMap.clear();
 }
 
-void EntityFactory::Register(const EntityIdentificator sceneObjectId, const CreateEntityFn pfnCreate)
+void EntityFactory::Register(const EntityIdentificator entityId, const CreateEntityFn pfnCreate)
 {
-	entityFactoryMap[sceneObjectId] = pfnCreate;
+	entityFactoryMap[entityId] = pfnCreate;
 }
 
-std::optional<IEntity*> EntityFactory::CreateEntity(const EntityIdentificator sceneObjectId) const
+std::optional<IEntity*> EntityFactory::CreateEntity(const EntityIdentificator entityId) const
 {
-	EntityFactoryMap::const_iterator it = entityFactoryMap.find(sceneObjectId);
+	EntityFactoryMap::const_iterator it = entityFactoryMap.find(entityId);
 	if( it != entityFactoryMap.end() ) {
 		IEntity *entity = it->second();
 		std::optional<EntitySpriteSheet *> entitySpriteSheet = textureManager->GetSpriteSheetByEntityIdentificator(entity->Id());
 		assert(entitySpriteSheet != std::nullopt);
-		entity->SetEntityManager(entityManager);
+		entity->SetGameManager(gameManager);
 		entity->SetSpacePartitionObjectsTree(spacePartitionObjectsTree);
 		entity->InitWithSpriteSheet(*entitySpriteSheet);
 		return entity;
@@ -108,8 +108,8 @@ std::optional<IEntity*> EntityFactory::CreateEntity(const EntityIdentificator sc
 	return std::nullopt;
 }
 
-EntityFactory *EntityFactory::Get(EntityManager* _entityManager, EntityDataManager* _textureManager, aabb::Tree<IEntity*>* _spacePartitionObjectsTree)
+EntityFactory *EntityFactory::Get(GameManager* _gameManager, EntityDataManager* _textureManager, aabb::Tree<IEntity*>* _spacePartitionObjectsTree)
 {
-	static EntityFactory instance(_entityManager, _textureManager, _spacePartitionObjectsTree);
+	static EntityFactory instance(_gameManager, _textureManager, _spacePartitionObjectsTree);
 	return &instance;
 }
