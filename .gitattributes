@@ -42,3 +42,4 @@
 
 # Audio
 *.mp3   binary
+*.wav   binary

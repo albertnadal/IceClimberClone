@@ -13,7 +13,7 @@ bool GameOver::Update(const uint8_t pressedKeys_) {
     bool needRedraw = false;
  
     if (isMoving) {
-        PositionAddY(-1.0f);
+        PositionAddY(-1.5f);
         if((position.GetInitialCellY() - position.GetCellY()) >= MOUNTAIN_VIEWPORT_HEIGHT_CELLS) {
             isMoving = false;
             gameManager->FinishGame();
