@@ -136,7 +136,7 @@ int main()
         // Load texture atlas into GPU memory
         Texture2D textureAtlas = entityTextureManager->LoadTextureAtlas();
 
-        while (!WindowShouldClose())
+        while (!WindowShouldClose() && !exitGame)
         {
                 if (currentGameScreen == GameScreenType::MOUNTAIN_GAME_PLAY) {
                         processKeyboardInput();
@@ -219,7 +219,9 @@ int main()
                         UpdateMusicStream(titleScreenMusic);
                         renderMainMenuScreen(textureAtlas, staticCamera, mountainNumber, highScore);
 
-                        if (IsKeyPressed(KEY_UP)) {
+                        if (IsKeyPressed(KEY_ESCAPE)) {
+                                exitGame = true;
+                        } else if (IsKeyPressed(KEY_UP)) {
                                 mountainNumber = (mountainNumber % TOTAL_MOUNTAINS) + 1;
                                 gameManager->PlaySoundById(SoundIdentificator::SELECT_SOUND);
                         } else if (IsKeyPressed(KEY_DOWN)) {
