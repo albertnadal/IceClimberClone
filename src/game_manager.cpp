@@ -170,7 +170,11 @@ bool GameManager::PlayerHasLostALife(int vegetableCount, int nitpickerCount, int
   return isGameOver;
 }
 
-void GameManager::FinishGame() {
+void GameManager::FinishGame(bool forceGameOver) {
+  if (forceGameOver) {
+    isGameOver = true;
+  }
+
   isGameFinished = true;
 }
 

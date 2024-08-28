@@ -506,6 +506,11 @@ void Player::ProcessPressedKeys(bool checkPreviousPressedKeys) {
         }
     }
 
+    if (pressedKeys & KeyboardKeyCode::IC_KEY_ESCAPE) {
+        isGameOver = true;
+        gameManager->FinishGame(true);
+    }
+
     prevPressedKeys = pressedKeys;
 }
 

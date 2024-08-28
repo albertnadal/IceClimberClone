@@ -57,7 +57,7 @@ public:
   void PlayerEnteredBonusStage();
   void PlayerCompletedMountain(bool, int, int, int, int);
   bool PlayerHasLostALife(int, int, int, int);
-  void FinishGame();
+  void FinishGame(bool);
 };
 
 #endif
