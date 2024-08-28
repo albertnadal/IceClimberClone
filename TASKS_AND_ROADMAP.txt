@@ -272,7 +272,7 @@ TASKS AND ROADMAP TIMELINE:
   - 1 [ OK ]
   - 2 [ OK ]
   - 3 [ OK ]
-  - 4 [ CURRENT ]
+  - 4 [ OK ]
   - 5 [ WIP ]
   - 6 [ WIP ]
   - 7 [ WIP ]
@@ -364,23 +364,23 @@ TASKS AND ROADMAP TIMELINE:
 - Fix compiler warnings [ OK ]
 - Mark missing read-only class methods as 'const' [ OK ]
 - Delete unused member IEntity::recalculateAreasDataIsNeeded [ OK ]
-- Try to compile the program to run in a web browser via wasm/emscripten <==== [ EXPERIENCING ISSUES WITH PTHREADS RUNNING IN THE BROWSER ]
+- Try to compile the program to run in a web browser via wasm/emscripten <==== [ EXPERIENCING ISSUES WITH PTHREADS AND THE WEB BROWSER ]
   - Raylib must be compiled using the flag config.h::SUPPORT_CUSTOM_FRAME_CONTROL = true
 - Consider renaming the EntityManager class to GameManager [ OK ]
 
 - Design mountain 2 [ OK ]
 - Design mountain 3 [ OK ]
-- Design mountain 4 <==== [ CURRENT ]
-- Fix the z-index of the sprites <==== [ CURRENT ]
-- Do not call Update on non-animated decorative objects <==== [ CURRENT ]
+- Design mountain 4 [ OK ]
 
-- Prepare Devlog #4
+- Prepare Devlog #4 <==== [ CURRENT ]
   - Write script <====
   - Prepare storyboard <====
   - Record audio <====
   - Record videos <====
   - Edit <====
 
+- Fix the z-index of the sprites <==== [ CURRENT ]
+- Do not call Update on non-animated decorative objects <==== [ CURRENT ]
 - Review unused includes in the entity class headers due to copy&paste of files <==== [ CURRENT ]
 - Run the cppcheck static analyzer and fix errors <==== [ CURRENT ]
 - The screen height should have a fixed numerical value, not depend on ZOOM. The ZOOM value should be calculated dynamically based on screen height <===== [ CURRENT ]

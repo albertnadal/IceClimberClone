@@ -139,4 +139,4 @@ constexpr float VEGETABLE_SPRITE_WIDTH = 32.0f;                                 
 constexpr float EGGPLANT_VEGETABLE_X = 112.0f;                                   // X coordinate of the eggplant sprite in the tilemap.
 constexpr float NUMBER_SPRITE_WIDTH = 16.0f;                                     // Width in pixels of a number sprite in the tilemap.
 constexpr float ZERO_NUMBER_X = 560.0f;                                          // X coordinate of the zero-number sprite in the tilemap.
-constexpr int TOTAL_MOUNTAINS = 3;                                              // Numer of mountains available to play.
+constexpr int TOTAL_MOUNTAINS = 4;                                               // Numer of mountains available to play.
