@@ -7,7 +7,7 @@
 enum GameScreenType: uint16_t { MAIN_MENU = 0, MOUNTAIN_GAME_PLAY = 1, PLAYER_SCORE_SUMMARY = 2 };
 
 // Keyboard key codes
-enum KeyboardKeyCode: uint8_t { IC_KEY_LEFT = 0x80, IC_KEY_UP = 0x40, IC_KEY_RIGHT = 0x20, IC_KEY_DOWN = 0x10, IC_KEY_Q = 0x08, IC_KEY_W = 0x04, IC_KEY_A = 0x02, IC_KEY_SPACE = 0x01, IC_KEY_NONE = 0x00 };
+enum KeyboardKeyCode: uint8_t { IC_KEY_LEFT = 0x80, IC_KEY_UP = 0x40, IC_KEY_RIGHT = 0x20, IC_KEY_DOWN = 0x10, IC_KEY_ESCAPE = 0x08, IC_KEY_W = 0x04, IC_KEY_A = 0x02, IC_KEY_SPACE = 0x01, IC_KEY_NONE = 0x00 };
 
 // Sound identificators
 enum SoundIdentificator: uint16_t { JUMP_SOUND = 0, BREAK_BRICK_SOUND = 1, HIT_ENEMY_SOUND = 2, HIT_NITPICKER_SOUND = 3, TAKE_VEGETABLE_SOUND = 4, GAME_OVER_SOUND = 5, LOSE_LIFE_SOUND = 6, SELECT_SOUND = 7, MAX_SOUND_IDENTIFICATORS };

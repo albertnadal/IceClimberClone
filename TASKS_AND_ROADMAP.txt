@@ -371,6 +371,9 @@ TASKS AND ROADMAP TIMELINE:
 - Design mountain 2 [ OK ]
 - Design mountain 3 [ OK ]
 - Design mountain 4 [ OK ]
+- Disable close the application when pressing Escape key [ OK ]
+- Finish game when user press Escape key during game play <==== [ CURRENT ]
+- Close application when user press Escape key in the main menu <==== [ CURRENT ]
 
 - Prepare Devlog #4 <==== [ CURRENT ]
   - Write script <====

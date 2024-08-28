@@ -85,12 +85,8 @@ inline void processKeyboardInput() {
         if (IsKeyPressed(KEY_RIGHT) || IsKeyReleased(KEY_RIGHT)) pressedKeys ^= IC_KEY_RIGHT;
         if (IsKeyPressed(KEY_LEFT) || IsKeyReleased(KEY_LEFT)) pressedKeys ^= IC_KEY_LEFT;
         if (IsKeyPressed(KEY_UP) || IsKeyReleased(KEY_UP)) pressedKeys ^= IC_KEY_UP;
-        if (IsKeyPressed(KEY_DOWN) || IsKeyReleased(KEY_DOWN)) pressedKeys ^= IC_KEY_DOWN;
-        if (IsKeyPressed(KEY_Q) || IsKeyReleased(KEY_Q)) pressedKeys ^= IC_KEY_Q;
-        if (IsKeyPressed(KEY_W) || IsKeyReleased(KEY_W)) pressedKeys ^= IC_KEY_W;
-        if (IsKeyPressed(KEY_A) || IsKeyReleased(KEY_A)) pressedKeys ^= IC_KEY_A;
         if (IsKeyPressed(KEY_SPACE) || IsKeyReleased(KEY_SPACE)) pressedKeys ^= IC_KEY_SPACE;
-        if (IsKeyPressed(KEY_ESCAPE) || IsKeyReleased(KEY_ESCAPE)) pressedKeys ^= IC_KEY_DOWN;
+        if (IsKeyPressed(KEY_ESCAPE) || IsKeyReleased(KEY_ESCAPE)) pressedKeys ^= IC_KEY_ESCAPE;
 
         if (DEBUG) {
                 if (IsKeyPressed(KEY_P)) gameLogicFrequency += 10;
@@ -108,6 +104,7 @@ int main()
         srand(static_cast<unsigned>(time(0))); // Initialize the random seed to avoid deterministic behaviours. Just for debug purposes.
 
         InitWindow(SCR_WIDTH, SCR_HEIGHT, WINDOW_TITLE);
+        SetExitKey(0); // Disable close the application when pressing Esc key.
         InitAudioDevice();
         highScore = Utils::loadHighscoreFromFile(HIGHSCORE_FILENAME);
         Utils::loadGameMusic(titleScreenMusic, mountainGamePlayMusic, stageClearMusic);
