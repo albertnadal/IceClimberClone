@@ -14,7 +14,6 @@
 #include <main_menu_screen.cpp>
 #include <score_screen.cpp>
 
-constexpr float ZOOM = 1.0f;
 constexpr uint32_t SCR_WIDTH = 32*CELL_HEIGHT*ZOOM;  // REVISIT: The width should be a fixed value and the zoom value should be calculated based on the screen height.
 constexpr uint32_t SCR_HEIGHT = 30*CELL_HEIGHT*ZOOM; // REVISIT: The height should be a fixed value and the zoom value should be calculated based on the screen height.
 constexpr uint32_t MAX_OBJECTS = 1000;
@@ -121,7 +120,7 @@ int main()
         // Camera configuration for mountain game play screen
         Camera2D mountainCamera;
         mountainCamera.target = (Vector2){ 0, 0 };
-        mountainCamera.offset = (Vector2){ 0, -INITIAL_CAMERA_POSITION };
+        mountainCamera.offset = (Vector2){ 0, -INITIAL_CAMERA_POSITION*ZOOM };
         mountainCamera.rotation = 0.0f;
         mountainCamera.zoom = ZOOM;
 
@@ -206,7 +205,7 @@ int main()
                                         isGameFinished = false;
                                         mountainNumber = (mountainNumber % TOTAL_MOUNTAINS) + 1;
                                         cameraVerticalPosition = std::nullopt;
-                                        mountainCamera.offset = (Vector2){ 0, -INITIAL_CAMERA_POSITION };
+                                        mountainCamera.offset = (Vector2){ 0, -INITIAL_CAMERA_POSITION*ZOOM };
 
                                         pressedKeys = IC_KEY_NONE;
                                         gameManager->SetupMountain(mountainNumber);
@@ -236,7 +235,7 @@ int main()
                                 accumulatedScore = 0;
                                 lifeCounter = std::nullopt;
                                 cameraVerticalPosition = std::nullopt;
-                                mountainCamera.offset = (Vector2){ 0, -INITIAL_CAMERA_POSITION };
+                                mountainCamera.offset = (Vector2){ 0, -INITIAL_CAMERA_POSITION*ZOOM };
                                 isGameFinished = false;
                                 isGameOver = false;
 

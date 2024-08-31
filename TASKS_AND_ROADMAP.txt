@@ -374,6 +374,7 @@ TASKS AND ROADMAP TIMELINE:
 - Disable close the application when pressing Escape key [ OK ]
 - Finish game when user press Escape key during game play [ OK ]
 - Close application when user press Escape key in the main menu [ OK ]
+- Set game display zoom to 2x [ OK ]
 
 - Prepare Devlog #4 <==== [ CURRENT ]
   - Write script <==== [ CURRENT ]
