@@ -176,11 +176,13 @@ int main()
                                 lifeCounterCopy = lifeCounter;
                                 lifeCounterMutex.unlock();
 
-                                if(lifeCounterCopy.has_value()) {
-                                        for(float i=0; i<lifeCounterCopy.value(); i++) {
-                                                DrawTextureRec(textureAtlas, LIFE_COUNTER_SPRITE_RECT, {LIFE_COUNTER_X + (i*18), LIFE_COUNTER_Y}, WHITE);
+                                BeginMode2D(staticCamera);
+                                        if(lifeCounterCopy.has_value()) {
+                                                for(float i=0; i<lifeCounterCopy.value(); i++) {
+                                                        DrawTextureRec(textureAtlas, LIFE_COUNTER_SPRITE_RECT, {LIFE_COUNTER_X + (i*18), LIFE_COUNTER_Y}, WHITE);
+                                                }
                                         }
-                                }
+                                EndMode2D();
 
                                 if (DEBUG) {
                                         DrawFPS(16, 16);

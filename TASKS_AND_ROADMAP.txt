@@ -376,10 +376,10 @@ TASKS AND ROADMAP TIMELINE:
 - Close application when user press Escape key in the main menu [ OK ]
 
 - Prepare Devlog #4 <==== [ CURRENT ]
-  - Write script <====
-  - Prepare storyboard <====
+  - Write script <==== [ CURRENT ]
+  - Prepare storyboard <==== [ CURRENT ]
   - Record audio <====
-  - Record videos <====
+  - Record videos <==== [ CURRENT ]
   - Edit <====
 
 - Fix the z-index of the sprites <==== [ CURRENT ]
