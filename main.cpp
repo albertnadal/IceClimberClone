@@ -91,6 +91,12 @@ inline void processKeyboardInput() {
         }
 }
 
+void waitForGameLogicThread() {
+        if (gameLogicThread.joinable()) {
+                gameLogicThread.join();
+        }
+}
+
 int main() {
         if (!DEBUG) {
                 SetTraceLogLevel(LOG_NONE);
@@ -207,6 +213,7 @@ int main() {
                                         currentGameScreen = GameScreenType::MOUNTAIN_GAME_PLAY;
                                         StopMusicStream(mountainGamePlayMusic);
                                         PlayMusicStream(mountainGamePlayMusic);
+                                        waitForGameLogicThread();
                                         gameLogicThread = std::thread(gameLogicThreadFunc);
                                 }
                         }
@@ -237,6 +244,9 @@ int main() {
                                 pressedKeys = IC_KEY_NONE;
                                 gameManager->SetupMountain(mountainNumber);
                                 currentGameScreen = GameScreenType::MOUNTAIN_GAME_PLAY;
+
+                                waitForGameLogicThread();
+
                                 gameLogicThread = std::thread(gameLogicThreadFunc);
                         }
                 }
@@ -245,9 +255,7 @@ int main() {
         exitGame = true;
 
         // Wait for the gameLogicThread to finish
-        if (gameLogicThread.joinable()) {
-                gameLogicThread.join();
-        }
+        waitForGameLogicThread();
 
         delete soundManager; // This also unloads sounds
         delete entityTextureManager;
