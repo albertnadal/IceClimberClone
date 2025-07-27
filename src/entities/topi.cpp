@@ -1,8 +1,9 @@
 #include <entities/topi.h>
 #include <chrono>
+#include <array>
 
 Topi::Topi() :
-        IEntity(EntityIdentificator::TOPI, EntityType::ENEMY, SurfaceType::SIMPLE, TopiStateIdentificator::TOPI_MAX_STATES, false, true) {
+    IEntity(EntityIdentificator::TOPI, EntityType::ENEMY, SurfaceType::SIMPLE, TopiStateIdentificator::TOPI_MAX_STATES, false, true) {
     vectorDirection.x = 0;
     vectorDirection.y = 0;
     objectToCarryId = std::nullopt;
@@ -25,27 +26,24 @@ void Topi::SetRandomWalkStartPosition() {
 
 bool Topi::Update(const uint8_t pressedKeys_) {
     bool needRedraw = false;
- 
+
     if (isWalking) {
         MoveTo(direction, 0.5f);
         if (ReachedScreenEdge()) {
             SetRandomWalkStartPosition();
         }
         needRedraw = true;
-    }
-    else if (isGoingToPickUpIce) {
+    } else if (isGoingToPickUpIce) {
         MoveTo(direction, 1.5f);
         if (ReachedScreenEdge()) {
             BringIceToFillHole();
         }
         needRedraw = true;
-    }
-    else if (isFalling) {
+    } else if (isFalling) {
         PositionAddY(3.5f);  // Simple linear fall instead of parabolic
         UpdatePositionInSpacePartitionTree();
         needRedraw = true;
-    }
-    else if (isGoingToRecover) {
+    } else if (isGoingToRecover) {
         MoveTo(direction, 1.5f);
         if (ReachedScreenEdge()) {
             // Place Topi at its original position
@@ -93,7 +91,7 @@ void Topi::Hit(bool hitFromLeft) {
     }
 }
 
-void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& topiIsSuspendedInTheAir, bool& topiFoundAHoleOnTheFloor) {
+void Topi::GetSolidCollisions(std::vector<ObjectCollision>& collisions, bool& topiIsSuspendedInTheAir, bool& topiFoundAHoleOnTheFloor) {
     // Check for collisions with other objects present in the scene.
     std::vector<aabb::AABBIntersection<IEntity*>> objectIntersections = spacePartitionObjectsTree->query(GetLowerBound(), GetUpperBound());
     topiIsSuspendedInTheAir = false;
@@ -122,12 +120,11 @@ void Topi::GetSolidCollisions(std::vector<ObjectCollision> &collisions, bool& to
         // Compute position correction when Topi collides with the ground during a fall
         else if ((vectorDirection.y < 0) && (vectorDirection.x == 0) && (intersection.bottomIntersectionY < 0)) {
             verticalCorrection = intersection.bottomIntersectionY + currentSprite.yOffset;
-        }
-        else {
+        } else {
             continue;
         }
 
-        collisions.push_back({intersection.particle, horizontalCorrection, verticalCorrection});
+        collisions.push_back({ intersection.particle, horizontalCorrection, verticalCorrection });
 
         if (intersection.bottomIntersectionY < minBottomIntersectionYUnderlyingObjectCandidate) {
             minBottomIntersectionYUnderlyingObjectCandidate = intersection.bottomIntersectionY;
@@ -190,12 +187,12 @@ void Topi::UpdateCollisions() {
             objectsToIgnoreDuringFall.push_back(currentUnderlyingObject);
 
             // Also ignore collisions with nearby objects around the currentUnderlyingObject
-            std::array<int, 2> index = {-1, 1};
+            std::array<int, 2> index = { -1, 1 };
             for (size_t i = 0; i < index.size(); ++i) {
                 int x = (currentUnderlyingObject->position.GetCellX() + index[i]) * CELL_WIDTH;
                 int y = currentUnderlyingObject->position.GetCellY() * CELL_HEIGHT;
-                std::vector<int> lowerBound{x, y};
-                std::vector<int> upperBound{x + CELL_WIDTH, y + CELL_HEIGHT};
+                std::vector<int> lowerBound{ x, y };
+                std::vector<int> upperBound{ x + CELL_WIDTH, y + CELL_HEIGHT };
                 std::vector<aabb::AABBIntersection<IEntity*>> objectIntersections = spacePartitionObjectsTree->query(lowerBound, upperBound);
 
                 for (auto intersection : objectIntersections) {
@@ -269,7 +266,7 @@ void Topi::FinishFall() {
     FallLanding();
 }
 
-void Topi::InitWithSpriteSheet(EntitySpriteSheet *_spriteSheet) {
+void Topi::InitWithSpriteSheet(EntitySpriteSheet* _spriteSheet) {
     spriteSheet = _spriteSheet;
     SetRandomWalkStartPosition(); // Set random initial position, direction and state
 }
@@ -297,12 +294,12 @@ void Topi::LoadNextSprite() {
     // Adjusts object position according to the sprite offset
     PositionSetOffset(spriteData.xOffset, spriteData.yOffset);
 
-    boundingBox = {spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY};
-    solidBoundingBox = {spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY};
+    boundingBox = { spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY };
+    solidBoundingBox = { spriteData.lowerBoundX, spriteData.lowerBoundY, spriteData.upperBoundX, spriteData.upperBoundY };
     firstSpriteOfCurrentAnimationIsLoaded = true;
 }
 
-IEntity *Topi::Create() {
+IEntity* Topi::Create() {
     return new Topi();
 }
 

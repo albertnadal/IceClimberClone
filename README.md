@@ -2,7 +2,28 @@
 
 Hi! I've been working on a first proof of concept, and it looks like everything is taking shape and gaining momentum. I'm sharing my journey in a devlog format, and the project's source code is 100% open, meaning the entire process is as transparent as possible. I encourage you to sit in the co-pilot's seat and observe the journey from a privileged point of view. I think it could be a lot of fun!
 
-# Build instructions (macOS)
+# Build instructions
+
+## Windows (MSYS2/MinGW)
+
+### Prerequisites
+1. Install MSYS2 from https://www.msys2.org/
+2. Install required packages:
+```bash
+pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake mingw-w64-x86_64-raylib
+```
+
+### Build
+```bash
+# Using the build script
+./build_windows.bat
+# OR manually
+mkdir build && cd build
+cmake .. -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release
+cmake --build . --config Release
+```
+
+## macOS
 
 ```
 brew install glfw3
