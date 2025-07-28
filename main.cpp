@@ -2,10 +2,9 @@
 #include <vector>
 #include <cmath>
 #include <mutex>
-#include <pthread.h>
 #include <thread>
 #include <bitset>
-#include <raylib/raylib.h>
+#include <raylib.h>
 #include <defines.h>
 #include <entity_data_manager.h>
 #include <game_manager.h>
@@ -14,19 +13,19 @@
 #include <main_menu_screen.cpp>
 #include <score_screen.cpp>
 
-constexpr uint32_t SCR_WIDTH = 32*CELL_HEIGHT*ZOOM;  // REVISIT: The width should be a fixed value and the zoom value should be calculated based on the screen height.
-constexpr uint32_t SCR_HEIGHT = 30*CELL_HEIGHT*ZOOM; // REVISIT: The height should be a fixed value and the zoom value should be calculated based on the screen height.
+constexpr uint32_t SCR_WIDTH = 32 * CELL_HEIGHT * ZOOM;  // REVISIT: The width should be a fixed value and the zoom value should be calculated based on the screen height.
+constexpr uint32_t SCR_HEIGHT = 30 * CELL_HEIGHT * ZOOM; // REVISIT: The height should be a fixed value and the zoom value should be calculated based on the screen height.
 constexpr uint32_t MAX_OBJECTS = 1000;
 
-pthread_t gameLogicThread;
+std::thread gameLogicThread;
 std::chrono::duration<float> cpuTimePerUpdate;
 uint8_t pressedKeys = IC_KEY_NONE;
 bool exitGame = false;
 bool isGameFinished = false;
 bool isGameOver = false;
-EntityDataManager *entityTextureManager;
-GameManager *gameManager;
-SoundManager *soundManager;
+EntityDataManager* entityTextureManager;
+GameManager* gameManager;
+SoundManager* soundManager;
 int gameLogicFrequency = MILLISECONDS_PER_TICK;
 bool paused = false;
 std::optional<int> lifeCounter;
@@ -42,10 +41,9 @@ Music titleScreenMusic;
 Music mountainGamePlayMusic;
 Music stageClearMusic;
 
-static void* gameLogicThreadFunc(void* v)
-{
+static void gameLogicThreadFunc() {
         UpdateInfo info;
-        while(!exitGame && !isGameFinished) {
+        while (!exitGame && !isGameFinished) {
                 if (!paused) {
                         auto t0 = std::chrono::high_resolution_clock::now();
                         info = gameManager->Update(pressedKeys);
@@ -77,7 +75,6 @@ static void* gameLogicThreadFunc(void* v)
 
         PlayMusicStream(stageClearMusic);
         currentGameScreen = GameScreenType::PLAYER_SCORE_SUMMARY;
-        return nullptr;
 }
 
 inline void processKeyboardInput() {
@@ -94,9 +91,14 @@ inline void processKeyboardInput() {
         }
 }
 
-int main()
-{
-        if(!DEBUG) {
+void waitForGameLogicThread() {
+        if (gameLogicThread.joinable()) {
+                gameLogicThread.join();
+        }
+}
+
+int main() {
+        if (!DEBUG) {
                 SetTraceLogLevel(LOG_NONE);
         }
 
@@ -112,22 +114,22 @@ int main()
 
         // Camera configuration for simple static screens
         Camera2D staticCamera;
-        staticCamera.target = (Vector2){ 0, 0 };
-        staticCamera.offset = (Vector2){ 0, 0 };
+        staticCamera.target = Vector2{ 0, 0 };
+        staticCamera.offset = Vector2{ 0, 0 };
         staticCamera.rotation = 0.0f;
         staticCamera.zoom = ZOOM;
 
         // Camera configuration for mountain game play screen
         Camera2D mountainCamera;
-        mountainCamera.target = (Vector2){ 0, 0 };
-        mountainCamera.offset = (Vector2){ 0, -INITIAL_CAMERA_POSITION*ZOOM };
+        mountainCamera.target = Vector2{ 0, 0 };
+        mountainCamera.offset = Vector2{ 0, -INITIAL_CAMERA_POSITION * ZOOM };
         mountainCamera.rotation = 0.0f;
         mountainCamera.zoom = ZOOM;
 
         SetTargetFPS(FPS);
 
         entityTextureManager = new EntityDataManager();
-        SpriteRectDoubleBuffer *spriteRectDoubleBuffer = new SpriteRectDoubleBuffer(MAX_OBJECTS);
+        SpriteRectDoubleBuffer* spriteRectDoubleBuffer = new SpriteRectDoubleBuffer(MAX_OBJECTS);
         soundManager = new SoundManager();
         gameManager = new GameManager(soundManager, entityTextureManager, spriteRectDoubleBuffer, MAX_OBJECTS);
         std::optional<int> lifeCounterCopy;
@@ -135,57 +137,56 @@ int main()
         // Load texture atlas into GPU memory
         Texture2D textureAtlas = entityTextureManager->LoadTextureAtlas();
 
-        while (!WindowShouldClose() && !exitGame)
-        {
+        while (!WindowShouldClose() && !exitGame) {
                 if (currentGameScreen == GameScreenType::MOUNTAIN_GAME_PLAY) {
                         processKeyboardInput();
                         UpdateMusicStream(mountainGamePlayMusic);
 
                         BeginDrawing();
-                                ClearBackground(BLACK);
+                        ClearBackground(BLACK);
 
-                                cameraVerticalPositionMutex.lock();
-                                if (cameraVerticalPosition.has_value()) {
-                                        mountainCamera.offset = (Vector2){ 0, -(cameraVerticalPosition.value()) * ZOOM };
-                                }
-                                cameraVerticalPositionMutex.unlock();
+                        cameraVerticalPositionMutex.lock();
+                        if (cameraVerticalPosition.has_value()) {
+                                mountainCamera.offset = Vector2{ 0, -(cameraVerticalPosition.value()) * ZOOM };
+                        }
+                        cameraVerticalPositionMutex.unlock();
 
-                                BeginMode2D(mountainCamera);
-                                        spriteRectDoubleBuffer->lock();
-                                        for(int i=0; i<spriteRectDoubleBuffer->consumer_buffer_length; i++) {
-                                                auto position = spriteRectDoubleBuffer->consumer_buffer[i].position;
-                                                auto source = spriteRectDoubleBuffer->consumer_buffer[i].source;
-                                                auto tint = spriteRectDoubleBuffer->consumer_buffer[i].tint;
-                                                DrawTextureRec(textureAtlas, source, position, tint);
-
-                                                if (DEBUG) {
-                                                        // Draw solid bondaries only for debug purposes
-                                                        auto box = spriteRectDoubleBuffer->consumer_buffer[i].boundaries;
-                                                        DrawRectangleLinesEx({static_cast<float>(box.upperBoundX), static_cast<float>(box.upperBoundY), static_cast<float>(box.lowerBoundX-box.upperBoundX), static_cast<float>(box.lowerBoundY-box.upperBoundY)}, 1.0f, PINK);
-
-                                                        // Draw attack bondaries only for debug purposes
-                                                        box = spriteRectDoubleBuffer->consumer_buffer[i].attackBoundaries;
-                                                        DrawRectangleLinesEx({static_cast<float>(box.upperBoundX), static_cast<float>(box.upperBoundY), static_cast<float>(box.lowerBoundX-box.upperBoundX), static_cast<float>(box.lowerBoundY-box.upperBoundY)}, 1.0f, YELLOW);
-                                                }
-                                        }
-                                        spriteRectDoubleBuffer->unlock();
-                                EndMode2D();
-
-                                lifeCounterMutex.lock();
-                                lifeCounterCopy = lifeCounter;
-                                lifeCounterMutex.unlock();
-
-                                BeginMode2D(staticCamera);
-                                        if(lifeCounterCopy.has_value()) {
-                                                for(float i=0; i<lifeCounterCopy.value(); i++) {
-                                                        DrawTextureRec(textureAtlas, LIFE_COUNTER_SPRITE_RECT, {LIFE_COUNTER_X + (i*18), LIFE_COUNTER_Y}, WHITE);
-                                                }
-                                        }
-                                EndMode2D();
+                        BeginMode2D(mountainCamera);
+                        spriteRectDoubleBuffer->lock();
+                        for (int i = 0; i < spriteRectDoubleBuffer->consumer_buffer_length; i++) {
+                                auto position = spriteRectDoubleBuffer->consumer_buffer[i].position;
+                                auto source = spriteRectDoubleBuffer->consumer_buffer[i].source;
+                                auto tint = spriteRectDoubleBuffer->consumer_buffer[i].tint;
+                                DrawTextureRec(textureAtlas, source, position, tint);
 
                                 if (DEBUG) {
-                                        DrawFPS(16, 16);
+                                        // Draw solid bondaries only for debug purposes
+                                        auto box = spriteRectDoubleBuffer->consumer_buffer[i].boundaries;
+                                        DrawRectangleLinesEx({ static_cast<float>(box.upperBoundX), static_cast<float>(box.upperBoundY), static_cast<float>(box.lowerBoundX - box.upperBoundX), static_cast<float>(box.lowerBoundY - box.upperBoundY) }, 1.0f, PINK);
+
+                                        // Draw attack bondaries only for debug purposes
+                                        box = spriteRectDoubleBuffer->consumer_buffer[i].attackBoundaries;
+                                        DrawRectangleLinesEx({ static_cast<float>(box.upperBoundX), static_cast<float>(box.upperBoundY), static_cast<float>(box.lowerBoundX - box.upperBoundX), static_cast<float>(box.lowerBoundY - box.upperBoundY) }, 1.0f, YELLOW);
                                 }
+                        }
+                        spriteRectDoubleBuffer->unlock();
+                        EndMode2D();
+
+                        lifeCounterMutex.lock();
+                        lifeCounterCopy = lifeCounter;
+                        lifeCounterMutex.unlock();
+
+                        BeginMode2D(staticCamera);
+                        if (lifeCounterCopy.has_value()) {
+                                for (float i = 0; i < lifeCounterCopy.value(); i++) {
+                                        DrawTextureRec(textureAtlas, LIFE_COUNTER_SPRITE_RECT, { LIFE_COUNTER_X + (i * 18), LIFE_COUNTER_Y }, WHITE);
+                                }
+                        }
+                        EndMode2D();
+
+                        if (DEBUG) {
+                                DrawFPS(16, 16);
+                        }
                         EndDrawing();
                 } else if (currentGameScreen == GameScreenType::PLAYER_SCORE_SUMMARY) {
                         UpdateMusicStream(stageClearMusic);
@@ -205,14 +206,15 @@ int main()
                                         isGameFinished = false;
                                         mountainNumber = (mountainNumber % TOTAL_MOUNTAINS) + 1;
                                         cameraVerticalPosition = std::nullopt;
-                                        mountainCamera.offset = (Vector2){ 0, -INITIAL_CAMERA_POSITION*ZOOM };
+                                        mountainCamera.offset = Vector2{ 0, -INITIAL_CAMERA_POSITION * ZOOM };
 
                                         pressedKeys = IC_KEY_NONE;
                                         gameManager->SetupMountain(mountainNumber);
                                         currentGameScreen = GameScreenType::MOUNTAIN_GAME_PLAY;
                                         StopMusicStream(mountainGamePlayMusic);
                                         PlayMusicStream(mountainGamePlayMusic);
-                                        pthread_create(&gameLogicThread, nullptr, gameLogicThreadFunc, nullptr);
+                                        waitForGameLogicThread();
+                                        gameLogicThread = std::thread(gameLogicThreadFunc);
                                 }
                         }
                 } else if (currentGameScreen == GameScreenType::MAIN_MENU) {
@@ -235,14 +237,17 @@ int main()
                                 accumulatedScore = 0;
                                 lifeCounter = std::nullopt;
                                 cameraVerticalPosition = std::nullopt;
-                                mountainCamera.offset = (Vector2){ 0, -INITIAL_CAMERA_POSITION*ZOOM };
+                                mountainCamera.offset = Vector2{ 0, -INITIAL_CAMERA_POSITION * ZOOM };
                                 isGameFinished = false;
                                 isGameOver = false;
 
                                 pressedKeys = IC_KEY_NONE;
                                 gameManager->SetupMountain(mountainNumber);
                                 currentGameScreen = GameScreenType::MOUNTAIN_GAME_PLAY;
-                                pthread_create(&gameLogicThread, nullptr, gameLogicThreadFunc, nullptr);
+
+                                waitForGameLogicThread();
+
+                                gameLogicThread = std::thread(gameLogicThreadFunc);
                         }
                 }
         }
@@ -250,7 +255,7 @@ int main()
         exitGame = true;
 
         // Wait for the gameLogicThread to finish
-        pthread_join(gameLogicThread, nullptr);
+        waitForGameLogicThread();
 
         delete soundManager; // This also unloads sounds
         delete entityTextureManager;

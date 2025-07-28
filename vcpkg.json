@@ -1,0 +1,16 @@
+{
+  "name": "ice-climber-clone",
+  "version": "1.0.0",
+  "description": "A clone of the classic Ice Climber game using raylib",
+  "homepage": "https://github.com/pingumen96/IceClimberClone",
+  "dependencies": [
+    "raylib"
+  ],
+  "builtin-baseline": "3dd44b931481d7a8e9ba412621fa810232b66289",
+  "overrides": [
+    {
+      "name": "raylib",
+      "version": "4.5.0"
+    }
+  ]
+}

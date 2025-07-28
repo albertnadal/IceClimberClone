@@ -1,12 +1,12 @@
 #include <entity_data_manager.h>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 #include <collision/collision.h>
 
 using namespace collision;
 
-EntityDataManager::EntityDataManager()
-{
+EntityDataManager::EntityDataManager() {
         LoadObjectsDataFromFile(ENTITIES_DATA_FILENAME);
 }
 
@@ -19,35 +19,33 @@ EntityDataManager::~EntityDataManager() {
         entitySpriteSheetsMap.clear();
 }
 
-void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
-{
+void EntityDataManager::LoadObjectsDataFromFile(std::string filename) {
         enum LineType { UNDEFINED_LINE_TYPE, OBJ_TEX_FILENAME, OBJ_ID, OBJ_ANIMATION_ID, OBJ_SPRITE };
 
         std::ifstream infile(filename);
         std::string line;
-        EntitySpriteSheet *currentEntitySpriteSheet;
-        EntitySpriteSheetAnimation *currentEntitySpriteSheetAnimation;
+        EntitySpriteSheet* currentEntitySpriteSheet;
+        EntitySpriteSheetAnimation* currentEntitySpriteSheetAnimation;
 
-        while (std::getline(infile, line))
-        {
+        while (std::getline(infile, line)) {
                 std::istringstream iss(line);
                 string token;
                 bool commentFound = false;
                 std::vector<string> currentFrameValues;
                 LineType currentLineType = UNDEFINED_LINE_TYPE;
 
-                while((iss >> token) && (!commentFound)) {
-                        if(startsWith(token, "//")) {
+                while ((iss >> token) && (!commentFound)) {
+                        if (startsWith(token, "//")) {
                                 commentFound = true;
-                        } else if(startsWith(token, "###")) {
+                        } else if (startsWith(token, "###")) {
                                 currentLineType = OBJ_TEX_FILENAME;
                                 textureFilename = token.substr(3);
-                        } else if(startsWith(token, "##")) {
+                        } else if (startsWith(token, "##")) {
                                 currentLineType = OBJ_ID;
                                 EntityIdentificator entityId = (EntityIdentificator)std::stoi(token.substr(2));
                                 currentEntitySpriteSheet = new EntitySpriteSheet();
                                 entitySpriteSheetsMap[entityId] = currentEntitySpriteSheet;
-                        } else if(startsWith(token, "#")) {
+                        } else if (startsWith(token, "#")) {
                                 currentLineType = OBJ_ANIMATION_ID;
                                 uint16_t entitySpriteSheetAnimationId = std::stoi(token.substr(1));
                                 currentEntitySpriteSheetAnimation = new EntitySpriteSheetAnimation(entitySpriteSheetAnimationId);
@@ -58,8 +56,8 @@ void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
                         }
                 }
 
-                if(currentLineType == OBJ_SPRITE) {
-                        if(currentFrameValues.size() >= 13) {
+                if (currentLineType == OBJ_SPRITE) {
+                        if (currentFrameValues.size() >= 13) {
                                 int width = stoi(currentFrameValues.at(0));
                                 int height = stoi(currentFrameValues.at(1));
                                 int xOffset = stoi(currentFrameValues.at(2));
@@ -76,7 +74,7 @@ void EntityDataManager::LoadObjectsDataFromFile(std::string filename)
                                 bool hasAttack = false;
                                 int attackLowerBoundX = 0, attackLowerBoundY = 0, attackUpperBoundX = 0, attackUpperBoundY = 0;
 
-                                if(currentFrameValues.size() == 17) {
+                                if (currentFrameValues.size() == 17) {
                                         attackLowerBoundX = stoi(currentFrameValues.at(13));
                                         attackLowerBoundY = stoi(currentFrameValues.at(14));
                                         attackUpperBoundX = stoi(currentFrameValues.at(15));
@@ -104,8 +102,7 @@ std::optional<EntitySpriteSheet*> EntityDataManager::GetSpriteSheetByEntityIdent
         return std::nullopt;
 }
 
-bool startsWith(std::string mainStr, std::string toMatch)
-{
+bool startsWith(std::string mainStr, std::string toMatch) {
         // Convert mainStr to lower case
         std::transform(mainStr.begin(), mainStr.end(), mainStr.begin(), ::tolower);
         // Convert toMatch to lower case

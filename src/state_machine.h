@@ -3,8 +3,7 @@
 
 #include <stdio.h>
 
-class EventData
-{
+class EventData {
 public:
     virtual ~EventData() {};
 };
@@ -12,8 +11,7 @@ public:
 struct StateStruct;
 
 // base class for state machines
-class StateMachine
-{
+class StateMachine {
 public:
     StateMachine();
     StateMachine(unsigned char _maxStates);
@@ -31,9 +29,8 @@ private:
     void StateEngine(void);
 };
 
-typedef void (StateMachine::*StateFunc)(EventData *);
-struct StateStruct
-{
+typedef void (StateMachine::* StateFunc)(EventData*);
+struct StateStruct {
     StateFunc pStateFunc;
 };
 
@@ -46,6 +43,7 @@ const StateStruct* GetStateMap() override {\
     { reinterpret_cast<StateFunc>(stateFunc) },
 
 #define END_STATE_MAP \
+    { nullptr } \
     }; \
     return &StateMap[0]; }
 

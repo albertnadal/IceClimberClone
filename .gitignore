@@ -34,6 +34,48 @@
 *.out
 *.app
 main
+IceClimberClone.exe
 
 # Game data files
 highscore.dat
+
+# CMake build files
+build/
+Build/
+BUILD/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+*.cmake
+!CMakeLists.txt
+Makefile
+cmake_install.cmake
+
+# vcpkg
+vcpkg/
+vcpkg_installed/
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+*.vcxproj*
+*.sln
+*.user
+
+# MinGW/MSYS2
+*.a.d
+*.exe.d
+
+# IDE files
+*.cbp
+*.layout
+*.depend
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Package managers
+conan.lock
+.conan/
